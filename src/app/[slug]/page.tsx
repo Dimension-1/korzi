@@ -1,17 +1,34 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import journalsData from '../../../public/data.json' assert { type: 'json' };
+import { getBlogs } from "@/services/Api/hypgraph";
 
 interface PageParams {
   slug: string;
 }
 
-export function generateStaticParams() {
-  if (!journalsData?.data) return [];
-  return journalsData.data.map((journal: any) => ({
-    slug: journal.slug,
-  }));
+// Cache the blogs data to avoid multiple API calls
+let cachedBlogs: any[] | null = null;
+
+async function getCachedBlogs() {
+  if (!cachedBlogs) {
+    const { blogs } = await getBlogs();
+    cachedBlogs = blogs;
+  }
+  return cachedBlogs;
+}
+
+export async function generateStaticParams() {
+  try {
+    const blogs = await getCachedBlogs();
+    return blogs.map((blog: any) => ({
+      slug: blog.id, // Using id as slug to match main page links
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
 }
 
 export default async function JournalDetailPage({
@@ -21,32 +38,21 @@ export default async function JournalDetailPage({
 }) {
   const { slug } = await params;
 
-  // Fetch the journal from data.json by slug
-  const data = journalsData;
-
-  if (!data?.data?.length) {
-    notFound();
-  }
-
-  const journal = data.data.find((j: any) => j.slug === slug);
+  // Get the journal from cached data by id
+  const blogs = await getCachedBlogs();
+  const journal = blogs.find((blog: any) => blog.id === slug);
+  
   if (!journal) {
     notFound();
   }
-  const { Title, date, content, content2, oneLiner, coverImage } = journal;
+
+  const { title, shortdes, content1, content2, content3, img, createdAt } = journal;
 
   // Format date as "Month, Year"
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+  const formattedDate = createdAt ? new Date(createdAt).toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
-  });
-
-  // Convert Strapi rich text blocks into plain text
-  const getText = (blocks: any[]) =>
-    blocks
-      ?.map((block) =>
-        block.children.map((child: any) => child.text).join("")
-      )
-      .join("\n\n");
+  }) : "";
 
   return (
     <>
@@ -54,56 +60,63 @@ export default async function JournalDetailPage({
       <div className="min-h-screen bg-[var(--background)]">
         <div className="mx-auto px-6 md:px-24 py-16 md:py-24">
           {/* Header Image */}
-          <div className="w-full h-[406px] md:h-[495px] mb-8 rounded-none bg-[#C8C8D0] flex items-center justify-center">
-            {coverImage?.[0]?.url && (
-              <img
-                src={`${coverImage[0].url}`}
-                alt={Title}
-                className="w-full h-full object-cover"
+          <div className="w-full h-[406px] md:h-[530px] mb-6 rounded-none bg-[#C8C8D0] flex items-center justify-center">
+            {img?.url && (
+              <Image
+                src={img.url}
+                alt={title}
+                width={800}
+                height={530}
+                className="w-full h-full object-fit"
               />
             )}
           </div>
 
-          {/* Date */}
-          <p className="text-base text-[var(--text-secondary)] mb-6">
-            {formattedDate.replace(" ", ", ")}
-          </p>
+          {/* Date in right corner */}
+          <div className="flex justify-end mb-2">
+            <p className="text-base text-gray-400">
+              {formattedDate.replace(" ", ", ")}
+            </p>
+          </div>
 
           {/* Title */}
           <h1 className="text-xl md:text-[40px] font-heading leading-tight mb-8 text-[var(--foreground)] max-w-4xl">
-            {Title}
+            {title}
           </h1>
 
-          {/* Content in two columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+          {/* Content Layout: Left 1 = content1, Right 1 = content2, Right 2 = content3, Left 2 = shortdes */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+            {/* Left Column 1 - content1 */}
             <div className="max-w-[350px] md:max-w-[620px]">
               <p className="text-sm md:text-lg text-[var(--foreground)] leading-loose">
-                {getText(content).split("\n\n")[0]}
+                {content1 || ""}
               </p>
-              <div className="hidden md:block border-b border-[var(--border)] pt-40 max-w-xl"></div>
+              <div className="hidden md:block border-b border-[var(--border)] pt-20 max-w-xl"></div>
             </div>
+            
+            {/* Right Column 1 - content2 */}
             <div className="max-w-[350px] md:max-w-[620px]">
               <p className="text-sm md:text-lg text-[var(--foreground)] leading-loose">
-                {getText(content).split("\n\n")[1] || ""}
+                {content2 || ""}
               </p>
-              <div className="md:hidden border-b border-[var(--border)] pt-20 max-w-xl"></div>
+              <div className="md:hidden border-b border-[var(--border)] pt-10 max-w-xl"></div>
             </div>
           </div>
 
-          {/* New Section with left heading and right content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            {/* Left side - Section heading */}
+          {/* Second Row: Right 2 = content3, Left 2 = shortdes */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+            {/* Left Column 2 - shortdes */}
             <div className="max-w-[360px] md:max-w-xl">
               <h2 className="text-2xl md:text-[32px] font-heading text-[var(--accent)] md:leading-[43px] md:tracking-[-1px]">
-                {getText(oneLiner)}
+                {shortdes}
               </h2>
             </div>
 
-            {/* Right side - Content sections */}
-            <div className="space-y-12 max-w-[340px] md:max-w-[550px]">
+            {/* Right Column 2 - content3 */}
+            <div className="space-y-6 max-w-[340px] md:max-w-[550px]">
               <div>
                 <p className="text-sm md:text-base text-[var(--foreground)] leading-relaxed">
-                  {getText(content2)}
+                  {content3 || ""}
                 </p>
               </div>
             </div>

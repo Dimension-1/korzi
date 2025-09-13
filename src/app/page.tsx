@@ -265,7 +265,7 @@ export default function JournalsPage() {
                       alt={featuredArticle.title}
                       width={700}
                       height={500}
-                      className="rounded-lg h-[500px] mb-4 object-cover w-full"
+                      className="rounded-lg h-[500px] mb-4 object-fit w-full"
                     />
                     <h1 className="text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-[45px] tracking-[-1px]">
                       {featuredArticle.title}
@@ -366,7 +366,7 @@ export default function JournalsPage() {
                                   alt={article.title}
                                   width={400}
                                   height={250}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-fit"
                                 />
                               </div>
                               <div className="space-y-4 lg:space-y-2 max-w-2xl mb-4 lg:mb-0">
@@ -427,7 +427,7 @@ export default function JournalsPage() {
                             alt={article.title}
                             width={128}
                             height={128}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-fit"
                           />
                         </div>
 
