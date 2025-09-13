@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --background: #101010;
+  --foreground: #FFFFFF;
+  --accent: #45D62C;
+  --logo: #02FF00;
+  --text-secondary: #E0E0E0;
+  --border: #FFFFFF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-logo: var(--logo);
+  --color-text-secondary: var(--text-secondary);
+  --color-border: var(--border);
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-logo: 'Ethnocentric', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101010;
+    --foreground: #FFFFFF;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.logo-font {
+  font-family: 'Ethnocentric', sans-serif;
+}
+
+.heading-font {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.body-font {
+  font-family: 'Inter', sans-serif;
+}
