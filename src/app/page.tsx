@@ -11,6 +11,7 @@ export default function JournalsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const categories = [
     {
@@ -138,7 +139,15 @@ export default function JournalsPage() {
   };
 
   const carouselArticles = getCarouselArticles();
-  const journalArticles = getJournalArticles();
+  const allJournalArticles = getJournalArticles();
+  
+  // Filter journal articles based on search query
+  const journalArticles = searchQuery.trim() 
+    ? allJournalArticles.filter(article => 
+        article.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : allJournalArticles;
+  
   const totalSlides = Math.ceil(carouselArticles.length / articlesPerPage);
 
   // Format date for display
@@ -404,6 +413,38 @@ export default function JournalsPage() {
               </div>
               <div className="mt-16 border-[var(--border)] border-b"></div>
             </div>
+
+
+            {/* Search Bar */}
+            <div className="mt-8 lg:mt-16 mb-8">
+              <div className="max-w-2xl mx-auto">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <svg 
+                      className="w-5 h-5 text-[var(--text-secondary)]" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth="2" 
+                        d="m21 21-6-6m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input 
+                    type="search" 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="block w-full pl-12 pr-4 py-4 text-sm bg-[#1a1a1a] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-colors duration-200" 
+                    placeholder="Search articles, topics, categories..." 
+                  />
+                </div>
+              </div>
+            </div>
+
 
             {/* Journal List */}
             <div className="mt-8 lg:mt-16">
