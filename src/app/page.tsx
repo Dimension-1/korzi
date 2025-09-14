@@ -12,6 +12,7 @@ export default function JournalsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [visibleJournalCount, setVisibleJournalCount] = useState(3);
 
   const categories = [
     {
@@ -142,11 +143,27 @@ export default function JournalsPage() {
   const allJournalArticles = getJournalArticles();
   
   // Filter journal articles based on search query
-  const journalArticles = searchQuery.trim() 
+  const filteredJournalArticles = searchQuery.trim() 
     ? allJournalArticles.filter(article => 
         article.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : allJournalArticles;
+
+  // Get only the visible journal articles based on pagination
+  const journalArticles = filteredJournalArticles.slice(0, visibleJournalCount);
+  
+  // Check if there are more articles to load
+  const hasMoreArticles = filteredJournalArticles.length > visibleJournalCount;
+
+  // Function to load more articles
+  const loadMoreArticles = () => {
+    setVisibleJournalCount(prev => prev + 3);
+  };
+
+  // Reset pagination when category or search changes
+  useEffect(() => {
+    setVisibleJournalCount(3);
+  }, [selectedCategory, searchQuery]);
   
   const totalSlides = Math.ceil(carouselArticles.length / articlesPerPage);
 
@@ -279,7 +296,7 @@ export default function JournalsPage() {
                     <h1 className="text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-[45px] tracking-[-1px]">
                       {featuredArticle.title}
                     </h1>
-                    <p className="text-[var(--foreground)] text-sm lg:text-base leading-relaxed">
+                    <p className="text-[var(--foreground)] text-sm lg:text-base leading-relaxed line-clamp-3">
                       {featuredArticle.shortdes}
                     </p>
                   </div>
@@ -306,48 +323,6 @@ export default function JournalsPage() {
 
             {/* Carousel */}
             <div className="mt-8 lg:mt-16 relative">
-              {/* Arrows */}
-              <button
-                onClick={prevSlide}
-                className="absolute top-[31%] -translate-y-1/2 z-10 p-2 lg:p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 -translate-x-3 lg:-translate-x-6"
-                disabled={currentSlide === 0}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className={
-                    currentSlide === 0
-                      ? "text-[var(--text-secondary)]"
-                      : "text-[var(--foreground)]"
-                  }
-                >
-                  <path d="m15 18-6-6 6-6" />
-                </svg>
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-0 top-[31%] -translate-y-1/2 z-10 p-2 lg:p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 translate-x-3 lg:translate-x-6"
-                disabled={currentSlide === totalSlides - 1}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className={
-                    currentSlide === totalSlides - 1
-                      ? "text-[var(--text-secondary)]"
-                      : "text-[var(--foreground)]"
-                  }
-                >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </button>
-
               {/* Articles */}
               <div className="overflow-hidden">
                 <div
@@ -385,7 +360,7 @@ export default function JournalsPage() {
                                 <h3 className="text-base lg:text-xl font-heading text-amber-500 leading-tight">
                                   {article.title}
                                 </h3>
-                                <p className="text-xs lg:text-sm text-amber-600 leading-relaxed mt-4">
+                                <p className="text-xs lg:text-sm text-amber-600 leading-relaxed mt-4 line-clamp-2">
                                   {article.shortdes}
                                 </p>
                               </div>
@@ -480,13 +455,25 @@ export default function JournalsPage() {
                           <h3 className="text-xs lg:text-xl font-heading text-[var(--foreground)] leading-tight lg:leading-[30px] pt-3 lg:pt-8">
                             {article.title}
                           </h3>
-                          <p className="text-[8px] lg:text-sm text-[var(--foreground)] leading-relaxed pt-1 lg:pt-2">
+                          <p className="text-[8px] lg:text-sm text-[var(--foreground)] leading-relaxed pt-1 lg:pt-2 line-clamp-2">
                             {article.shortdes}
                           </p>
                         </div>
                       </div>
                     </Link>
                   ))}
+
+                  {/* Read More Button */}
+                  {hasMoreArticles && (
+                    <div className="flex justify-center mt-8">
+                      <button
+                        onClick={loadMoreArticles}
+                        className="px-8 py-3 bg-[#1a1a1a] border border-[var(--border)] text-[var(--foreground)] rounded-lg hover:bg-[#2a2a2a] transition-all duration-200 font-medium"
+                      >
+                        Read More
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
