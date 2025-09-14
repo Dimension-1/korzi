@@ -3,6 +3,30 @@ import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { getBlogs } from "@/services/Api/hypgraph";
+import type { Metadata } from "next";
+
+// Add metadata for better SEO and performance
+export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
+  const { slug } = await params;
+  const blogs = await getCachedBlogs();
+  const journal = blogs.find((blog: any) => blog.id === slug);
+  
+  if (!journal) {
+    return {
+      title: 'Journal Not Found',
+    };
+  }
+
+  return {
+    title: journal.title,
+    description: journal.shortdes,
+    openGraph: {
+      title: journal.title,
+      description: journal.shortdes,
+      images: journal.img?.url ? [journal.img.url] : [],
+    },
+  };
+}
 
 interface PageParams {
   slug: string;
@@ -68,6 +92,9 @@ export default async function JournalDetailPage({
                 width={800}
                 height={530}
                 className="w-full h-full object-fit"
+                priority
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
               />
             )}
           </div>
