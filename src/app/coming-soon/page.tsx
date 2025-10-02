@@ -33,7 +33,7 @@ export default function ComingSoonPage() {
   }, []);
 
   return (
-    <div className="h-auto bg-black text-white relative overflow-hidden p-20 pb-0">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden p-20">
       {/* KORZI Logo */}
       <div className="absolute top-0 left-8 z-10">
         <img 
@@ -57,7 +57,7 @@ export default function ComingSoonPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col justify-center pt-60 px-12">
+      <div className="flex flex-col justify-center h-screen px-12">
         {/* Main Heading */}
         <div className="mb-4">
             <h2 className="leading-tight mb-6 body-font">
