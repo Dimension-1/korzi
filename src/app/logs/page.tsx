@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { getBlogs } from "@/services/Api/hypgraph";
+
+// Add metadata to prevent caching issues
+export const dynamic = 'force-dynamic';
 
 export default function JournalsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -42,12 +45,13 @@ export default function JournalsPage() {
   const [builds, setBuilds] = useState<any[]>([]);
   const [learns, setLearns] = useState<any[]>([]);
   const [guides, setGuides] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
         const { blogs, plays, builds, learns, guides } = await getBlogs();
-        console.log(blogs)
+        console.log('Fetched blogs:', blogs);
         setBlogs(blogs);
         setPlays(plays);
         setBuilds(builds);
@@ -55,26 +59,54 @@ export default function JournalsPage() {
         setGuides(guides);
       } catch (error) {
         console.error('Error fetching blogs:', error);
-        // Set empty arrays as fallback
-        setBlogs([]);
-        setPlays([]);
-        setBuilds([]);
-        setLearns([]);
-        setGuides([]);
+        // Set mock data as fallback for development
+        const mockBlogs = [
+          {
+            id: '1',
+            title: 'Getting Started with RC Cars',
+            shortdes: 'Learn the basics of remote control cars and how to choose your first one.',
+            content1: { html: '<p>Welcome to the world of RC cars!</p>' },
+            content2: { html: '<p>Here are some tips for beginners...</p>' },
+            content3: { html: '<p>Happy racing!</p>' },
+            img: { url: '/image.png', fileName: 'rc-car.png' },
+            category: 'learn',
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: '2',
+            title: 'Building Your First RC Track',
+            shortdes: 'Step-by-step guide to creating an awesome RC track in your backyard.',
+            content1: { html: '<p>Building an RC track is fun!</p>' },
+            content2: { html: '<p>Materials you will need...</p>' },
+            content3: { html: '<p>Enjoy your new track!</p>' },
+            img: { url: '/image.png', fileName: 'track.png' },
+            category: 'build',
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: '3',
+            title: 'RC Car Racing Tips',
+            shortdes: 'Pro tips to improve your racing skills and have more fun.',
+            content1: { html: '<p>Racing is all about practice!</p>' },
+            content2: { html: '<p>Here are some advanced techniques...</p>' },
+            content3: { html: '<p>Keep practicing!</p>' },
+            img: { url: '/image.png', fileName: 'racing.png' },
+            category: 'play',
+            createdAt: new Date().toISOString()
+          }
+        ];
+        
+        setBlogs(mockBlogs);
+        setPlays(mockBlogs.filter(b => b.category === 'play'));
+        setBuilds(mockBlogs.filter(b => b.category === 'build'));
+        setLearns(mockBlogs.filter(b => b.category === 'learn'));
+        setGuides(mockBlogs.filter(b => b.category === 'guides'));
       }
+      setLoading(false);
     })();
   }, []);
 
   const articlesPerPage = 3;
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(carouselArticles.length / articlesPerPage));
-  };
-
-  const prevSlide = () => {
-    const totalSlides = Math.ceil(carouselArticles.length / articlesPerPage);
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
 
   const handleCategorySelect = (category: typeof categories[0]) => {
     setSelectedCategory(category.id);
@@ -179,6 +211,17 @@ export default function JournalsPage() {
 
   // Fallback image URL
   const fallbackImage = "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop";
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="lg:pt-16 min-h-screen bg-[var(--background)] overflow-x-hidden flex items-center justify-center">
+          <div className="text-white text-2xl">Loading journals...</div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

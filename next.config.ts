@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: "export"
+  output: "export",
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'build'
 };
 
 export default nextConfig;
