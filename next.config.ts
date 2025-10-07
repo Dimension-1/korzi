@@ -11,9 +11,19 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'xww0hi-t0.myshopify.com',
+        pathname: '/**',
+      },
     ],
   },
-  output: "export",
+  // output: "export", // Commented out for development
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   distDir: 'build'

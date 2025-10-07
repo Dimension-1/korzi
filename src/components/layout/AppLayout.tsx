@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu, X, Search, Home, FileText, Package, BookOpen, User, Globe } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, X, Search, Home, FileText, Package, BookOpen, User, Globe, Grid3X3 } from 'lucide-react';
+import AnnouncementBar from '../AnnouncementBar';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -11,6 +13,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,10 +23,30 @@ export default function AppLayout({ children }: AppLayoutProps) {
     setIsSidebarOpen(false);
   };
 
+  // Helper function to determine if a link is active
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(href);
+  };
+
+  // Helper function to get link classes
+  const getLinkClasses = (href: string) => {
+    const baseClasses = "flex items-center gap-3 py-2 transition-colors duration-200";
+    const activeClasses = "text-[var(--primary)] font-medium";
+    const inactiveClasses = "text-[var(--foreground)] hover:text-[var(--primary)]";
+    
+    return `${baseClasses} ${isActive(href) ? activeClasses : inactiveClasses}`;
+  };
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden">
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)] border-b border-[var(--border)]">
+      <header className="fixed top-8 sm:top-10 left-0 right-0 z-40 bg-[var(--background)] border-b border-[var(--border)]">
         <div className="flex items-center justify-between px-4 lg:px-8 py-4">
           {/* Left: Logo + Hamburger */}
           <div className="flex items-center gap-4">
@@ -104,7 +127,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <div className="space-y-4">
             <Link
               href="/"
-              className="flex items-center gap-3 text-[var(--primary)] py-2 font-medium"
+              className={getLinkClasses('/')}
               onClick={closeSidebar}
             >
               <Home className="w-5 h-5" />
@@ -112,8 +135,17 @@ export default function AppLayout({ children }: AppLayoutProps) {
             </Link>
 
             <Link
+              href="/collections"
+              className={getLinkClasses('/collections')}
+              onClick={closeSidebar}
+            >
+              <Grid3X3 className="w-5 h-5" />
+              <span>COLLECTIONS</span>
+            </Link>
+
+            <Link
               href="/logs"
-              className="flex items-center gap-3 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 py-2"
+              className={getLinkClasses('/logs')}
               onClick={closeSidebar}
             >
               <FileText className="w-5 h-5" />
@@ -121,8 +153,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
             </Link>
 
             <Link
-              href="/shop"
-              className="flex items-center gap-3 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 py-2"
+              href="/products"
+              className={getLinkClasses('/products')}
               onClick={closeSidebar}
             >
               <Package className="w-5 h-5" />
@@ -131,7 +163,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
             <Link
               href="/coming-soon"
-              className="flex items-center gap-3 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 py-2"
+              className={getLinkClasses('/coming-soon')}
               onClick={closeSidebar}
             >
               <BookOpen className="w-5 h-5" />
@@ -142,7 +174,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <div className="border-t border-[var(--border)] pt-6 space-y-4">
             <Link
               href="/signin"
-              className="flex items-center gap-3 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 py-2"
+              className={getLinkClasses('/signin')}
               onClick={closeSidebar}
             >
               <User className="w-5 h-5" />
@@ -153,7 +185,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       </aside>
 
       {/* Main Content */}
-      <main className="pt-20 md:pt-24 lg:pt-32">
+      <main className="pt-28 sm:pt-32 md:pt-28 lg:pt-28">
         {children}
       </main>
     </div>
