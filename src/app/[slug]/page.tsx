@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import Footer from "@/components/Home/footer";
 import { getBlogs } from "@/services/Api/hypgraph";
 import type { Metadata } from "next";
 

@@ -4,21 +4,50 @@
 @import "tailwindcss";
 
 :root {
-  --background: #101010;
-  --foreground: #FFFFFF;
-  --accent: #45D62C;
-  --logo: #02FF00;
-  --text-secondary: #E0E0E0;
-  --border: #FFFFFF;
+  /* Main Colors */
+  --background: #101010;        /* Dark Gray - Main background */
+  --foreground: #FFFFFF;        /* White text */
+  --black: #000000;             /* Pure Black */
+  
+  /* Green Accent Colors */
+  --neon-green: #02FF00;        /* Neon Green */
+  --bright-green: #45D62C;      /* Bright Green */
+  
+  /* Semantic Color Assignments */
+  --primary: var(--bright-green);     /* Primary accent color */
+  --secondary: var(--neon-green);     /* Secondary accent color */
+  --accent: var(--bright-green);      /* Legacy accent variable */
+  --logo: var(--neon-green);          /* Logo color */
+  
+  /* Text Colors */
+  --text-primary: #FFFFFF;      /* Primary text */
+  --text-secondary: #E0E0E0;    /* Secondary text */
+  --text-muted: #A0A0A0;        /* Muted text */
+  
+  /* UI Colors */
+  --border: #333333;            /* Subtle borders */
+  --border-light: #555555;      /* Light borders */
+  --surface: #1A1A1A;          /* Card/surface background */
+  --surface-hover: #222222;     /* Hover state */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-logo: var(--logo);
+  --color-neon-green: var(--neon-green);
+  --color-bright-green: var(--bright-green);
+  --color-black: var(--black);
+  --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --font-sans: 'Inter', sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: 'Bebas Neue', sans-serif;
@@ -40,6 +69,46 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+  color: var(--text-primary);
+}
+
+/* Color Utility Classes */
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--secondary); }
+.text-neon-green { color: var(--neon-green); }
+.text-bright-green { color: var(--bright-green); }
+.text-muted { color: var(--text-muted); }
+
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-surface { background-color: var(--surface); }
+.bg-surface-hover { background-color: var(--surface-hover); }
+
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-subtle { border-color: var(--border); }
+
+/* Hover Effects */
+.hover-primary:hover { color: var(--primary); }
+.hover-secondary:hover { color: var(--secondary); }
+.hover-bg-surface:hover { background-color: var(--surface-hover); }
+
+/* Focus States */
+.focus-primary:focus { 
+  outline: 2px solid var(--primary); 
+  outline-offset: 2px; 
+}
+
+/* Gradient Utilities */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.gradient-text-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .logo-font {

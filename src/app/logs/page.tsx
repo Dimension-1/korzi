@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import AppLayout from "@/components/layout/AppLayout";
+import Footer from "@/components/Home/footer";
 import { getBlogs } from "@/services/Api/hypgraph";
 
 // Add metadata to prevent caching issues
@@ -214,19 +214,17 @@ export default function JournalsPage() {
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="lg:pt-16 min-h-screen bg-[var(--background)] overflow-x-hidden flex items-center justify-center">
+      <AppLayout>
+        <div className="min-h-screen bg-[var(--background)] overflow-x-hidden flex items-center justify-center">
           <div className="text-white text-2xl">Loading journals...</div>
         </div>
-      </>
+      </AppLayout>
     );
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="lg:pt-16 min-h-screen bg-[var(--background)] overflow-x-hidden">
+    <AppLayout>
+      <div className="min-h-screen bg-[var(--background)] overflow-x-hidden">
         <section className="py-16 lg:py-24 px-6 lg:px-8">
           <div className="max-w-[1512px] mx-auto">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
@@ -397,13 +395,13 @@ export default function JournalsPage() {
                                 />
                               </div>
                               <div className="space-y-4 lg:space-y-2 max-w-2xl mb-4 lg:mb-0">
-                                <p className="text-[13px] lg:text-base text-amber-400">
+                                <p className="text-[13px] lg:text-base text-[var(--text-muted)]">
                                   {formatDate(article.createdAt)}
                                 </p>
-                                <h3 className="text-base lg:text-xl font-heading text-amber-500 leading-tight">
+                                <h3 className="text-base lg:text-xl font-heading text-[var(--primary)] leading-tight">
                                   {article.title}
                                 </h3>
-                                <p className="text-xs lg:text-sm text-amber-600 leading-relaxed mt-4 line-clamp-2">
+                                <p className="text-xs lg:text-sm text-[var(--text-secondary)] leading-relaxed mt-4 line-clamp-2">
                                   {article.shortdes}
                                 </p>
                               </div>
@@ -522,8 +520,8 @@ export default function JournalsPage() {
             </div>
           </div>
         </section>
+        <Footer />
       </div>
-      <Footer />
-    </>
+    </AppLayout>
   );
 }
