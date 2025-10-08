@@ -1,6 +1,4 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoCard from '../ui/VideoCard';
 
 export default function VideoCarousel() {
@@ -116,17 +114,6 @@ export default function VideoCarousel() {
     }
   };
 
-  const getVisibleCards = () => {
-    const visibleCards = [];
-    for (let i = 0; i < cardsToShow; i++) {
-      const index = currentIndex + i;
-      if (index < carouselData.length) {
-        visibleCards.push(carouselData[index]);
-      }
-    }
-    return visibleCards;
-  };
-
   return (
     <div className="w-full bg-[var(--background)] py-12">
       {/* Main Title */}
@@ -144,8 +131,8 @@ export default function VideoCarousel() {
           disabled={currentIndex === 0}
           className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-3 transition-colors duration-200 ${
             currentIndex === 0 
-              ? 'bg-[var(--text-muted)] text-[var(--text-secondary)] cursor-not-allowed' 
-              : 'bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--foreground)]'
+              ? 'bg-[var(--text-secondary)] text-[var(--text-secondary)] cursor-not-allowed' 
+              : 'bg-[var(--background)] hover:bg-[var(--text-secondary)] text-[var(--foreground)] border border-[var(--border)]'
           }`}
           aria-label="Previous videos"
         >
@@ -160,8 +147,8 @@ export default function VideoCarousel() {
           disabled={currentIndex >= carouselData.length - cardsToShow}
           className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-3 transition-colors duration-200 ${
             currentIndex >= carouselData.length - cardsToShow
-              ? 'bg-[var(--text-muted)] text-[var(--text-secondary)] cursor-not-allowed' 
-              : 'bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--foreground)]'
+              ? 'bg-[var(--text-secondary)] text-[var(--text-secondary)] cursor-not-allowed' 
+              : 'bg-[var(--background)] hover:bg-[var(--text-secondary)] text-[var(--foreground)] border border-[var(--border)]'
           }`}
           aria-label="Next videos"
         >

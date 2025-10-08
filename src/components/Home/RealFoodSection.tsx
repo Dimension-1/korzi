@@ -1,6 +1,4 @@
-'use client';
-
-import Image from 'next/image';
+import React from 'react';
 
 export default function RealFoodSection() {
   return (
@@ -55,13 +53,10 @@ export default function RealFoodSection() {
           <div className="relative">
             {/* Main Image */}
             <div className="relative overflow-hidden">
-              <Image
+              <img
                 src="/image.png" // Replace with actual facility image
                 alt="Barkhana Food Processing Facility"
-                width={600}
-                height={400}
                 className="w-full h-auto object-cover"
-                priority
               />
               
               {/* Interactive Hotspots */}

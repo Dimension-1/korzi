@@ -1,7 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 export default function FaqSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -32,7 +29,7 @@ export default function FaqSection() {
     <div className="w-full bg-[var(--background)] py-8 lg:py-16">
       <div className="flex flex-col lg:flex-row min-h-[600px]">
         {/* Left Section - FAQ */}
-        <div className="w-full lg:w-1/2 bg-gradient-to-br from-[var(--surface)] to-[var(--surface-hover)] p-6 lg:p-12 flex flex-col justify-between">
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-[var(--background)] to-[var(--background)] p-6 lg:p-12 flex flex-col justify-between">
           {/* FAQ Title */}
           <div className="mb-6 lg:mb-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--primary)] leading-tight">
@@ -86,64 +83,62 @@ export default function FaqSection() {
             <div className="relative w-full h-full">
               {/* Main Image */}
               <div className="relative z-10 w-full h-full">
-                <Image
+                <img
                   src="/image.png"
                   alt="Korzi Product"
-                  width={400}
-                  height={600}
                   className="object-cover shadow-2xl w-full h-full"
                 />
               </div>
 
               {/* Social Media Comments Overlay - Contained within image */}
               <div className="absolute inset-0 z-20 hidden lg:block">
-            {/* Comment 1 */}
-            <div className="absolute top-20 left-8 bg-white rounded-lg p-3 shadow-lg max-w-xs">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-                <span className="text-sm font-medium text-gray-800">korzi_fan</span>
-              </div>
-              <p className="text-sm text-gray-700">Loveee! Need to get me a supply!!! 🔥</p>
-            </div>
+                {/* Comment 1 */}
+                <div className="absolute top-20 left-8 bg-white rounded-lg p-3 shadow-lg max-w-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-800">korzi_fan</span>
+                  </div>
+                  <p className="text-sm text-gray-700">Loveee! Need to get me a supply!!! 🔥</p>
+                </div>
 
-            {/* Comment 2 */}
-            <div className="absolute top-32 right-12 bg-white rounded-lg p-3 shadow-lg max-w-xs">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-                <span className="text-sm font-medium text-gray-800">rc_enthusiast</span>
-              </div>
-              <p className="text-sm text-gray-700">The Real Mr. BEAST Of India! 🚀</p>
-            </div>
+                {/* Comment 2 */}
+                <div className="absolute top-32 right-12 bg-white rounded-lg p-3 shadow-lg max-w-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-800">rc_enthusiast</span>
+                  </div>
+                  <p className="text-sm text-gray-700">The Real Mr. BEAST Of India! 🚀</p>
+                </div>
 
-            {/* Comment 3 */}
-            <div className="absolute top-48 left-16 bg-white rounded-lg p-3 shadow-lg max-w-xs">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-                <span className="text-sm font-medium text-gray-800">tech_lover</span>
-              </div>
-              <p className="text-sm text-gray-700">Woahhhh!!!! 🤯</p>
-            </div>
+                {/* Comment 3 */}
+                <div className="absolute top-48 left-16 bg-white rounded-lg p-3 shadow-lg max-w-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-800">tech_lover</span>
+                  </div>
+                  <p className="text-sm text-gray-700">Woahhhh!!!! 🤯</p>
+                </div>
 
-            {/* Comment 4 */}
-            <div className="absolute bottom-32 right-8 bg-white rounded-lg p-3 shadow-lg max-w-xs">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-                <span className="text-sm font-medium text-gray-800">drone_pilot</span>
-              </div>
-              <p className="text-sm text-gray-700">Dude the racing one SLAPS!! 🏎️</p>
-            </div>
+                {/* Comment 4 */}
+                <div className="absolute bottom-32 right-8 bg-white rounded-lg p-3 shadow-lg max-w-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-800">drone_pilot</span>
+                  </div>
+                  <p className="text-sm text-gray-700">Dude the racing one SLAPS!! 🏎️</p>
+                </div>
 
-            {/* Comment 5 */}
-            <div className="absolute bottom-20 left-12 bg-white rounded-lg p-3 shadow-lg max-w-xs">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-                <span className="text-sm font-medium text-gray-800">robotics_kid</span>
+                {/* Comment 5 */}
+                <div className="absolute bottom-20 left-12 bg-white rounded-lg p-3 shadow-lg max-w-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-800">robotics_kid</span>
+                  </div>
+                  <p className="text-sm text-gray-700">Explosive energy! 💥</p>
+                </div>
               </div>
-              <p className="text-sm text-gray-700">Explosive energy! 💥</p>
-            </div>
-          </div>
 
-          {/* Earn Money Element - Contained within image */}
+              {/* Earn Money Element - Contained within image */}
               <div className="absolute bottom-4 right-4 lg:bottom-8 lg:right-8 bg-[var(--secondary)] text-black px-3 py-2 lg:px-4 lg:py-3 rounded-lg shadow-lg z-30">
                 <div className="flex flex-col items-center">
                   <svg className="w-4 h-4 lg:w-6 lg:h-6 mb-1" fill="currentColor" viewBox="0 0 24 24">

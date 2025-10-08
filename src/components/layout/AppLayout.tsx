@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, Home, FileText, Package, BookOpen, User, Globe, Grid3X3 } from 'lucide-react';
 import AnnouncementBar from '../AnnouncementBar';
 
@@ -13,7 +11,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const pathname = usePathname();
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -26,9 +24,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // Helper function to determine if a link is active
   const isActive = (href: string) => {
     if (href === '/') {
-      return pathname === '/';
+      return location.pathname === '/';
     }
-    return pathname.startsWith(href);
+    return location.pathname.startsWith(href);
   };
 
   // Helper function to get link classes
@@ -51,14 +49,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
           {/* Left: Logo + Hamburger */}
           <div className="flex items-center gap-4">
             {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <Image
+            <Link to="/" className="flex items-center">
+              <img
                 src="/logo-horizontal.png"
                 alt="Korzi Logo"
-                width={120}
-                height={30}
                 className="h-10 w-auto"
-                priority
               />
             </Link>
 
@@ -105,11 +100,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
           <div className="flex items-center gap-3">
-            <Image
+            <img
               src="/logo-horizontal.png"
               alt="Korzi Logo"
-              width={100}
-              height={25}
               className="h-10 w-auto"
             />
           </div>
@@ -126,44 +119,24 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <nav className="p-6 space-y-6">
           <div className="space-y-4">
             <Link
-              href="/"
+              to="/"
               className={getLinkClasses('/')}
               onClick={closeSidebar}
             >
               <Home className="w-5 h-5" />
               <span>HOME</span>
             </Link>
-
             <Link
-              href="/collections"
-              className={getLinkClasses('/collections')}
-              onClick={closeSidebar}
-            >
-              <Grid3X3 className="w-5 h-5" />
-              <span>COLLECTIONS</span>
-            </Link>
-
-            <Link
-              href="/logs"
+              to="/logs"
               className={getLinkClasses('/logs')}
               onClick={closeSidebar}
             >
               <FileText className="w-5 h-5" />
               <span>LOGS</span>
             </Link>
-
             <Link
-              href="/products"
-              className={getLinkClasses('/products')}
-              onClick={closeSidebar}
-            >
-              <Package className="w-5 h-5" />
-              <span>PRODUCTS</span>
-            </Link>
-
-            <Link
-              href="/coming-soon"
-              className={getLinkClasses('/coming-soon')}
+              to="/comming-soon"
+              className={getLinkClasses('/comming-soon')}
               onClick={closeSidebar}
             >
               <BookOpen className="w-5 h-5" />
@@ -173,7 +146,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
           <div className="border-t border-[var(--border)] pt-6 space-y-4">
             <Link
-              href="/signin"
+              to="/signin"
               className={getLinkClasses('/signin')}
               onClick={closeSidebar}
             >

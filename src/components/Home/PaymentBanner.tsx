@@ -1,4 +1,4 @@
-'use client';
+import React from 'react';
 
 export default function PaymentBanner() {
   return (
@@ -32,7 +32,7 @@ export default function PaymentBanner() {
             </div>
             
             {/* UPI */}
-            <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-[var(--text-muted)] rounded-sm flex items-center justify-center">
+            <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-[var(--text-secondary)] rounded-sm flex items-center justify-center">
               <span className="text-white text-xs sm:text-sm md:text-base font-bold">UPI</span>
             </div>
             

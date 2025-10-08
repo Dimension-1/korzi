@@ -1,7 +1,4 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
 
 interface CarouselSlide {
   id: number;
@@ -109,12 +106,10 @@ export default function ImageCarousel() {
       <div className="relative w-full h-[600px] lg:h-[700px]">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <Image
+          <img
             src={currentSlide.image}
             alt={currentSlide.title}
-            fill
-            priority
-            className="object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
 

@@ -1,4 +1,4 @@
-'use client';
+import React from 'react';
 
 interface VideoCardProps {
   id: number;
@@ -22,7 +22,7 @@ export default function VideoCard({
   views
 }: VideoCardProps) {
   return (
-    <div className="bg-[var(--surface)] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 w-[216px] h-[500px] flex-shrink-0">
+    <div className="bg-[var(--background)] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 w-[216px] h-[500px] flex-shrink-0 border border-[var(--border)]">
       {/* Video Thumbnail */}
       <div className="relative h-[350px]">
         <video
@@ -40,7 +40,7 @@ export default function VideoCard({
           <div className="absolute top-4 left-4">
             <span className={`px-3 py-1 rounded text-sm font-medium ${
               overlayText === "COMPLETE TECH PROFILE" 
-                ? 'bg-[var(--neon-green)] text-black font-bold'
+                ? 'bg-[var(--primary)] text-black font-bold'
                 : 'bg-black/70 text-[var(--foreground)]'
             }`}>
               {overlayText}

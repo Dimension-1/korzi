@@ -1,7 +1,4 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 export default function JoinFamSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -127,13 +124,10 @@ export default function JoinFamSection() {
           <div className="space-y-6 md:space-y-8">
             {/* Person Image */}
             <div className="relative">
-              <Image
+              <img
                 src="/image.png" // Replace with actual person image
                 alt="Person holding package"
-                width={400}
-                height={300}
                 className="w-full h-auto object-cover rounded-xl md:rounded-2xl"
-                priority
               />
             </div>
             

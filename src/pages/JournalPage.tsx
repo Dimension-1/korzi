@@ -1,16 +1,10 @@
-"use client";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import AppLayout from "../components/layout/AppLayout";
+import Footer from "../components/Home/footer";
+import { getBlogs } from "../services/hygraph";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import AppLayout from "@/components/layout/AppLayout";
-import Footer from "@/components/Home/footer";
-import { getBlogs } from "@/services/Api/hypgraph";
-
-// Add metadata to prevent caching issues
-export const dynamic = 'force-dynamic';
-
-export default function JournalsPage() {
+export default function JournalPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -327,12 +321,10 @@ export default function JournalsPage() {
                 {featuredArticle && (
                   <div className="max-w-[700px] space-y-6">
                     {/* Cover Image above title */}
-                    <Image
+                    <img
                       src={featuredArticle?.img?.url || fallbackImage}
                       alt={featuredArticle.title}
-                      width={700}
-                      height={500}
-                      className="rounded-lg h-[500px] mb-4 object-fit w-full"
+                      className="rounded-lg h-[500px] mb-4 object-cover w-full"
                     />
                     <h1 className="text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-[45px] tracking-[-1px]">
                       {featuredArticle.title}
@@ -381,21 +373,19 @@ export default function JournalsPage() {
                           .map((article, index) => (
                             <Link
                               key={`${article.id}-${slideIndex}-${index}`}
-                              href={`/${article.id}`}
+                              to={`/logs/${article.id}`}
                               className="space-y-4 cursor-pointer hover:opacity-80 transition-opacity"
                             >
                               {/* Cover Image with fixed height */}
                               <div className="h-[250px] rounded-[8px] overflow-hidden">
-                                <Image
+                                <img
                                   src={article?.img?.url || fallbackImage}
                                   alt={article.title}
-                                  width={400}
-                                  height={250}
-                                  className="w-full h-full object-fit"
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
                               <div className="space-y-4 lg:space-y-2 max-w-2xl mb-4 lg:mb-0">
-                                <p className="text-[13px] lg:text-base text-[var(--text-muted)]">
+                                <p className="text-[13px] lg:text-base text-[var(--text-secondary)]">
                                   {formatDate(article.createdAt)}
                                 </p>
                                 <h3 className="text-base lg:text-xl font-heading text-[var(--primary)] leading-tight">
@@ -473,18 +463,16 @@ export default function JournalsPage() {
                   {journalArticles.map((article, index) => (
                     <Link
                       key={`journal-${article.id}-${index}`}
-                      href={`/${article.id}`}
+                      to={`/logs/${article.id}`}
                       className="border-b border-[var(--border)] pb-4 lg:pb-6 block hover:opacity-80 transition-opacity"
                     >
                       <div className="flex gap-4 lg:gap-6 items-start">
                         {/* Cover image with fixed height */}
                         <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-lg overflow-hidden bg-gray-300 flex-shrink-0">
-                          <Image
+                          <img
                             src={article?.img?.url || fallbackImage}
                             alt={article.title}
-                            width={128}
-                            height={128}
-                            className="w-full h-full object-fit"
+                            className="w-full h-full object-cover"
                           />
                         </div>
 

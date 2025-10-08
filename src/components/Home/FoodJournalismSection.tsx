@@ -1,7 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 interface CarouselCard {
   id: number;
@@ -63,11 +60,11 @@ export default function FoodJournalismSection() {
       case 'newsletter':
         return 'bg-gradient-to-br from-[var(--primary)]/20 to-[var(--secondary)]/30';
       case 'academy':
-        return 'bg-gradient-to-br from-[var(--surface)] to-[var(--surface-hover)]';
+        return 'bg-gradient-to-br from-[var(--background)] to-[var(--background)]';
       case 'dictionary':
-        return 'bg-gradient-to-br from-[var(--background)] to-[var(--surface)]';
+        return 'bg-gradient-to-br from-[var(--background)] to-[var(--background)]';
       default:
-        return 'bg-[var(--surface)]';
+        return 'bg-[var(--background)]';
     }
   };
 
@@ -146,12 +143,12 @@ export default function FoodJournalismSection() {
             <div className="grid grid-cols-2 gap-6 h-full">
               {/* Left side - Bread and ingredients */}
               <div className="flex flex-col justify-center">
-                <div className="bg-[var(--surface)]/50 rounded-lg p-4 mb-4">
+                <div className="bg-[var(--background)]/50 rounded-lg p-4 mb-4">
                   <div className="flex items-center mb-3">
                     <div className="w-20 h-8 bg-[var(--primary)]/30 rounded"></div>
                     <div className="w-2 h-2 bg-[var(--primary)] rounded-full ml-2"></div>
                     <div className="w-2 h-2 bg-[var(--secondary)] rounded-full ml-1"></div>
-                    <div className="w-2 h-2 bg-[var(--neon-green)] rounded-full ml-1"></div>
+                    <div className="w-2 h-2 bg-[var(--primary)] rounded-full ml-1"></div>
                   </div>
                   <div className="text-xs text-[var(--foreground)] font-medium">Ingredients</div>
                 </div>
@@ -159,9 +156,9 @@ export default function FoodJournalismSection() {
               
               {/* Right side - Video */}
               <div className="flex flex-col justify-center items-center">
-                <div className="w-20 h-20 bg-[var(--surface)]/50 rounded-full mb-4 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-[var(--surface)]/70 rounded-full flex items-center justify-center">
-                    <div className="w-12 h-12 bg-[var(--surface)]/90 rounded-full"></div>
+                <div className="w-20 h-20 bg-[var(--background)]/50 rounded-full mb-4 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-[var(--background)]/70 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[var(--background)]/90 rounded-full"></div>
                   </div>
                 </div>
                 <div className="bg-[var(--primary)]/80 rounded-full p-3 hover:bg-[var(--primary)] transition-colors">
@@ -179,7 +176,7 @@ export default function FoodJournalismSection() {
             
             {/* Academy logo */}
             <div className="absolute top-4 right-4">
-              <div className="bg-[var(--surface)]/50 rounded px-2 py-1">
+              <div className="bg-[var(--background)]/50 rounded px-2 py-1">
                 <span className="text-[var(--foreground)] text-xs font-medium">The Whole Truth Academy</span>
               </div>
             </div>
@@ -382,7 +379,7 @@ export default function FoodJournalismSection() {
                     <h3 className="text-lg md:text-xl font-bold text-[var(--foreground)] mb-2">{card.title}</h3>
                     <div className="flex items-center justify-center gap-2">
                       <p className="text-sm md:text-base text-[var(--text-secondary)]">{card.description}</p>
-                      <svg className="w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
@@ -401,7 +398,7 @@ export default function FoodJournalismSection() {
                 className={`w-3 h-3 rounded-full transition-colors duration-200 ${
                   index === currentIndex 
                     ? 'bg-[var(--primary)]' 
-                    : 'bg-[var(--text-muted)] hover:bg-[var(--text-secondary)]'
+                    : 'bg-[var(--text-secondary)] hover:bg-[var(--text-secondary)]'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
