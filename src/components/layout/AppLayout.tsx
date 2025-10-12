@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Home, FileText, Package, BookOpen, User, Globe, Grid3X3 } from 'lucide-react';
+import { Menu, X, Search, Home, FileText, User, MoreVertical, ShoppingBagIcon, Handbag } from 'lucide-react';
 import AnnouncementBar from '../AnnouncementBar';
+import CartDrawer from '../CartDrawer';
+import { useCartStore } from '../../stores/cartStore';
+import { useAuthStore } from '../../stores/authStore';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -12,6 +15,8 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+  const { openDrawer, getTotalItems } = useCartStore();
+  const { customer, isAuthenticated, logout } = useAuthStore();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -44,10 +49,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <AnnouncementBar />
       
       {/* Header */}
-      <header className="fixed top-8 sm:top-10 left-0 right-0 z-40 bg-[var(--background)] border-b border-[var(--border)]">
-        <div className="flex items-center justify-between px-4 lg:px-8 py-4">
+      <header className="fixed top-7 sm:top-9 left-0 right-0 z-40 bg-[var(--background)] border-b border-[var(--border)]">
+        <div className="flex items-center justify-between px-2 pl-0 md:pl-2 lg:pl-6  md:px-4  lg:px-8 py-2 md:py-4">
           {/* Left: Logo + Hamburger */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             {/* Logo */}
             <Link to="/" className="flex items-center">
               <img
@@ -72,13 +77,33 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </div>
 
           {/* Right: Search */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-1  md:gap-2">
+            <button
+              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
+              aria-label="User"
+            >
+              <User className="w-5 h-5" />
+            </button>
+            <button
+              onClick={openDrawer}
+              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2 relative"
+              aria-label="Cart"
+            >
+              <Handbag className="w-5 h-5" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {getTotalItems()}
+                </span>
+              )}
+            </button>
+            <div className="flex items-center">
             <button
               className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </button>
+            </div>
           </div>
         </div>
       </header>
@@ -135,32 +160,75 @@ export default function AppLayout({ children }: AppLayoutProps) {
               <span>LOGS</span>
             </Link>
             <Link
-              to="/comming-soon"
+              to="/shop"
+              className={getLinkClasses('/shop')}
+              onClick={closeSidebar}
+            >
+              <ShoppingBagIcon className="w-5 h-5" />
+              <span>Shop</span>
+            </Link>
+            <Link
+              to="/more"
               className={getLinkClasses('/comming-soon')}
               onClick={closeSidebar}
             >
-              <BookOpen className="w-5 h-5" />
-              <span>GUIDES</span>
+              <MoreVertical className="w-5 h-5" />
+              <span>More</span>
             </Link>
           </div>
 
           <div className="border-t border-[var(--border)] pt-6 space-y-4">
-            <Link
-              to="/signin"
-              className={getLinkClasses('/signin')}
-              onClick={closeSidebar}
-            >
-              <User className="w-5 h-5" />
-              <span>SIGN IN</span>
-            </Link>
+            {isAuthenticated ? (
+              // Logged in user - show account info and logout
+              <>
+                <div className="px-4 py-2 bg-[var(--primary)]/10 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-[var(--primary)] rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-[var(--background)]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-[var(--foreground)] truncate">
+                        {customer?.displayName || customer?.email || 'User'}
+                      </p>
+                      <p className="text-xs text-[var(--text-secondary)] truncate">
+                        {customer?.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeSidebar();
+                  }}
+                  className="flex items-center gap-3 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 w-full text-left"
+                >
+                  <User className="w-5 h-5" />
+                  <span>SIGN OUT</span>
+                </button>
+              </>
+            ) : (
+              // Not logged in - show sign in link
+              <Link
+                to="/signin"
+                className={getLinkClasses('/signin')}
+                onClick={closeSidebar}
+              >
+                <User className="w-5 h-5" />
+                <span>SIGN IN</span>
+              </Link>
+            )}
           </div>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="pt-28 sm:pt-32 md:pt-28 lg:pt-28">
+      <main className="pt-16 sm:pt-18 md:pt-20 lg:pt-22">
         {children}
       </main>
+
+      {/* Cart Drawer */}
+      <CartDrawer />
     </div>
   );
 }

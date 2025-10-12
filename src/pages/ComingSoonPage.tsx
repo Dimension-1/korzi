@@ -84,7 +84,7 @@ export default function ComingSoonPage() {
               <h2 className="leading-tight mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <span className="text-[var(--primary)] block text-8xl mb-2">Machines</span>
                 <span className="block text-5xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
-              For The <span className="underline decoration-7 underline-offset-[12px]">Young</span>
+              For The <span className="underline decoration-7 underline-offset-[12px]">Young&nbsp; </span>
             </span>
               </h2>
           </div>
@@ -130,13 +130,13 @@ export default function ComingSoonPage() {
             <h2 className="leading-tight mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
               <span className="text-[var(--primary)] block text-4xl sm:text-5xl md:text-6xl mb-2" >Machines</span>
               <span className="block text-5xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
-              For The <span className="underline decoration-5 underline-offset-8 ">Young</span>
+              For The <span className="underline decoration-5 underline-offset-8 ">Young&nbsp;</span>
             </span>
             </h2>
           </div>
 
           {/* Video Section - Now at the bottom */}
-        <div className="flex justify-center py-2 sm:py-6">
+        <div className="flex justify-center">
           <video
             autoPlay
             loop
@@ -144,7 +144,7 @@ export default function ComingSoonPage() {
             playsInline
             controls={false}
             preload="auto"
-            className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover rounded-full shadow-2xl"
+            className="w-72 bg-transparent h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover shadow-2xl"
           >
             <source src="/korzi-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.

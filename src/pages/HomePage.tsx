@@ -1,4 +1,3 @@
-import React from 'react';
 import VideoCarousel from '../components/Home/videoCarousel';
 import ImageCarousel from '../components/Home/ImageCarousel';
 import FoodJournalismSection from '../components/Home/FoodJournalismSection';
@@ -12,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       {/* Header Text Section */}
-      <div className="mb-4 ml-20">
+      <div className="mb-4 ml-2 sm:ml-4 md:ml-6 lg:ml-12 xl:ml-16 mt-8 sm:mt-12 md:mt-10 lg:mt-14 xl:mt-16">
         <h1 className="text-2xl lg:text-3xl font-medium text-[var(--foreground)] mb-2" style={{
           fontFamily: 'Inter, sans-serif',
           fontWeight: '500'

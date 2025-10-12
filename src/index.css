@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Auto-scroll animation for certifications */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
 :root {
   --background: #101010;
   --foreground: #fff;
@@ -42,6 +56,30 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+/* Custom Scrollbar Styling */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--background);
 }
 
 a {
