@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface VideoCardProps {
   id: number;
@@ -12,13 +11,9 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({
-  id,
-  image,
   overlayText,
   title,
-  originalPrice,
   discountedPrice,
-  discount,
   views
 }: VideoCardProps) {
   return (

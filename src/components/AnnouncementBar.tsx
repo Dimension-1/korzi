@@ -1,4 +1,3 @@
-'use client';
 
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -25,14 +24,12 @@ const announcements: Announcement[] = [
 export default function AnnouncementBar() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
-  const [direction, setDirection] = useState(0);
 
   // Auto-rotate announcements every 4 seconds
   useEffect(() => {
     if (!isAutoRotating || announcements.length <= 1) return;
 
     const interval = setInterval(() => {
-      setDirection(1); // Forward direction for auto-rotation
       setCurrentIndex((prevIndex) => 
         prevIndex === announcements.length - 1 ? 0 : prevIndex + 1
       );
@@ -43,7 +40,6 @@ export default function AnnouncementBar() {
 
   const goToPrevious = () => {
     setIsAutoRotating(false);
-    setDirection(-1); // Backward direction
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? announcements.length - 1 : prevIndex - 1
     );
@@ -51,7 +47,6 @@ export default function AnnouncementBar() {
 
   const goToNext = () => {
     setIsAutoRotating(false);
-    setDirection(1); // Forward direction
     setCurrentIndex((prevIndex) => 
       prevIndex === announcements.length - 1 ? 0 : prevIndex + 1
     );
@@ -102,7 +97,7 @@ export default function AnnouncementBar() {
                   width: `${announcements.length * 100}%`
                 }}
               >
-                {announcements.map((announcement, index) => (
+                {announcements.map((announcement) => (
                   <div 
                     key={announcement.id}
                     className="flex-shrink-0 flex items-center justify-center w-full"
@@ -146,7 +141,6 @@ export default function AnnouncementBar() {
               key={index}
               onClick={() => {
                 setIsAutoRotating(false);
-                setDirection(index > currentIndex ? 1 : -1);
                 setCurrentIndex(index);
               }}
               className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full transition-colors duration-200 ${

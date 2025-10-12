@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import Footer from "../components/Home/footer";
@@ -53,48 +53,12 @@ export default function JournalPage() {
         setGuides(guides);
       } catch (error) {
         console.error('Error fetching blogs:', error);
-        // Set mock data as fallback for development
-        const mockBlogs = [
-          {
-            id: '1',
-            title: 'Getting Started with RC Cars',
-            shortdes: 'Learn the basics of remote control cars and how to choose your first one.',
-            content1: { html: '<p>Welcome to the world of RC cars!</p>' },
-            content2: { html: '<p>Here are some tips for beginners...</p>' },
-            content3: { html: '<p>Happy racing!</p>' },
-            img: { url: '/image.png', fileName: 'rc-car.png' },
-            category: 'learn',
-            createdAt: new Date().toISOString()
-          },
-          {
-            id: '2',
-            title: 'Building Your First RC Track',
-            shortdes: 'Step-by-step guide to creating an awesome RC track in your backyard.',
-            content1: { html: '<p>Building an RC track is fun!</p>' },
-            content2: { html: '<p>Materials you will need...</p>' },
-            content3: { html: '<p>Enjoy your new track!</p>' },
-            img: { url: '/image.png', fileName: 'track.png' },
-            category: 'build',
-            createdAt: new Date().toISOString()
-          },
-          {
-            id: '3',
-            title: 'RC Car Racing Tips',
-            shortdes: 'Pro tips to improve your racing skills and have more fun.',
-            content1: { html: '<p>Racing is all about practice!</p>' },
-            content2: { html: '<p>Here are some advanced techniques...</p>' },
-            content3: { html: '<p>Keep practicing!</p>' },
-            img: { url: '/image.png', fileName: 'racing.png' },
-            category: 'play',
-            createdAt: new Date().toISOString()
-          }
-        ];
-        
-        setBlogs(mockBlogs);
-        setPlays(mockBlogs.filter(b => b.category === 'play'));
-        setBuilds(mockBlogs.filter(b => b.category === 'build'));
-        setLearns(mockBlogs.filter(b => b.category === 'learn'));
-        setGuides(mockBlogs.filter(b => b.category === 'guides'));
+        // Handle error state - could show error message to user
+        setBlogs([]);
+        setPlays([]);
+        setBuilds([]);
+        setLearns([]);
+        setGuides([]);
       }
       setLoading(false);
     })();
@@ -219,7 +183,10 @@ export default function JournalPage() {
   return (
     <AppLayout>
       <div className="min-h-screen bg-[var(--background)] overflow-x-hidden">
-        <section className="py-16 lg:py-24 px-6 lg:px-8">
+         <div className="mx-auto w-80 h-28">
+            <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-cover" />
+         </div>
+        <section className="px-6 lg:px-8">
           <div className="max-w-[1512px] mx-auto">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
               <div className="lg:w-[35%] space-y-8">
@@ -374,6 +341,7 @@ export default function JournalPage() {
                             <Link
                               key={`${article.id}-${slideIndex}-${index}`}
                               to={`/logs/${article.id}`}
+                              state={{ journal: article }}
                               className="space-y-4 cursor-pointer hover:opacity-80 transition-opacity"
                             >
                               {/* Cover Image with fixed height */}
@@ -464,6 +432,7 @@ export default function JournalPage() {
                     <Link
                       key={`journal-${article.id}-${index}`}
                       to={`/logs/${article.id}`}
+                      state={{ journal: article }}
                       className="border-b border-[var(--border)] pb-4 lg:pb-6 block hover:opacity-80 transition-opacity"
                     >
                       <div className="flex gap-4 lg:gap-6 items-start">

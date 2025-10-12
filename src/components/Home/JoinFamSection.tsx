@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function JoinFamSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -139,7 +139,7 @@ export default function JoinFamSection() {
                   className="flex transition-transform duration-500 ease-in-out"
                   style={{ transform: `translateX(-${currentSlide * 50}%)` }}
                 >
-                  {carouselData.map((item, index) => (
+                  {carouselData.map((item) => (
                     <div key={item.id} className="w-1/2 flex-shrink-0 px-1">
                       <div className={`${item.bgColor} rounded-lg p-3 md:p-4 h-32 md:h-40 flex flex-col justify-between`}>
                         {/* Content */}
