@@ -122,7 +122,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-auto bg-[var(--background)] flex items-center justify-center px-4 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
+    <div className="h-auto bg-[var(--background)] flex items-center justify-center px-4 sm:px-6 md:px-8 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">

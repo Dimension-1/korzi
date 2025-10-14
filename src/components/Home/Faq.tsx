@@ -41,29 +41,33 @@ export default function FaqSection() {
           {/* FAQ Items */}
           <div className="space-y-3 lg:space-y-4 mb-6 lg:mb-8">
             {faqData.map((faq) => (
-              <div key={faq.id} className="bg-[var(--background)] rounded-lg p-4 lg:p-6 shadow-sm border border-[var(--border)]">
+              <div key={faq.id} className="bg-[var(--background)] rounded-lg p-4 lg:p-6 shadow-sm border border-[var(--border)] transition-all duration-300 ease-in-out hover:shadow-md">
                 <button
                   onClick={() => toggleFaq(faq.id)}
-                  className="w-full flex items-center justify-between text-left"
+                  className="w-full flex items-center justify-between text-left group"
                 >
-                  <span className="font-bold text-[var(--foreground)] text-sm sm:text-base lg:text-lg pr-2 lg:pr-4">
+                  <span className="font-bold text-[var(--foreground)] text-sm sm:text-base lg:text-lg pr-2 lg:pr-4 group-hover:text-[var(--primary)] transition-colors duration-200">
                     {faq.question}
                   </span>
-                  <div className="w-6 h-6 lg:w-8 lg:h-8 bg-[var(--primary)] rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-black text-lg lg:text-xl font-bold">
+                  <div className={`w-6 h-6 lg:w-8 lg:h-8 bg-[var(--primary)] rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ease-in-out group-hover:scale-110 ${
+                    openFaq === faq.id ? 'rotate-180' : 'rotate-0'
+                  }`}>
+                    <span className="text-black text-lg lg:text-xl font-bold transition-transform duration-300 ease-in-out">
                       {openFaq === faq.id ? '−' : '+'}
                     </span>
                   </div>
                 </button>
                 
-                {/* Answer */}
-                {openFaq === faq.id && (
+                {/* Answer with smooth animation */}
+                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  openFaq === faq.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}>
                   <div className="mt-3 lg:mt-4 pt-3 lg:pt-4 border-t border-[var(--border)]">
-                    <p className="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">
+                    <p className="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base transform transition-all duration-300 ease-in-out">
                       {faq.answer}
                     </p>
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>

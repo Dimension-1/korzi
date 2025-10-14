@@ -57,7 +57,7 @@ export default function AnnouncementBar() {
   if (announcements.length === 0) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--primary)] text-[var(--background)] py-1 sm:py-2 overflow-hidden">
+    <div className="w-full">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 flex items-center justify-center">
         {announcements.length === 1 ? (
           // Single announcement

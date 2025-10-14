@@ -1,5 +1,6 @@
+import { MoveRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import AppLayout from '../components/layout/AppLayout';
+
 
 export default function ComingSoonPage() {
   const [timeLeft, setTimeLeft] = useState({
@@ -49,41 +50,38 @@ export default function ComingSoonPage() {
   }, []);
 
   return (
-    <AppLayout>
+    <div className="min-h-screen  bg-[#000] text-[var(--foreground)] relative overflow-hidden">
       {/* Desktop Layout (lg and above) */}
       <div className="hidden lg:block">
         {/* KORZI Logo */}
-        <div className="absolute top-8 left-8 z-10">
+        <div className="absolute top-12 left-8 z-10 transition-all duration-300 ease-in-out" style={{
+          left: 'var(--sidebar-width, 2rem)'
+        }}>
           <img 
             src="/logo-horizontal.png" 
             alt="KORZI" 
-            className="h-40 w-auto"
+            className="h-16 w-auto"
           />
         </div>
 
-        {/* Video in top-right corner */}
-        <div className="absolute top-0 right-12 z-10">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            controls={false}
-            preload="auto"
-            className="w-120 h-120 object-cover rounded-full shadow-2xl"
-          >
-            <source src="/korzi-video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+        {/* GIF in top-right corner */}
+        <div className="absolute top-8 right-12 z-10 transition-all duration-300 ease-in-out" style={{
+          right: 'var(--sidebar-width, 3rem)'
+        }}>
+          <img
+            src="/coming-soon.gif"
+            alt="Coming Soon Animation"
+            className="w-120 h-120 object-cover -rotate-[6deg] -z-10"
+          />
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col justify-center pt-60 px-12">
+        <div className="flex flex-col bottom-0 relative justify-center pt-96 px-8 sm:px-12">
           {/* Main Heading */}
           <div className="mb-4">
               <h2 className="leading-tight mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
-                <span className="text-[var(--primary)] block text-8xl mb-2">Machines</span>
-                <span className="block text-5xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
+                <span className="text-[var(--primary)] block text-7xl mb-2">Machines</span>
+                <span className="block text-5xl md:text-7xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
               For The <span className="underline decoration-7 underline-offset-[12px]">Young&nbsp; </span>
             </span>
               </h2>
@@ -92,21 +90,25 @@ export default function ComingSoonPage() {
           {/* Bottom Buttons */}
           <div className="flex gap-6 items-center flex-wrap">
             {/* Grip. Guts. Glory Button */}
-            <button className="border-2 border-white px-12 py-6 text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-wide rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Grip. Guts. Glory
+            <button className="border-2 border-white px-20 py-6 text-xl font-medium bg-black text-white transition-all duration-300 tracking-wide rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>Grip. Guts. Glory
             </button>
 
             {/* Arrow Button with Text */}
-            <button className="border-2 border-white px-8 py-6 text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-4 rounded-none bg-white text-black" style={{ fontFamily: 'Inter, sans-serif' }}>
-              <svg className="w-8 h-8 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              Soon on Amazon and korzi.toys
+            <button className="border-2 border-white px-8 py-4 text-xl font-medium  transition-all duration-300 flex items-center gap-4 rounded-none  text-black" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <MoveRight
+    color="white" 
+    className="w-20 h-10 flex-shrink-0 mr-10" 
+  />
+              <span className="bg-white px-6 py-2 rounded-md"
+                   >Soon on Amazon and korzi.toys
+              </span>
             </button>
 
             {/* Timer Button with Countdown */}
-            <button className="border-2 border-white px-12 py-6 text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-wide rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <button className="border-2 border-white px-8 py-6 text-xl font-medium transition-all duration-300 tracking-wide rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className='text-black bg-white py-4 px-12 rounded-md'>
               {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+              </span>
             </button>
           </div>
         </div>
@@ -119,60 +121,58 @@ export default function ComingSoonPage() {
           <img 
             src="/logo-horizontal.png" 
             alt="KORZI" 
-            className="h-24 sm:h-28 md:h-32 w-auto"
+            className="h-20 sm:h-28 md:h-32 w-32 object-fit"
           />
         </div>
 
         {/* Main Content Section */}
-        <div className="flex-1 flex flex-col justify-center p-4 sm:p-8">
+        <div className="flex-1 flex flex-col justify-start p-4 sm:p-6 md:p-8 bg-black pb-8">
           {/* Main Heading */}
-          <div className="mb-8 text-center">
+          <div className="mb-8 text-center bg-black">
             <h2 className="leading-tight mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
               <span className="text-[var(--primary)] block text-4xl sm:text-5xl md:text-6xl mb-2" >Machines</span>
-              <span className="block text-5xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
-              For The <span className="underline decoration-5 underline-offset-8 ">Young&nbsp;</span>
+              <span className="block text-4xl sm:text-5xl md:text-6xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300">
+              For The <span className="underline decoration-4 underline-offset-4 ">Young&nbsp;</span>
             </span>
             </h2>
           </div>
 
-          {/* Video Section - Now at the bottom */}
+          {/* GIF Section - Now at the bottom */}
         <div className="flex justify-center">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            controls={false}
-            preload="auto"
-            className="w-72 bg-transparent h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover shadow-2xl"
-          >
-            <source src="/korzi-video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <img
+            src="/coming-soon.gif"
+            alt="Coming Soon Animation"
+            className="w-72 bg-transparent h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover shadow-2xl -rotate-[6deg]"
+          />
         </div>
 
           {/* Bottom Buttons */}
-          <div className="flex flex-col gap-4 items-center">
+          <div className="flex flex-col gap-4 items-center z-10">
             {/* Grip. Guts. Glory Button */}
-            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-wide w-full max-w-sm rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium bg-black text-white transition-all duration-300 tracking-wide w-full max-w-sm rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
               Grip. Guts. Glory
             </button>
 
             {/* Arrow Button with Text */}
-            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 w-full max-w-sm rounded-none bg-white text-black" style={{ fontFamily: 'Inter, sans-serif' }}>
-              <svg className="w-6 h-6 sm:w-8 sm:h-8 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              <span className="text-center">Soon on Amazon and korzi.toys</span>
+            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-3 w-full max-w-sm rounded-none text-black" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <MoveRight
+                color="white" 
+                className="w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0" 
+              />
+              <span className="bg-white px-4 py-2 rounded-md text-center">
+                Soon on Amazon and korzi.toys
+              </span>
             </button>
 
             {/* Timer Button with Countdown */}
-            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-wide w-full max-w-sm rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
-              {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+            <button className="border-2 border-white px-6 py-4 sm:px-8 sm:py-5 text-lg sm:text-xl font-medium transition-all duration-300 tracking-wide w-full max-w-sm rounded-none" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className='text-black bg-white py-2 px-6 rounded-md'>
+                {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+              </span>
             </button>
           </div>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }
