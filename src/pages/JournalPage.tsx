@@ -182,11 +182,11 @@ export default function JournalPage() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-[var(--background)] overflow-x-hidden">
-         <div className="mx-auto w-80 h-28">
-            <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-cover" />
+      <div className="min-h-screen bg-[var(--background)] overflow-x-hidden -mt-12">
+         <div className="mx-auto w-80 h-28 mb-4">
+            <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-fit" />
          </div>
-        <section className="px-6 lg:px-8">
+        <section className="px-4 sm:px-6 lg:px-8">
           <div className="max-w-[1512px] mx-auto">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
               <div className="lg:w-[35%] space-y-8">

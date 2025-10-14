@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import AppLayout from './components/layout/AppLayout'
+// import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
 import JournalPage from './pages/JournalPage'
 import JournalDetailPage from './pages/JournalDetailPage'
@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage'
 
 function App() {
   return (
-    <AppLayout>
+    // <AppLayout>
       <Routes>
         <Route path="/" element={<ComingSoonPage />} />
         <Route path="/logs" element={<JournalPage />} />
@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signin" element={<LoginPage />} />
       </Routes>
-    </AppLayout>
+    // </AppLayout>
   )
 }
 

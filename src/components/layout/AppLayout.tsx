@@ -44,14 +44,22 @@ export default function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden" style={{
+      '--sidebar-width': isSidebarOpen ? 'calc(15vw + 2rem)' : '2rem'
+    } as React.CSSProperties}>
       {/* Announcement Bar */}
-      <AnnouncementBar />
+      <div className={`fixed top-0 z-50 bg-[var(--primary)] text-[var(--background)] py-1 sm:py-2 overflow-hidden transition-all duration-300 ease-in-out ${
+        isSidebarOpen ? 'md:left-[15vw] left-0 right-0' : 'left-0 right-0'
+      }`}>
+        <AnnouncementBar />
+      </div>
       
       {/* Header */}
-      <header className="fixed top-7 sm:top-9 left-0 right-0 z-40 bg-[var(--background)] border-b border-[var(--border)]">
+      <header className={`fixed top-7 sm:top-9 z-40 bg-[var(--background)] border-b border-[var(--border)] transition-all duration-300 ease-in-out ${
+        isSidebarOpen ? 'md:left-[15vw] left-0 right-0' : 'left-0 right-0'
+      }`}>
         <div className="flex items-center justify-between px-2 pl-0 md:pl-2 lg:pl-6  md:px-4  lg:px-8 py-2 md:py-4">
-          {/* Left: Logo + Hamburger */}
+          {/* Left: Logo + Hamburger (only when sidebar closed) */}
           <div className="flex items-center">
             {/* Logo */}
             <Link to="/" className="flex items-center">
@@ -62,18 +70,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
               />
             </Link>
 
-            {/* Hamburger Menu Button */}
-            <button
-              onClick={toggleSidebar}
-              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
-              aria-label="Toggle navigation menu"
-            >
-              {isSidebarOpen ? (
-                <X className="w-6 h-6 transition-transform duration-300" />
-              ) : (
+            {/* Hamburger Menu Button - Only show when sidebar is closed */}
+            {!isSidebarOpen && (
+              <button
+                onClick={toggleSidebar}
+                className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
+                aria-label="Toggle navigation menu"
+              >
                 <Menu className="w-6 h-6 transition-transform duration-300" />
-              )}
-            </button>
+              </button>
+            )}
           </div>
 
           {/* Right: Search */}
@@ -108,18 +114,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
         </div>
       </header>
 
-      {/* Sidebar Overlay */}
+      {/* Sidebar Overlay - Only show on mobile */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-40 md:hidden"
           onClick={closeSidebar}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-[var(--background)] border-r border-[var(--border)] z-50 transform transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 h-full bg-[var(--background)] border-r border-[var(--border)] z-50 transform transition-all duration-300 ease-in-out ${
+          isSidebarOpen 
+            ? 'translate-x-0 w-80 md:w-[15vw]' 
+            : '-translate-x-full w-80 md:w-[15vw]'
         }`}
       >
         {/* Sidebar Header */}
@@ -223,7 +231,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
       </aside>
 
       {/* Main Content */}
-      <main className="pt-16 sm:pt-18 md:pt-20 lg:pt-22">
+      <main className={`pt-10 sm:pt-12 md:pt-14 lg:pt-16 transition-all duration-300 ease-in-out ${
+        isSidebarOpen ? 'md:ml-[15vw]' : ''
+      }`}>
         {children}
       </main>
 
