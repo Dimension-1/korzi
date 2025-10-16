@@ -7,12 +7,10 @@ import AnnouncementBar from '../AnnouncementBar';
 import CartDrawer from '../CartDrawer';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
+import { Outlet } from 'react-router-dom';
 
-interface AppLayoutProps {
-  children: React.ReactNode;
-}
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default function AppLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const { openDrawer, getTotalItems } = useCartStore();
@@ -234,7 +232,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <main className={`pt-10 sm:pt-12 md:pt-14 lg:pt-16 transition-all duration-300 ease-in-out ${
         isSidebarOpen ? 'md:ml-[15vw]' : ''
       }`}>
-        {children}
+        <Outlet/>
       </main>
 
       {/* Cart Drawer */}

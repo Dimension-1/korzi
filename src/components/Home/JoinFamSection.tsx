@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function JoinFamSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -59,7 +60,7 @@ export default function JoinFamSection() {
           <div className="space-y-6 md:space-y-8">
             {/* Headline */}
             <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '900',
               letterSpacing: '-0.03em',
               lineHeight: '0.9'
@@ -69,7 +70,7 @@ export default function JoinFamSection() {
             
             {/* Subtitle */}
             <p className="text-lg md:text-xl lg:text-2xl text-[var(--foreground)] font-medium" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '500'
             }}>
               GO TRUTH SEEKERS!
@@ -78,7 +79,7 @@ export default function JoinFamSection() {
             {/* Social Media Buttons */}
             <div className="space-y-3 md:space-y-4">
               <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'DM Sans, sans-serif',
                 fontWeight: '500'
               }}>
                 <span className="text-sm md:text-base">Join our Instagram Community</span>
@@ -88,7 +89,7 @@ export default function JoinFamSection() {
               </button>
               
               <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'DM Sans, sans-serif',
                 fontWeight: '500'
               }}>
                 <span className="text-sm md:text-base">YouTube</span>
@@ -98,7 +99,7 @@ export default function JoinFamSection() {
               </button>
               
               <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'DM Sans, sans-serif',
                 fontWeight: '500'
               }}>
                 <span className="text-sm md:text-base">LinkedIn</span>
@@ -145,7 +146,7 @@ export default function JoinFamSection() {
                         {/* Content */}
                         <div className="space-y-1 md:space-y-2">
                           <h3 className="text-xs md:text-sm font-semibold text-gray-800 leading-tight" style={{
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'DM Sans, sans-serif',
                             fontWeight: '600'
                           }}>
                             {item.title}
@@ -173,20 +174,18 @@ export default function JoinFamSection() {
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-1 md:left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-pink-200 rounded-full flex items-center justify-center hover:bg-pink-300 transition-colors duration-200"
+                className="absolute left-1 md:left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Previous slide"
               >
-                <svg className="w-3 h-3 md:w-4 md:h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <ChevronLeft className="w-5 h-5" />
               </button>
               
               <button
                 onClick={nextSlide}
-                className="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-pink-200 rounded-full flex items-center justify-center hover:bg-pink-300 transition-colors duration-200"
+                className="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Next slide"
               >
-                <svg className="w-3 h-3 md:w-4 md:h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>

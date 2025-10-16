@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import AppLayout from "../components/layout/AppLayout";
 import Footer from "../components/Home/footer";
 import { getBlogs } from "../services/hygraph";
 
@@ -172,17 +171,14 @@ export default function JournalPage() {
 
   if (loading) {
     return (
-      <AppLayout>
         <div className="min-h-screen bg-[var(--background)] overflow-x-hidden flex items-center justify-center">
           <div className="text-white text-2xl">Loading journals...</div>
         </div>
-      </AppLayout>
     );
   }
 
   return (
-    <AppLayout>
-      <div className="min-h-screen bg-[var(--background)] overflow-x-hidden -mt-12">
+    <div className="min-h-screen bg-[var(--background)] overflow-x-hidden -mt-12">
          <div className="mx-auto w-80 h-28 mb-4">
             <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-fit" />
          </div>
@@ -479,6 +475,5 @@ export default function JournalPage() {
         </section>
         <Footer />
       </div>
-    </AppLayout>
   );
 }

@@ -100,6 +100,7 @@ export interface Cart {
       node: CartItem;
     }>;
   };
+  checkoutUrl?: string;
 }
 
 // GraphQL Queries
@@ -467,6 +468,261 @@ export const addToCart = async (variantId: string, quantity: number = 1): Promis
     return (data as any).cartLinesAdd.cart;
   } catch (error) {
     console.error('Error adding to cart:', error);
+    return null;
+  }
+};
+
+// Additional Cart Management Queries and Mutations
+const GET_CART = `
+  query getCart($cartId: ID!) {
+    cart(id: $cartId) {
+      id
+      totalQuantity
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+      }
+      lines(first: 100) {
+        edges {
+          node {
+            id
+            quantity
+            merchandise {
+              ... on ProductVariant {
+                id
+                title
+                price {
+                  amount
+                  currencyCode
+                }
+                product {
+                  id
+                  title
+                  handle
+                }
+                image {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+      checkoutUrl
+    }
+  }
+`;
+
+const UPDATE_CART_LINES = `
+  mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart {
+        id
+        totalQuantity
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+        }
+        lines(first: 100) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  product {
+                    id
+                    title
+                    handle
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const REMOVE_FROM_CART = `
+  mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        id
+        totalQuantity
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+        }
+        lines(first: 100) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  product {
+                    id
+                    title
+                    handle
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+// Get current cart details
+export const getCart = async (cartId?: string): Promise<Cart | null> => {
+  const currentCartId = cartId || getCartId();
+  
+  if (!currentCartId) {
+    return null;
+  }
+
+  try {
+    const data = await shopifyClient.request(GET_CART, {
+      cartId: currentCartId
+    });
+    
+    return (data as any).cart;
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    return null;
+  }
+};
+
+// Update cart line item quantity
+export const updateCartLine = async (lineId: string, quantity: number): Promise<Cart | null> => {
+  const cartId = getCartId();
+  
+  if (!cartId) {
+    return null;
+  }
+
+  try {
+    const data = await shopifyClient.request(UPDATE_CART_LINES, {
+      cartId,
+      lines: [{
+        id: lineId,
+        quantity
+      }]
+    });
+
+    return (data as any).cartLinesUpdate.cart;
+  } catch (error) {
+    console.error('Error updating cart line:', error);
+    return null;
+  }
+};
+
+// Remove items from cart
+export const removeFromCart = async (lineIds: string[]): Promise<Cart | null> => {
+  const cartId = getCartId();
+  
+  if (!cartId) {
+    return null;
+  }
+
+  try {
+    const data = await shopifyClient.request(REMOVE_FROM_CART, {
+      cartId,
+      lineIds
+    });
+
+    return (data as any).cartLinesRemove.cart;
+  } catch (error) {
+    console.error('Error removing from cart:', error);
+    return null;
+  }
+};
+
+// Get checkout URL for current cart
+export const getCheckoutUrl = async (cartId?: string): Promise<string | null> => {
+  const currentCartId = cartId || getCartId();
+  
+  if (!currentCartId) {
+    return null;
+  }
+
+  try {
+    const cart = await getCart(currentCartId);
+    return cart?.checkoutUrl || null;
+  } catch (error) {
+    console.error('Error getting checkout URL:', error);
+    return null;
+  }
+};
+
+// Clear all cart items (remove all lines)
+export const clearCart = async (): Promise<Cart | null> => {
+  const cartId = getCartId();
+  
+  if (!cartId) {
+    return null;
+  }
+
+  try {
+    // First get all line IDs
+    const cart = await getCart(cartId);
+    if (!cart || !cart.lines.edges.length) {
+      return cart;
+    }
+
+    const lineIds = cart.lines.edges.map((edge: any) => edge.node.id);
+    
+    // Remove all lines
+    return await removeFromCart(lineIds);
+  } catch (error) {
+    console.error('Error clearing cart:', error);
     return null;
   }
 };

@@ -1,0 +1,239 @@
+PROJECT APIs DOCUMENTATION
+=========================
+
+This document lists all APIs used in the KORZI Journals project with their usage examples and descriptions.
+
+========================================
+1. SHOPIFY STOREFRONT API
+========================================
+
+File: src/services/shopify.ts
+Purpose: E-commerce functionality - products, collections, cart management
+
+COLLECTIONS API:
+- getCollections(limit?: number): Promise<ShopifyCollection[]>
+  Usage: const collections = await getCollections(20);
+  Description: Fetch all product collections from Shopify store
+
+- getCollectionByHandle(handle: string, limit?: number): Promise<ShopifyCollection | null>
+  Usage: const collection = await getCollectionByHandle('featured-products', 10);
+  Description: Get specific collection by handle with products
+
+PRODUCTS API:
+- getProducts(limit?: number): Promise<ShopifyProduct[]>
+  Usage: const products = await getProducts(50);
+  Description: Fetch all products from Shopify store
+
+- getProductByHandle(handle: string): Promise<ShopifyProduct | null>
+  Usage: const product = await getProductByHandle('protein-powder-chocolate');
+  Description: Get specific product details by handle
+
+CART MANAGEMENT API:
+- createCart(): Promise<Cart | null>
+  Usage: const cart = await createCart();
+  Description: Create new shopping cart
+
+- addToCart(variantId: string, quantity?: number): Promise<Cart | null>
+  Usage: await addToCart('gid://shopify/ProductVariant/123', 2);
+  Description: Add product variant to cart
+
+- getCart(cartId?: string): Promise<Cart | null>
+  Usage: const cart = await getCart();
+  Description: Retrieve current cart details
+
+- updateCartLine(lineId: string, quantity: number): Promise<Cart | null>
+  Usage: await updateCartLine('gid://shopify/CartLine/456', 3);
+  Description: Update quantity of cart line item
+
+- removeFromCart(lineIds: string[]): Promise<Cart | null>
+  Usage: await removeFromCart(['gid://shopify/CartLine/456']);
+  Description: Remove specific items from cart
+
+- getCheckoutUrl(cartId?: string): Promise<string | null>
+  Usage: const checkoutUrl = await getCheckoutUrl();
+  Description: Get checkout URL for current cart
+
+- clearCart(): Promise<Cart | null>
+  Usage: await clearCart();
+  Description: Remove all items from cart
+
+UTILITY FUNCTIONS:
+- getCartId(): string | null
+  Usage: const cartId = getCartId();
+  Description: Get current cart ID from cookies
+
+- setCartId(cartId: string): void
+  Usage: setCartId('gid://shopify/Cart/789');
+  Description: Store cart ID in cookies
+
+========================================
+2. HYGRAPH (CMS) API
+========================================
+
+File: src/services/hygraph.ts
+Purpose: Content management - blogs, journals, articles
+
+BLOGS/JOURNALS API:
+- getBlogs(): Promise<{blogs: Blog[], plays: Blog[], builds: Blog[], learns: Blog[], guides: Blog[]}>
+  Usage: const {blogs, plays, builds, learns, guides} = await getBlogs();
+  Description: Fetch all blog content categorized by type (play, build, learn, guide)
+
+========================================
+3. SHOPIFY ADMIN API
+========================================
+
+File: src/services/reviews.ts
+Purpose: Product reviews management
+
+REVIEWS API:
+- submitReview(reviewData: ReviewData): Promise<ReviewResponse>
+  Usage: await submitReview({rating: 5, text: 'Great product!', name: 'John', email: 'john@email.com'});
+  Description: Submit product review with rating, text, author info, and optional media
+
+- getProductInfo(productId: string)
+  Usage: const product = await getProductInfo('gid://shopify/Product/123');
+  Description: Get product information for review context
+
+- submitReviewViaREST(reviewData: ReviewData): Promise<ReviewResponse>
+  Usage: await submitReviewViaREST({rating: 4, text: 'Good quality', name: 'Jane', email: 'jane@email.com'});
+  Description: Fallback method to submit reviews via REST API
+
+File: src/services/auth.ts
+Purpose: Customer authentication and account management
+
+AUTHENTICATION API:
+- loginCustomer(credentials: LoginCredentials): Promise<AuthResponse>
+  Usage: await loginCustomer({email: 'user@email.com', password: 'password123'});
+  Description: Authenticate customer login
+
+- registerCustomer(data: RegisterData): Promise<AuthResponse>
+  Usage: await registerCustomer({firstName: 'John', lastName: 'Doe', email: 'john@email.com', password: 'pass123'});
+  Description: Register new customer account
+
+- logoutCustomer(): Promise<AuthResponse>
+  Usage: await logoutCustomer();
+  Description: Logout current customer
+
+- recoverPassword(email: string): Promise<AuthResponse>
+  Usage: await recoverPassword('user@email.com');
+  Description: Send password recovery email
+
+- guestCheckout(): Promise<AuthResponse>
+  Usage: await guestCheckout();
+  Description: Enable guest checkout mode
+
+- checkAuthStatus(): Promise<AuthResponse>
+  Usage: const authStatus = await checkAuthStatus();
+  Description: Check if customer is currently authenticated
+
+========================================
+4. STATE MANAGEMENT STORES
+========================================
+
+File: src/stores/cartStore.ts
+Purpose: Cart state management using Zustand
+
+CART STORE FUNCTIONS:
+- addToCart(item): Promise<void>
+  Usage: addToCart({title: 'Product', price: 29.99, quantity: 1, variantId: 'variant123'});
+  Description: Add item to cart with Shopify sync
+
+- updateQuantity(id: string, quantity: number): Promise<void>
+  Usage: updateQuantity('product-1', 3);
+  Description: Update item quantity in cart
+
+- removeFromCart(id: string): void
+  Usage: removeFromCart('product-1');
+  Description: Remove item from cart
+
+- clearCart(): void
+  Usage: clearCart();
+  Description: Clear all cart items
+
+- openDrawer(): void
+  Usage: openDrawer();
+  Description: Open cart drawer
+
+- closeDrawer(): void
+  Usage: closeDrawer();
+  Description: Close cart drawer
+
+- getTotalItems(): number
+  Usage: const total = getTotalItems();
+  Description: Get total number of items in cart
+
+- getTotalPrice(): number
+  Usage: const total = getTotalPrice();
+  Description: Get total price of all cart items
+
+File: src/stores/authStore.ts
+Purpose: Authentication state management using Zustand
+
+AUTH STORE FUNCTIONS:
+- login(email: string, password: string): Promise<{success: boolean, errors?: string[]}>
+  Usage: await login('user@email.com', 'password123');
+  Description: Login customer and update auth state
+
+- register(data): Promise<{success: boolean, errors?: string[]}>
+  Usage: await register({firstName: 'John', lastName: 'Doe', email: 'john@email.com', password: 'pass123'});
+  Description: Register new customer
+
+- logout(): Promise<void>
+  Usage: await logout();
+  Description: Logout customer and clear auth state
+
+- checkAuth(): Promise<void>
+  Usage: await checkAuth();
+  Description: Check authentication status
+
+- setCustomer(customer: Customer | null): void
+  Usage: setCustomer(customerData);
+  Description: Manually set customer data
+
+========================================
+5. ENVIRONMENT VARIABLES REQUIRED
+========================================
+
+VITE_SHOPIFY_STOREFRONT_URL - Shopify Storefront API URL
+VITE_SHOPIFY_TOKEN - Shopify Storefront Access Token
+VITE_SHOPIFY_ADMIN_URL - Shopify Admin API URL (optional)
+VITE_SHOPIFY_ADMIN_TOKEN - Shopify Admin Access Token (optional)
+VITE_SHOPIFY_STORE_URL - Shopify Store URL for authentication
+VITE_HYPGRAPH_URL - Hygraph CMS API URL
+
+========================================
+6. USAGE EXAMPLES BY COMPONENT
+========================================
+
+PAGES:
+- JournalPage.tsx: Uses getBlogs() from hygraph service
+- LoginPage.tsx: Uses recoverPassword() from auth service
+- JournalDetailPage.tsx: Uses Blog type from hygraph service
+- ShopPage.tsx: Uses sample product data (static)
+
+COMPONENTS:
+- Review.tsx: Uses submitReview() from reviews service
+- CartDrawer.tsx: Uses cart store functions
+- ProductCard.tsx: Uses addToCart() from cart store
+
+STORES:
+- cartStore.ts: Uses addToCart() from shopify service
+- authStore.ts: Uses auth functions from auth service
+
+========================================
+7. API INTEGRATION SUMMARY
+========================================
+
+Total APIs: 25+ functions across 4 main services
+Main Integrations: Shopify Storefront, Shopify Admin, Hygraph CMS
+State Management: Zustand stores for cart and auth
+Authentication: Shopify customer authentication
+E-commerce: Full cart management with Shopify sync
+Content: Blog/journal management via Hygraph
+Reviews: Product review submission system
+
+========================================
+END OF DOCUMENTATION
+========================================
+
+

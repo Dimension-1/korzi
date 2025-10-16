@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-// import AppLayout from './components/layout/AppLayout'
+import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
 import JournalPage from './pages/JournalPage'
 import JournalDetailPage from './pages/JournalDetailPage'
@@ -8,18 +8,20 @@ import ShopPage from './pages/ShopPage'
 import LoginPage from './pages/LoginPage'
 
 function App() {
-  return (
-    // <AppLayout>
+  return (    
       <Routes>
-        <Route path="/" element={<ComingSoonPage />} />
-        <Route path="/logs" element={<JournalPage />} />
-        <Route path="/logs/:slug" element={<JournalDetailPage />} />
-        <Route path="/shop" element={<ShopPage />} />
-        <Route path="/more" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signin" element={<LoginPage />} />
-      </Routes>
-    // </AppLayout>
+  <Route path="/" element={<ComingSoonPage />} />
+
+  <Route element={<AppLayout />}>
+    <Route path="/logs" element={<JournalPage />} />
+    <Route path="/logs/:slug" element={<JournalDetailPage />} />
+    <Route path="/shop" element={<ShopPage />} />
+    <Route path="/more" element={<HomePage />} />
+    <Route path="/login" element={<LoginPage />} />
+  </Route>
+
+  <Route path="/signin" element={<LoginPage />} />
+</Routes>
   )
 }
 

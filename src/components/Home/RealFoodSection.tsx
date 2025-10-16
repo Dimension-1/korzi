@@ -9,7 +9,7 @@ export default function RealFoodSection() {
           <div className="space-y-6">
             {/* Headline */}
             <h2 className="text-6xl md:text-7xl lg:text-8xl font-black text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '900',
               letterSpacing: '-0.04em',
               lineHeight: '1.1'
@@ -31,7 +31,7 @@ export default function RealFoodSection() {
             
             {/* Body Text */}
             <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '400',
               lineHeight: '1.4'
             }}>
@@ -40,7 +40,7 @@ export default function RealFoodSection() {
             
             {/* Postscript */}
             <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '400',
               lineHeight: '1.4'
             }}>
@@ -94,7 +94,7 @@ export default function RealFoodSection() {
               {/* CTA Button */}
               <div className="absolute bottom-6 right-6">
                 <button className="bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] px-6 py-3 rounded-lg font-medium text-base transition-colors duration-200 flex items-center gap-2" style={{
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'DM Sans, sans-serif',
                   fontWeight: '500',
                   fontStyle: 'italic',
                   borderRadius: '8px'
