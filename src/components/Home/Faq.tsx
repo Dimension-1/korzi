@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { X,Plus } from 'lucide-react';
 
 export default function FaqSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -34,14 +35,20 @@ export default function FaqSection() {
           <div className="mb-6 lg:mb-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[var(--primary)] leading-tight">
               FREQUENTLY<br />
-              <span className="ml-4 lg:ml-8">ASKED QUESTIONS</span>
+              <span className="">ASKED QUESTIONS</span>
             </h2>
           </div>
 
           {/* FAQ Items */}
           <div className="space-y-3 lg:space-y-4 mb-6 lg:mb-8">
             {faqData.map((faq) => (
-              <div key={faq.id} className="bg-[var(--background)] rounded-lg p-4 lg:p-6 shadow-sm border border-[var(--border)] transition-all duration-300 ease-in-out hover:shadow-md">
+              <div 
+                key={faq.id} 
+                className="rounded-lg p-4 lg:p-6 shadow-sm border border-[var(--border)] transition-all duration-300 ease-in-out hover:shadow-md"
+                style={{
+                  backgroundColor: openFaq === faq.id ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.90)'
+                }}
+              >
                 <button
                   onClick={() => toggleFaq(faq.id)}
                   className="w-full flex items-center justify-between text-left group"
@@ -53,7 +60,7 @@ export default function FaqSection() {
                     openFaq === faq.id ? 'rotate-180' : 'rotate-0'
                   }`}>
                     <span className="text-black text-lg lg:text-xl font-bold transition-transform duration-300 ease-in-out">
-                      {openFaq === faq.id ? '−' : '+'}
+                      {openFaq === faq.id ? <X className= "w-4 h-4 text-[var(--background)]"/> : <Plus className= "w-4 h-4 text-[var(--background)]"/>}
                     </span>
                   </div>
                 </button>
@@ -102,7 +109,7 @@ export default function FaqSection() {
                     <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
                     <span className="text-sm font-medium text-gray-800">korzi_fan</span>
                   </div>
-                  <p className="text-sm text-gray-700">Loveee! Need to get me a supply!!! 🔥</p>
+                  <p className="text-sm text-gray-700">Loveee! Need to get me a supply!!! </p>
                 </div>
 
                 {/* Comment 2 */}

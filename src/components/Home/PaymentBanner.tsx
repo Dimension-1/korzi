@@ -7,7 +7,7 @@ export default function PaymentBanner() {
           
           {/* Left Section - Payment Text */}
           <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--foreground)] font-medium text-center sm:text-left" style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'DM Sans, sans-serif',
             fontWeight: '500'
           }}>
             Securely pay using:
@@ -53,7 +53,7 @@ export default function PaymentBanner() {
           
           {/* Right Section - Cash on Delivery */}
           <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--primary)] font-medium text-center sm:text-right" style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'DM Sans, sans-serif',
             fontWeight: '500'
           }}>
             Oh! and Cash On Delivery too :)

@@ -82,7 +82,7 @@ export default function AnnouncementBar() {
             {/* Previous button */}
             <button
               onClick={goToPrevious}
-              className="absolute left-1 sm:left-4 p-1 hover:bg-[var(--surface)]/20 rounded transition-colors duration-200"
+              className="p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Previous announcement"
             >
               <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -124,7 +124,7 @@ export default function AnnouncementBar() {
             {/* Next button */}
             <button
               onClick={goToNext}
-              className="absolute right-1 sm:right-4 p-1 hover:bg-[var(--surface)]/20 rounded transition-colors duration-200"
+              className="p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Next announcement"
             >
               <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />

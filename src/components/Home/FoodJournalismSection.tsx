@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CarouselCard {
   id: number;
@@ -226,14 +227,14 @@ export default function FoodJournalismSection() {
           {/* Left Side - Text Content */}
           <div className="space-y-4 md:space-y-6">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '700',
               letterSpacing: '-0.02em'
             }}>
               We're also fixing food journalism.
             </h2>
             <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] leading-relaxed" style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'DM Sans, sans-serif',
               fontWeight: '400',
               lineHeight: '1.6'
             }}>
@@ -338,28 +339,18 @@ export default function FoodJournalismSection() {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] rounded-full p-3 md:p-4 transition-colors duration-200"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Previous card"
-            style={{
-              filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.2))'
-            }}
           >
-            <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] rounded-full p-3 md:p-4 transition-colors duration-200"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Next card"
-            style={{
-              filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.2))'
-            }}
           >
-            <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            <ChevronRight className="w-5 h-5" />
           </button>
 
           {/* Cards Container */}

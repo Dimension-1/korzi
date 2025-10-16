@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import FaqSection from '../components/Home/Faq';
 import VideoCarousel from '../components/Home/videoCarousel';
 import Footer from '../components/Home/footer';
@@ -6,84 +7,69 @@ import SuperYouSection from '../components/Shop/SuperYouSection';
 import ShopFooter from '../components/Shop/ShopFooter';
 import ProductSection from '../components/Shop/ProductSection';
 import CartDrawer from '../components/CartDrawer';
+import { getProducts, ShopifyProduct } from '../services/shopify';
+
+// Transform Shopify product to ProductCarousel format
+const transformShopifyProduct = (product: ShopifyProduct) => {
+  const firstImage = product.images.edges[0]?.node?.url || '/image.png';
+  const firstVariant = product.variants.edges[0]?.node;
+  const price = parseFloat(firstVariant?.price?.amount || product.priceRange.minVariantPrice.amount);
+  
+  // Calculate discount (assuming 15-25% discount for demo)
+  const discountPercentage = Math.floor(Math.random() * 11) + 15; // 15-25%
+  const originalPrice = Math.round(price / (1 - discountPercentage / 100));
+  
+  return {
+    id: product.id,
+    title: product.title,
+    image: firstImage,
+    rating: 4.0 + Math.random() * 1, // Random rating between 4.0-5.0
+    reviewCount: Math.floor(Math.random() * 100) + 20, // Random reviews 20-120
+    originalPrice,
+    discountedPrice: price,
+    discountPercentage,
+    variantId: firstVariant?.id,
+    points: Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 10 : undefined, // Random points for some products
+    showWhatsApp: Math.random() > 0.8 // Random WhatsApp button for some products
+  };
+};
 
 function ShopPage() {
-  // Sample product data matching the design
-  const sampleProducts = [
-    {
-      id: '1',
-      title: 'UNFLAVOURED 1 KG - FERMENTED YEAST PROTEIN',
-      image: '/image.png',
-      rating: 4.5,
-      reviewCount: 46,
-      originalPrice: 2799,
-      discountedPrice: 2199,
-      discountPercentage: 21,
-      variantId: 'gid://shopify/ProductVariant/1',
-      points: 0
-    },
-    {
-      id: '2',
-      title: 'CHOCOLATE & COLD COFFEE ASSORTED - PACK OF 8 SACHETS',
-      image: '/image.png',
-      rating: 4.5,
-      reviewCount: 48,
-      originalPrice: 1099,
-      discountedPrice: 899,
-      discountPercentage: 18,
-      variantId: 'gid://shopify/ProductVariant/2'
-    },
-    {
-      id: '3',
-      title: 'CHOCOLATE - PACK OF 8 SACHETS',
-      image: '/image.png',
-      rating: 4.0,
-      reviewCount: 33,
-      originalPrice: 1099,
-      discountedPrice: 899,
-      discountPercentage: 18,
-      variantId: 'gid://shopify/ProductVariant/3'
-    },
-    {
-      id: '4',
-      title: 'COLD COFFEE - PACK OF 8 SACHETS',
-      image: '/image.png',
-      rating: 4.5,
-      reviewCount: 77,
-      originalPrice: 1099,
-      discountedPrice: 899,
-      discountPercentage: 18,
-      variantId: 'gid://shopify/ProductVariant/4',
-      showWhatsApp: true
-    },
-    {
-      id: '5',
-      title: 'VANILLA - PACK OF 8 SACHETS',
-      image: '/image.png',
-      rating: 4.2,
-      reviewCount: 52,
-      originalPrice: 1199,
-      discountedPrice: 999,
-      discountPercentage: 17,
-      variantId: 'gid://shopify/ProductVariant/5',
-      points: 50
-    },
-    {
-      id: '6',
-      title: 'STRAWBERRY - PACK OF 8 SACHETS',
-      image: '/image.png',
-      rating: 4.3,
-      reviewCount: 41,
-      originalPrice: 1299,
-      discountedPrice: 1099,
-      discountPercentage: 15,
-      variantId: 'gid://shopify/ProductVariant/6',
-      showWhatsApp: true
-    }
-  ];
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+
+  // Fetch products from Shopify
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const shopifyProducts = await getProducts(20); // Fetch up to 20 products
+        
+        if (shopifyProducts.length > 0) {
+          const transformedProducts = shopifyProducts.map(transformShopifyProduct);
+          setProducts(transformedProducts);
+        } else {
+          // No products found
+          setProducts([]);
+        }
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Failed to load products');
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-[var(--background)] lg:pb-12">
       {/* Hero Image */}
       <ProductSection/>
       <div className="">
@@ -102,11 +88,36 @@ function ShopPage() {
       
       <VideoCarousel/>
       <Review/>
-      <ProductCarousel 
-        title="OUR PRODUCTS"
-        products={sampleProducts}
-        itemsPerView={4}
-      />
+      {/* Product Carousel */}
+      {loading ? (
+        <div className="py-16 px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-8">OUR PRODUCTS</h2>
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary)]"></div>
+              </div>
+              <p className="text-[var(--text-secondary)] mt-4">Loading products...</p>
+            </div>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="py-16 px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-8">OUR PRODUCTS</h2>
+              <p className="text-red-500 mb-4">{error}</p>
+              <p className="text-[var(--text-secondary)]">Please try again later.</p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <ProductCarousel 
+          title="OUR PRODUCTS"
+          products={products}
+          itemsPerView={4}
+        />
+      )}
       <FaqSection/>
       <SuperYouSection/>
       

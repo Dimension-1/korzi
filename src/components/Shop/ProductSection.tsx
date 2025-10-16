@@ -38,14 +38,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
       {/* Navigation Arrows */}
       <button
         onClick={prevImage}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 text-[var(--primary)] rounded-full transition-all duration-200 hover:scale-110"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
 
       <button
         onClick={nextImage}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 text-[var(--primary)] rounded-full transition-all duration-200 hover:scale-110"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronRight className="w-5 h-5" />
       </button>

@@ -6,8 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        '3xl': '1700px',
+      },
       fontFamily: {
-        'heading': ['Inter', 'sans-serif'],
+        'heading': ['Bebas Neue', 'cursive'],
+        'body': ['DM Sans', 'sans-serif'],
       },
       width: {
         '120': '30rem', // 480px
