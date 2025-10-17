@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       screens: {
-        '3xl': '1700px',
+        '3xl': '1600px',
+        '4xl': '2200px',
       },
       fontFamily: {
         'heading': ['Bebas Neue', 'cursive'],

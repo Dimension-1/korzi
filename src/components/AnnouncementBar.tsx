@@ -133,24 +133,6 @@ export default function AnnouncementBar() {
         )}
       </div>
 
-      {/* Progress indicators for multiple announcements */}
-      {announcements.length > 1 && (
-        <div className="absolute bottom-0.5 sm:bottom-1 left-1/2 transform -translate-x-1/2 flex gap-0.5 sm:gap-1">
-          {announcements.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setIsAutoRotating(false);
-                setCurrentIndex(index);
-              }}
-              className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-[var(--background)]' : 'bg-[var(--background)]/50'
-              }`}
-              aria-label={`Go to announcement ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }

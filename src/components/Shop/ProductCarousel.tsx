@@ -111,21 +111,6 @@ export default function ProductCarousel({
           ))}
         </div>
 
-        {/* Dots Indicator */}
-        {products.length > itemsPerView && (
-          <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: maxIndex + 1 }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-[var(--primary)]' : 'bg-[var(--text-secondary)]'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

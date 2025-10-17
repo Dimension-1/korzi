@@ -91,7 +91,7 @@ export default function Footer() {
         <div className="border-t border-black/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-black/80 mb-4 md:mb-0">
-              © 2024 Korzi. All rights reserved.
+              © 2025 Korzi. All rights reserved.
             </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-black/80 flex items-center gap-1">Made with <Heart fill="red" color="red" className="w-4 h-4" /> for the young</span>

@@ -206,7 +206,7 @@ const Review: React.FC = () => {
 
   return (
     <div className="py-16 bg-[var(--background)]">
-      <div className="max-w-6xl mx-auto px-8">
+      <div className=" mx-auto px-8">
         {/* Header */}
         <div className="flex justify-between items-start mb-8">
           <div className="flex-1">
@@ -217,7 +217,7 @@ const Review: React.FC = () => {
               See what our customers are saying about our products
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex justify-start">
             <button
               onClick={openModal}
               className="bg-[var(--primary)] text-[var(--background)] px-8 py-4 rounded-lg font-semibold hover:bg-[var(--secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl uppercase tracking-wide shadow-lg"
@@ -227,7 +227,7 @@ const Review: React.FC = () => {
           </div>
         </div>
       </div>
-
+        <div className="mx-auto px-8">
        <ResponsiveMasonry
                 columnsCountBreakPoints={{350: 1, 750: 2, 900: 3 , 1200: 4}}
                 // gutterBreakpoints={{350: "12px", 750: "16px", 900: "24px"}}
@@ -238,6 +238,7 @@ const Review: React.FC = () => {
                 ))}
               </Masonry>
       </ResponsiveMasonry>
+      </div>
 
       {showViewMore && (
         <div className="flex justify-center mt-8">
