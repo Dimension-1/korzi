@@ -1,4 +1,4 @@
-import { MoveRight } from 'lucide-react';
+import { Heart, MoveRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 
@@ -54,13 +54,13 @@ export default function ComingSoonPage() {
       {/* Desktop Layout (lg and above) */}
       <div className="hidden lg:block">
         {/* KORZI Logo */}
-        <div className="absolute top-12 left-8 z-10 transition-all duration-300 ease-in-out" style={{
+        <div className="absolute top-2 left-8 z-10 transition-all duration-300 ease-in-out" style={{
           left: 'var(--sidebar-width, 2rem)'
         }}>
           <img 
             src="/logo-horizontal.png" 
             alt="KORZI" 
-            className="h-24 3xl:h-[8rem] w-auto"
+            className="h-24 3xl:h-[9rem] 4xl:h-[12rem] w-auto"
           />
         </div>
 
@@ -71,51 +71,51 @@ export default function ComingSoonPage() {
           <img
             src="/coming-soon.gif"
             alt="Coming Soon Animation"
-            className="w-120 h-120 3xl:w-[40rem] 3xl:h-[40rem] object-cover -rotate-[6deg] -z-10"
+            className="w-120 h-120 3xl:w-[43rem] 3xl:h-[43rem] 4xl:w-[55rem] 4xl:h-[55rem] object-cover -rotate-[6deg] -z-10"
           />
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col bottom-0 relative justify-center -mt-32 3xl:pt-[35rem] px-8 sm:px-12 3xl:px-32">
+        <div className="flex flex-col bottom-0 relative justify-center -mt-36 px-8 sm:px-12 4xl:px-32">
           {/* Main Heading */}
-          <div className="mb-8">
-              <h2 className="leading-tight mb-6 font-heading">
-                <span className="[transform:scaleY(1.3)] text-[var(--primary)] font-black block text-8xl 3xl:text-[8rem] mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>Machines</span>
-                <span className="[transform:scaleY(1.3)] block text-5xl md:text-8xl 3xl:text-[8rem] text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 font-black" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <div className="mb-8 3xl:mb-12 4xl:mb-16">
+              <h2 className="leading-tight mb-6 3xl:mb-8  font-heading">
+                <span className="[transform:scaleY(1.3)] text-[var(--primary)] font-black block text-8xl 3xl:text-[8rem] 4xl:text-[11rem] font-body mb-2 3xl:mb-4 4xl:mb-6">Machines</span>
+                <span className="[transform:scaleY(1.3)] block text-5xl md:text-8xl 3xl:text-[9rem] 4xl:text-[11rem] text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 font-black font-body">
               For The <span className="underline decoration-7 underline-offset-[12px]" >Young&nbsp; </span>
             </span>
               </h2>
           </div>
 
           {/* Bottom Buttons */}
-          <div className="flex gap-6 3xl:gap-6 items-center flex-wrap">
+          <div className="flex gap-6 items-center flex-wrap">
             {/* Grip. Guts. Glory Button */}
-            <button className="border-2 border-white px-24 py-6 text-xl 3xl:text-3xl 3xl:px-32 3xl:py-8 font-medium bg-black text-white transition-all duration-300 tracking-wide rounded-none font-body">Grip. Guts. Glory
+            <button className="border-2 border-white px-24 py-6 text-xl 3xl:text-4xl 4xl:text-5xl  4xl:px-32 3xl:px-24 4xl:py-8 font-medium bg-black text-white transition-all duration-300 tracking-wide rounded-none font-body">Grip. Guts. Glory
             </button>
 
             {/* Arrow Button with Text */}
-            <button className="border-2 border-white px-9 py-4 text-xl 3xl:text-2xl 3xl:px-12 3xl:py-6 font-medium  transition-all duration-300 flex items-center gap-4 3xl:gap-6 rounded-none  text-black font-body">
+            <button className="border-2 border-white px-9 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium  transition-all duration-300 flex items-center gap-4 4xl:gap-6 rounded-none  text-black font-body">
               <MoveRight
     color="white" 
-    className="w-24 h-10 3xl:w-24 3xl:h-12 flex-shrink-0 mr-10" 
+    className="w-24 h-10 4xl:w-24 4xl:h-12 flex-shrink-0 mr-10" 
   />
-              <span className="bg-white px-6 py-2 3xl:px-8 3xl:py-3 rounded-md"
+              <div className="bg-white px-6 py-2 4xl:px-8 4xl:py-3 rounded-md"
                    >Soon on Amazon and korzi.toys
-              </span>
+              </div>
             </button>
 
             {/* Timer Button with Countdown */}
-            <button className="border-2 border-white px-16 py-6 text-xl 3xl:text-2xl 3xl:px-12 3xl:py-8 font-medium transition-all duration-300 tracking-wide rounded-none font-body">
-              <span className='text-black bg-white py-4 px-16 3xl:py-6 3xl:px-20 rounded-md'>
+            <button className="border-2 border-white px-16 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium transition-all duration-300 tracking-wide rounded-none font-body">
+              <div className='text-black bg-white py-2 px-16 4xl:py-3 4xl:px-28 rounded-md'>
               {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
-              </span>
+              </div>
             </button>
           </div>
         </div>
       </div>
-
+      
       {/* Mobile Layout (below lg) */}
-      <div className="lg:hidden flex flex-col min-h-screen">
+      <div className="lg:hidden flex flex-col">
         {/* Logo Section */}
         <div className="flex justify-center py-4 sm:py-6">
           <img 
@@ -130,9 +130,9 @@ export default function ComingSoonPage() {
           {/* Main Heading */}
           <div className="mb-8 text-center bg-black">
             <h2 className="leading-tight mb-6 font-heading">
-              <span className="text-[var(--primary)] block text-5xl sm:text-6xl md:text-7xl mb-2 font-black text-left [transform:scaleY(1.3)]" style={{ fontFamily: 'Inter, sans-serif' }}>Machines</span>
-              <span className="text-5xl text-left sm:text-6xl md:text-7xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 block [transform:scaleY(1.3)]" style={{ fontFamily: 'Inter, sans-serif' }}>
-              For The <span className="underline decoration-4 underline-offset-4 inline-block ">Young&nbsp;</span>
+              <span className="text-[var(--primary)] block text-5xl sm:text-6xl md:text-8xl mb-2 font-black text-left [transform:scaleY(1.3)] font-body" >Machines</span>
+              <span className="text-5xl text-left sm:text-6xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 block [transform:scaleY(1.3)] font-body" >
+              For The <span className="underline decoration-4 sm:decoration-8 underline-offset-4 inline-block">Young&nbsp;</span>
             </span>
             </h2>
           </div>
@@ -142,30 +142,44 @@ export default function ComingSoonPage() {
           <img
             src="/coming-soon.gif"
             alt="Coming Soon Animation"
-            className="w-full bg-transparent h-72 sm:w-96 sm:h-80 md:w-96 md:h-96 object-cover shadow-2xl -rotate-[6deg]"
+            className="w-full bg-transparent h-72 sm:w-96 sm:h-92 md:w-120 md:h-96 object-cover shadow-2xl -rotate-[6deg]"
           />
         </div>
 
           {/* Bottom Buttons */}
           <div className="flex flex-col gap-4 items-center z-10">
             {/* Grip. Guts. Glory Button */}
-            <button className="border-2 border-white px-6 py-[38px] sm:px-8 text-lg sm:text-xl font-medium bg-black text-white transition-all duration-300 tracking-wide w-full max-w-sm rounded-none text-center font-body">
+            <button className="border-2 border-white px-6 py-[38px] sm:px-8 text-lg sm:text-xl md:text-2xl md:px-16 font-medium bg-black text-white transition-all duration-300 tracking-wide w-full max-w-sm md:max-w-md rounded-none text-center font-body">
               Grip. Guts. Glory
             </button>
 
             {/* Arrow Button with Text */}
-            <button className="border-2 border-white px-6 py-4 sm:px-8 text-lg sm:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-3 w-full max-w-sm rounded-none text-black text-left font-body">
-              <div className="bg-white px-8 py-2 rounded-md text-center">
+            <button className="border-2 border-white px-6 py-4 sm:px-8 text-lg sm:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-3 w-full max-w-sm md:max-w-md rounded-none text-black text-left font-body ">
+              <div className="bg-white px-8 py-2 rounded-md text-center min-h-[76px] flex items-center justify-center w-full">
                 Soon on Amazon and korzi.toys
               </div>
             </button>
 
             {/* Timer Button with Countdown */}
-            <button className="border-2 border-white px-6 py-4 sm:px-8 text-lg sm:text-xl font-medium transition-all duration-300 tracking-wide w-full max-w-sm rounded-none text-center font-body">
+            <button className="border-2 border-white px-6 py-4 sm:px-8 text-lg sm:text-xl font-medium transition-all duration-300 tracking-wide w-full max-w-sm md:max-w-md rounded-none text-center font-body">
               <div className='text-black w-full bg-white py-6 px-16 rounded-md text-center'>
                 {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
               </div>
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-4 bg-[var(--primary)] text-white px-8">
+      <div className="border-t border-black/20 py-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm xl:text-xl 3xl:text-3xl 4xl:text-5xl  text-black/80 mb-4 md:mb-0">
+              © 2025 Korzi. All rights reserved.
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm xl:text-xl 3xl:text-3xl 4xl:text-5xl text-black/80 flex items-center gap-1">Made with <Heart fill="red" color="red" className="w-4 h-4 xl:w-6 xl:h-6 2xl:w-8 2xl:h-8" /> for the young</span>
+            </div>
           </div>
         </div>
       </div>

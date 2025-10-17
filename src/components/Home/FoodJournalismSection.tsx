@@ -52,10 +52,6 @@ export default function FoodJournalismSection() {
     );
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
   const getCardBackground = (cardType: string) => {
     switch (cardType) {
       case 'newsletter':
@@ -380,21 +376,6 @@ export default function FoodJournalismSection() {
             </div>
           </div>
 
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 gap-2">
-            {Array.from({ length: Math.max(1, carouselData.length - 2) }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                  index === currentIndex 
-                    ? 'bg-[var(--primary)]' 
-                    : 'bg-[var(--text-secondary)] hover:bg-[var(--text-secondary)]'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </div>
