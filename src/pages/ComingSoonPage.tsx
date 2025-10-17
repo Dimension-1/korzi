@@ -65,7 +65,7 @@ export default function ComingSoonPage() {
         </div>
 
         {/* GIF in top-right corner */}
-        <div className="w-full ml-[63%] z-10 transition-all duration-300 ease-in-out" style={{
+        <div className="w-full lg:ml-[50%] xl:ml-[63%]  z-10 transition-all duration-300 ease-in-out" style={{
           right: 'var(--sidebar-width, 3rem)'
         }}>
           <img
@@ -80,7 +80,7 @@ export default function ComingSoonPage() {
           {/* Main Heading */}
           <div className="mb-8 3xl:mb-12 4xl:mb-16">
               <h2 className="leading-tight mb-6 3xl:mb-8  font-heading">
-                <span className="[transform:scaleY(1.3)] text-[var(--primary)] font-black block text-8xl 3xl:text-[8rem] 4xl:text-[11rem] font-body mb-2 3xl:mb-4 4xl:mb-6">Machines</span>
+                <span className="[transform:scaleY(1.3)] text-[var(--primary)] font-black block text-8xl xl:text-8xl 3xl:text-[8rem] 4xl:text-[11rem] font-body mb-2 3xl:mb-4 4xl:mb-6">Machines</span>
                 <span className="[transform:scaleY(1.3)] block text-5xl md:text-8xl 3xl:text-[9rem] 4xl:text-[11rem] text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 font-black font-body">
               For The <span className="underline decoration-7 underline-offset-[12px]" >Young&nbsp; </span>
             </span>
@@ -90,23 +90,23 @@ export default function ComingSoonPage() {
           {/* Bottom Buttons */}
           <div className="flex gap-6 items-center flex-wrap">
             {/* Grip. Guts. Glory Button */}
-            <button className="border-2 border-white px-24 py-6 text-xl 3xl:text-4xl 4xl:text-5xl  4xl:px-32 3xl:px-24 4xl:py-8 font-medium bg-black text-white transition-all duration-300 tracking-wide rounded-none font-body">Grip. Guts. Glory
+            <button className="border-2 border-white lg:px-8 xl:px-24 py-6 text-xl 3xl:text-4xl 4xl:text-5xl  4xl:px-32 3xl:px-24 4xl:py-8 font-medium bg-black text-white transition-all duration-300 tracking-wide rounded-none font-body">Grip. Guts. Glory
             </button>
 
             {/* Arrow Button with Text */}
-            <button className="border-2 border-white px-9 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium  transition-all duration-300 flex items-center gap-4 4xl:gap-6 rounded-none  text-black font-body">
+            <button className="border-2 border-white lg:px-2 xl:px-9 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium  transition-all duration-300 flex items-center gap-4 4xl:gap-6 rounded-none  text-black font-body">
               <MoveRight
     color="white" 
-    className="w-24 h-10 4xl:w-24 4xl:h-12 flex-shrink-0 mr-10" 
+    className="w-12 xl:w-24 h-10 4xl:w-24 4xl:h-12 flex-shrink-0 mr-0 xl:mr-10" 
   />
-              <div className="bg-white px-6 py-2 4xl:px-8 4xl:py-3 rounded-md"
+              <div className="bg-white px-4 xl:px-6 py-2 4xl:px-8 4xl:py-3 rounded-md"
                    >Soon on Amazon and korzi.toys
               </div>
             </button>
 
             {/* Timer Button with Countdown */}
-            <button className="border-2 border-white px-16 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium transition-all duration-300 tracking-wide rounded-none font-body">
-              <div className='text-black bg-white py-2 px-16 4xl:py-3 4xl:px-28 rounded-md'>
+            <button className="border-2 border-white px-[1.75rem] xl:px-16 py-4 text-xl 3xl:text-4xl 4xl:text-5xl 4xl:px-12 4xl:py-6 font-medium transition-all duration-300 tracking-wide rounded-none font-body">
+              <div className='text-black bg-white py-2 px-8 xl:px-16 4xl:py-3 4xl:px-28 rounded-md'>
               {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
               </div>
             </button>
@@ -128,7 +128,7 @@ export default function ComingSoonPage() {
         {/* Main Content Section */}
         <div className="flex-1 flex flex-col justify-start p-4 sm:p-6 md:p-8 bg-black pb-8">
           {/* Main Heading */}
-          <div className="mb-8 text-center bg-black">
+          <div className="mb-12 text-center bg-black">
             <h2 className="leading-tight mb-6 font-heading">
               <span className="text-[var(--primary)] block text-5xl sm:text-6xl md:text-8xl mb-2 font-black text-left [transform:scaleY(1.3)] font-body" >Machines</span>
               <span className="text-5xl text-left sm:text-6xl md:text-8xl font-black text-[var(--foreground)] mt-4 animate-in fade-in duration-1000 delay-300 block [transform:scaleY(1.3)] font-body" >
@@ -138,7 +138,7 @@ export default function ComingSoonPage() {
           </div>
 
           {/* GIF Section - Now at the bottom */}
-        <div className="flex sm:justify-center">
+        <div className="flex sm:justify-center mb-8">
           <img
             src="/coming-soon.gif"
             alt="Coming Soon Animation"
