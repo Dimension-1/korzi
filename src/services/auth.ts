@@ -1,5 +1,5 @@
 // Shopify Customer Authentication Service
-// Based on Shopify's customer authentication forms
+// Using Shopify Storefront API for customer authentication
 
 export interface Customer {
   id: string;
@@ -32,97 +32,197 @@ export interface AuthResponse {
   message?: string;
 }
 
-// Get Shopify store URL from environment
-const getShopifyStoreUrl = () => {
-  const storeUrl = import.meta.env.VITE_SHOPIFY_STORE_URL;
+// Get Shopify store URL and access token from environment
+const getShopifyConfig = () => {
+  const storeUrl = import.meta.env.VITE_SHOPIFY_STOREFRONT_URL;
+  const accessToken = import.meta.env.VITE_SHOPIFY_TOKEN;
+  
   if (!storeUrl) {
-    throw new Error('VITE_SHOPIFY_STORE_URL environment variable is required');
+    throw new Error('VITE_SHOPIFY_STOREFRONT_URL environment variable is required');
   }
-  return storeUrl.endsWith('/') ? storeUrl.slice(0, -1) : storeUrl;
+  if (!accessToken) {
+    throw new Error('VITE_SHOPIFY_TOKEN environment variable is required');
+  }
+  
+  return {
+    storeUrl: storeUrl.endsWith('/') ? storeUrl.slice(0, -1) : storeUrl,
+    accessToken
+  };
 };
 
-// Helper function to handle Shopify form responses
-const handleShopifyResponse = async (response: Response): Promise<AuthResponse> => {
+// GraphQL queries for customer authentication
+const CUSTOMER_ACCESS_TOKEN_CREATE = `
+  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+    customerAccessTokenCreate(input: $input) {
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const CUSTOMER_CREATE = `
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        email
+        firstName
+        lastName
+        acceptsMarketing
+        createdAt
+        updatedAt
+      }
+      customerUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const CUSTOMER_RECOVER = `
+  mutation customerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const GET_CUSTOMER = `
+  query getCustomer($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      id
+      email
+      firstName
+      lastName
+      acceptsMarketing
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+const CUSTOMER_ACTIVATE_BY_URL = `
+  mutation customerActivateByUrl($activationUrl: URL!, $password: String!) {
+    customerActivateByUrl(activationUrl: $activationUrl, password: $password) {
+      customer {
+        id
+        email
+        firstName
+        lastName
+        acceptsMarketing
+        createdAt
+        updatedAt
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+// Helper function to make GraphQL requests
+const makeGraphQLRequest = async (query: string, variables: any = {}) => {
+  const { storeUrl, accessToken } = getShopifyConfig();
+  
+  
+  const response = await fetch(storeUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': accessToken,
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+
   if (!response.ok) {
     const errorText = await response.text();
-    return {
-      success: false,
-      errors: ['Authentication failed. Please check your credentials.'],
-      message: errorText
-    };
+    console.error('Response error:', response.status, errorText);
+    throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
   }
 
-  // Check if response contains customer data (successful login)
-  const html = await response.text();
+  const data = await response.json();
   
-  // Parse customer data from Shopify's response
-  // This is a simplified approach - in production, you'd want to use Shopify's Customer API
-  const customerMatch = html.match(/window\.ShopifyAnalytics\.meta\.page\.customerId["\s]*:["\s]*(\d+)/);
-  
-  if (customerMatch) {
-    // Extract customer info from the page
-    const emailMatch = html.match(/customer\[email\]" value="([^"]+)"/);
-    const firstNameMatch = html.match(/customer\[first_name\]" value="([^"]+)"/);
-    const lastNameMatch = html.match(/customer\[last_name\]" value="([^"]+)"/);
-    
-    const customer: Customer = {
-      id: customerMatch[1],
-      email: emailMatch?.[1] || '',
-      firstName: firstNameMatch?.[1] || '',
-      lastName: lastNameMatch?.[1] || '',
-      displayName: `${firstNameMatch?.[1] || ''} ${lastNameMatch?.[1] || ''}`.trim(),
-      acceptsMarketing: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-
-    return {
-      success: true,
-      customer
-    };
+  if (data.errors) {
+    console.error('GraphQL errors:', data.errors);
+    throw new Error(data.errors[0].message);
   }
 
-  // Check for errors in the response
-  const errorMatches = html.match(/form__message[^>]*>([^<]+)</g);
-  if (errorMatches) {
-    const errors = errorMatches.map(match => 
-      match.replace(/form__message[^>]*>/, '').replace(/</, '').trim()
-    ).filter(error => error.length > 0);
-    
-    return {
-      success: false,
-      errors: errors.length > 0 ? errors : ['Authentication failed']
-    };
-  }
-
-  return {
-    success: false,
-    errors: ['Authentication failed']
-  };
+  return data.data;
 };
 
 // Customer Login
 export const loginCustomer = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
-    
-    const formData = new FormData();
-    formData.append('form_type', 'customer_login');
-    formData.append('utf8', '✓');
-    formData.append('customer[email]', credentials.email);
-    formData.append('customer[password]', credentials.password);
-
-    const response = await fetch(`${storeUrl}/account/login`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include', // Include cookies for session management
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded',
+    const data = await makeGraphQLRequest(CUSTOMER_ACCESS_TOKEN_CREATE, {
+      input: {
+        email: credentials.email,
+        password: credentials.password,
       },
     });
 
-    return await handleShopifyResponse(response);
+    const { customerAccessTokenCreate } = data;
+
+    if (customerAccessTokenCreate.customerUserErrors.length > 0) {
+      return {
+        success: false,
+        errors: customerAccessTokenCreate.customerUserErrors.map((error: any) => {
+          // Make error messages more user-friendly
+          if (error.message.includes('Unidentified customer')) {
+            return 'Invalid email or password. Please check your credentials and try again.';
+          }
+          return error.message;
+        }),
+      };
+    }
+
+    if (!customerAccessTokenCreate.customerAccessToken) {
+      return {
+        success: false,
+        errors: ['Invalid credentials'],
+      };
+    }
+
+    // Store the access token
+    localStorage.setItem('shopify_customer_token', customerAccessTokenCreate.customerAccessToken.accessToken);
+
+    // Get customer details
+    const customerData = await makeGraphQLRequest(GET_CUSTOMER, {
+      customerAccessToken: customerAccessTokenCreate.customerAccessToken.accessToken,
+    });
+
+    const customer: Customer = {
+      id: customerData.customer.id,
+      email: customerData.customer.email,
+      firstName: customerData.customer.firstName || '',
+      lastName: customerData.customer.lastName || '',
+      displayName: `${customerData.customer.firstName || ''} ${customerData.customer.lastName || ''}`.trim(),
+      acceptsMarketing: customerData.customer.acceptsMarketing,
+      createdAt: customerData.customer.createdAt,
+      updatedAt: customerData.customer.updatedAt,
+    };
+
+    return {
+      success: true,
+      customer,
+    };
   } catch (error) {
     console.error('Login error:', error);
     return {
@@ -136,31 +236,47 @@ export const loginCustomer = async (credentials: LoginCredentials): Promise<Auth
 // Customer Registration
 export const registerCustomer = async (data: RegisterData): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
-    
-    const formData = new FormData();
-    formData.append('form_type', 'create_customer');
-    formData.append('utf8', '✓');
-    formData.append('customer[first_name]', data.firstName);
-    formData.append('customer[last_name]', data.lastName);
-    formData.append('customer[email]', data.email);
-    formData.append('customer[password]', data.password);
-    
-    if (data.acceptsMarketing) {
-      formData.append('customer[accepts_marketing]', 'true');
-    }
-
-    const response = await fetch(`${storeUrl}/account/register`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded',
+    const result = await makeGraphQLRequest(CUSTOMER_CREATE, {
+      input: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        acceptsMarketing: data.acceptsMarketing || false,
       },
     });
 
-    return await handleShopifyResponse(response);
+    console.log('Registration result:', result);
+
+    const { customerCreate } = result;
+
+    if (customerCreate.customerUserErrors.length > 0) {
+      return {
+        success: false,
+        errors: customerCreate.customerUserErrors.map((error: any) => {
+          // Make error messages more user-friendly
+          if (error.message.includes('Email has already been taken')) {
+            return 'An account with this email already exists. Please try logging in instead.';
+          }
+          if (error.message.includes('Password is too short')) {
+            return 'Password must be at least 6 characters long.';
+          }
+          return error.message;
+        }),
+      };
+    }
+
+    if (!customerCreate.customer) {
+      return {
+        success: false,
+        errors: ['Registration failed'],
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Registration successful! Please check your email to verify your account.',
+    };
   } catch (error) {
     console.error('Registration error:', error);
     return {
@@ -174,49 +290,22 @@ export const registerCustomer = async (data: RegisterData): Promise<AuthResponse
 // Password Recovery
 export const recoverPassword = async (email: string): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
-    
-    const formData = new FormData();
-    formData.append('form_type', 'recover_customer_password');
-    formData.append('utf8', '✓');
-    formData.append('email', email);
-
-    const response = await fetch(`${storeUrl}/account/login`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+    const result = await makeGraphQLRequest(CUSTOMER_RECOVER, {
+      email,
     });
 
-    const html = await response.text();
-    
-    // Check for success message
-    if (html.includes('recover_password.success') || html.includes('We\'ve sent you an email')) {
-      return {
-        success: true,
-        message: 'Password recovery email sent successfully'
-      };
-    }
+    const { customerRecover } = result;
 
-    // Check for errors
-    const errorMatches = html.match(/form__message[^>]*>([^<]+)</g);
-    if (errorMatches) {
-      const errors = errorMatches.map(match => 
-        match.replace(/form__message[^>]*>/, '').replace(/</, '').trim()
-      ).filter(error => error.length > 0);
-      
+    if (customerRecover.customerUserErrors.length > 0) {
       return {
         success: false,
-        errors: errors.length > 0 ? errors : ['Password recovery failed']
+        errors: customerRecover.customerUserErrors.map((error: any) => error.message),
       };
     }
 
     return {
-      success: false,
-      errors: ['Password recovery failed']
+      success: true,
+      message: 'Password recovery email sent successfully',
     };
   } catch (error) {
     console.error('Password recovery error:', error);
@@ -231,32 +320,13 @@ export const recoverPassword = async (email: string): Promise<AuthResponse> => {
 // Guest Checkout
 export const guestCheckout = async (): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
+    // For guest checkout, we don't need to authenticate
+    // Just clear any existing customer session
+    localStorage.removeItem('shopify_customer_token');
     
-    const formData = new FormData();
-    formData.append('form_type', 'guest_login');
-    formData.append('utf8', '✓');
-
-    const response = await fetch(`${storeUrl}/account/login`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-    if (response.ok) {
-      return {
-        success: true,
-        message: 'Guest checkout enabled'
-      };
-    }
-
     return {
-      success: false,
-      errors: ['Guest checkout failed']
+      success: true,
+      message: 'Guest checkout enabled'
     };
   } catch (error) {
     console.error('Guest checkout error:', error);
@@ -271,27 +341,12 @@ export const guestCheckout = async (): Promise<AuthResponse> => {
 // Logout
 export const logoutCustomer = async (): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
+    // Clear the stored access token
+    localStorage.removeItem('shopify_customer_token');
     
-    const response = await fetch(`${storeUrl}/account/logout`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-    if (response.ok) {
-      return {
-        success: true,
-        message: 'Logged out successfully'
-      };
-    }
-
     return {
-      success: false,
-      errors: ['Logout failed']
+      success: true,
+      message: 'Logged out successfully'
     };
   } catch (error) {
     console.error('Logout error:', error);
@@ -303,61 +358,112 @@ export const logoutCustomer = async (): Promise<AuthResponse> => {
   }
 };
 
+// Customer Activation
+export const activateCustomer = async (activationUrl: string, password: string): Promise<AuthResponse> => {
+  try {
+    const data = await makeGraphQLRequest(CUSTOMER_ACTIVATE_BY_URL, {
+      activationUrl,
+      password,
+    });
+
+    const { customerActivateByUrl } = data;
+
+    if (customerActivateByUrl.customerUserErrors.length > 0) {
+      return {
+        success: false,
+        errors: customerActivateByUrl.customerUserErrors.map((error: any) => {
+          // Make error messages more user-friendly
+          if (error.message.includes('Invalid activation URL')) {
+            return 'Invalid or expired activation link. Please request a new activation email.';
+          }
+          if (error.message.includes('Password is too short')) {
+            return 'Password must be at least 6 characters long.';
+          }
+          return error.message;
+        }),
+      };
+    }
+
+    if (!customerActivateByUrl.customer) {
+      return {
+        success: false,
+        errors: ['Account activation failed'],
+      };
+    }
+
+    // Store the access token
+    localStorage.setItem('shopify_customer_token', customerActivateByUrl.customerAccessToken.accessToken);
+
+    const customer: Customer = {
+      id: customerActivateByUrl.customer.id,
+      email: customerActivateByUrl.customer.email,
+      firstName: customerActivateByUrl.customer.firstName || '',
+      lastName: customerActivateByUrl.customer.lastName || '',
+      displayName: `${customerActivateByUrl.customer.firstName || ''} ${customerActivateByUrl.customer.lastName || ''}`.trim(),
+      acceptsMarketing: customerActivateByUrl.customer.acceptsMarketing,
+      createdAt: customerActivateByUrl.customer.createdAt,
+      updatedAt: customerActivateByUrl.customer.updatedAt,
+    };
+
+    return {
+      success: true,
+      customer,
+    };
+  } catch (error) {
+    console.error('Activation error:', error);
+    return {
+      success: false,
+      errors: ['Network error. Please try again.'],
+      message: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+};
+
 // Check if customer is logged in
 export const checkAuthStatus = async (): Promise<AuthResponse> => {
   try {
-    const storeUrl = getShopifyStoreUrl();
+    const token = localStorage.getItem('shopify_customer_token');
     
-    const response = await fetch(`${storeUrl}/account`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
-    });
-
-    if (response.ok) {
-      const html = await response.text();
-      
-      // Check if we're redirected to login page (not authenticated)
-      if (html.includes('customer.login_page.title') || html.includes('account/login')) {
-        return {
-          success: false,
-          message: 'Not authenticated'
-        };
-      }
-
-      // Extract customer info from account page
-      const customerMatch = html.match(/window\.ShopifyAnalytics\.meta\.page\.customerId["\s]*:["\s]*(\d+)/);
-      const emailMatch = html.match(/customer\[email\]" value="([^"]+)"/);
-      const firstNameMatch = html.match(/customer\[first_name\]" value="([^"]+)"/);
-      const lastNameMatch = html.match(/customer\[last_name\]" value="([^"]+)"/);
-      
-      if (customerMatch) {
-        const customer: Customer = {
-          id: customerMatch[1],
-          email: emailMatch?.[1] || '',
-          firstName: firstNameMatch?.[1] || '',
-          lastName: lastNameMatch?.[1] || '',
-          displayName: `${firstNameMatch?.[1] || ''} ${lastNameMatch?.[1] || ''}`.trim(),
-          acceptsMarketing: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-
-        return {
-          success: true,
-          customer
-        };
-      }
+    if (!token) {
+      return {
+        success: false,
+        message: 'Not authenticated'
+      };
     }
 
+    // Verify the token by fetching customer data
+    const customerData = await makeGraphQLRequest(GET_CUSTOMER, {
+      customerAccessToken: token,
+    });
+
+    if (!customerData.customer) {
+      // Token is invalid, clear it
+      localStorage.removeItem('shopify_customer_token');
+      return {
+        success: false,
+        message: 'Not authenticated'
+      };
+    }
+
+    const customer: Customer = {
+      id: customerData.customer.id,
+      email: customerData.customer.email,
+      firstName: customerData.customer.firstName || '',
+      lastName: customerData.customer.lastName || '',
+      displayName: `${customerData.customer.firstName || ''} ${customerData.customer.lastName || ''}`.trim(),
+      acceptsMarketing: customerData.customer.acceptsMarketing,
+      createdAt: customerData.customer.createdAt,
+      updatedAt: customerData.customer.updatedAt,
+    };
+
     return {
-      success: false,
-      message: 'Not authenticated'
+      success: true,
+      customer
     };
   } catch (error) {
     console.error('Auth check error:', error);
+    // Clear invalid token
+    localStorage.removeItem('shopify_customer_token');
     return {
       success: false,
       errors: ['Network error. Please try again.'],

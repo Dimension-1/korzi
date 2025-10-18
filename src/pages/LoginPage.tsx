@@ -47,19 +47,22 @@ export default function LoginPage() {
     setSuccessMessage('');
 
     try {
-      const success = await login(loginForm.email, loginForm.password);
+      const result = await login(loginForm.email, loginForm.password);
+      console.log('Login result:', result);
       
-      if (success) {
+      if (result.success) {
         setSuccessMessage('Login successful! Redirecting...');
         // Redirect to home page
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
-        setErrors(['Invalid email or password']);
+        // Show specific error messages from the authentication service
+        setErrors(result.errors || ['Invalid email or password']);
       }
     } catch (error) {
-      setErrors(['An unexpected error occurred']);
+      console.error('Login error:', error);
+      setErrors(['An unexpected error occurred. Please try again.']);
     } finally {
       setIsLoading(false);
     }
@@ -72,9 +75,10 @@ export default function LoginPage() {
     setSuccessMessage('');
 
     try {
-      const success = await register(registerForm);
+      const result = await register(registerForm);
+      console.log('Registration result:', result);
       
-      if (success) {
+      if (result.success) {
         setSuccessMessage('Registration successful! Please check your email to verify your account.');
         // Auto-switch to login after successful registration
         setTimeout(() => {
@@ -82,10 +86,12 @@ export default function LoginPage() {
           setSuccessMessage('');
         }, 3000);
       } else {
-        setErrors(['Registration failed. Please try again.']);
+        // Show specific error messages from the authentication service
+        setErrors(result.errors || ['Registration failed. Please try again.']);
       }
     } catch (error) {
-      setErrors(['An unexpected error occurred']);
+      console.error('Registration error:', error);
+      setErrors(['An unexpected error occurred. Please try again.']);
     } finally {
       setIsLoading(false);
     }
@@ -99,15 +105,18 @@ export default function LoginPage() {
 
     try {
       const response = await recoverPassword(recoverForm.email);
+      console.log('Password recovery result:', response);
       
       if (response.success) {
         setSuccessMessage(response.message || 'Password recovery email sent!');
         setIsRecovering(false);
       } else {
-        setErrors(response.errors || ['Password recovery failed']);
+        // Show specific error messages from the authentication service
+        setErrors(response.errors || ['Password recovery failed. Please try again.']);
       }
     } catch (error) {
-      setErrors(['An unexpected error occurred']);
+      console.error('Password recovery error:', error);
+      setErrors(['An unexpected error occurred. Please try again.']);
     } finally {
       setIsLoading(false);
     }

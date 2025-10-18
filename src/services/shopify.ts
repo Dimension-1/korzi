@@ -307,6 +307,7 @@ export const getCollectionByHandle = async (handle: string, limit: number = 20):
 export const getProducts = async (limit: number = 20): Promise<ShopifyProduct[]> => {
   try {
     const data = await shopifyClient.request(GET_PRODUCTS, { first: limit });
+    console.log(data); 
     return (data as any).products.edges.map((edge: any) => edge.node);
   } catch (error) {
     console.error('Error fetching products:', error);

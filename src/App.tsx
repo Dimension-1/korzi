@@ -6,6 +6,8 @@ import JournalDetailPage from './pages/JournalDetailPage'
 import ComingSoonPage from './pages/ComingSoonPage'
 import ShopPage from './pages/ShopPage'
 import LoginPage from './pages/LoginPage'
+import CustomerActivationPage from './pages/CustomerActivationPage'
+import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
 
 function App() {
   return (    
@@ -21,6 +23,9 @@ function App() {
   </Route>
 
   <Route path="/signin" element={<LoginPage />} />
+  <Route path="/activate" element={<CustomerActivationPage />} />
+  <Route path="/account/activate/:customerId/:activationToken" element={<ShopifyActivationRedirect />} />
+  <Route path="/account/activate/:customerId/:activationToken/*" element={<ShopifyActivationRedirect />} />
 </Routes>
   )
 }

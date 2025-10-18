@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Customer, loginCustomer, registerCustomer, logoutCustomer, checkAuthStatus } from '../services/auth';
+import { Customer, loginCustomer, registerCustomer, logoutCustomer, checkAuthStatus, activateCustomer } from '../services/auth';
 
 interface AuthStore {
   // State
@@ -11,9 +11,11 @@ interface AuthStore {
   // Actions
   login: (email: string, password: string) => Promise<{ success: boolean; errors?: string[] }>;
   register: (data: { firstName: string; lastName: string; email: string; password: string; acceptsMarketing?: boolean }) => Promise<{ success: boolean; errors?: string[] }>;
+  activate: (activationUrl: string, password: string) => Promise<{ success: boolean; errors?: string[] }>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   setCustomer: (customer: Customer | null) => void;
+  setAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -69,6 +71,36 @@ export const useAuthStore = create<AuthStore>()(
             return { 
               success: false, 
               errors: response.errors || ['Registration failed'] 
+            };
+          }
+        } catch (error) {
+          set({ isLoading: false });
+          return { 
+            success: false, 
+            errors: ['An unexpected error occurred'] 
+          };
+        }
+      },
+
+      // Activate
+      activate: async (activationUrl, password) => {
+        set({ isLoading: true });
+        
+        try {
+          const response = await activateCustomer(activationUrl, password);
+          
+          if (response.success && response.customer) {
+            set({
+              customer: response.customer,
+              isAuthenticated: true,
+              isLoading: false
+            });
+            return { success: true };
+          } else {
+            set({ isLoading: false });
+            return { 
+              success: false, 
+              errors: response.errors || ['Activation failed'] 
             };
           }
         } catch (error) {
@@ -136,6 +168,11 @@ export const useAuthStore = create<AuthStore>()(
           customer,
           isAuthenticated: !!customer
         });
+      },
+
+      // Set authenticated status
+      setAuthenticated: (isAuthenticated: boolean) => {
+        set({ isAuthenticated });
       },
     }),
     {
