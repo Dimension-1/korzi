@@ -8,6 +8,11 @@ import ShopPage from './pages/ShopPage'
 import LoginPage from './pages/LoginPage'
 import CustomerActivationPage from './pages/CustomerActivationPage'
 import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
+import CheckoutPage from './components/CheckoutPage'
+import OrderConfirmationPage from './components/OrderConfirmationPage'
+import OrdersPage from './components/OrdersPage'
+import TestOrderCreation from './components/TestOrderCreation'
+import DebugCheckout from './components/DebugCheckout'
 
 function App() {
   return (    
@@ -20,6 +25,11 @@ function App() {
     <Route path="/shop" element={<ShopPage />} />
     <Route path="/more" element={<HomePage />} />
     <Route path="/login" element={<LoginPage />} />
+    <Route path="/checkout" element={<CheckoutPage />} />
+    <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
+    <Route path="/orders" element={<OrdersPage />} />
+    <Route path="/test-order" element={<TestOrderCreation />} />
+    <Route path="/debug-checkout" element={<DebugCheckout />} />
   </Route>
 
   <Route path="/signin" element={<LoginPage />} />

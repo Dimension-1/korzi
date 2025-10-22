@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
+import { useOrderStore } from '../stores/orderStore';
+import { useAuthStore } from '../stores/authStore';
 
 interface CartDrawerProps {
   onCheckout?: () => void;
 }
 
 export default function CartDrawer({ onCheckout }: CartDrawerProps) {
+  const navigate = useNavigate();
   const { 
     cartItems, 
     isDrawerOpen, 
@@ -16,6 +19,12 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     closeDrawer,
     isUserLoggedIn
   } = useCartStore();
+  
+  const { 
+    setCurrentOrder
+  } = useOrderStore();
+  
+  const { customer } = useAuthStore();
   
   const isLoggedIn = isUserLoggedIn();
 
@@ -37,8 +46,56 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     removeFromCart(id);
   };
 
-  const handleCheckout = () => {
-    onCheckout?.();
+  const handleCheckout = async () => {
+    try {
+      // Call optional callback if provided
+      onCheckout?.();
+      
+      // Prepare order data
+      const orderData = {
+        items: cartItems.map(item => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
+          variantId: item.variantId,
+          image: item.image
+        })),
+        customer: customer ? {
+          firstName: customer.firstName || '',
+          lastName: customer.lastName || '',
+          email: customer.email || '',
+          phone: ''
+        } : {
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: ''
+        },
+        shippingAddress: {
+          address1: '',
+          address2: '',
+          city: '',
+          province: '',
+          country: 'India',
+          zip: ''
+        },
+        totalAmount: cartTotal,
+        currency: 'INR'
+      };
+
+      // Set current order
+      setCurrentOrder(orderData);
+      
+      // Close the drawer
+      closeDrawer();
+      
+      // Navigate to checkout page for customer details
+      navigate('/checkout');
+      
+    } catch (error) {
+      console.error('Error preparing checkout:', error);
+    }
   };
 
   // Sample recommendation products
@@ -310,13 +367,10 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
                 onClick={handleCheckout}
                 className="w-full bg-[var(--primary)] text-[var(--background)] py-4 px-5 rounded-lg font-bold text-base flex items-center justify-between hover:bg-[var(--secondary)] transition-colors shadow-lg"
               >
-                <span>Checkout</span>
+                <span>Proceed to Checkout</span>
                 <div className="flex gap-2">
                   <span className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                    Paytm
-                  </span>
-                  <span className="w-8 h-8 bg-white text-blue-500 rounded-full flex items-center justify-center text-sm font-bold border border-[var(--border)]">
-                    G
+                    💳
                   </span>
                 </div>
               </button>
