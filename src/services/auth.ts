@@ -200,8 +200,8 @@ export const loginCustomer = async (credentials: LoginCredentials): Promise<Auth
       };
     }
 
-    // Store the access token
-    localStorage.setItem('shopify_customer_token', customerAccessTokenCreate.customerAccessToken.accessToken);
+    // Store the access token in sessionStorage (more secure than localStorage)
+    sessionStorage.setItem('shopify_customer_token', customerAccessTokenCreate.customerAccessToken.accessToken);
 
     // Get customer details
     const customerData = await makeGraphQLRequest(GET_CUSTOMER, {
@@ -322,7 +322,7 @@ export const guestCheckout = async (): Promise<AuthResponse> => {
   try {
     // For guest checkout, we don't need to authenticate
     // Just clear any existing customer session
-    localStorage.removeItem('shopify_customer_token');
+    sessionStorage.removeItem('shopify_customer_token');
     
     return {
       success: true,
@@ -341,8 +341,8 @@ export const guestCheckout = async (): Promise<AuthResponse> => {
 // Logout
 export const logoutCustomer = async (): Promise<AuthResponse> => {
   try {
-    // Clear the stored access token
-    localStorage.removeItem('shopify_customer_token');
+    // Clear the stored access token from sessionStorage
+    sessionStorage.removeItem('shopify_customer_token');
     
     return {
       success: true,
@@ -391,8 +391,8 @@ export const activateCustomer = async (activationUrl: string, password: string):
       };
     }
 
-    // Store the access token
-    localStorage.setItem('shopify_customer_token', customerActivateByUrl.customerAccessToken.accessToken);
+    // Store the access token in sessionStorage (more secure than localStorage)
+    sessionStorage.setItem('shopify_customer_token', customerActivateByUrl.customerAccessToken.accessToken);
 
     const customer: Customer = {
       id: customerActivateByUrl.customer.id,
@@ -422,7 +422,7 @@ export const activateCustomer = async (activationUrl: string, password: string):
 // Check if customer is logged in
 export const checkAuthStatus = async (): Promise<AuthResponse> => {
   try {
-    const token = localStorage.getItem('shopify_customer_token');
+    const token = sessionStorage.getItem('shopify_customer_token');
     
     if (!token) {
       return {
@@ -438,7 +438,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
 
     if (!customerData.customer) {
       // Token is invalid, clear it
-      localStorage.removeItem('shopify_customer_token');
+      sessionStorage.removeItem('shopify_customer_token');
       return {
         success: false,
         message: 'Not authenticated'
@@ -463,7 +463,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
   } catch (error) {
     console.error('Auth check error:', error);
     // Clear invalid token
-    localStorage.removeItem('shopify_customer_token');
+    sessionStorage.removeItem('shopify_customer_token');
     return {
       success: false,
       errors: ['Network error. Please try again.'],

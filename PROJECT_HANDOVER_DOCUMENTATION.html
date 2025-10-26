@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korzi Project - Handover Documentation</title>
+    <style>
+        body {
+            font-family: 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-left: 4px solid #dc3545;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        ul, ol {
+            margin: 15px 0;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Korzi E-Commerce Platform - Project Handover Documentation</h1>
+    
+    <div class="section">
+        <h2>1. Project Overview</h2>
+        <p><strong>Project Name:</strong> Korzi (Journals E-Commerce Platform)</p>
+        <p><strong>Technology Stack:</strong> React 19, TypeScript, Vite, Tailwind CSS, Shopify Storefront API, Hygraph CMS, Zustand, Razorpay</p>
+        <p><strong>Version:</strong> 0.0.0</p>
+        <p><strong>Architecture:</strong> Single Page Application (SPA) with Client-Side Rendering</p>
+        
+        <div class="highlight">
+            <strong>Key Information:</strong> This is a modern React e-commerce application converted from Next.js to Vite, optimized for static hosting on shared hosting providers. The application integrates with Shopify for e-commerce functionality and Hygraph (formerly GraphCMS) for content management.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Project Structure</h2>
+        
+        <h3>Directory Layout</h3>
+        <pre>
+journals-main/
+├── public/              # Static assets (images, logo, etc.)
+├── src/
+│   ├── components/     # React components
+│   │   ├── layout/     # Layout components (AppLayout)
+│   │   ├── Home/       # Home page components
+│   │   ├── Shop/       # Shop page components
+│   │   └── ui/         # Reusable UI components
+│   ├── contexts/       # React contexts (if any)
+│   ├── pages/          # Page-level components
+│   ├── services/       # API integration services
+│   ├── stores/         # Zustand state management
+│   ├── utils/          # Utility functions
+│   ├── App.tsx         # Main app component with routing
+│   ├── main.tsx        # Application entry point
+│   └── index.css       # Global styles with CSS variables
+├── api/                # Backend API examples
+├── backend-example/    # Backend integration examples
+├── dist/               # Build output directory
+├── node_modules/       # Dependencies
+├── index.html          # HTML entry point
+├── package.json        # Dependencies and scripts
+├── vite.config.ts      # Vite configuration
+├── tailwind.config.js  # Tailwind CSS configuration
+└── tsconfig.json       # TypeScript configuration
+        </pre>
+
+        <h3>Key Directories Explained</h3>
+        
+        <table>
+            <tr>
+                <th>Directory</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>src/components/</code></td>
+                <td>Reusable React components organized by feature (layout, home, shop)</td>
+            </tr>
+            <tr>
+                <td><code>src/pages/</code></td>
+                <td>Page-level components for different routes (HomePage, ShopPage, JournalPage, etc.)</td>
+            </tr>
+            <tr>
+                <td><code>src/services/</code></td>
+                <td>API integration logic (Shopify, Hygraph, Razorpay, authentication)</td>
+            </tr>
+            <tr>
+                <td><code>src/stores/</code></td>
+                <td>Zustand stores for global state management (cart, auth, orders)</td>
+            </tr>
+            <tr>
+                <td><code>api/</code></td>
+                <td>Example backend API endpoints for reference</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>3. Technology Stack & Dependencies</h2>
+        
+        <h3>Core Technologies</h3>
+        <ul>
+            <li><strong>React 19.1.0:</strong> UI framework with latest features</li>
+            <li><strong>TypeScript:</strong> Type safety and better developer experience</li>
+            <li><strong>Vite:</strong> Fast build tool and development server</li>
+            <li><strong>React Router v6.8.1:</strong> Client-side routing</li>
+            <li><strong>Tailwind CSS:</strong> Utility-first CSS framework</li>
+        </ul>
+
+        <h3>State Management</h3>
+        <ul>
+            <li><strong>Zustand 5.0.8:</strong> Lightweight state management library
+                <ul>
+                    <li>cartStore: Manages shopping cart state and syncs with Shopify</li>
+                    <li>authStore: Handles user authentication and session management</li>
+                    <li>orderStore: Manages order history and order creation</li>
+                </ul>
+            </li>
+            <li><strong>Zustand Persist Middleware:</strong> Persists state to localStorage</li>
+        </ul>
+
+        <h3>E-Commerce Integration</h3>
+        <ul>
+            <li><strong>Shopify Storefront API:</strong> Product fetching, cart management, checkout</li>
+            <li><strong>Razorpay:</strong> Payment gateway integration for Indian market</li>
+            <li><strong>js-cookie:</strong> Cookie management for cart ID persistence</li>
+        </ul>
+
+        <h3>Content Management</h3>
+        <ul>
+            <li><strong>Hygraph (GraphCMS):</strong> Headless CMS for blog/journal content</li>
+            <li><strong>GraphQL:</strong> Query language for both Shopify and Hygraph</li>
+            <li><strong>graphql-request:</strong> GraphQL client for API calls</li>
+        </ul>
+
+        <h3>UI & UX Libraries</h3>
+        <ul>
+            <li><strong>Framer Motion:</strong> Animation library</li>
+            <li><strong>Lucide React:</strong> Icon library</li>
+            <li><strong>React Hot Toast:</strong> Toast notifications</li>
+            <li><strong>React Responsive Masonry:</strong> Masonry grid layout</li>
+            <li><strong>Three.js & React Three Fiber:</strong> 3D rendering (if used)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. State Management Architecture</h2>
+        
+        <h3>Cart Store (src/stores/cartStore.ts)</h3>
+        <p><strong>Purpose:</strong> Manages shopping cart state and syncs with Shopify cart</p>
+        
+        <h4>Key Features:</h4>
+        <ul>
+            <li><strong>Real-time Shopify Sync:</strong> Cart operations immediately sync with Shopify backend</li>
+            <li><strong>Race Condition Prevention:</strong> Uses <code>operationInProgress</code> flag to prevent concurrent operations</li>
+            <li><strong>Automatic Initialization:</strong> Fetches cart data from Shopify on app load</li>
+            <li><strong>Periodic Refresh:</strong> Refreshes cart count every 30 seconds</li>
+            <li><strong>Visibility Sync:</strong> Syncs cart when user returns to tab</li>
+        </ul>
+
+        <h4>State Structure:</h4>
+        <pre>{
+  cartItems: CartItem[],           // Array of cart items
+  isDrawerOpen: boolean,           // Cart drawer visibility
+  isLoading: boolean,              // Loading state
+  isInitialized: boolean,          // Initialization status
+  operationInProgress: boolean      // Race condition prevention
+}</pre>
+
+        <h4>Key Methods:</h4>
+        <ul>
+            <li><code>addToCart():</code> Adds item and syncs with Shopify</li>
+            <li><code>updateQuantity():</code> Updates quantity with Shopify sync</li>
+            <li><code>removeFromCart():</code> Removes item and syncs with Shopify</li>
+            <li><code>initializeCart():</code> Fetches cart from Shopify on app load</li>
+            <li><code>refreshCartCount():</code> Lightweight cart count refresh for header</li>
+            <li><code>getTotalItems():</code> Calculates total items in cart</li>
+            <li><code>getTotalPrice():</code> Calculates total cart value</li>
+        </ul>
+
+        <div class="warning">
+            <strong>Important:</strong> Cart ID is stored in cookies using js-cookie. The cart persists for 30 days. All cart operations trigger immediate Shopify API calls with retry logic.
+        </div>
+
+        <h3>Auth Store (src/stores/authStore.ts)</h3>
+        <p><strong>Purpose:</strong> Manages user authentication and session</p>
+        
+        <h4>State Structure:</h4>
+        <pre>{
+  customer: Customer | null,      // Customer data
+  isAuthenticated: boolean,        // Auth status
+  isLoading: boolean,              // Loading state
+  customerId: string | null,       // Persisted ID
+  customerEmail: string | null     // Persisted email
+}</pre>
+
+        <h4>Key Features:</h4>
+        <ul>
+            <li><strong>Minimal Persistence:</strong> Only stores essential data (ID, email) in localStorage</li>
+            <li><strong>Full Data Fetch:</strong> Fetches complete customer data from Shopify on app load</li>
+            <li><strong>Auto-Restore:</strong> Restores session from localStorage on app initialization</li>
+        </ul>
+
+        <h4>Key Methods:</h4>
+        <ul>
+            <li><code>login():</code> Authenticates user with Shopify</li>
+            <li><code>register():</code> Registers new customer</li>
+            <li><code>logout():</code> Signs out user</li>
+            <li><code>restoreFromPersistence():</code> Restores session from localStorage</li>
+            <li><code>checkAuth():</code> Validates current auth status with Shopify</li>
+        </ul>
+
+        <h3>Order Store (src/stores/orderStore.ts)</h3>
+        <p><strong>Purpose:</strong> Manages order creation and history</p>
+        <ul>
+            <li>Handles order creation through Shopify API</li>
+            <li>Manages order history and order details</li>
+            <li>Integrates with Razorpay for payment processing</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>5. API Integration Services</h2>
+        
+        <h3>5.1 Shopify Service (src/services/shopify.ts)</h3>
+        <p><strong>Purpose:</strong> Handles all Shopify Storefront API operations</p>
+
+        <h4>Configuration:</h4>
+        <pre>Environment Variables:
+- VITE_SHOPIFY_STOREFRONT_URL
+- VITE_SHOPIFY_TOKEN</pre>
+
+        <h4>Key Functions:</h4>
+        <table>
+            <tr>
+                <th>Function</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>getProducts()</code></td>
+                <td>Fetches all products from Shopify</td>
+            </tr>
+            <tr>
+                <td><code>createCart()</code></td>
+                <td>Creates a new Shopify cart and stores ID in cookies</td>
+            </tr>
+            <tr>
+                <td><code>getCart()</code></td>
+                <td>Fetches current cart from Shopify</td>
+            </tr>
+            <tr>
+                <td><code>addOrUpdateCart()</code></td>
+                <td>Adds or updates item in cart (smart detection)</td>
+            </tr>
+            <tr>
+                <td><code>removeFromCart()</code></td>
+                <td>Removes items from cart by line IDs</td>
+            </tr>
+            <tr>
+                <td><code>syncCartWithShopify()</code></td>
+                <td>Syncs React state with Shopify cart</td>
+            </tr>
+            <tr>
+                <td><code>validateAndRefreshCart()</code></td>
+                <td>Validates cart ID and creates new cart if invalid</td>
+            </tr>
+        </table>
+
+        <h4>GraphQL Queries Used:</h4>
+        <ul>
+            <li><code>GET_PRODUCTS:</code> Fetches products with variants and images</li>
+            <li><code>GET_CART:</code> Fetches cart with all line items</li>
+        </ul>
+
+        <h4>GraphQL Mutations Used:</h4>
+        <ul>
+            <li><code>cartCreate:</code> Creates new cart</li>
+            <li><code>cartLinesAdd:</code> Adds items to cart</li>
+            <li><code>cartLinesUpdate:</code> Updates cart line quantities</li>
+            <li><code>cartLinesRemove:</code> Removes items from cart</li>
+        </ul>
+
+        <h3>5.2 Hygraph Service (src/services/hygraph.ts)</h3>
+        <p><strong>Purpose:</strong> Fetches blog/journal content from Hygraph CMS</p>
+
+        <h4>Configuration:</h4>
+        <pre>Environment Variable:
+- VITE_HYPGRAPH_URL</pre>
+
+        <h4>Content Types:</h4>
+        <ul>
+            <li><strong>blogs:</strong> All blog entries sorted by date (newest first)</li>
+            <li><strong>plays:</strong> Content with category "play"</li>
+            <li><strong>builds:</strong> Content with category "build"</li>
+            <li><strong>learns:</strong> Content with category "learn"</li>
+            <li><strong>guides:</strong> Content with category "guide"</li>
+        </ul>
+
+        <h4>Key Functions:</h4>
+        <ul>
+            <li><code>getBlogs():</code> Fetches all blogs and groups by category</li>
+        </ul>
+
+        <h3>5.3 Razorpay Service (src/services/razorpay.ts)</h3>
+        <p><strong>Purpose:</strong> Handles payment processing via Razorpay</p>
+
+        <h4>Configuration:</h4>
+        <pre>Environment Variable:
+- VITE_RAZORPAY_KEY_ID
+- VITE_RAZORPAY_SECRET (required for backend verification)</pre>
+
+        <h4>Key Functions:</h4>
+        <ul>
+            <li><code>loadRazorpayScript():</code> Dynamically loads Razorpay SDK</li>
+            <li><code>initiateRazorpayPayment():</code> Opens Razorpay payment modal</li>
+            <li><code>createRazorpayOrder():</code> Creates Razorpay order (requires backend API)</li>
+            <li><code>verifyPaymentSignature():</code> Verifies payment (should be done on backend)</li>
+        </ul>
+
+        <div class="warning">
+            <strong>Security Note:</strong> Razorpay order creation and signature verification MUST be implemented on the backend for security. The current implementation uses mock functions for development only.
+        </div>
+
+        <h3>5.4 Auth Service (src/services/auth.ts)</h3>
+        <p><strong>Purpose:</strong> Handles customer authentication with Shopify</p>
+
+        <h4>Key Functions:</h4>
+        <ul>
+            <li><code>loginCustomer():</code> Authenticates customer with email/password</li>
+            <li><code>registerCustomer():</code> Creates new customer account</li>
+            <li><code>logoutCustomer():</code> Signs out customer</li>
+            <li><code>checkAuthStatus():</code> Validates current session</li>
+            <li><code>activateCustomer():</code> Activates customer account from email link</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>6. Application Routing</h2>
+        
+        <h3>Route Structure (src/App.tsx)</h3>
+        
+        <table>
+            <tr>
+                <th>Route Path</th>
+                <th>Component</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>/</code></td>
+                <td>ComingSoonPage</td>
+                <td>Landing/Coming Soon page (main entry point)</td>
+            </tr>
+            <tr>
+                <td><code>/logs</code></td>
+                <td>JournalPage</td>
+                <td>List of all journal/blog entries</td>
+            </tr>
+            <tr>
+                <td><code>/logs/:slug</code></td>
+                <td>JournalDetailPage</td>
+                <td>Individual journal/blog entry detail</td>
+            </tr>
+            <tr>
+                <td><code>/shop</code></td>
+                <td>ShopPage</td>
+                <td>Product catalog page</td>
+            </tr>
+            <tr>
+                <td><code>/more</code></td>
+                <td>HomePage</td>
+                <td>Additional content page</td>
+            </tr>
+            <tr>
+                <td><code>/login</code></td>
+                <td>LoginPage</td>
+                <td>Customer login page</td>
+            </tr>
+            <tr>
+                <td><code>/signin</code></td>
+                <td>LoginPage</td>
+                <td>Alternative signin route</td>
+            </tr>
+            <tr>
+                <td><code>/checkout</code></td>
+                <td>CheckoutPage</td>
+                <td>Shopping cart checkout page</td>
+            </tr>
+            <tr>
+                <td><code>/order-confirmation/:orderId</code></td>
+                <td>OrderConfirmationPage</td>
+                <td>Order confirmation after successful purchase</td>
+            </tr>
+            <tr>
+                <td><code>/orders</code></td>
+                <td>OrdersPage</td>
+                <td>Customer order history</td>
+            </tr>
+            <tr>
+                <td><code>/activate</code></td>
+                <td>CustomerActivationPage</td>
+                <td>Customer account activation page</td>
+            </tr>
+        </table>
+
+        <h3>Nested Routes</h3>
+        <p>All routes except <code>/</code> are wrapped in <code>&lt;AppLayout /&gt;</code> which provides:</p>
+        <ul>
+            <li>Sidebar navigation</li>
+            <li>Header with cart and user icons</li>
+            <li>Announcement bar</li>
+            <li>Responsive mobile hamburger menu</li>
+        </ul>
+
+        <h3>Layout Features</h3>
+        <p>The AppLayout component (src/components/layout/AppLayout.tsx) includes:</p>
+        <ul>
+            <li><strong>Sidebar:</strong> Collapsible navigation menu with Home, Logs, Shop, More links</li>
+            <li><strong>User Authentication:</strong> Shows sign-in link or user profile based on auth status</li>
+            <li><strong>Cart Icon:</strong> Displays cart item count with badge</li>
+            <li><strong>Cart Drawer:</strong> Opens on cart icon click, shows cart items</li>
+            <li><strong>Mobile Responsive:</strong> Hamburger menu on mobile devices</li>
+            <li><strong>Active Route Highlighting:</strong> Shows current page in navigation</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>7. Key Components</h2>
+        
+        <h3>7.1 Layout Components</h3>
+        
+        <h4>AppLayout (src/components/layout/AppLayout.tsx)</h4>
+        <p><strong>Purpose:</strong> Main application layout with sidebar, header, and cart drawer</p>
+        
+        <h4>Features:</h4>
+        <ul>
+            <li>Responsive sidebar navigation (open/closed states)</li>
+            <li>Header with logo, cart icon, and user icon</li>
+            <li>Cart drawer integration</li>
+            <li>Announcement bar at top</li>
+            <li>Conditional navigation based on auth status</li>
+        </ul>
+
+        <h3>7.2 Shop Components</h3>
+        
+        <h4>ProductSection (src/components/Shop/ProductSection.tsx)</h4>
+        <p>Hero section for shop page</p>
+
+        <h4>ProductCarousel (src/components/Shop/ProductCarousel.tsx)</h4>
+        <p>Displays products in a carousel format with swipe functionality</p>
+
+        <h4>ProductCard (src/components/Shop/ProductCard.tsx)</h4>
+        <p>Individual product card component with:</p>
+        <ul>
+            <li>Product image</li>
+            <li>Title and pricing (original and discounted)</li>
+            <li>Star rating and review count</li>
+            <li>Add to cart button</li>
+            <li>WhatsApp contact button (optional)</li>
+        </ul>
+
+        <h3>7.3 Home Components</h3>
+        
+        <h4>VideoCarousel (src/components/Home/videoCarousel.tsx)</h4>
+        <p>Carousel displaying video content</p>
+
+        <h4>Footer (src/components/Home/footer.tsx)</h4>
+        <p>Application footer with links and information</p>
+
+        <h4>Faq (src/components/Home/Faq.tsx)</h4>
+        <p>FAQ section component</p>
+
+        <h3>7.4 Cart Components</h3>
+        
+        <h4>CartDrawer (src/components/CartDrawer.tsx)</h4>
+        <p>Shopping cart drawer that slides in from the side with:</p>
+        <ul>
+            <li>List of cart items</li>
+            <li>Quantity adjustment controls</li>
+            <li>Remove item functionality</li>
+            <li>Total price calculation</li>
+            <li>Proceed to checkout button</li>
+        </ul>
+
+        <h3>7.5 Checkout Components</h3>
+        
+        <h4>CheckoutPage (src/components/CheckoutPage.tsx)</h4>
+        <p>Complete checkout flow with:</p>
+        <ul>
+            <li>Customer information form</li>
+            <li>Shipping address collection</li>
+            <li>Order summary</li>
+            <li>Payment integration (Razorpay)</li>
+            <li>Order creation via Shopify</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>8. Environment Setup</h2>
+        
+        <h3>8.1 Required Environment Variables</h3>
+        
+        <p>Create a <code>.env.local</code> file in the root directory:</p>
+        
+        <pre>.env.local
+# Hygraph CMS API
+VITE_HYPGRAPH_URL=https://your-hygraph-endpoint-url
+
+# Shopify Storefront API
+VITE_SHOPIFY_STOREFRONT_URL=https://your-store.myshopify.com/api/2024-01/graphql.json
+VITE_SHOPIFY_TOKEN=your_shopify_storefront_access_token
+
+# Razorpay Payment Gateway
+VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
+VITE_RAZORPAY_SECRET=your_razorpay_secret
+
+# Note: VITE_RAZORPAY_SECRET should be used only on backend</pre>
+
+        <div class="warning">
+            <strong>Important:</strong> Never commit <code>.env.local</code> to version control. It contains sensitive credentials.
+        </div>
+
+        <h3>8.2 Getting Shopify Credentials</h3>
+        <ol>
+            <li>Go to your Shopify Admin Panel</li>
+            <li>Navigate to Apps → Develop apps</li>
+            <li>Create a custom app or use existing app</li>
+            <li>Configure Storefront API scopes (read_products, write_carts, read_customers)</li>
+            <li>Install the app and copy the Storefront API access token</li>
+        </ol>
+
+        <h3>8.3 Getting Hygraph Credentials</h3>
+        <ol>
+            <li>Login to Hygraph (hygraph.com)</li>
+            <li>Go to your project settings</li>
+            <li>Navigate to API Access</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>9. Development Workflow</h2>
+        
+        <h3>9.1 Installation</h3>
+        <pre># Install dependencies
+npm install
+
+# Or using yarn
+yarn install</pre>
+
+        <h3>9.2 Development Commands</h3>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>npm run dev</code></td>
+                <td>Start development server on http://localhost:3000</td>
+            </tr>
+            <tr>
+                <td><code>npm run build</code></td>
+                <td>Build production-ready static files in dist/ folder</td>
+            </tr>
+            <tr>
+                <td><code>npm run preview</code></td>
+                <td>Preview production build locally</td>
+            </tr>
+            <tr>
+                <td><code>npm run lint</code></td>
+                <td>Run ESLint to check code quality</td>
+            </tr>
+        </table>
+
+        <h3>9.3 Development Server</h3>
+        <p>When you run <code>npm run dev</code>:</p>
+        <ul>
+            <li>Vite starts development server on port 3000</li>
+            <li>Hot Module Replacement (HMR) enabled for instant updates</li>
+            <li>Browser automatically opens to http://localhost:3000</li>
+        </ul>
+
+        <h3>9.4 Building for Production</h3>
+        <pre>npm run build</pre>
+        <p>This command:</p>
+        <ul>
+            <li>Type checks code with TypeScript</li>
+            <li>Compiles React to optimized JavaScript</li>
+            <li>Optimizes and minifies assets</li>
+            <li>Creates code chunks for better loading</li>
+            <li>Outputs to <code>dist/</code> directory</li>
+        </ul>
+
+        <h3>9.5 Code Splitting Strategy</h3>
+        <p>The app uses intelligent code splitting:</p>
+        <ul>
+            <li><strong>Vendor chunk:</strong> React, React-DOM</li>
+            <li><strong>Router chunk:</strong> React Router</li>
+            <li><strong>Three chunk:</strong> Three.js and related libraries</li>
+            <li><strong>Shopify chunk:</strong> Shopify API and GraphQL clients</li>
+        </ul>
+        <p>This ensures optimal loading performance by only loading necessary code.</p>
+    </div>
+
+    <div class="section">
+        <h2>10. Deployment Options</h2>
+        
+        <h3>10.1 Shared Hosting</h3>
+        <ol>
+            <li>Run <code>npm run build</code></li>
+            <li>Upload contents of <code>dist/</code> folder to hosting via FTP/SFTP</li>
+            <li>Configure server to serve <code>index.html</code> for all routes</li>
+            <li>Add <code>.htaccess</code> file for Apache (see below)</li>
+        </ol>
+
+        <h4>Apache .htaccess Configuration</h4>
+        <pre>&lt;IfModule mod_rewrite.c&gt;
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+&lt;/IfModule&gt;</pre>
+
+        <h3>10.2 Netlify Deployment</h3>
+        <ol>
+            <li>Connect GitHub repository to Netlify</li>
+            <li>Set build command: <code>npm run build</code></li>
+            <li>Set publish directory: <code>dist</code></li>
+            <li>Add environment variables in Netlify dashboard</li>
+            <li>Deploy automatically on git push</li>
+        </ol>
+
+        <h3>10.3 Vercel Deployment</h3>
+        <ol>
+            <li>Connect GitHub repository to Vercel</li>
+            <li>Framework preset: Vite</li>
+            <li>Build command: <code>npm run build</code></li>
+            <li>Output directory: <code>dist</code></li>
+            <li>Add environment variables</li>
+        </ol>
+
+        <h3>10.4 GitHub Pages</h3>
+        <ol>
+            <li>Update <code>vite.config.ts</code> base path to your repository name</li>
+            <li>Push code to GitHub</li>
+            <li>Go to repository Settings → Pages</li>
+            <li>Set source to <code>gh-pages</code> branch</li>
+            <li>Deploy <code>dist</code> folder contents</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>11. Key Features & Functionality</h2>
+        
+        <h3>11.1 Shopping Cart System</h3>
+        
+        <h4>How It Works:</h4>
+        <ol>
+            <li>User clicks "Add to Cart" on a product</li>
+            <li>Item is added to local React state (Zustand store)</li>
+            <li>Immediate API call to Shopify to sync cart</li>
+            <li>Cart ID stored in cookie (30-day expiration)</li>
+            <li>Cart drawer shows real-time item count</li>
+            <li>Cart syncs every 30 seconds and on visibility change</li>
+        </ol>
+
+        <h4>Cart Sync Strategy:</h4>
+        <ul>
+            <li><strong>Optimistic Updates:</strong> UI updates immediately, API call happens in background</li>
+            <li><strong>Error Handling:</strong> Reverts local state if Shopify sync fails</li>
+            <li><strong>Race Condition Prevention:</strong> Blocks concurrent operations using flag</li>
+            <li><strong>Automatic Retry:</strong> Attempts to sync again if initial call fails</li>
+        </ul>
+
+        <h3>11.2 User Authentication Flow</h3>
+        
+        <h4>Registration:</h4>
+        <ol>
+            <li>User fills registration form</li>
+            <li>API call to Shopify creates customer account</li>
+            <li>Shopify sends activation email</li>
+            <li>User clicks activation link in email</li>
+            <li>User sets password on activation page</li>
+            <li>Account activated and user logged in</li>
+        </ol>
+
+        <h4>Login:</h4>
+        <ol>
+            <li>User enters email and password</li>
+            <li>API call to Shopify validates credentials</li>
+            <li>On success, customer data stored in Zustand store</li>
+            <li>Essential data persisted to localStorage</li>
+            <li>Full customer data fetched on app initialization</li>
+        </ol>
+
+        <h3>11.3 Checkout Process</h3>
+        
+        <h4>Flow:</h4>
+        <ol>
+            <li>User clicks "Checkout" in cart drawer</li>
+            <li>Redirected to /checkout page</li>
+            <li>User fills shipping information</li>
+            <li>User clicks "Place Order"</li>
+            <li>Order created in Shopify with cart ID</li>
+            <li>Razorpay payment modal opens</li>
+            <li>User completes payment</li>
+            <li>Payment verified (backed required)</li>
+            <li>Order confirmed and redirected to confirmation page</li>
+            <li>Cart cleared</li>
+        </ol>
+
+        <div class="warning">
+            <strong>Important:</strong> The checkout process requires a backend API to handle order creation and payment verification securely. See the <code>api/</code> directory for example implementations.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>12. Styling with CSS Variables</h2>
+        
+        <h3>CSS Custom Properties (src/index.css)</h3>
+        <p>The app uses CSS variables for theming. Key variables:</p>
+        
+        <pre>:root {
+  --primary: #your-primary-color;
+  --background: #your-background-color;
+  --foreground: #your-foreground-color;
+  --border: #your-border-color;
+  --text-secondary: #your-secondary-text-color;
+}</pre>
+
+        <h3>Usage in Components</h3>
+        <p>Components use Tailwind's arbitrary value syntax:</p>
+        <pre>className="bg-[var(--background)] text-[var(--foreground)]"</pre>
+
+        <h3>Tailwind Configuration</h3>
+        <p>The Tailwind config extends default utilities:</p>
+        <ul>
+            <li>Custom breakpoints (3xl, 4xl)</li>
+            <li>Custom fonts (Bebas Neue, DM Sans)</li>
+            <li>Custom dimensions</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>13. Debugging & Troubleshooting</h2>
+        
+        <h3>Common Issues</h3>
+        
+        <h4>1. Cart not syncing with Shopify</h4>
+        <ul>
+            <li>Check browser console for API errors</li>
+            <li>Verify <code>VITE_SHOPIFY_TOKEN</code> is correct</li>
+            <li>Check Shopify cart ID cookie exists</li>
+            <li>Ensure Shopify storefront API scopes are enabled</li>
+        </ul>
+
+        <h4>2. Authentication not working</h4>
+        <ul>
+            <li>Check browser console for auth errors</li>
+            <li>Verify customer activation email was sent</li>
+            <li>Check localStorage for persisted auth data</li>
+            <li>Clear cookies and localStorage if stuck</li>
+        </ul>
+
+        <h4>3. Products not loading</h4>
+        <ul>
+            <li>Verify <code>VITE_SHOPIFY_STOREFRONT_URL</code> is correct</li>
+            <li>Check network tab in browser DevTools</li>
+            <li>Verify products exist in Shopify store</li>
+            <li>Check CORS settings if accessing from different domain</li>
+        </ul>
+
+        <h4>4. Build errors</h4>
+        <ul>
+            <li>Clear <code>node_modules</code> and reinstall</li>
+            <li>Check TypeScript errors: <code>npm run lint</code></li>
+            <li>Verify all environment variables are set</li>
+            <li>Check for outdated dependencies</li>
+        </ul>
+
+        <h3>Debug Pages</h3>
+        <p>The app includes several debug routes for testing:</p>
+        <ul>
+            <li><code>/test-order</code> - Test order creation (TestOrderCreation component)</li>
+            <li><code>/debug-checkout</code> - Debug checkout flow (DebugCheckout component)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>14. Backend Requirements</h2>
+        
+        <h3>Required Backend APIs</h3>
+        
+        <p>For complete functionality, you need these backend endpoints:</p>
+
+        <h4>1. Razorpay Order Creation</h4>
+        <pre>POST /api/razorpay/create-order
+Body: { amount: number, currency: string, receipt: string }
+Response: { orderId: string }</pre>
+        <p>Creates Razorpay order using Razorpay SDK with secret key.</p>
+
+        <h4>2. Payment Verification</h4>
+        <pre>POST /api/razorpay/verify-payment
+Body: { orderId: string, paymentId: string, signature: string }
+Response: { verified: boolean }</pre>
+        <p>Verifies Razorpay payment signature for security.</p>
+
+        <h4>3. Order Creation</h4>
+        <pre>POST /api/orders/create
+Body: { customerInfo, shippingInfo, cartId, paymentId }
+Response: { orderId: string, orderNumber: string }</pre>
+        <p>Creates order in Shopify using Admin API.</p>
+
+        <h4>Example Backend</h4>
+        <p>See <code>api/</code> and <code>backend-example/</code> directories for reference implementations in different languages (Node.js, Python, etc.)</p>
+
+        <h3>API Documentation</h3>
+        <p>See <code>APIs-Documentation.txt</code> file for detailed API documentation.</p>
+    </div>
+
+    <div class="section">
+        <h2>15. Testing the Application</h2>
+        
+        <h3>Manual Testing Checklist</h3>
+        
+        <h4>Cart Functionality</h4>
+        <ul>
+            <li>✓ Add product to cart from shop page</li>
+            <li>✓ Verify cart count updates in header</li>
+            <li>✓ Open cart drawer and verify items</li>
+            <li>✓ Update item quantity in cart</li>
+            <li>✓ Remove item from cart</li>
+            <li>✓ Close and reopen browser - verify cart persists</li>
+        </ul>
+
+        <h4>Authentication</h4>
+        <ul>
+            <li>✓ Register new customer</li>
+            <li>✓ Activate account via email link</li>
+            <li>✓ Login with credentials</li>
+            <li>✓ Logout and verify session cleared</li>
+            <li>✓ Verify persisted auth on page reload</li>
+        </ul>
+
+        <h4>Checkout Flow</h4>
+        <ul>
+            <li>✓ Add items to cart</li>
+            <li>✓ Navigate to checkout page</li>
+            <li>✓ Fill shipping information</li>
+            <li>✓ Place order</li>
+            <li>✓ Complete payment (test mode)</li>
+            <li>✓ Verify order confirmation page</li>
+            <li>✓ Verify cart cleared after order</li>
+        </ul>
+
+        <h4>Responsive Design</h4>
+        <ul>
+            <li>✓ Test on mobile (320px - 768px)</li>
+            <li>✓ Test on tablet (768px - 1024px)</li>
+            <li>✓ Test on desktop (1024px+)</li>
+            <li>✓ Verify sidebar behavior on all screen sizes</li>
+            <li>✓ Verify cart drawer on mobile</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>16. Performance Optimization</h2>
+        
+        <h3>Optimization Strategies Implemented</h3>
+        
+        <h4>1. Code Splitting</h4>
+        <ul>
+            <li>Automatic route-based code splitting</li>
+            <li>Manual chunks for large libraries (React, Shopify, Three.js)</li>
+            <li>Lazy loading for non-critical components</li>
+        </ul>
+
+        <h4>2. State Management</h4>
+        <ul>
+            <li>Zustand for lightweight state management</li>
+            <li>Minimal localStorage persistence</li>
+            <li>Optimized re-renders with selective subscriptions</li>
+        </ul>
+
+        <h4>3. API Optimization</h4>
+        <ul>
+            <li>Batch GraphQL queries where possible</li>
+            <li>Cart sync debouncing for rapid operations</li>
+            <li>Periodic cart refresh (every 30 seconds)</li>
+            <li>Race condition prevention for concurrent operations</li>
+        </ul>
+
+        <h4>4. Build Optimization</h4>
+        <ul>
+            <li>Tree shaking for unused code elimination</li>
+            <li>Asset optimization and minification</li>
+            <li>Source maps disabled in production</li>
+            <li>Chunking strategy for parallel loading</li>
+        </ul>
+
+        <h3>Performance Monitoring</h3>
+        <p>Use browser DevTools to monitor:</p>
+        <ul>
+            <li>Bundle size in Network tab</li>
+            <li>Component render times in React DevTools</li>
+            <li>Memory usage in Performance tab</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>17. Security Considerations</h2>
+        
+        <h3>Security Best Practices</h3>
+        
+        <ul>
+            <li><strong>Environment Variables:</strong> Never expose sensitive keys in client code</li>
+            <li><strong>Razorpay Secret:</strong> Must be used only on backend</li>
+            <li><strong>Payment Verification:</strong> Always verify payments on backend</li>
+            <li><strong>HTTPS:</strong> Always use HTTPS in production</li>
+            <li><strong>CORS:</strong> Configure proper CORS settings on API endpoints</li>
+            <li><strong>XSS Protection:</strong> React automatically escapes content</li>
+            <li><strong>CSRF:</strong> Implement CSRF tokens for forms if required</li>
+        </ul>
+
+        <h3>What Should Be Backend Only</h3>
+        <ul>
+            <li>Razorpay secret key</li>
+            <li>Payment signature verification</li>
+            <li>Shopify Admin API operations</li>
+            <li>Order fulfillment</li>
+            <li>Email sending</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>18. Browser Support</h2>
+        
+        <p>The application supports modern browsers:</p>
+        <ul>
+            <li>Chrome 90+</li>
+            <li>Firefox 88+</li>
+            <li>Safari 14+</li>
+            <li>Edge 90+</li>
+        </ul>
+
+        <p>ES6+ features are used. Polyfills are NOT included for older browsers.</p>
+    </div>
+
+    <div class="section">
+        <h2>19. Future Development Tasks</h2>
+        
+        <h3>Recommended Improvements</h3>
+        
+        <ul>
+            <li><strong>Backend Implementation:</strong> Implement Razorpay order creation and verification on backend</li>
+            <li><strong>Error Boundaries:</strong> Add React error boundaries for better error handling</li>
+            <li><strong>Unit Tests:</strong> Add Jest/React Testing Library tests</li>
+            <li><strong>E2E Tests:</strong> Add Cypress or Playwright tests</li>
+            <li><strong>Loading States:</strong> Add better loading indicators</li>
+            <li><strong>Error Messages:</strong> Improve user-facing error messages</li>
+            <li><strong>SEO:</strong> Add meta tags and structured data</li>
+            <li><strong>Analytics:</strong> Integrate Google Analytics or similar</li>
+            <li><strong>Search:</strong> Add product and journal search functionality</li>
+            <li><strong>Wishlist:</strong> Implement wishlist feature</li>
+            <li><strong>User Reviews:</strong> Complete review system implementation</li>
+        </ul>
+
+        <h3>Known Issues</h3>
+        <ul>
+            <li>Razorpay order creation uses mock function - needs backend API</li>
+            <li>Payment signature verification needs backend implementation</li>
+            <li>Some debug pages exist in production routes - should be removed or gated</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>20. Contact & Support</h2>
+        
+        <h3>Getting Help</h3>
+        <ul>
+            <li>Check browser console for detailed error messages</li>
+            <li>Review Shopify API documentation: https://shopify.dev/docs/api/storefront</li>
+            <li>Review Hygraph documentation: https://hygraph.com/docs</li>
+            <li>Review Razorpay documentation: https://razorpay.com/docs</li>
+        </ul>
+
+        <h3>Additional Resources</h3>
+        <ul>
+            <li><strong>Vite Documentation:</strong> https://vitejs.dev</li>
+            <li><strong>React Documentation:</strong> https://react.dev</li>
+            <li><strong>Zustand Documentation:</strong> https://zustand-demo.pmnd.rs</li>
+            <li><strong>Tailwind CSS Documentation:</strong> https://tailwindcss.com/docs</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Conclusion</h2>
+        
+        <p>This documentation provides a comprehensive overview of the Korzi e-commerce application. The project is built with modern React practices, TypeScript for type safety, and integrates seamlessly with Shopify for e-commerce and Hygraph for content management.</p>
+
+        <p>Key takeaways for new developers:</p>
+        <ul>
+            <li>State management is handled by Zustand with three main stores: cart, auth, and orders</li>
+            <li>All Shopify operations sync in real-time with race condition protection</li>
+            <li>Authentication uses minimal persistence with full data fetch on load</li>
+            <li>The app is optimized for static hosting with code splitting and lazy loading</li>
+            <li>Backend APIs are required for secure payment processing</li>
+        </ul>
+
+        <p>For questions or clarifications, refer to the inline code comments, check the service implementations in <code>src/services/</code>, and review the store logic in <code>src/stores/</code>.</p>
+    </div>
+
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 2px solid #ccc; color: #666; font-size: 0.9em;">
+        <p><strong>Document Version:</strong> 1.0</p>
+        <p><strong>Last Updated:</strong> January 2025</p>
+        <p><strong>Project:</strong> Korzi E-Commerce Platform</p>
+    </div>
+</body>
+</html>
+

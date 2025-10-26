@@ -8,6 +8,10 @@ interface AuthStore {
   isAuthenticated: boolean;
   isLoading: boolean;
   
+  // Persisted state (minimal)
+  customerId: string | null;
+  customerEmail: string | null;
+  
   // Actions
   login: (email: string, password: string) => Promise<{ success: boolean; errors?: string[] }>;
   register: (data: { firstName: string; lastName: string; email: string; password: string; acceptsMarketing?: boolean }) => Promise<{ success: boolean; errors?: string[] }>;
@@ -16,15 +20,18 @@ interface AuthStore {
   checkAuth: () => Promise<void>;
   setCustomer: (customer: Customer | null) => void;
   setAuthenticated: (isAuthenticated: boolean) => void;
+  restoreFromPersistence: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       // Initial state
       customer: null,
       isAuthenticated: false,
       isLoading: false,
+      customerId: null,
+      customerEmail: null,
 
       // Login
       login: async (email: string, password: string) => {
@@ -37,7 +44,9 @@ export const useAuthStore = create<AuthStore>()(
             set({
               customer: response.customer,
               isAuthenticated: true,
-              isLoading: false
+              isLoading: false,
+              customerId: response.customer.id,
+              customerEmail: response.customer.email
             });
             return { success: true };
           } else {
@@ -93,7 +102,9 @@ export const useAuthStore = create<AuthStore>()(
             set({
               customer: response.customer,
               isAuthenticated: true,
-              isLoading: false
+              isLoading: false,
+              customerId: response.customer.id,
+              customerEmail: response.customer.email
             });
             return { success: true };
           } else {
@@ -144,20 +155,26 @@ export const useAuthStore = create<AuthStore>()(
             set({
               customer: response.customer,
               isAuthenticated: true,
-              isLoading: false
+              isLoading: false,
+              customerId: response.customer.id,
+              customerEmail: response.customer.email
             });
           } else {
             set({
               customer: null,
               isAuthenticated: false,
-              isLoading: false
+              isLoading: false,
+              customerId: null,
+              customerEmail: null
             });
           }
         } catch (error) {
           set({
             customer: null,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: false,
+            customerId: null,
+            customerEmail: null
           });
         }
       },
@@ -166,7 +183,9 @@ export const useAuthStore = create<AuthStore>()(
       setCustomer: (customer: Customer | null) => {
         set({
           customer,
-          isAuthenticated: !!customer
+          isAuthenticated: !!customer,
+          customerId: customer?.id || null,
+          customerEmail: customer?.email || null
         });
       },
 
@@ -174,13 +193,79 @@ export const useAuthStore = create<AuthStore>()(
       setAuthenticated: (isAuthenticated: boolean) => {
         set({ isAuthenticated });
       },
+
+      // Restore customer data from persisted minimal data
+      restoreFromPersistence: async () => {
+        const state = get();
+        
+        // Validate persisted data
+        const isValidPersistedData = (
+          typeof state.isAuthenticated === 'boolean' &&
+          (state.customerId === null || typeof state.customerId === 'string') &&
+          (state.customerEmail === null || typeof state.customerEmail === 'string')
+        );
+        
+        if (!isValidPersistedData) {
+          console.warn('Invalid persisted auth data detected, clearing...');
+          set({
+            customer: null,
+            isAuthenticated: false,
+            isLoading: false,
+            customerId: null,
+            customerEmail: null
+          });
+          return;
+        }
+        
+        // If we have persisted auth data but no full customer object
+        if (state.isAuthenticated && state.customerId && !state.customer) {
+          try {
+            set({ isLoading: true });
+            
+            // Fetch full customer data from Shopify
+            const response = await checkAuthStatus();
+            
+            if (response.success && response.customer) {
+              set({
+                customer: response.customer,
+                isAuthenticated: true,
+                isLoading: false,
+                customerId: response.customer.id,
+                customerEmail: response.customer.email
+              });
+            } else {
+              // Clear invalid persisted data
+              console.warn('Failed to restore customer data, clearing persisted state...');
+              set({
+                customer: null,
+                isAuthenticated: false,
+                isLoading: false,
+                customerId: null,
+                customerEmail: null
+              });
+            }
+          } catch (error) {
+            console.error('Failed to restore customer data:', error);
+            // Clear invalid persisted data
+            set({
+              customer: null,
+              isAuthenticated: false,
+              isLoading: false,
+              customerId: null,
+              customerEmail: null
+            });
+          }
+        }
+      },
     }),
     {
       name: 'auth-storage', // localStorage key
       partialize: (state) => ({ 
-        customer: state.customer, 
-        isAuthenticated: state.isAuthenticated 
-      }), // Only persist customer and auth status
+        // Only persist essential auth data, not full customer object
+        isAuthenticated: state.isAuthenticated,
+        customerId: state.customer?.id || null, // Only customer ID, not full data
+        customerEmail: state.customer?.email || null // Only email for display
+      }), // Minimal persistence - full customer data fetched from Shopify
     }
   )
 );

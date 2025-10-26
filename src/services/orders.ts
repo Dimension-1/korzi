@@ -254,16 +254,142 @@ export const getOrderDetails = async (orderId: string): Promise<any> => {
 // Note: Order payment status updates are handled by Shopify checkout
 // No need to manually update payment status when using Storefront API checkout
 
-// Note: Payment processing is now handled by Shopify's checkout page
-// Shopify checkout supports multiple payment methods including credit cards, PayPal, etc.
-// If you want to use Razorpay specifically, you'll need to:
-// 1. Set up Razorpay as a payment gateway in your Shopify store settings
-// 2. Or implement a custom checkout using Shopify's Web Pixels API
-export const processPayment = async (amount: number, currency: string, orderId: string, _customerInfo: CustomerInfo): Promise<{ success: boolean; paymentId?: string; errors?: string[] }> => {
-  console.log(`Payment will be processed by Shopify checkout: ${amount} ${currency} for order ${orderId}`);
-  
-  return {
-    success: true,
-    paymentId: 'shopify-checkout'
-  };
+// Create order in Shopify using Admin API (after payment confirmation)
+const CREATE_ORDER_ADMIN = `
+  mutation draftOrderCreate($input: DraftOrderInput!) {
+    draftOrderCreate(input: $input) {
+      draftOrder {
+        id
+        name
+        order {
+          id
+          name
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+// Create order in Shopify Admin API after successful Razorpay payment
+export const createShopifyOrder = async (orderData: OrderData, paymentId: string): Promise<OrderResponse> => {
+  try {
+    const adminToken = import.meta.env.VITE_SHOPIFY_ADMIN_TOKEN;
+    const shopifyAdminUrl = import.meta.env.VITE_SHOPIFY_STOREFRONT_URL?.replace('/storefront/', '/admin/');
+    
+    if (!adminToken || !shopifyAdminUrl) {
+      throw new Error('Shopify Admin API credentials not configured');
+    }
+
+    const adminClient = new GraphQLClient(shopifyAdminUrl, {
+      headers: {
+        'X-Shopify-Access-Token': adminToken,
+      },
+    });
+
+    // Prepare line items
+    const lineItems = orderData.items.map(item => ({
+      variantId: item.variantId,
+      quantity: item.quantity,
+      customAttributes: [{
+        key: 'payment_id',
+        value: paymentId
+      }]
+    }));
+
+    // Create draft order
+    const result = await adminClient.request(CREATE_ORDER_ADMIN, {
+      input: {
+        email: orderData.customer.email,
+        phone: orderData.customer.phone,
+        lineItems: lineItems,
+        shippingAddress: {
+          firstName: orderData.customer.firstName,
+          lastName: orderData.customer.lastName,
+          address1: orderData.shippingAddress.address1,
+          address2: orderData.shippingAddress.address2,
+          city: orderData.shippingAddress.city,
+          province: orderData.shippingAddress.province,
+          country: orderData.shippingAddress.country,
+          zip: orderData.shippingAddress.zip,
+          phone: orderData.customer.phone
+        },
+        billingAddress: {
+          firstName: orderData.customer.firstName,
+          lastName: orderData.customer.lastName,
+          address1: orderData.shippingAddress.address1,
+          address2: orderData.shippingAddress.address2,
+          city: orderData.shippingAddress.city,
+          province: orderData.shippingAddress.province,
+          country: orderData.shippingAddress.country,
+          zip: orderData.shippingAddress.zip,
+          phone: orderData.customer.phone
+        },
+        customAttributes: [{
+          key: 'razorpay_payment_id',
+          value: paymentId
+        }],
+        note: `Order paid via Razorpay. Payment ID: ${paymentId}`
+      }
+    });
+
+    const draftOrder = (result as any).draftOrderCreate.draftOrder;
+    const userErrors = (result as any).draftOrderCreate.userErrors;
+
+    if (userErrors && userErrors.length > 0) {
+      console.error('Errors creating order:', userErrors);
+      return {
+        success: false,
+        errors: userErrors.map((e: any) => e.message)
+      };
+    }
+
+    if (draftOrder && draftOrder.order) {
+      return {
+        success: true,
+        orderId: draftOrder.order.id,
+        orderNumber: draftOrder.order.name
+      };
+    }
+
+    return {
+      success: false,
+      errors: ['Failed to create order']
+    };
+  } catch (error) {
+    console.error('Error creating Shopify order:', error);
+    return {
+      success: false,
+      errors: [error instanceof Error ? error.message : 'Failed to create order']
+    };
+  }
+};
+
+// Process payment using Razorpay
+export const processPayment = async (
+  amount: number,
+  currency: string,
+  orderId: string,
+  _customerInfo: CustomerInfo
+): Promise<{ success: boolean; paymentId?: string; errors?: string[] }> => {
+  try {
+    console.log('Note: Razorpay payment will be handled in the checkout component');
+    console.log(`Payment amount: ${amount} ${currency} for order ${orderId}`);
+    
+    // Payment will be handled by Razorpay SDK in the frontend
+    // This function is kept for compatibility
+    return {
+      success: true,
+      paymentId: 'razorpay-pending'
+    };
+  } catch (error) {
+    console.error('Payment processing error:', error);
+    return {
+      success: false,
+      errors: [error instanceof Error ? error.message : 'Payment failed']
+    };
+  }
 };

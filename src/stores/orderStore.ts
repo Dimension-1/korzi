@@ -139,9 +139,10 @@ export const useOrderStore = create<OrderStore>()(
     {
       name: 'order-store',
       partialize: (state) => ({
-        orderHistory: state.orderHistory,
-        // Don't persist currentOrder, isLoading, or error
+        // Don't persist order history - it can be fetched from Shopify when needed
+        // Only persist essential order state temporarily
       })
     }
   )
 );
+

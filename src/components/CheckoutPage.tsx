@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, CreditCard, MapPin, User, Mail, Phone } from 'lucide-react';
+import { ArrowLeft, CreditCard, MapPin, User } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
+import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse } from '../services/razorpay';
+import { createShopifyOrder } from '../services/orders';
 
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { currentOrder, placeOrder, isLoading, error, updateCustomerInfo, updateShippingAddress, setCurrentOrder } = useOrderStore();
+  const { currentOrder, isLoading, error, updateCustomerInfo, updateShippingAddress } = useOrderStore();
   const { clearCart } = useCartStore();
   const { customer } = useAuthStore();
 
@@ -27,23 +29,6 @@ const CheckoutPage: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string>('');
 
-  // Helper function to fill form with test data
-  const fillTestData = () => {
-    setFormData({
-      firstName: 'Test',
-      lastName: 'Customer',
-      email: 'test@example.com',
-      phone: '+1234567890',
-      address1: '123 Test Street',
-      address2: 'Apt 1',
-      city: 'Test City',
-      province: 'Test State',
-      zip: '12345',
-      country: 'India'
-    });
-    setErrors({});
-    setSubmitError('');
-  };
 
   useEffect(() => {
     // Redirect if no order data
@@ -100,7 +85,7 @@ const CheckoutPage: React.FC = () => {
       return;
     }
 
-    console.log('Form validation passed, starting order placement...');
+    console.log('Form validation passed, starting order creation...');
 
     try {
       // Update order with customer and shipping info
@@ -120,10 +105,17 @@ const CheckoutPage: React.FC = () => {
         zip: formData.zip
       });
 
-      // Ensure current order has all the updated information
-      if (currentOrder) {
-        const updatedOrder = {
-          ...currentOrder,
+      if (!currentOrder) {
+        console.error('No current order found!');
+        setSubmitError('Order not found. Please try again.');
+        return;
+      }
+
+      // Step 1: Create draft order in Shopify FIRST
+      console.log('Creating draft order in Shopify...');
+      const shopifyOrderResult = await createShopifyOrder(
+        {
+          items: currentOrder.items,
           customer: {
             firstName: formData.firstName,
             lastName: formData.lastName,
@@ -137,41 +129,70 @@ const CheckoutPage: React.FC = () => {
             province: formData.province,
             country: formData.country,
             zip: formData.zip
-          }
-        };
-        
-        console.log('Updated order data:', updatedOrder);
-        
-        // Set the complete updated order
-        setCurrentOrder(updatedOrder);
-      } else {
-        console.error('No current order found!');
+          },
+          totalAmount: currentOrder.totalAmount,
+          currency: 'INR'
+        },
+        'pending' // Payment pending initially
+      );
+
+      if (!shopifyOrderResult.success) {
+        console.error('Failed to create order in Shopify:', shopifyOrderResult.errors);
+        setSubmitError('Failed to create order. Please try again.');
         return;
       }
 
-      console.log('Placing order...');
+      console.log('Shopify order created:', shopifyOrderResult);
+      const shopifyOrderId = shopifyOrderResult.orderId;
+      const shopifyOrderNumber = shopifyOrderResult.orderNumber;
+
+      // Step 2: Create Razorpay order using Shopify order number
+      console.log('Creating Razorpay order...');
+      const razorpayOrderId = await createRazorpayOrder(
+        currentOrder.totalAmount * 100, // Convert to paise
+        'INR',
+        shopifyOrderNumber || shopifyOrderId // Use Shopify order number as receipt
+      );
+
+      // Step 3: Initiate Razorpay payment
+      console.log('Initiating Razorpay payment...');
+      await initiateRazorpayPayment({
+        amount: currentOrder.totalAmount * 100, // Amount in paise
+        currency: 'INR',
+        orderId: razorpayOrderId,
+        customerInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone
+        },
+        onSuccess: async (response: RazorpaySuccessResponse) => {
+          console.log('Payment successful:', response);
+          console.log('Shopify Order ID:', shopifyOrderId);
+          
+          // Payment successful - order already created in Shopify
+          // You can optionally update the order with payment ID here
+          
+          // Clear cart
+          clearCart();
+          
+          // Navigate to confirmation with both IDs
+          navigate(`/order-confirmation/${shopifyOrderId}`, {
+            state: {
+              paymentId: response.razorpay_payment_id,
+              orderNumber: shopifyOrderNumber,
+              orderId: shopifyOrderId
+            }
+          });
+        },
+        onFailure: (error) => {
+          console.error('Payment failed:', error);
+          setSubmitError(error.description || 'Payment failed. Please try again.');
+          // Note: Order is created in Shopify but payment failed
+          // You may want to cancel the order or mark it as payment failed
+        }
+      });
       
-      // Place the order
-      const result = await placeOrder();
-      
-      console.log('=== ORDER PLACEMENT RESULT ===');
-      console.log('Success:', result.success);
-      console.log('Order ID:', result.orderId);
-      console.log('Order Number:', result.orderNumber);
-      console.log('Errors:', result.errors);
-      console.log('Full API Response:', result);
-      console.log('================================');
-      
-      if (result.success) {
-        console.log('Order placed successfully, clearing cart and navigating...');
-        // Clear cart after successful order
-        clearCart();
-        // Navigate to order confirmation
-        navigate(`/order-confirmation/${result.orderId}`);
-      } else {
-        console.error('Order placement failed:', result.errors);
-        setSubmitError(result.errors?.join(', ') || 'Order placement failed');
-      }
     } catch (error) {
       console.error('Checkout error:', error);
       setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
@@ -208,12 +229,6 @@ const CheckoutPage: React.FC = () => {
           </button>
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
-            <button
-              onClick={fillTestData}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-600 transition-colors"
-            >
-              Fill Test Data
-            </button>
           </div>
         </div>
 

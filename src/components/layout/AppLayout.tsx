@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, Home, FileText, User, MoreVertical, ShoppingBagIcon, Handbag } from 'lucide-react';
 import AnnouncementBar from '../AnnouncementBar';
@@ -13,8 +13,19 @@ import { Outlet } from 'react-router-dom';
 export default function AppLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
-  const { openDrawer, getTotalItems } = useCartStore();
+  const { openDrawer, getTotalItems, cartItems } = useCartStore();
   const { customer, isAuthenticated, logout } = useAuthStore();
+
+  // Debug cart count
+  const totalItems = getTotalItems();
+  console.log('AppLayout - Cart items:', cartItems);
+  console.log('AppLayout - Total items:', totalItems);
+
+  // Monitor cart changes
+  useEffect(() => {
+    console.log('AppLayout - Cart items changed:', cartItems);
+    console.log('AppLayout - Total items updated:', getTotalItems());
+  }, [cartItems]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -94,9 +105,9 @@ export default function AppLayout() {
               aria-label="Cart"
             >
               <Handbag className="w-5 h-5" />
-              {getTotalItems() > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {getTotalItems()}
+                  {totalItems}
                 </span>
               )}
             </button>

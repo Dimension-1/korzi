@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
 import JournalPage from './pages/JournalPage'
@@ -13,8 +14,48 @@ import OrderConfirmationPage from './components/OrderConfirmationPage'
 import OrdersPage from './components/OrdersPage'
 import TestOrderCreation from './components/TestOrderCreation'
 import DebugCheckout from './components/DebugCheckout'
+import { useCartStore } from './stores/cartStore'
+import { useAuthStore } from './stores/authStore'
 
 function App() {
+  const { initializeCart, refreshCartCount } = useCartStore();
+  const { restoreFromPersistence } = useAuthStore();
+
+  // Initialize app state when it loads
+  useEffect(() => {
+    // Initialize cart from Shopify (this will also update cart count)
+    initializeCart();
+    
+    // Restore auth state from minimal persisted data
+    restoreFromPersistence();
+  }, [initializeCart, restoreFromPersistence]);
+
+  // Refresh cart count when app becomes visible (user switches back to tab)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('App became visible, refreshing cart count...');
+        refreshCartCount();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [refreshCartCount]);
+
+  // Periodic cart count refresh (every 30 seconds) to keep count accurate
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('Periodic cart count refresh...');
+      refreshCartCount();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
+  }, [refreshCartCount]);
+
   return (    
       <Routes>
   <Route path="/" element={<ComingSoonPage />} />
