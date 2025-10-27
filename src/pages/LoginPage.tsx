@@ -135,10 +135,10 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">
+          <h1 className="text-3xl text-[var(--foreground)] mb-2 font-heading">
             {isRecovering ? 'Reset Password' : isLogin ? 'Welcome Back' : 'Create Account'}
           </h1>
-          <p className="text-[var(--text-secondary)]">
+          <p className="text-[var(--text-secondary)] font-body">
             {isRecovering 
               ? 'Enter your email to receive password reset instructions'
               : isLogin 
@@ -151,7 +151,7 @@ export default function LoginPage() {
         {/* Success Message */}
         {successMessage && (
           <div className="mb-6 p-4 bg-[var(--primary)]/10 border border-[var(--primary)]/30 rounded-lg">
-            <p className="text-[var(--primary)] text-sm">{successMessage}</p>
+            <p className="text-[var(--primary)] text-sm font-body">{successMessage}</p>
           </div>
         )}
 
@@ -160,7 +160,7 @@ export default function LoginPage() {
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
             <ul className="text-red-400 text-sm space-y-1">
               {errors.map((error, index) => (
-                <li key={index}>{error}</li>
+                <li key={index} className="font-body">{error}</li>
               ))}
             </ul>
           </div>
@@ -187,7 +187,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg font-semibold hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-body"
             >
               {isLoading ? 'Sending...' : 'Send Reset Email'}
             </button>
@@ -199,7 +199,7 @@ export default function LoginPage() {
                   setIsRecovering(false);
                   resetForms();
                 }}
-                className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors"
+                className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors font-body"
               >
                 Back to Sign In
               </button>
@@ -244,7 +244,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                  <label className="flex items-center gap-2 text-sm text-[var(--text-secondary)] font-body">
                     <input type="checkbox" className="rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]" />
                     Remember me
                   </label>
@@ -254,7 +254,7 @@ export default function LoginPage() {
                       setIsRecovering(true);
                       resetForms();
                     }}
-                    className="text-sm text-[var(--primary)] hover:text-[var(--secondary)] transition-colors"
+                    className="text-sm text-[var(--primary)] hover:text-[var(--secondary)] transition-colors font-body"
                   >
                     Forgot password?
                   </button>
@@ -263,20 +263,20 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg font-semibold hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-body"
                 >
                   {isLoading ? 'Signing In...' : 'Sign In'}
                 </button>
 
                 <div className="text-center">
-                  <span className="text-[var(--text-secondary)]">Don't have an account? </span>
+                  <span className="text-[var(--text-secondary)] font-body">Don't have an account? </span>
                   <button
                     type="button"
                     onClick={() => {
                       setIsLogin(false);
                       resetForms();
                     }}
-                    className="text-[var(--primary)] hover:text-[var(--secondary)] transition-colors font-semibold"
+                    className="text-[var(--primary)] hover:text-[var(--secondary)] transition-colors font-body"
                   >
                     Sign Up
                   </button>
@@ -343,7 +343,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] font-body">
                   <input
                     type="checkbox"
                     checked={registerForm.acceptsMarketing}
@@ -356,20 +356,20 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg font-semibold hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[var(--primary)] text-[var(--background)] py-3 rounded-lg hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-body"
                 >
                   {isLoading ? 'Creating Account...' : 'Create Account'}
                 </button>
 
                 <div className="text-center">
-                  <span className="text-[var(--text-secondary)]">Already have an account? </span>
+                  <span className="text-[var(--text-secondary)] font-body">Already have an account? </span>
                   <button
                     type="button"
                     onClick={() => {
                       setIsLogin(true);
                       resetForms();
                     }}
-                    className="text-[var(--primary)] hover:text-[var(--secondary)] transition-colors font-semibold"
+                    className="text-[var(--primary)] hover:text-[var(--secondary)] transition-colors font-body"
                   >
                     Sign In
                   </button>
@@ -381,7 +381,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-[var(--text-secondary)] font-body">
             By continuing, you agree to our{' '}
             <Link to="/terms" className="text-[var(--primary)] hover:text-[var(--secondary)] transition-colors">
               Terms of Service

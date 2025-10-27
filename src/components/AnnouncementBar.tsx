@@ -67,7 +67,7 @@ export default function AnnouncementBar() {
                 href={currentAnnouncement.link}
                 className="text-[var(--background)] hover:text-[var(--surface)] transition-colors duration-200 flex items-center justify-center gap-1 sm:gap-2"
               >
-                <span className="font-medium text-xs sm:text-sm md:text-base">{currentAnnouncement.text}</span>
+                <span className="font-body text-xs sm:text-sm md:text-base">{currentAnnouncement.text}</span>
                 <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                 </svg>
@@ -108,7 +108,7 @@ export default function AnnouncementBar() {
                         href={announcement.link}
                         className="text-[var(--background)] hover:text-[var(--surface)] transition-colors duration-200 flex items-center justify-center gap-1 sm:gap-2"
                       >
-                        <span className="font-medium text-xs sm:text-sm md:text-base">{announcement.text}</span>
+                        <span className="font-body text-xs sm:text-sm md:text-base">{announcement.text}</span>
                         <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                         </svg>
@@ -124,7 +124,7 @@ export default function AnnouncementBar() {
             {/* Next button */}
             <button
               onClick={goToNext}
-              className="p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Next announcement"
             >
               <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />

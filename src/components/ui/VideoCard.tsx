@@ -23,7 +23,7 @@ export default function VideoCard({
 }: VideoCardProps) {
   const navigate = useNavigate();
   return (
-    <div className="bg-[var(--background)] rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-[216px] h-[500px] hover:scale-105 flex-shrink-0 border border-[var(--border)] transform-gpu transition-transform duration-300 " style={{ willChange: 'transform' }}>
+    <div className="bg-[var(--background)] rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-[216px] h-[500px] hover:scale-105 flex-shrink-0 border-2 border-gray-600 transform-gpu transition-transform duration-300 " style={{ willChange: 'transform' }}>
       {/* Video Thumbnail */}
       <div className="relative h-[350px]">
         <video

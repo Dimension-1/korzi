@@ -6,10 +6,7 @@ export default function PaymentBanner() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-8 lg:gap-12">
           
           {/* Left Section - Payment Text */}
-          <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--foreground)] font-medium text-center sm:text-left" style={{
-            fontFamily: 'DM Sans, sans-serif',
-            fontWeight: '500'
-          }}>
+          <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--foreground)] font-body text-center sm:text-left">
             Securely pay using:
           </div>
           
@@ -22,17 +19,17 @@ export default function PaymentBanner() {
             
             {/* Visa */}
             <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-blue-600 rounded-sm flex items-center justify-center">
-              <span className="text-white text-xs sm:text-sm md:text-base font-bold">VISA</span>
+              <span className="text-white text-xs sm:text-sm md:text-base font-heading">VISA</span>
             </div>
             
             {/* Paytm */}
             <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-blue-500 rounded-sm flex items-center justify-center">
-              <span className="text-white text-xs sm:text-sm md:text-base font-bold">Paytm</span>
+              <span className="text-white text-xs sm:text-sm md:text-base font-heading">Paytm</span>
             </div>
             
             {/* UPI */}
             <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-[var(--text-secondary)] rounded-sm flex items-center justify-center">
-              <span className="text-white text-xs sm:text-sm md:text-base font-bold">UPI</span>
+              <span className="text-white text-xs sm:text-sm md:text-base font-heading">UPI</span>
             </div>
             
             {/* Google Pay */}
@@ -47,15 +44,12 @@ export default function PaymentBanner() {
             
             {/* PhonePe */}
             <div className="w-8 h-5 sm:w-10 sm:h-6 md:w-12 md:h-7 bg-purple-600 rounded-sm flex items-center justify-center">
-              <span className="text-white text-xs sm:text-sm md:text-base font-bold">P</span>
+              <span className="text-white text-xs sm:text-sm md:text-base font-heading">P</span>
             </div>
           </div>
           
           {/* Right Section - Cash on Delivery */}
-          <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--primary)] font-medium text-center sm:text-right" style={{
-            fontFamily: 'DM Sans, sans-serif',
-            fontWeight: '500'
-          }}>
+          <div className="text-sm sm:text-base md:text-lg lg:text-xl text-[var(--primary)] font-body text-center sm:text-right">
             Oh! and Cash On Delivery too :)
           </div>
         </div>

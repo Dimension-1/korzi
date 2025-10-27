@@ -126,9 +126,8 @@ export default function FoodJournalismSection() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-white text-3xl font-bold" style={{
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                fontFamily: 'cursive'
+              <h3 className="text-white text-3xl font-heading" style={{
+                textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
               }}>{card.overlayText}</h3>
             </div>
           </div>
@@ -147,7 +146,7 @@ export default function FoodJournalismSection() {
                     <div className="w-2 h-2 bg-[var(--secondary)] rounded-full ml-1"></div>
                     <div className="w-2 h-2 bg-[var(--primary)] rounded-full ml-1"></div>
                   </div>
-                  <div className="text-xs text-[var(--foreground)] font-medium">Ingredients</div>
+                  <div className="text-xs text-[var(--foreground)] font-body">Ingredients</div>
                 </div>
               </div>
               
@@ -168,13 +167,13 @@ export default function FoodJournalismSection() {
             
             {/* Question overlay */}
             <div className="absolute top-6 left-6 right-6">
-              <p className="text-[var(--foreground)] text-lg font-semibold drop-shadow-lg">{card.overlayText}</p>
+              <p className="text-[var(--foreground)] text-lg font-heading drop-shadow-lg">{card.overlayText}</p>
             </div>
             
             {/* Academy logo */}
             <div className="absolute top-4 right-4">
               <div className="bg-[var(--background)]/50 rounded px-2 py-1">
-                <span className="text-[var(--foreground)] text-xs font-medium">The Whole Truth Academy</span>
+                <span className="text-[var(--foreground)] text-xs font-body">The Whole Truth Academy</span>
               </div>
             </div>
           </div>
@@ -184,9 +183,8 @@ export default function FoodJournalismSection() {
         return (
           <div className="relative h-full p-8">
             <div className="h-full flex flex-col justify-center">
-              <h3 className="text-white text-3xl font-bold mb-6" style={{
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                fontFamily: 'cursive'
+              <h3 className="text-white text-3xl font-heading mb-6" style={{
+                textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
               }}>{card.overlayText}</h3>
               <p className="text-white/90 text-base mb-8 leading-relaxed">{card.description}</p>
               
@@ -222,16 +220,12 @@ export default function FoodJournalismSection() {
           
           {/* Left Side - Text Content */}
           <div className="space-y-4 md:space-y-6">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '700',
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-[var(--foreground)] leading-tight" style={{
               letterSpacing: '-0.02em'
             }}>
               We're also fixing food journalism.
             </h2>
-            <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] leading-relaxed" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '400',
+            <p className="text-base md:text-lg lg:text-xl text-[var(--text-secondary)] leading-relaxed font-body" style={{
               lineHeight: '1.6'
             }}>
               We can't fix food without fixing food journalism. Because what you read and believe is what you eat and repeat. We're on it.
@@ -267,14 +261,12 @@ export default function FoodJournalismSection() {
                 </svg>
                 
                 {/* Labels - Hand-written style */}
-                <div className="absolute left-4 md:left-6 lg:left-8 top-1/2 transform -translate-y-1/2 text-[var(--primary)] font-semibold text-sm md:text-base lg:text-lg" style={{
-                  fontFamily: 'cursive',
+                <div className="absolute left-4 md:left-6 lg:left-8 top-1/2 transform -translate-y-1/2 text-[var(--primary)] font-heading text-sm md:text-base lg:text-lg" style={{
                   transform: 'rotate(-5deg)'
                 }}>
                   What you eat
                 </div>
-                <div className="absolute right-4 md:right-6 lg:right-8 top-1/2 transform -translate-y-1/2 text-[var(--primary)] font-semibold text-sm md:text-base lg:text-lg" style={{
-                  fontFamily: 'cursive',
+                <div className="absolute right-4 md:right-6 lg:right-8 top-1/2 transform -translate-y-1/2 text-[var(--primary)] font-heading text-sm md:text-base lg:text-lg" style={{
                   transform: 'rotate(5deg)'
                 }}>
                   What you know
@@ -289,8 +281,7 @@ export default function FoodJournalismSection() {
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                   </svg>
                 </div>
-                <div className="absolute top-16 md:top-20 lg:top-28 left-1/2 transform -translate-x-1/2 text-[var(--primary)] text-xs md:text-sm lg:text-base font-medium text-center" style={{
-                  fontFamily: 'cursive',
+                <div className="absolute top-16 md:top-20 lg:top-28 left-1/2 transform -translate-x-1/2 text-[var(--primary)] text-xs md:text-sm lg:text-base font-heading text-center" style={{
                   lineHeight: '1.2'
                 }}>
                   We're working on<br/>closing the gap
@@ -307,8 +298,7 @@ export default function FoodJournalismSection() {
                         <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-[var(--primary)] rounded-full"></div>
                       </div>
                     </div>
-                    <div className="absolute -bottom-6 md:-bottom-8 lg:-bottom-10 left-1/2 transform -translate-x-1/2 text-[var(--primary)] text-xs md:text-sm lg:text-base font-bold" style={{
-                      fontFamily: 'cursive',
+                    <div className="absolute -bottom-6 md:-bottom-8 lg:-bottom-10 left-1/2 transform -translate-x-1/2 text-[var(--primary)] text-xs md:text-sm lg:text-base font-heading" style={{
                       transform: 'rotate(-5deg)'
                     }}>
                       Barry!
@@ -363,9 +353,9 @@ export default function FoodJournalismSection() {
                   
                   {/* Card Info Below */}
                   <div className="mt-4 md:mt-6 text-center">
-                    <h3 className="text-lg md:text-xl font-bold text-[var(--foreground)] mb-2">{card.title}</h3>
+                    <h3 className="text-lg md:text-xl font-heading text-[var(--foreground)] mb-2">{card.title}</h3>
                     <div className="flex items-center justify-center gap-2">
-                      <p className="text-sm md:text-base text-[var(--text-secondary)]">{card.description}</p>
+                      <p className="text-sm md:text-base text-[var(--text-secondary)] font-body">{card.description}</p>
                       <svg className="w-4 h-4 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>

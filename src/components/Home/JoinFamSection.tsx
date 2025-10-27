@@ -59,9 +59,7 @@ export default function JoinFamSection() {
           {/* Left Side - Text Content */}
           <div className="space-y-6 md:space-y-8">
             {/* Headline */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '900',
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading text-[var(--foreground)] leading-tight" style={{
               letterSpacing: '-0.03em',
               lineHeight: '0.9'
             }}>
@@ -69,39 +67,27 @@ export default function JoinFamSection() {
             </h2>
             
             {/* Subtitle */}
-            <p className="text-lg md:text-xl lg:text-2xl text-[var(--foreground)] font-medium" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '500'
-            }}>
+            <p className="text-lg md:text-xl lg:text-2xl text-[var(--foreground)] font-body" style={{}}>
               GO TRUTH SEEKERS!
             </p>
             
             {/* Social Media Buttons */}
             <div className="space-y-3 md:space-y-4">
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'DM Sans, sans-serif',
-                fontWeight: '500'
-              }}>
+              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
                 <span className="text-sm md:text-base">Join our Instagram Community</span>
                 <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
               
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'DM Sans, sans-serif',
-                fontWeight: '500'
-              }}>
+              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
                 <span className="text-sm md:text-base">YouTube</span>
                 <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
               
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-medium text-base md:text-lg transition-colors duration-300 flex items-center justify-between" style={{
-                fontFamily: 'DM Sans, sans-serif',
-                fontWeight: '500'
-              }}>
+              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
                 <span className="text-sm md:text-base">LinkedIn</span>
                 <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -111,9 +97,7 @@ export default function JoinFamSection() {
             
             {/* Handwritten Text */}
             <div className="mt-6 md:mt-8">
-              <p className="text-base md:text-lg lg:text-xl text-[var(--primary)] font-medium" style={{
-                fontFamily: 'cursive',
-                fontWeight: '500',
+              <p className="text-base md:text-lg lg:text-xl text-[var(--primary)] font-heading" style={{
                 transform: 'rotate(-2deg)'
               }}>
                 STOP the PRESS! Print The Looove ❤️
@@ -145,18 +129,15 @@ export default function JoinFamSection() {
                       <div className={`${item.bgColor} rounded-lg p-3 md:p-4 h-32 md:h-40 flex flex-col justify-between`}>
                         {/* Content */}
                         <div className="space-y-1 md:space-y-2">
-                          <h3 className="text-xs md:text-sm font-semibold text-gray-800 leading-tight" style={{
-                            fontFamily: 'DM Sans, sans-serif',
-                            fontWeight: '600'
-                          }}>
+                          <h3 className="text-xs md:text-sm font-heading text-gray-800 leading-tight">
                             {item.title}
                           </h3>
                           
                           <div className="flex items-center gap-1 md:gap-2">
-                            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full bg-white flex items-center justify-center text-xs font-bold ${item.iconColor}`}>
+                            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full bg-white flex items-center justify-center text-xs font-heading ${item.iconColor}`}>
                               {item.icon}
                             </div>
-                            <span className="text-xs text-gray-600 font-medium">{item.source}</span>
+                            <span className="text-xs text-gray-600 font-body">{item.source}</span>
                             <span className="text-xs text-gray-500">{item.readTime}</span>
                           </div>
                         </div>

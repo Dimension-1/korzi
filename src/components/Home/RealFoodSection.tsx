@@ -8,9 +8,7 @@ export default function RealFoodSection() {
           {/* Left Side - Text Content */}
           <div className="space-y-6">
             {/* Headline */}
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-black text-[var(--foreground)] leading-tight" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '900',
+            <h2 className="text-6xl md:text-7xl lg:text-8xl font-heading text-[var(--foreground)] leading-tight" style={{
               letterSpacing: '-0.04em',
               lineHeight: '1.1'
             }}>
@@ -30,18 +28,14 @@ export default function RealFoodSection() {
             </h2>
             
             {/* Body Text */}
-            <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '400',
+            <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed font-body" style={{
               lineHeight: '1.4'
             }}>
               Be it ingredients, process or the people who make it - we literally have #nothingtohide.
             </p>
             
             {/* Postscript */}
-            <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed" style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: '400',
+            <p className="text-xl md:text-2xl text-[var(--foreground)] leading-relaxed font-body" style={{
               lineHeight: '1.4'
             }}>
               PS - Our Barkhana is an ISO certified facility :)
@@ -93,9 +87,7 @@ export default function RealFoodSection() {
               
               {/* CTA Button */}
               <div className="absolute bottom-6 right-6">
-                <button className="bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] px-6 py-3 rounded-lg font-medium text-base transition-colors duration-200 flex items-center gap-2" style={{
-                  fontFamily: 'DM Sans, sans-serif',
-                  fontWeight: '500',
+                <button className="bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] px-6 py-3 rounded-lg font-body text-base transition-colors duration-200 flex items-center gap-2" style={{
                   fontStyle: 'italic',
                   borderRadius: '8px'
                 }}>

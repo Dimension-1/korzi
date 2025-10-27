@@ -13,8 +13,8 @@ const JournalDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-xl font-bold text-[var(--foreground)] mb-4">Journal Not Found</h1>
-          <p className="text-[var(--text-secondary)]">The requested journal could not be found.</p>
+          <h1 className="text-xl font-bold text-[var(--foreground)] mb-4 font-heading">Journal Not Found</h1>
+          <p className="text-[var(--text-secondary)] font-body">The requested journal could not be found.</p>
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ const JournalDetailPage: React.FC = () => {
           <h1 className="text-3xl md:text-5xl font-heading leading-tight text-[var(--foreground)] flex-1 pr-4 break-words">
             {journal.title}
           </h1>
-          <p className="text-xs md:text-base text-[var(--text-secondary)] flex-shrink-0">
+          <p className="text-xs md:text-base text-[var(--text-secondary)] flex-shrink-0 font-body">
             {formattedDate.replace(" ", ", ")}
           </p>
         </div>
@@ -58,12 +58,12 @@ const JournalDetailPage: React.FC = () => {
           {/* First Row: Content1 and Content2 */}
           <div className="flex gap-8 mb-8">
             <div className="w-1/2">
-              <p className="text-sm md:text-lg text-[var(--foreground)] leading-loose break-words">
+              <p className="text-sm md:text-lg text-[var(--foreground)] leading-loose break-words font-body">
                 {journal.content1}
               </p>
             </div>
             <div className="w-1/2">
-              <p className="text-lg text-[var(--foreground)] leading-loose break-words">
+              <p className="text-lg text-[var(--foreground)] leading-loose break-words font-body">
                 {journal.content2}
               </p>
             </div>
@@ -78,7 +78,7 @@ const JournalDetailPage: React.FC = () => {
             </div>
             {journal.content3 && (
               <div className="w-1/2">
-                <p className="text-base text-[var(--foreground)] leading-relaxed break-words">
+                <p className="text-base text-[var(--foreground)] leading-relaxed break-words font-body">
                   {journal.content3}
                 </p>
               </div>
@@ -97,14 +97,14 @@ const JournalDetailPage: React.FC = () => {
 
           {/* Content1 */}
           <div className="mb-8">
-            <p className="text-sm text-[var(--foreground)] leading-loose break-words">
+            <p className="text-sm text-[var(--foreground)] leading-loose break-words font-body">
               {journal.content1}
             </p>
           </div>
 
           {/* Content2 */}
           <div className="mb-8">
-            <p className="text-sm text-[var(--foreground)] leading-loose break-words">
+            <p className="text-sm text-[var(--foreground)] leading-loose break-words font-body">
               {journal.content2}
             </p>
           </div>
@@ -112,7 +112,7 @@ const JournalDetailPage: React.FC = () => {
           {/* Content3 */}
           {journal.content3 && (
             <div className="mb-8">
-              <p className="text-sm text-[var(--foreground)] leading-relaxed break-words">
+              <p className="text-sm text-[var(--foreground)] leading-relaxed break-words font-body">
                 {journal.content3}
               </p>
             </div>

@@ -172,7 +172,7 @@ export default function JournalPage() {
   if (loading) {
     return (
         <div className="min-h-screen bg-[var(--background)] overflow-x-hidden flex items-center justify-center">
-          <div className="text-white text-2xl">Loading journals...</div>
+          <div className="text-white text-2xl font-body">Loading journals...</div>
         </div>
     );
   }
@@ -188,10 +188,10 @@ export default function JournalPage() {
               <div className="lg:w-[35%] space-y-8">
                 <div className="max-w-2xl space-y-6">
                   <div>
-                    <h2 className="text-3xl lg:text-5xl font-regular leading-[109px] tracking-[-1px] text-[var(--foreground)] ">
+                    <h2 className="text-3xl lg:text-5xl font-heading leading-[109px] tracking-[-1px] text-[var(--foreground)] ">
                       /logs
                     </h2>
-                    <p className="text-[var(--foreground)] text-base lg:text-[18px] leading-relaxed">
+                    <p className="text-[var(--foreground)] text-base lg:text-[18px] leading-relaxed font-body">
                       Logs are where curiosity meets creation.{" "}
                       <span className="hidden md:block"></span>
                       Cars, drones, robots — whatever we build, break, and
@@ -205,7 +205,7 @@ export default function JournalPage() {
                   </div>
 
                   <div className="mt-16">
-                    <h3 className="text-2xl lg:text-[32px] font-regular text-[var(--foreground)]">
+                    <h3 className="text-2xl lg:text-[32px] font-heading text-[var(--foreground)]">
                       /garage
                     </h3>
                   </div>
@@ -217,7 +217,7 @@ export default function JournalPage() {
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         className="w-full bg-[#1a1a1a] border border-[var(--border)] rounded-lg px-4 py-3 text-left flex items-center justify-between hover:bg-[#2a2a2a] transition-colors duration-200"
                       >
-                        <span className="text-[var(--foreground)] text-lg">
+                        <span className="text-[var(--foreground)] text-lg font-body">
                           {selectedCategoryData ? selectedCategoryData.name : "/all"}
                         </span>
                         <svg
@@ -246,7 +246,7 @@ export default function JournalPage() {
                             }}
                             className="w-full px-4 py-3 text-left hover:bg-[#2a2a2a] transition-colors duration-200 rounded-t-lg"
                           >
-                            <span className="text-[var(--text-secondary)] text-lg">
+                            <span className="text-[var(--text-secondary)] text-lg font-body">
                               /all
                             </span>
                           </button>
@@ -258,7 +258,7 @@ export default function JournalPage() {
                               onClick={() => handleCategorySelect(category)}
                               className="w-full px-4 py-3 text-left hover:bg-[#2a2a2a] transition-colors duration-200 last:rounded-b-lg"
                             >
-                              <span className="text-[var(--foreground)] text-lg">
+                              <span className="text-[var(--foreground)] text-lg font-body">
                                 {category.name}
                               </span>
                             </button>
@@ -270,7 +270,7 @@ export default function JournalPage() {
                     {/* Selected Category Description */}
                     {selectedCategoryData && (
                       <div className="mt-4 p-4 bg-[#1a1a1a] rounded-lg">
-                        <p className="text-[var(--foreground)] text-base leading-relaxed">
+                        <p className="text-[var(--foreground)] text-base leading-relaxed font-body">
                           {selectedCategoryData.description}
                         </p>
                       </div>
@@ -292,7 +292,7 @@ export default function JournalPage() {
                     <h1 className="text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-[45px] tracking-[-1px]">
                       {featuredArticle.title}
                     </h1>
-                    <p className="text-[var(--foreground)] text-sm lg:text-base leading-relaxed line-clamp-3">
+                    <p className="text-[var(--foreground)] text-sm lg:text-base leading-relaxed line-clamp-3 font-body">
                       {featuredArticle.shortdes}
                     </p>
                   </div>
@@ -303,15 +303,15 @@ export default function JournalPage() {
             {/* Bottom Nav */}
             <div className="mt-4 border-t border-b border-[var(--border)]">
               <div className="flex items-center py-4">
-                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest">
+                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest font-body">
                   FIELD NOTES
                 </div>
                 <div className="hidden lg:block w-px h-12 bg-[var(--border)]"></div>
-                <div className="flex-1 text-center text-sm lg:text-[32px] text-[var(--foreground)] font-light lg:mx-32">
+                <div className="flex-1 text-center text-sm lg:text-[32px] text-[var(--foreground)] font-heading lg:mx-32">
                   BEHIND THE BUILDS
                 </div>
                 <div className="hidden lg:block w-px h-12 bg-[var(--border)]"></div>
-                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest">
+                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest font-body">
                   FIELD NOTES
                 </div>
               </div>
@@ -349,13 +349,13 @@ export default function JournalPage() {
                                 />
                               </div>
                               <div className="space-y-4 lg:space-y-2 max-w-2xl mb-4 lg:mb-0">
-                                <p className="text-[13px] lg:text-base text-[var(--text-secondary)]">
+                                <p className="text-[13px] lg:text-base text-[var(--text-secondary)] font-body">
                                   {formatDate(article.createdAt)}
                                 </p>
                                 <h3 className="text-base lg:text-xl font-heading text-[var(--primary)] leading-tight">
                                   {article.title}
                                 </h3>
-                                <p className="text-xs lg:text-sm text-[var(--text-secondary)] leading-relaxed mt-4 line-clamp-2">
+                                <p className="text-xs lg:text-sm text-[var(--text-secondary)] leading-relaxed mt-4 line-clamp-2 font-body">
                                   {article.shortdes}
                                 </p>
                               </div>
@@ -408,7 +408,7 @@ export default function JournalPage() {
                     type="search" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="block w-full pl-12 pr-4 py-4 text-sm bg-[#1a1a1a] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-colors duration-200" 
+                    className="block w-full pl-12 pr-4 py-4 text-sm bg-[#1a1a1a] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-colors duration-200 font-body" 
                     placeholder="Search articles, topics, categories..." 
                   />
                 </div>
@@ -443,13 +443,13 @@ export default function JournalPage() {
 
                         {/* Content on the right */}
                         <div className="flex-1 space-y-1 lg:space-y-2 lg:mx-8">
-                          <p className="text-[9px] lg:text-base text-[var(--text-secondary)]">
+                          <p className="text-[9px] lg:text-base text-[var(--text-secondary)] font-body">
                             {formatDate(article.createdAt)}
                           </p>
                           <h3 className="text-xs lg:text-xl font-heading text-[var(--foreground)] leading-tight lg:leading-[30px] pt-3 lg:pt-8">
                             {article.title}
                           </h3>
-                          <p className="text-[8px] lg:text-sm text-[var(--foreground)] leading-relaxed pt-1 lg:pt-2 line-clamp-2">
+                          <p className="text-[8px] lg:text-sm text-[var(--foreground)] leading-relaxed pt-1 lg:pt-2 line-clamp-2 font-body">
                             {article.shortdes}
                           </p>
                         </div>
@@ -462,7 +462,7 @@ export default function JournalPage() {
                     <div className="flex justify-center mt-8">
                       <button
                         onClick={loadMoreArticles}
-                        className="px-8 py-3 bg-[#1a1a1a] border border-[var(--border)] text-[var(--foreground)] rounded-lg hover:bg-[#2a2a2a] transition-all duration-200 font-medium"
+                        className="px-8 py-3 bg-[#1a1a1a] border border-[var(--border)] text-[var(--foreground)] rounded-lg hover:bg-[#2a2a2a] transition-all duration-200 font-body"
                       >
                         Read More
                       </button>

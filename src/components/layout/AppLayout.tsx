@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Home, FileText, User, MoreVertical, ShoppingBagIcon, Handbag } from 'lucide-react';
+import { X, Search, Home, FileText, User, MoreVertical, ShoppingBagIcon, Handbag } from 'lucide-react';
 import AnnouncementBar from '../AnnouncementBar';
 import CartDrawer from '../CartDrawer';
 import { useCartStore } from '../../stores/cartStore';
@@ -45,50 +45,35 @@ export default function AppLayout() {
 
   // Helper function to get link classes
   const getLinkClasses = (href: string) => {
-    const baseClasses = "flex items-center gap-3 py-2 transition-colors duration-200";
-    const activeClasses = "text-[var(--primary)] font-medium";
+    const baseClasses = "flex items-center gap-3 py-2 transition-colors duration-200 font-body no-underline";
+    const activeClasses = "text-[var(--primary)]";
     const inactiveClasses = "text-[var(--foreground)] hover:text-[var(--primary)]";
     
     return `${baseClasses} ${isActive(href) ? activeClasses : inactiveClasses}`;
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden" style={{
-      '--sidebar-width': isSidebarOpen ? 'calc(15vw + 2rem)' : '2rem'
-    } as React.CSSProperties}>
-      {/* Announcement Bar */}
-      <div className={`fixed top-0 z-50 bg-[var(--primary)] text-[var(--background)] py-1 sm:py-2 overflow-hidden transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? 'md:left-[15vw] left-0 right-0' : 'left-0 right-0'
-      }`}>
-        <AnnouncementBar />
-      </div>
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden">
+      {/* Announcement Bar - Hidden when sidebar is open */}
+      {!isSidebarOpen && (
+        <div className="fixed top-0 z-50 bg-[var(--primary)] text-[var(--background)] py-1 sm:py-2 overflow-hidden transition-all duration-300 ease-in-out left-0 right-0">
+          <AnnouncementBar />
+        </div>
+      )}
       
-      {/* Header */}
-      <header className={`fixed top-7 sm:top-9 z-40 bg-[var(--background)] border-b border-[var(--border)] transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? 'md:left-[15vw] left-0 right-0' : 'left-0 right-0'
-      }`}>
-        <div className="flex items-center justify-between px-2 pl-0 md:pl-2 lg:pl-6  md:px-4  lg:px-8 py-2 md:py-4">
-          {/* Left: Logo + Hamburger (only when sidebar closed) */}
+      {/* Header - Hidden when sidebar is open */}
+      {!isSidebarOpen && (
+        <header className="fixed top-7 sm:top-9 z-40 bg-[var(--background)] border-b border-gray-600 transition-all duration-300 ease-in-out left-0 right-0">
+        <div className="flex items-center justify-between px-4 md:px-6 lg:px-8 py-3 md:py-4">
+          {/* Left: KORZI wordmark as sidebar toggle */}
           <div className="flex items-center">
-            {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img
-                src="/logo-horizontal.png"
-                alt="Korzi Logo"
-                className="h-10 w-auto"
-              />
-            </Link>
-
-            {/* Hamburger Menu Button - Only show when sidebar is closed */}
-            {!isSidebarOpen && (
-              <button
-                onClick={toggleSidebar}
-                className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
-                aria-label="Toggle navigation menu"
-              >
-                <Menu className="w-6 h-6 transition-transform duration-300" />
-              </button>
-            )}
+            <button
+              onClick={toggleSidebar}
+              className="text-[var(--primary)] text-2xl font-heading hover:text-[var(--secondary)] transition-colors duration-200 no-underline"
+              aria-label="Toggle navigation menu"
+            >
+              KORZI
+            </button>
           </div>
 
           {/* Right: Search */}
@@ -106,7 +91,7 @@ export default function AppLayout() {
             >
               <Handbag className="w-5 h-5" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-black text-xs font-heading rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -122,6 +107,7 @@ export default function AppLayout() {
           </div>
         </div>
       </header>
+      )}
 
       {/* Sidebar Overlay - Only show on mobile */}
       {isSidebarOpen && (
@@ -133,20 +119,22 @@ export default function AppLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full bg-[var(--background)] border-r border-[var(--border)] z-50 transform transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full bg-[var(--background)] z-50 transform transition-all duration-300 ease-in-out ${
           isSidebarOpen 
             ? 'translate-x-0 w-80 md:w-[15vw]' 
             : '-translate-x-full w-80 md:w-[15vw]'
         }`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
-            <img
-              src="/logo-horizontal.png"
-              alt="Korzi Logo"
-              className="h-10 w-auto"
-            />
+            <Link to="/" className="no-underline" onClick={closeSidebar}>
+              <img
+                src="/logo-horizontal.png"
+                alt="Korzi Logo"
+                className="h-16 w-auto"
+              />
+            </Link>
           </div>
           <button
             onClick={closeSidebar}
@@ -194,7 +182,7 @@ export default function AppLayout() {
             </Link>
           </div>
 
-          <div className="border-t border-[var(--border)] pt-6 space-y-4">
+          <div className="pt-6 space-y-4">
             {isAuthenticated ? (
               // Logged in user - show account info and logout
               <>
@@ -204,10 +192,10 @@ export default function AppLayout() {
                       <User className="w-4 h-4 text-[var(--background)]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[var(--foreground)] truncate">
+                      <p className="text-sm text-[var(--foreground)] truncate font-body">
                         {customer?.displayName || customer?.email || 'User'}
                       </p>
-                      <p className="text-xs text-[var(--text-secondary)] truncate">
+                      <p className="text-xs text-[var(--text-secondary)] truncate font-body">
                         {customer?.email}
                       </p>
                     </div>
@@ -218,7 +206,7 @@ export default function AppLayout() {
                     logout();
                     closeSidebar();
                   }}
-                  className="flex items-center gap-3 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 w-full text-left"
+                  className="flex items-center gap-3 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 w-full text-left font-body"
                 >
                   <User className="w-5 h-5" />
                   <span>SIGN OUT</span>
@@ -240,10 +228,12 @@ export default function AppLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className={`pt-10 sm:pt-12 md:pt-14 lg:pt-16 transition-all duration-300 ease-in-out ${
+      <main className={`transition-all duration-300 ease-in-out ${
         isSidebarOpen ? 'md:ml-[15vw]' : ''
       }`}>
-        <Outlet/>
+        <div className={`${isSidebarOpen ? 'pt-0' : 'pt-14 sm:pt-16 md:pt-20 lg:pt-24'}`}>
+          <Outlet/>
+        </div>
       </main>
 
       {/* Cart Drawer */}

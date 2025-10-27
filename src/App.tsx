@@ -12,8 +12,6 @@ import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
 import CheckoutPage from './components/CheckoutPage'
 import OrderConfirmationPage from './components/OrderConfirmationPage'
 import OrdersPage from './components/OrdersPage'
-import TestOrderCreation from './components/TestOrderCreation'
-import DebugCheckout from './components/DebugCheckout'
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
 
@@ -69,8 +67,6 @@ function App() {
     <Route path="/checkout" element={<CheckoutPage />} />
     <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
     <Route path="/orders" element={<OrdersPage />} />
-    <Route path="/test-order" element={<TestOrderCreation />} />
-    <Route path="/debug-checkout" element={<DebugCheckout />} />
   </Route>
 
   <Route path="/signin" element={<LoginPage />} />

@@ -93,11 +93,11 @@ function ShopPage() {
         <div className="py-16 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-8">OUR PRODUCTS</h2>
+              <h2 className="text-3xl text-[var(--foreground)] mb-8 font-heading">OUR PRODUCTS</h2>
               <div className="flex justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary)]"></div>
               </div>
-              <p className="text-[var(--text-secondary)] mt-4">Loading products...</p>
+              <p className="text-[var(--text-secondary)] mt-4 font-body">Loading products...</p>
             </div>
           </div>
         </div>
@@ -105,9 +105,9 @@ function ShopPage() {
         <div className="py-16 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-8">OUR PRODUCTS</h2>
-              <p className="text-red-500 mb-4">{error}</p>
-              <p className="text-[var(--text-secondary)]">Please try again later.</p>
+              <h2 className="text-3xl text-[var(--foreground)] mb-8 font-heading">OUR PRODUCTS</h2>
+              <p className="text-red-500 mb-4 font-body">{error}</p>
+              <p className="text-[var(--text-secondary)] font-body">Please try again later.</p>
             </div>
           </div>
         </div>

@@ -203,7 +203,7 @@ const CheckoutPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">No items in cart</h2>
+          <h2 className="text-2xl text-gray-900 mb-4 font-heading">No items in cart</h2>
           <button
             onClick={() => navigate('/shop')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -228,7 +228,7 @@ const CheckoutPage: React.FC = () => {
             Back to Cart
           </button>
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
+            <h1 className="text-3xl text-gray-900 font-heading">Checkout</h1>
           </div>
         </div>
 
@@ -240,12 +240,12 @@ const CheckoutPage: React.FC = () => {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center mb-4">
                   <User className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg font-semibold text-gray-900">Customer Information</h2>
+                  <h2 className="text-lg text-gray-900 font-heading">Customer Information</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="firstName" className="block text-sm text-gray-700 mb-1 font-body">
                       First Name *
                     </label>
                     <input
@@ -262,7 +262,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="lastName" className="block text-sm text-gray-700 mb-1 font-body">
                       Last Name *
                     </label>
                     <input
@@ -279,7 +279,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="email" className="block text-sm text-gray-700 mb-1 font-body">
                       Email *
                     </label>
                     <input
@@ -296,7 +296,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="phone" className="block text-sm text-gray-700 mb-1 font-body">
                       Phone Number *
                     </label>
                     <input
@@ -318,12 +318,12 @@ const CheckoutPage: React.FC = () => {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center mb-4">
                   <MapPin className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg font-semibold text-gray-900">Shipping Address</h2>
+                  <h2 className="text-lg text-gray-900 font-heading">Shipping Address</h2>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="address1" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="address1" className="block text-sm text-gray-700 mb-1 font-body">
                       Address Line 1 *
                     </label>
                     <input
@@ -340,7 +340,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="address2" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="address2" className="block text-sm text-gray-700 mb-1 font-body">
                       Address Line 2
                     </label>
                     <input
@@ -355,7 +355,7 @@ const CheckoutPage: React.FC = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="city" className="block text-sm text-gray-700 mb-1 font-body">
                         City *
                       </label>
                       <input
@@ -372,7 +372,7 @@ const CheckoutPage: React.FC = () => {
                     </div>
                     
                     <div>
-                      <label htmlFor="province" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="province" className="block text-sm text-gray-700 mb-1 font-body">
                         State/Province *
                       </label>
                       <input
@@ -389,7 +389,7 @@ const CheckoutPage: React.FC = () => {
                     </div>
                     
                     <div>
-                      <label htmlFor="zip" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="zip" className="block text-sm text-gray-700 mb-1 font-body">
                         ZIP Code *
                       </label>
                       <input
@@ -407,7 +407,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="country" className="block text-sm text-gray-700 mb-1 font-body">
                       Country
                     </label>
                     <select
@@ -430,7 +430,7 @@ const CheckoutPage: React.FC = () => {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center mb-4">
                   <CreditCard className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg font-semibold text-gray-900">Payment</h2>
+                  <h2 className="text-lg text-gray-900 font-heading">Payment</h2>
                 </div>
                 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -461,7 +461,7 @@ const CheckoutPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-body hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Processing Order...' : 'Place Order'}
               </button>
@@ -471,7 +471,7 @@ const CheckoutPage: React.FC = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+              <h2 className="text-lg text-gray-900 mb-4 font-heading">Order Summary</h2>
               
               <div className="space-y-4">
                 {currentOrder.items.map((item) => (
@@ -486,16 +486,16 @@ const CheckoutPage: React.FC = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                      <p className="text-sm text-gray-900 truncate font-body">{item.title}</p>
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-medium text-gray-900">₹{item.price * item.quantity}</p>
+                    <p className="text-sm text-gray-900 font-body">₹{item.price * item.quantity}</p>
                   </div>
                 ))}
               </div>
               
               <div className="border-t border-gray-200 pt-4 mt-4">
-                <div className="flex justify-between text-lg font-semibold text-gray-900">
+                <div className="flex justify-between text-lg text-gray-900 font-heading">
                   <span>Total</span>
                   <span>₹{currentOrder.totalAmount}</span>
                 </div>

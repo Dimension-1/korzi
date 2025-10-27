@@ -121,7 +121,7 @@ export default function VideoCarousel() {
       <div className="w-full">
         {/* Header with Title */}
         <div className="text-center mb-12 px-6 lg:px-8">
-          <h2 className="text-4xl lg:text-5xl font-bold text-[var(--primary)] uppercase tracking-wide">
+          <h2 className="text-5xl lg:text-7xl font-2xl font-heading text-[var(--primary)] uppercase tracking-wide">
             WATCH KORZI TAKE OVER
           </h2>
         </div>
