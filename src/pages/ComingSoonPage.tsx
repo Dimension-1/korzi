@@ -10,9 +10,12 @@ export default function ComingSoonPage() {
   });
 
   useEffect(() => {
-    // Set target date to exactly 44 days from October 2, 2025
-    // This calculates to November 15, 2025
-    const targetDate = new Date('2025-10-02T00:00:00').getTime() + (44 * 24 * 60 * 60 * 1000);
+
+    // Set fixed launch date: 30 days from Dec 11, 2025
+// Set FIXED launch date: 30 days from deployment
+      const targetDate = new Date('2025-12-13T00:00:00').getTime();
+
+
 
     const updateTimer = () => {
       const currentTime = new Date().getTime();
@@ -51,30 +54,23 @@ export default function ComingSoonPage() {
 
   return (
     <>
-      {/* CHANGE 1: METADATA FIX (React 19)
-        Added <title> and <meta> tags directly. 
-      */}
+      {/* METADATA */}
       <title>KORZI: Coming Soon - Machines For The Young</title>
       <meta 
         name="description" 
         content="Get ready for KORZI. Grip. Guts. Glory. Our new line of toys is launching soon on Amazon and korzi.toys." 
       />
 
-      {/* CHANGE 2: LAYOUT FIX (Sticky Footer)
-        Added 'flex flex-col' here to make this a flex container.
-      */}
+      {/* STICKY FOOTER LAYOUT */}
       <div className="min-h-screen bg-[#000] text-[var(--foreground)] relative overflow-hidden flex flex-col">
         
-        {/* CHANGE 2: LAYOUT FIX (Sticky Footer)
-          Wrapped the main content in a <main> tag with 'flex-grow'.
-          This makes it expand to fill all available space, pushing the footer down.
-        */}
+        {/* MAIN CONTENT (GROWS TO PUSH FOOTER DOWN) */}
         <main className="flex-grow">
           
           {/* Desktop Layout (lg and above) */}
           <div className="hidden lg:block">
             {/* KORZI Logo */}
-            <div className="absolute top-2 left-8 z-10 transition-all duration-300 ease-in-out" style={{
+            <div className="absolute top-8 left-8 z-10 transition-all duration-300 ease-in-out" style={{
               left: 'var(--sidebar-width, 2rem)'
             }}>
               <img 
@@ -84,10 +80,15 @@ export default function ComingSoonPage() {
               />
             </div>
 
-            {/* GIF in top-right corner */}
-            <div className="w-full lg:ml-[60%] xl:ml-[63%]  z-10 transition-all duration-300 ease-in-out" style={{
-              right: 'var(--sidebar-width, 3rem)'
-            }}>
+            {/* GIF in top-right corner 
+                - Made absolute and aligned with top-10 to match logo
+            */}
+            <div 
+              className="absolute top-2 right-12 z-10 transition-all duration-300 ease-in-out" 
+              style={{
+                right: 'var(--sidebar-width, 3rem)'
+              }}
+            >
               <img
                 src="/coming-soon.gif"
                 alt="Coming Soon Animation"
@@ -95,8 +96,11 @@ export default function ComingSoonPage() {
               />
             </div>
 
-            {/* Main Content */}
-            <div className="flex flex-col bottom-0 relative justify-center xl:-mt-36 px-8 sm:px-12 4xl:px-32">
+            {/* Main Content 
+                - Replaced xl:-mt-36 with pt-40 to push content down
+                - This prevents overlap with the absolute positioned logo
+            */}
+            <div className="absolute bottom-32 left-0 right-0 px-8 sm:px-12 4xl:px-32">
               {/* Main Heading */}
               <div className="mb-8 3xl:mb-12 4xl:mb-16">
                   <h2 className="leading-tight mb-6 3xl:mb-8  font-heading">

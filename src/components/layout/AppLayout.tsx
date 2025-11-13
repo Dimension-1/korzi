@@ -138,6 +138,10 @@ export default function AppLayout() {
               <ShoppingBagIcon className="w-5 h-5" />
               <span>SHOP</span>
             </Link>
+            <Link to="/orders" className={getLinkClasses('/orders')} onClick={closeSidebar}>
+              <ShoppingBagIcon className="w-5 h-5" />
+              <span>ORDERS</span>
+            </Link>
             <Link to="/more" className={getLinkClasses('/comming-soon')} onClick={closeSidebar}>
               <MoreVertical className="w-5 h-5" />
               <span>MORE</span>

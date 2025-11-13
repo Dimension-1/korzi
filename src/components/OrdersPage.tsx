@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Package, Calendar, CreditCard } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
+import { useAuthStore } from '../stores/authStore';
 
 const OrdersPage: React.FC = () => {
   const navigate = useNavigate();
-  const { orderHistory } = useOrderStore();
+  const { orderHistory, fetchOrderHistory, isLoading } = useOrderStore();
+  const { customer } = useAuthStore();
+
+  useEffect(() => {
+    if (customer?.email) {
+      fetchOrderHistory(customer.email);
+    }
+  }, [customer?.email, fetchOrderHistory]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading orders...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate(-1)}
@@ -49,7 +67,7 @@ const OrdersPage: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Order #{order.orderNumber}
+                        Order {order.orderNumber}
                       </h3>
                       <p className="text-sm text-gray-500">
                         Placed on {new Date(order.createdAt).toLocaleDateString()}
@@ -107,7 +125,7 @@ const OrdersPage: React.FC = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() => navigate(`/order-confirmation/${order.id}`)}
+                      onClick={() => navigate(`/order-confirmation`, { state: order })}
                       className="text-blue-600 hover:text-blue-700 font-medium text-sm"
                     >
                       View Details
@@ -124,4 +142,3 @@ const OrdersPage: React.FC = () => {
 };
 
 export default OrdersPage;
-

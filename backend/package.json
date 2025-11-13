@@ -1,0 +1,21 @@
+{
+    "name": "korzi-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "backend": "node server.js",
+        "dev:all": "concurrently \"npm run dev\" \"npm run backend\"",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "axios": "^1.13.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "graphql": "^16.12.0",
+        "graphql-request": "^7.3.1",
+        "razorpay": "^2.9.6"
+    }
+}

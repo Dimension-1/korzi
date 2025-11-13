@@ -254,110 +254,30 @@ export const getOrderDetails = async (orderId: string): Promise<any> => {
 // Note: Order payment status updates are handled by Shopify checkout
 // No need to manually update payment status when using Storefront API checkout
 
-// Create order in Shopify using Admin API (after payment confirmation)
-const CREATE_ORDER_ADMIN = `
-  mutation draftOrderCreate($input: DraftOrderInput!) {
-    draftOrderCreate(input: $input) {
-      draftOrder {
-        id
-        name
-        order {
-          id
-          name
-        }
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
-
 // Create order in Shopify Admin API after successful Razorpay payment
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+
 export const createShopifyOrder = async (orderData: OrderData, paymentId: string): Promise<OrderResponse> => {
   try {
-    const adminToken = import.meta.env.VITE_SHOPIFY_ADMIN_TOKEN;
-    const shopifyAdminUrl = import.meta.env.VITE_SHOPIFY_STOREFRONT_URL?.replace('/storefront/', '/admin/');
+    const response = await fetch(`${BACKEND_URL}/api/shopify/create-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderData, paymentId }),
+    });
+
+    const data = await response.json();
     
-    if (!adminToken || !shopifyAdminUrl) {
-      throw new Error('Shopify Admin API credentials not configured');
-    }
-
-    const adminClient = new GraphQLClient(shopifyAdminUrl, {
-      headers: {
-        'X-Shopify-Access-Token': adminToken,
-      },
-    });
-
-    // Prepare line items
-    const lineItems = orderData.items.map(item => ({
-      variantId: item.variantId,
-      quantity: item.quantity,
-      customAttributes: [{
-        key: 'payment_id',
-        value: paymentId
-      }]
-    }));
-
-    // Create draft order
-    const result = await adminClient.request(CREATE_ORDER_ADMIN, {
-      input: {
-        email: orderData.customer.email,
-        phone: orderData.customer.phone,
-        lineItems: lineItems,
-        shippingAddress: {
-          firstName: orderData.customer.firstName,
-          lastName: orderData.customer.lastName,
-          address1: orderData.shippingAddress.address1,
-          address2: orderData.shippingAddress.address2,
-          city: orderData.shippingAddress.city,
-          province: orderData.shippingAddress.province,
-          country: orderData.shippingAddress.country,
-          zip: orderData.shippingAddress.zip,
-          phone: orderData.customer.phone
-        },
-        billingAddress: {
-          firstName: orderData.customer.firstName,
-          lastName: orderData.customer.lastName,
-          address1: orderData.shippingAddress.address1,
-          address2: orderData.shippingAddress.address2,
-          city: orderData.shippingAddress.city,
-          province: orderData.shippingAddress.province,
-          country: orderData.shippingAddress.country,
-          zip: orderData.shippingAddress.zip,
-          phone: orderData.customer.phone
-        },
-        customAttributes: [{
-          key: 'razorpay_payment_id',
-          value: paymentId
-        }],
-        note: `Order paid via Razorpay. Payment ID: ${paymentId}`
-      }
-    });
-
-    const draftOrder = (result as any).draftOrderCreate.draftOrder;
-    const userErrors = (result as any).draftOrderCreate.userErrors;
-
-    if (userErrors && userErrors.length > 0) {
-      console.error('Errors creating order:', userErrors);
+    if (!data.success) {
       return {
         success: false,
-        errors: userErrors.map((e: any) => e.message)
-      };
-    }
-
-    if (draftOrder && draftOrder.order) {
-      return {
-        success: true,
-        orderId: draftOrder.order.id,
-        orderNumber: draftOrder.order.name
+        errors: data.errors || [data.error]
       };
     }
 
     return {
-      success: false,
-      errors: ['Failed to create order']
+      success: true,
+      orderId: data.orderId,
+      orderNumber: data.orderNumber
     };
   } catch (error) {
     console.error('Error creating Shopify order:', error);
@@ -367,6 +287,7 @@ export const createShopifyOrder = async (orderData: OrderData, paymentId: string
     };
   }
 };
+
 
 // Process payment using Razorpay
 export const processPayment = async (
@@ -393,3 +314,22 @@ export const processPayment = async (
     };
   }
 };
+
+// Fetch orders from backend
+export const fetchOrderHistory = async (email: string): Promise<any[]> => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/shopify/orders/${encodeURIComponent(email)}`);
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.error('Failed to fetch orders:', data.error);
+      return [];
+    }
+    
+    return data.orders || [];
+  } catch (error) {
+    console.error('Error fetching order history:', error);
+    return [];
+  }
+};
+

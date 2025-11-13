@@ -13,25 +13,27 @@ export default function JournalPage() {
   const categories = [
     {
       id: "play",
-      name: "/play",
+      name: "play",
       description: "From backyard races to simple science experiments — this is where fun meets discovery. Every test, trick, and challenge turns playtime into an adventure."
     },
     {
       id: "build", 
-      name: "/build",
+      name: "build",
       description: "Step-by-step hacks, creative mods, and custom upgrades. Whether it's LEDs, spoilers, or new tricks with everyday materials — here's where you bring your RC to life."
     },
     {
       id: "learn",
-      name: "/learn", 
+      name: "learn", 
       description: "Motors, gears, batteries, and balance — explained simply. Clear insights that make kids curious, parents confident, and hobbyists smarter."
     },
     {
       id: "guides",
-      name: "/guides",
+      name: "guides",
       description: "Smart choices and easy fixes. From buying tips to safety checks and troubleshooting, this is your trusted corner for RC care."
     }
   ];
+  
+  
 
   const [blogs, setBlogs] = useState<any[]>([]);
   const [plays, setPlays] = useState<any[]>([]);
@@ -178,7 +180,7 @@ export default function JournalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] overflow-x-hidden -mt-12">
+    <div className="min-h-screen bg-[var(--background)] overflow-x-hidden pt-8">
          <div className="mx-auto w-80 h-28 mb-4">
             <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-fit" />
          </div>
@@ -189,7 +191,7 @@ export default function JournalPage() {
                 <div className="max-w-2xl space-y-6">
                   <div>
                     <h2 className="text-3xl lg:text-5xl font-heading leading-[109px] tracking-[-1px] text-[var(--foreground)] ">
-                      /logs
+                      logs
                     </h2>
                     <p className="text-[var(--foreground)] text-base lg:text-[18px] leading-relaxed font-body">
                       Logs are where curiosity meets creation.{" "}
@@ -206,7 +208,7 @@ export default function JournalPage() {
 
                   <div className="mt-16">
                     <h3 className="text-2xl lg:text-[32px] font-heading text-[var(--foreground)]">
-                      /garage
+                      garage
                     </h3>
                   </div>
 
@@ -218,7 +220,7 @@ export default function JournalPage() {
                         className="w-full bg-[#1a1a1a] border border-[var(--border)] rounded-lg px-4 py-3 text-left flex items-center justify-between hover:bg-[#2a2a2a] transition-colors duration-200"
                       >
                         <span className="text-[var(--foreground)] text-lg font-body">
-                          {selectedCategoryData ? selectedCategoryData.name : "/all"}
+                        {selectedCategoryData ? selectedCategoryData.name : "all"}
                         </span>
                         <svg
                           className={`ml-2 transition-transform duration-300 ${
@@ -247,7 +249,7 @@ export default function JournalPage() {
                             className="w-full px-4 py-3 text-left hover:bg-[#2a2a2a] transition-colors duration-200 rounded-t-lg"
                           >
                             <span className="text-[var(--text-secondary)] text-lg font-body">
-                              /all
+                              all
                             </span>
                           </button>
                           

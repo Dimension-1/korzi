@@ -96,42 +96,59 @@ export const initiateRazorpayPayment = async (options: RazorpayOptions): Promise
 
 // Create Razorpay order (this would typically be done on your backend)
 // For now, we'll use a mock implementation
-export const createRazorpayOrder = async (amount: number, currency: string, receipt?: string): Promise<string> => {
+// Replace the createRazorpayOrder function with this:
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+
+export const createRazorpayOrder = async (
+  amount: number,
+  currency: string,
+  receipt?: string
+): Promise<string> => {
   try {
-    // In production, this should call your backend API which creates the order using Razorpay server SDK
-    // Backend should use VITE_RAZORPAY_SECRET to create order
+    const response = await fetch(`${BACKEND_URL}/api/razorpay/create-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount, currency, receipt }),
+    });
+
+    const data = await response.json();
     
-    // For now, returning a mock order ID based on the receipt (Shopify order number)
-    // You need to implement backend endpoint: POST /api/razorpay/create-order
-    const orderId = receipt ? `order_${receipt}_${Date.now()}` : `order_${Date.now()}`;
-    
-    console.warn('Using mock Razorpay order ID. Implement backend endpoint for production.');
-    console.log('Mock order created:', { orderId, amount, currency, receipt });
-    
-    return orderId;
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to create order');
+    }
+
+    return data.orderId;
   } catch (error) {
     console.error('Error creating Razorpay order:', error);
     throw error;
   }
 };
 
-// Verify payment signature (should be done on backend for security)
+// Add payment verification function
 export const verifyPaymentSignature = async (
   orderId: string,
   paymentId: string,
   signature: string
 ): Promise<boolean> => {
   try {
-    // In production, this MUST be done on your backend for security
-    // Backend should verify using: razorpay_signature = hmac_sha256(order_id + "|" + payment_id, secret)
-    
-    console.warn('Payment signature verification should be done on backend for security');
-    console.log('Payment details:', { orderId, paymentId, signature });
-    
-    // For now, returning true (INSECURE - only for development)
-    return true;
+    const response = await fetch(`${BACKEND_URL}/api/razorpay/verify-payment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        razorpay_order_id: orderId,
+        razorpay_payment_id: paymentId,
+        razorpay_signature: signature,
+      }),
+    });
+
+    const data = await response.json();
+    return data.verified;
   } catch (error) {
     console.error('Error verifying payment:', error);
     return false;
   }
 };
+
+
+

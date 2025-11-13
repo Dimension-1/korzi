@@ -1,28 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle, Package, Truck, Home } from 'lucide-react';
-import { useOrderStore } from '../stores/orderStore';
+import ShipmentTracking from './ShipmentTracking';
+
 
 const OrderConfirmationPage: React.FC = () => {
-  const { orderId } = useParams<{ orderId: string }>();
+  const location = useLocation();
   const navigate = useNavigate();
-  const { orderHistory } = useOrderStore();
-  const [order, setOrder] = useState<any>(null);
+  const [orderData, setOrderData] = useState<any>(null);
 
   useEffect(() => {
-    if (orderId) {
-      // Find order in history
-      const foundOrder = orderHistory.find(o => o.id === orderId);
-      if (foundOrder) {
-        setOrder(foundOrder);
-      } else {
-        // If not found in history, redirect to home
-        navigate('/');
+    const state = location.state as any;
+    console.log('=== ORDER CONFIRMATION DEBUG ===');
+    console.log('location.state:', state);
+    console.log('================================');
+    
+    if (state && state.orderNumber) {
+      setOrderData(state);
+      
+      // If no tracking info, wait and check again (BigShip is processing in background)
+      if (!state.bigshipShipmentId && !state.awbNumber) {
+        const checkTracking = setInterval(async () => {
+          try {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/orders/${state.customer?.email || 'test@test.com'}`);
+            const data = await response.json();
+            
+            if (data.success) {
+              const order = data.orders.find((o: any) => o.orderNumber === state.orderNumber);
+              if (order && order.awbNumber) {
+                setOrderData(order);
+                clearInterval(checkTracking);
+              }
+            }
+          } catch (error) {
+            console.error('Error checking tracking:', error);
+          }
+        }, 5000); // Check every 5 seconds
+        
+        // Stop checking after 2 minutes
+        setTimeout(() => clearInterval(checkTracking), 120000);
+        
+        return () => clearInterval(checkTracking);
       }
+    } else {
+      console.log('No state found, redirecting...');
+      navigate('/shop');
     }
-  }, [orderId, orderHistory, navigate]);
+  }, [location.state, navigate]);
+  
 
-  if (!order) {
+  if (!orderData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -57,24 +84,31 @@ const OrderConfirmationPage: React.FC = () => {
                 Order Information
               </h3>
               <div className="space-y-2">
-                <div className="flex justify-between">
+              <div className="flex justify-between">
                   <span className="text-gray-600">Order Number:</span>
-                  <span className="font-medium">{order.orderNumber}</span>
+                  <span className="font-medium text-gray-900">{orderData.orderNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Order Date:</span>
-                  <span className="font-medium">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                  <span className="font-medium text-gray-900">
+                    {new Date(orderData.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status:</span>
-                  <span className="font-medium text-green-600 capitalize">{order.status}</span>
+                  <span className="font-medium text-green-600 capitalize">{orderData.status}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Amount:</span>
-                  <span className="font-bold text-lg">₹{order.totalAmount}</span>
+                  <span className="font-bold text-lg text-gray-900">₹{orderData.totalAmount}</span>
                 </div>
+                {orderData.paymentId && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Payment ID:</span>
+                    <span className="font-mono text-xs text-gray-900">{orderData.paymentId}</span>
+                  </div>
+                )}
+
               </div>
             </div>
             
@@ -118,33 +152,60 @@ const OrderConfirmationPage: React.FC = () => {
         </div>
 
         {/* Order Items */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Items</h2>
-          
-          <div className="space-y-4">
-            {order.items.map((item: any) => (
-              <div key={item.id} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0">
-                  {item.image && (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  )}
+        {orderData.items && orderData.items.length > 0 && (
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Items</h2>
+            
+            <div className="space-y-4">
+              {orderData.items.map((item: any) => (
+                <div key={item.id} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
+                  <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-medium text-gray-900">{item.title}</h3>
+                    <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-900">₹{item.price * item.quantity}</p>
+                    <p className="text-xs text-gray-500">₹{item.price} each</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-medium text-gray-900">{item.title}</h3>
-                  <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">₹{item.price * item.quantity}</p>
-                  <p className="text-xs text-gray-500">₹{item.price} each</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Shipping Address */}
+        {orderData.shippingAddress && (
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Shipping Address</h2>
+            <div className="text-gray-700 space-y-1">
+              <p className="font-medium">{orderData.customer?.firstName} {orderData.customer?.lastName}</p>
+              <p>{orderData.shippingAddress.address1}</p>
+              {orderData.shippingAddress.address2 && <p>{orderData.shippingAddress.address2}</p>}
+              <p>{orderData.shippingAddress.city}, {orderData.shippingAddress.province} {orderData.shippingAddress.zip}</p>
+              <p>{orderData.shippingAddress.country}</p>
+              {orderData.customer?.phone && <p className="mt-2">Phone: {orderData.customer.phone}</p>}
+            </div>
+          </div>
+        )}
+
+
+        {/* Shipment Tracking */}
+          {orderData.bigshipShipmentId && (
+            <ShipmentTracking 
+              orderId={orderData.orderNumber}
+              awbNumber={orderData.awbNumber}
+            />
+        )}
+
 
         {/* Contact Information */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
@@ -154,13 +215,10 @@ const OrderConfirmationPage: React.FC = () => {
           </p>
           <div className="space-y-2">
             <p className="text-blue-700 text-sm">
-              <strong>Email:</strong> support@korzijournals.com
+              <strong>Email:</strong> support@korzi.toys
             </p>
             <p className="text-blue-700 text-sm">
-              <strong>Phone:</strong> +91 98765 43210
-            </p>
-            <p className="text-blue-700 text-sm">
-              <strong>Order Reference:</strong> {order.orderNumber}
+              <strong>Order Reference:</strong> {orderData.orderNumber}
             </p>
           </div>
         </div>
@@ -173,12 +231,6 @@ const OrderConfirmationPage: React.FC = () => {
           >
             Continue Shopping
           </button>
-          <button
-            onClick={() => navigate('/orders')}
-            className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-          >
-            View All Orders
-          </button>
         </div>
       </div>
     </div>
@@ -186,4 +238,3 @@ const OrderConfirmationPage: React.FC = () => {
 };
 
 export default OrderConfirmationPage;
-

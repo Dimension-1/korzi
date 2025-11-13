@@ -6,10 +6,12 @@ import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse } from '../services/razorpay';
 import { createShopifyOrder } from '../services/orders';
+import { createShipment } from '../services/bigship';
+
 
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { currentOrder, isLoading, error, updateCustomerInfo, updateShippingAddress } = useOrderStore();
+  const { currentOrder, isLoading, error, updateCustomerInfo, updateShippingAddress, addToOrderHistory } = useOrderStore();
   const { clearCart } = useCartStore();
   const { customer } = useAuthStore();
 
@@ -29,9 +31,7 @@ const CheckoutPage: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string>('');
 
-
   useEffect(() => {
-    // Redirect if no order data
     if (!currentOrder) {
       navigate('/shop');
     }
@@ -44,7 +44,6 @@ const CheckoutPage: React.FC = () => {
       [name]: value
     }));
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -66,29 +65,24 @@ const CheckoutPage: React.FC = () => {
     if (!formData.province.trim()) newErrors.province = 'State/Province is required';
     if (!formData.zip.trim()) newErrors.zip = 'ZIP code is required';
 
-    console.log('Form data being validated:', formData);
-    console.log('Validation errors:', newErrors);
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    console.log('Form submitted, validating...');
-    setSubmitError(''); // Clear previous errors
+    setSubmitError('');
     
     if (!validateForm()) {
-      console.log('Form validation failed - please fill all required fields');
-      console.log('Missing required fields:', Object.keys(errors));
       return;
     }
 
-    console.log('Form validation passed, starting order creation...');
+    if (!currentOrder) {
+      setSubmitError('Order not found. Please try again.');
+      return;
+    }
 
     try {
-      // Update order with customer and shipping info
       updateCustomerInfo({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -105,14 +99,7 @@ const CheckoutPage: React.FC = () => {
         zip: formData.zip
       });
 
-      if (!currentOrder) {
-        console.error('No current order found!');
-        setSubmitError('Order not found. Please try again.');
-        return;
-      }
-
-      // Step 1: Create draft order in Shopify FIRST
-      console.log('Creating draft order in Shopify...');
+      // Create Shopify order
       const shopifyOrderResult = await createShopifyOrder(
         {
           items: currentOrder.items,
@@ -133,31 +120,27 @@ const CheckoutPage: React.FC = () => {
           totalAmount: currentOrder.totalAmount,
           currency: 'INR'
         },
-        'pending' // Payment pending initially
+        'pending'
       );
 
       if (!shopifyOrderResult.success) {
-        console.error('Failed to create order in Shopify:', shopifyOrderResult.errors);
         setSubmitError('Failed to create order. Please try again.');
         return;
       }
 
-      console.log('Shopify order created:', shopifyOrderResult);
       const shopifyOrderId = shopifyOrderResult.orderId;
       const shopifyOrderNumber = shopifyOrderResult.orderNumber;
 
-      // Step 2: Create Razorpay order using Shopify order number
-      console.log('Creating Razorpay order...');
+      // Create Razorpay order
       const razorpayOrderId = await createRazorpayOrder(
-        currentOrder.totalAmount * 100, // Convert to paise
+        currentOrder.totalAmount * 100,
         'INR',
-        shopifyOrderNumber || shopifyOrderId // Use Shopify order number as receipt
+        shopifyOrderNumber || shopifyOrderId
       );
 
-      // Step 3: Initiate Razorpay payment
-      console.log('Initiating Razorpay payment...');
+      // Initiate payment
       await initiateRazorpayPayment({
-        amount: currentOrder.totalAmount * 100, // Amount in paise
+        amount: currentOrder.totalAmount * 100,
         currency: 'INR',
         orderId: razorpayOrderId,
         customerInfo: {
@@ -168,33 +151,90 @@ const CheckoutPage: React.FC = () => {
         },
         onSuccess: async (response: RazorpaySuccessResponse) => {
           console.log('Payment successful:', response);
-          console.log('Shopify Order ID:', shopifyOrderId);
           
-          // Payment successful - order already created in Shopify
-          // You can optionally update the order with payment ID here
+          // Create complete order object
+          const completedOrder = {
+            id: shopifyOrderId,
+            orderNumber: shopifyOrderNumber,
+            orderId: shopifyOrderId,
+            paymentId: response.razorpay_payment_id,
+            status: 'confirmed',
+            totalAmount: currentOrder.totalAmount,
+            items: currentOrder.items,
+            customer: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone
+            },
+            shippingAddress: {
+              address1: formData.address1,
+              address2: formData.address2,
+              city: formData.city,
+              province: formData.province,
+              country: formData.country,
+              zip: formData.zip
+            },
+            createdAt: new Date().toISOString(),
+            bigshipShipmentId: undefined,
+            awbNumber: undefined
+          };
+
           
+          // Save to order history immediately (without shipment info first)
+          // Save to order history immediately
+          addToOrderHistory(completedOrder);
+
           // Clear cart
           clearCart();
-          
-          // Navigate to confirmation with both IDs
-          navigate(`/order-confirmation/${shopifyOrderId}`, {
-            state: {
-              paymentId: response.razorpay_payment_id,
-              orderNumber: shopifyOrderNumber,
-              orderId: shopifyOrderId
-            }
+
+          // Navigate to confirmation immediately
+          navigate('/order-confirmation', {
+            state: completedOrder
           });
-        },
+
+          // Create BigShip shipment in background
+        // Create BigShip shipment in background
+        (async () => {
+          try {
+            console.log('Creating BigShip shipment...');
+            const shipmentResult = await createShipment(completedOrder);
+            console.log('BigShip shipment created:', shipmentResult);
+            
+            const trackingInfo = {
+              bigshipShipmentId: shipmentResult.shipmentId,
+              awbNumber: shipmentResult.awbNumber,
+              courierName: shipmentResult.courierName
+            };
+            
+            // Update order history with tracking
+            const store = useOrderStore.getState();
+            store.updateOrderWithTracking(shopifyOrderNumber || shopifyOrderId, trackingInfo);
+            
+            // Update Shopify order with tracking info
+            await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/update-order-tracking`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                orderId: shopifyOrderId,
+                awbNumber: shipmentResult.awbNumber,
+                courierName: shipmentResult.courierName,
+                lrnNumber: shipmentResult.lrnNumber,
+                paymentId: response.razorpay_payment_id
+              })
+            });
+          } catch (error) {
+            console.error('Failed to create BigShip shipment:', error);
+          }
+        })();
+   
+        },        
         onFailure: (error) => {
-          console.error('Payment failed:', error);
           setSubmitError(error.description || 'Payment failed. Please try again.');
-          // Note: Order is created in Shopify but payment failed
-          // You may want to cancel the order or mark it as payment failed
         }
       });
       
     } catch (error) {
-      console.error('Checkout error:', error);
       setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
     }
   };
@@ -218,7 +258,6 @@ const CheckoutPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate('/cart')}
@@ -227,13 +266,10 @@ const CheckoutPage: React.FC = () => {
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Cart
           </button>
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl text-gray-900 font-heading">Checkout</h1>
-          </div>
+          <h1 className="text-3xl text-gray-900 font-heading">Checkout</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Checkout Form */}
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Customer Information */}
@@ -443,21 +479,18 @@ const CheckoutPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Error Display */}
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <p className="text-red-800 text-sm">{error}</p>
                 </div>
               )}
 
-              {/* Submit Error Display */}
               {submitError && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <p className="text-red-800 text-sm">{submitError}</p>
                 </div>
               )}
 
-              {/* Place Order Button */}
               <button
                 type="submit"
                 disabled={isLoading}
