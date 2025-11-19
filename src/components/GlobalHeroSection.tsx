@@ -99,7 +99,8 @@ export default function GlobalHeader() {
           )}
         </nav>
       </div>
-      {/* Overlay */}
+      
+    {/* Overlay */}
       {menuOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-50"
