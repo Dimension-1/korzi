@@ -24,9 +24,9 @@ jobs:
 
     - name: Build
       env:
-        VITE_HYPGRAPH_URL: ${{ secrets.VITE_HYPGRAPH_URL }}
-        VITE_SHOPIFY_STOREFRONT_URL: ${{ secrets.VITE_SHOPIFY_STOREFRONT_URL }}
-        VITE_SHOPIFY_TOKEN: ${{ secrets.VITE_SHOPIFY_TOKEN }}
+        VITE_HYPGRAPH_URL: ${{ vars.VITE_HYPGRAPH_URL }}
+        VITE_SHOPIFY_STOREFRONT_URL: ${{ vars.VITE_SHOPIFY_STOREFRONT_URL }}
+        VITE_SHOPIFY_TOKEN: ${{ vars.VITE_SHOPIFY_TOKEN }}
       run: npm run build
 
     - name: Deploy to VPS
