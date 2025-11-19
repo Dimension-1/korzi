@@ -56,13 +56,13 @@ function App() {
 
   return (    
       <Routes>
-  <Route path="/" element={<ComingSoonPage />} />
+  <Route path="/more" element={<ComingSoonPage />} />
 
   <Route element={<AppLayout />}>
+    <Route path="/" element={<HomePage />} />
     <Route path="/logs" element={<JournalPage />} />
     <Route path="/logs/:slug" element={<JournalDetailPage />} />
     <Route path="/shop" element={<ShopPage />} />
-    <Route path="/more" element={<HomePage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/checkout" element={<CheckoutPage />} />
     <Route path="/order-confirmation" element={<OrderConfirmationPage />} />

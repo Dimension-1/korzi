@@ -57,15 +57,17 @@ const JournalDetailPage: React.FC = () => {
         <div className="hidden sm:block">
           {/* First Row: Content1 and Content2 */}
           <div className="flex gap-8 mb-8">
-            <div className="w-1/2">
-              <p className="text-sm md:text-lg text-[var(--foreground)] leading-loose break-words font-body">
-                {journal.content1}
-              </p>
+          <div className="w-1/2">
+              <div 
+                className="text-sm md:text-lg text-[var(--foreground)] leading-loose break-words font-body"
+                dangerouslySetInnerHTML={{ __html: journal.content1?.html || '' }}
+              />
             </div>
             <div className="w-1/2">
-              <p className="text-lg text-[var(--foreground)] leading-loose break-words font-body">
-                {journal.content2}
-              </p>
+              <div 
+                className="text-lg text-[var(--foreground)] leading-loose break-words font-body"
+                dangerouslySetInnerHTML={{ __html: journal.content2?.html || '' }}
+              />
             </div>
           </div>
 
@@ -87,37 +89,41 @@ const JournalDetailPage: React.FC = () => {
         </div>
 
         {/* Mobile Layout (≤600px): Single column */}
-        <div className="sm:hidden">
-          {/* Subtitle */}
-          <div className="mb-8">
-            <h2 className="text-xl font-heading text-[var(--accent)] break-words">
-              {journal.shortdes}
-            </h2>
-          </div>
-
-          {/* Content1 */}
-          <div className="mb-8">
-            <p className="text-sm text-[var(--foreground)] leading-loose break-words font-body">
-              {journal.content1}
-            </p>
-          </div>
-
-          {/* Content2 */}
-          <div className="mb-8">
-            <p className="text-sm text-[var(--foreground)] leading-loose break-words font-body">
-              {journal.content2}
-            </p>
-          </div>
-
-          {/* Content3 */}
-          {journal.content3 && (
+          <div className="sm:hidden">
+            {/* Subtitle */}
             <div className="mb-8">
-              <p className="text-sm text-[var(--foreground)] leading-relaxed break-words font-body">
-                {journal.content3}
-              </p>
+              <h2 className="text-xl font-heading text-[var(--accent)] break-words">
+                {journal.shortdes}
+              </h2>
             </div>
-          )}
-        </div>
+
+            {/* Content1 */}
+            <div className="mb-8">
+              <div 
+                className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
+                dangerouslySetInnerHTML={{ __html: journal.content1?.html || '' }}
+              />
+            </div>
+
+            {/* Content2 */}
+            <div className="mb-8">
+              <div 
+                className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
+                dangerouslySetInnerHTML={{ __html: journal.content2?.html || '' }}
+              />
+            </div>
+
+            {/* Content3 */}
+            {journal.content3 && (
+              <div className="mb-8">
+                <div 
+                  className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
+                  dangerouslySetInnerHTML={{ __html: journal.content3?.html || '' }}
+                />
+              </div>
+            )}
+          </div>
+
       </div>
     </div>
   );

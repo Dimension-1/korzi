@@ -147,8 +147,9 @@ export default function ImageCarousel() {
 
                 {/* CTA Button */}
                 <div className="pt-4">
-                  <button className="bg-white text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300">
-                    {currentSlide.ctaText}
+                  <button className="bg-white text-black px-8 py-4 rounded-lg font-bold text-lg relative overflow-hidden group">
+                    <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out rounded-lg"></span>
+                    <span className="relative z-10">{currentSlide.ctaText}</span>
                   </button>
                 </div>
 

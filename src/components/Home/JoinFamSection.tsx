@@ -1,177 +1,69 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Instagram, Youtube, Linkedin } from 'lucide-react';
 
 export default function JoinFamSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const carouselData = [
-    {
-      id: 1,
-      title: "Standard errors on removing Instagram from the marketing mix of the newsroom",
-      source: "FORBES",
-      readTime: "2 MIN READ",
-      icon: "F",
-      bgColor: "bg-pink-200",
-      iconColor: "text-gray-800"
-    },
-    {
-      id: 2,
-      title: "TNT on snacks: unhealthy food trends with a social lean",
-      source: "THE NEW YORK TIMES",
-      readTime: "2 MIN READ",
-      icon: "T",
-      bgColor: "bg-yellow-200",
-      iconColor: "text-red-600"
-    },
-    {
-      id: 3,
-      title: "Breaking: Food industry transparency reaches new heights",
-      source: "FOOD WEEKLY",
-      readTime: "3 MIN READ",
-      icon: "F",
-      bgColor: "bg-pink-200",
-      iconColor: "text-gray-800"
-    },
-    {
-      id: 4,
-      title: "The truth about processed foods and consumer awareness",
-      source: "NUTRITION TODAY",
-      readTime: "4 MIN READ",
-      icon: "N",
-      bgColor: "bg-yellow-200",
-      iconColor: "text-red-600"
-    }
-  ];
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.max(1, carouselData.length - 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.max(1, carouselData.length - 1)) % Math.max(1, carouselData.length - 1));
-  };
-
   return (
-    <div className="w-full bg-[var(--background)] py-12 md:py-16 lg:py-24 px-4 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+    <section className="bg-black py-16 px-8">
+      <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        {/* Left Side - Text Content */}
+        <div className="space-y-15">
+          <h2 
+            className="uppercase bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
+            style={{
+              fontFamily: 'Bebas Neue',
+              fontSize: '80px',
+              lineHeight: '96px',
+              letterSpacing: '0.02em'
+            }}
+          >
+            COME, JOIN THE CREW.
+          </h2>
           
-          {/* Left Side - Text Content */}
-          <div className="space-y-6 md:space-y-8">
-            {/* Headline */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading text-[var(--foreground)] leading-tight" style={{
-              letterSpacing: '-0.03em',
-              lineHeight: '0.9'
-            }}>
-              Come, join the fam!
-            </h2>
-            
-            {/* Subtitle */}
-            <p className="text-lg md:text-xl lg:text-2xl text-[var(--foreground)] font-body" style={{}}>
-              GO TRUTH SEEKERS!
-            </p>
-            
-            {/* Social Media Buttons */}
-            <div className="space-y-3 md:space-y-4">
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
-                <span className="text-sm md:text-base">Join our Instagram Community</span>
-                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-              
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
-                <span className="text-sm md:text-base">YouTube</span>
-                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-              
-              <button className="w-full max-w-sm border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--background)] px-4 md:px-6 py-3 md:py-4 rounded-lg font-body text-base md:text-lg transition-colors duration-300 flex items-center justify-between">
-                <span className="text-sm md:text-base">LinkedIn</span>
-                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-            
-            {/* Handwritten Text */}
-            <div className="mt-6 md:mt-8">
-              <p className="text-base md:text-lg lg:text-xl text-[var(--primary)] font-heading" style={{
-                transform: 'rotate(-2deg)'
-              }}>
-                STOP the PRESS! Print The Looove ❤️
-              </p>
-            </div>
+          <div className="space-y-2 text-white" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '24px' }}>
+            <p>Machines don't move the world : people do.</p>
+            <p>The Korzi Crew is our community of builders, racers,</p>
+            <p>tinkerers, and everyday rebels who like things that move.</p>
           </div>
-
-          {/* Right Side - Image and Carousel */}
-          <div className="space-y-6 md:space-y-8">
-            {/* Person Image */}
-            <div className="relative">
-              <img
-                src="/image.png" // Replace with actual person image
-                alt="Person holding package"
-                className="w-full h-auto object-cover rounded-xl md:rounded-2xl"
-              />
-            </div>
-            
-            {/* Carousel */}
-            <div className="relative">
-              {/* Carousel Container */}
-              <div className="relative overflow-hidden">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${currentSlide * 50}%)` }}
-                >
-                  {carouselData.map((item) => (
-                    <div key={item.id} className="w-1/2 flex-shrink-0 px-1">
-                      <div className={`${item.bgColor} rounded-lg p-3 md:p-4 h-32 md:h-40 flex flex-col justify-between`}>
-                        {/* Content */}
-                        <div className="space-y-1 md:space-y-2">
-                          <h3 className="text-xs md:text-sm font-heading text-gray-800 leading-tight">
-                            {item.title}
-                          </h3>
-                          
-                          <div className="flex items-center gap-1 md:gap-2">
-                            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full bg-white flex items-center justify-center text-xs font-heading ${item.iconColor}`}>
-                              {item.icon}
-                            </div>
-                            <span className="text-xs text-gray-600 font-body">{item.source}</span>
-                            <span className="text-xs text-gray-500">{item.readTime}</span>
-                          </div>
-                        </div>
-                        
-                        {/* Small Icon */}
-                        <div className="flex justify-end">
-                          <div className="w-2 h-2 md:w-3 md:h-3 bg-pink-400 rounded-full"></div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+          
+          {/* Social Buttons */}
+          <div className="space-y-3 mt-32">
+            <button className="w-full border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
+              <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+              <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
+                <Instagram className="w-6 h-6 text-[#02FF00]" />
               </div>
-              
-              {/* Navigation Arrows */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-1 md:left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--primary)] text-[var(--background)] hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="w-5 h-5" />
+              <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>BE A PART OF  OUR INSTAGRAM COMMUNITY</span>
+            </button>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <button className="border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
+                <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
+                  <Linkedin className="w-6 h-6 text-[#02FF00]" />
+                </div>
+                <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>LINKEDIN</span>
               </button>
               
-              <button
-                onClick={nextSlide}
-                className="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-[var(--secondary)] text-[var(--background)] hover:bg-[var(--primary)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="w-5 h-5" />
+              <button className="border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
+                <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
+                  <Youtube className="w-6 h-6 text-[#02FF00]" />
+                </div>
+                <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>YOUTUBE</span>
               </button>
             </div>
           </div>
         </div>
+
+        {/* Right Side - Image */}
+        <div className="relative">
+          <img
+            src="/assets/homepage/Korziteam.png"
+            alt="Korzi Crew"
+            className="w-full h-auto object-cover"
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,102 +1,111 @@
-import { Link } from 'react-router-dom';
-import { Camera, Youtube, Phone, Mail,Heart } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
+  const navigate = useNavigate();
   return (
-    <footer className="bg-[var(--primary)] text-black py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer className="bg-grey relative">
+      {/* Car Image Section */}
+      <div className="relative w-full h-[360px] flex items-center justify-center">
+        <img 
+          src="/assets/homepage/Car_2.png" 
+          alt="Korzi RC Car"
+          className="w-[632px] h-[356px] object-contain"
+        />
+      </div>
+
+      {/* Footer Content with full-width vertical dividers */}
+      <div className="w-full">
+        <div className="grid gap-0 border-t border-gray-600" style={{ gridTemplateColumns: '22% 19.5% 19.5% 19.5% 19.5%' }}>
           
-          {/* SHOP ALL Column */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wide">SHOP ALL</h3>
-            <ul className="space-y-3">
-              <li><Link to="/products/fermented-yeast" className="hover:text-white transition-colors duration-200">Fermented Yeast</Link></li>
-              <li><Link to="/products/protein" className="hover:text-white transition-colors duration-200">Protein</Link></li>
-              <li><Link to="/products/protein-chips" className="hover:text-white transition-colors duration-200">Protein Chips</Link></li>
-              <li><Link to="/products/chocolate-wafer" className="hover:text-white transition-colors duration-200">Chocolate Wafer</Link></li>
-              <li><Link to="/products/chocolate-peanut" className="hover:text-white transition-colors duration-200">Chocolate Peanut</Link></li>
-              <li><Link to="/products/butter-wafer" className="hover:text-white transition-colors duration-200">Butter Wafer</Link></li>
-              <li><Link to="/products/strawberry-wafer" className="hover:text-white transition-colors duration-200">Strawberry Wafer</Link></li>
-              <li><Link to="/products/cheese-wafer" className="hover:text-white transition-colors duration-200">Cheese Wafer</Link></li>
-              <li><Link to="/products/variety-box" className="hover:text-white transition-colors duration-200">Variety Box</Link></li>
-            </ul>
-          </div>
-
-          {/* COMPANY Column */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wide">COMPANY</h3>
-            <ul className="space-y-3">
-              <li><Link to="/about" className="hover:text-white transition-colors duration-200">About Us</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors duration-200">Connect Now</Link></li>
-            </ul>
-          </div>
-
-          {/* SUPPORT & POLICY Column */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wide">SUPPORT & POLICY</h3>
-            <ul className="space-y-3">
-              <li><Link to="/refer-earn" className="hover:text-white transition-colors duration-200">Refer & Earn</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors duration-200">Terms of Service</Link></li>
-              <li><Link to="/privacy" className="hover:text-white transition-colors duration-200">Privacy Policy</Link></li>
-              <li><Link to="/refund-returns" className="hover:text-white transition-colors duration-200">Refund & Returns</Link></li>
-              <li><Link to="/shipping" className="hover:text-white transition-colors duration-200">Shipping Policy</Link></li>
-              <li><Link to="/employment" className="hover:text-white transition-colors duration-200">Employment Policy</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors duration-200">Contact Us</Link></li>
-            </ul>
-          </div>
-
-          {/* FOLLOW ALONG Column */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wide">FOLLOW ALONG</h3>
-            <div className="flex gap-4">
-              <a 
-                href="https://instagram.com/korzi" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
-                aria-label="Follow us on Instagram"
+          {/* Logo & Subscribe Column */}
+          <div className="flex flex-col justify-between p-12">
+            <img 
+              src="/logo-horizontal.png" 
+              alt="KORZI" 
+              className="h-12"
+            />
+            <div className="space-y-8 mt-auto">
+              <button 
+                onClick={() => navigate('/subscribe')}
+                className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l border-[#02FF00] group relative overflow-hidden cursor-pointer"
+                style={{
+                  borderLeftWidth: '3px',
+                  width: '215px',
+                  height: '52px',
+                  fontFamily: 'DM Sans',
+                  fontSize: '14px',
+                  lineHeight: '18px',
+                }}
               >
-                <Camera className="w-5 h-5 text-black" />
-              </a>
-              <a 
-                href="https://youtube.com/korzi" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
-                aria-label="Subscribe to our YouTube channel"
-              >
-                <Youtube className="w-5 h-5 text-black" />
-              </a>
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <span className="relative z-10 group-hover:text-black transition-colors duration-300">Subscribe For Updates!</span>
+                <ArrowUpRight className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+              </button>
+              <div className="flex gap-4">
+                <a href="https://instagram.com/korzi" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
+                </a>
+                <a href="https://linkedin.com/company/korzi" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
+                </a>
+                <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer">
+                  <Youtube className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* GET IN TOUCH Column */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold uppercase tracking-wide">GET IN TOUCH</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5" />
-                <span>+918655450110</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5" />
-                <span>support@korzi.toys</span>
-              </div>
+          {/* SHOP Column */}
+          <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
+            <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SHOP</h3>
+            <Link to="/products/apex-drive" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group">
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Korzi Apex Drive RC Car</span>
+            </Link>
+          </div>
+
+          {/* COMPANY Column */}
+          <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
+          <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>COMPANY</h3>
+            <ul className="space-y-3">
+              <li><Link to="/about" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
+              <li><Link to="/careers" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li>
+              <li><Link to="/journal" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Journal</span></Link></li>
+              <li><Link to="/events" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li>
+              <li><Link to="/partners" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li>
+              <li><Link to="/crew" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li>
+            </ul>
+          </div>
+
+          {/* SUPPORT Column */}
+          <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
+          <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SUPPORT</h3>
+            <ul className="space-y-3">
+              <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
+              <li><Link to="/returns" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Returns & Exchange</span></Link></li>
+              <li><Link to="/shipping" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping</span></Link></li>
+              <li><Link to="/delivery" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Delivery</span></Link></li>
+            </ul>
+          </div>
+
+          {/* CONTACT Column */}
+          <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
+          <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>CONTACT</h3>
+            <div className="space-y-3 text-white">
+              <p>+91 9844228731</p>
+              <p>Team@korzi.toys</p>
+              <p className="text-sm">JP Nagar, Bangalore, India</p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-black/20 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-black/80 mb-4 md:mb-0">
-              © 2025 Korzi. All rights reserved.
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-black/80 flex items-center gap-1">Made with <Heart fill="red" color="red" className="w-4 h-4" /> for the young</span>
-            </div>
-          </div>
+        {/* Copyright with border */}
+        <div 
+          className="text-center text-white text-sm py-8 border-t border-gray-600"
+          style={{ height: '72px' }}
+        >
+          Korzi@2025
         </div>
       </div>
     </footer>
