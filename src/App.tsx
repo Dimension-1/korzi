@@ -6,6 +6,7 @@ import JournalPage from './pages/JournalPage'
 import JournalDetailPage from './pages/JournalDetailPage'
 import ComingSoonPage from './pages/ComingSoonPage'
 import ShopPage from './pages/ShopPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 import LoginPage from './pages/LoginPage'
 import CustomerActivationPage from './pages/CustomerActivationPage'
 import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
@@ -63,6 +64,7 @@ function App() {
     <Route path="/logs" element={<JournalPage />} />
     <Route path="/logs/:slug" element={<JournalDetailPage />} />
     <Route path="/shop" element={<ShopPage />} />
+    <Route path="/product/:handle" element={<ProductDetailPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/checkout" element={<CheckoutPage />} />
     <Route path="/order-confirmation" element={<OrderConfirmationPage />} />

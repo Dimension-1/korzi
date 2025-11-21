@@ -10,7 +10,8 @@ import DetailCarousel from '../components/Home/DetailCarousel';
 import ManufacturingSection from '../components/Home/Services';
 import EllipseTransition from '../components/Home/EllipseTransition';
 import CarAnimation from '../components/Home/CarAnimation';
-import TakeOverSection from '../components/Home/TakeOverSection';
+import VideoCarouselSection from '../components/Home/VideoCarouselSection';
+import MissionSection from '../components/Home/MissionSection';
 
 export default function HomePage() {
   return (
@@ -25,7 +26,8 @@ export default function HomePage() {
         <EllipseTransition />
       </div>
       <CarAnimation />
-      <TakeOverSection />
+      <VideoCarouselSection />
+      <MissionSection />
       {/* <ImageCarousel /> */}
       {/* <RollingTagsBanner /> */}
       {/* <RealFoodSection /> */}

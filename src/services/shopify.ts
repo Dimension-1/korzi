@@ -146,6 +146,67 @@ const GET_PRODUCTS = `
   }
 `;
 
+const GET_PRODUCT_BY_HANDLE = `
+  query GetProductByHandle($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      description
+      descriptionHtml
+      handle
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      compareAtPriceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 10) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            availableForSale
+            quantityAvailable
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
+      vendor
+      productType
+      tags
+    }
+  }
+`;
+
 // Product Functions
 export const getProducts = async (limit: number = 20): Promise<ShopifyProduct[]> => {
   try {
@@ -155,6 +216,16 @@ export const getProducts = async (limit: number = 20): Promise<ShopifyProduct[]>
   } catch (error) {
     console.error('Error fetching products:', error);
     return [];
+  }
+};
+
+export const getProductByHandle = async (handle: string): Promise<ShopifyProduct | null> => {
+  try {
+    const data = await shopifyClient.request(GET_PRODUCT_BY_HANDLE, { handle });
+    return (data as any).productByHandle;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    return null;
   }
 };
 

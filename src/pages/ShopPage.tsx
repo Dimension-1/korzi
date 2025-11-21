@@ -29,6 +29,7 @@ const transformShopifyProduct = (product: ShopifyProduct) => {
     discountedPrice: price,
     discountPercentage,
     variantId: firstVariant?.id,
+    handle: product.handle,
     points: Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 10 : undefined, // Random points for some products
     showWhatsApp: Math.random() > 0.8 // Random WhatsApp button for some products
   };
