@@ -52,7 +52,7 @@ const ProductDetailPage = () => {
   const images = product.images.edges.map(e => e.node);
   const firstVariant = product.variants.edges[0]?.node;
   const price = parseFloat(firstVariant?.price?.amount || '0');
-  const compareAtPrice = parseFloat(firstVariant?.compareAtPrice?.amount || '0');
+  const compareAtPrice = firstVariant?.compareAtPrice ? parseFloat(firstVariant.compareAtPrice.amount) : 0;
 
   const productData = {
     title: product.title,

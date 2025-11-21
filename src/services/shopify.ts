@@ -38,7 +38,12 @@ export interface ShopifyProduct {
           amount: string;
           currencyCode: string;
         };
+        compareAtPrice?: {
+          amount: string;
+          currencyCode: string;
+        };
         availableForSale: boolean;
+        quantityAvailable?: number;
         selectedOptions: Array<{
           name: string;
           value: string;
