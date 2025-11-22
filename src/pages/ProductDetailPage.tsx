@@ -48,6 +48,7 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+  
 
   const images = product.images.edges.map(e => e.node);
   const firstVariant = product.variants.edges[0]?.node;
