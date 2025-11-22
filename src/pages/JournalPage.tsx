@@ -3,12 +3,9 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Home/footer";
 import JournalHeroSection from "../components/Journal/JournalHeroSection";
 import { getBlogs } from "../services/hygraph";
-import InsightsSection from "../components/Home/InsightsSection";
 
 export default function JournalPage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleJournalCount, setVisibleJournalCount] = useState(3);
 
@@ -69,12 +66,7 @@ export default function JournalPage() {
 
   const articlesPerPage = 3;
 
-  const handleCategorySelect = (category: typeof categories[0]) => {
-    setSelectedCategory(category.id);
-    setIsDropdownOpen(false);
-  };
 
-  const selectedCategoryData = categories.find(cat => cat.id === selectedCategory);
 
   // Get the featured article based on selected category
   const getFeaturedArticle = () => {
@@ -144,22 +136,13 @@ export default function JournalPage() {
 
   // Get only the visible journal articles based on pagination
   const journalArticles = filteredJournalArticles.slice(0, visibleJournalCount);
-  
-  // Check if there are more articles to load
-  const hasMoreArticles = filteredJournalArticles.length > visibleJournalCount;
 
-  // Function to load more articles
-  const loadMoreArticles = () => {
-    setVisibleJournalCount(prev => prev + 3);
-  };
 
   // Reset pagination when category or search changes
   useEffect(() => {
     setVisibleJournalCount(3);
   }, [selectedCategory, searchQuery]);
   
-  const totalSlides = Math.ceil(carouselArticles.length / articlesPerPage);
-
   // Format date for display
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
