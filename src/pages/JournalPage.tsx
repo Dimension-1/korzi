@@ -8,29 +8,6 @@ export default function JournalPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleJournalCount, setVisibleJournalCount] = useState(3);
-
-  const categories = [
-    {
-      id: "play",
-      name: "play",
-      description: "From backyard races to simple science experiments — this is where fun meets discovery. Every test, trick, and challenge turns playtime into an adventure."
-    },
-    {
-      id: "build", 
-      name: "build",
-      description: "Step-by-step hacks, creative mods, and custom upgrades. Whether it's LEDs, spoilers, or new tricks with everyday materials — here's where you bring your RC to life."
-    },
-    {
-      id: "learn",
-      name: "learn", 
-      description: "Motors, gears, batteries, and balance — explained simply. Clear insights that make kids curious, parents confident, and hobbyists smarter."
-    },
-    {
-      id: "guides",
-      name: "guides",
-      description: "Smart choices and easy fixes. From buying tips to safety checks and troubleshooting, this is your trusted corner for RC care."
-    }
-  ];
   
   
 
@@ -64,9 +41,6 @@ export default function JournalPage() {
     })();
   }, []);
 
-  const articlesPerPage = 3;
-
-
 
   // Get the featured article based on selected category
   const getFeaturedArticle = () => {
@@ -90,23 +64,6 @@ export default function JournalPage() {
 
   const featuredArticle = getFeaturedArticle();
 
-  // Get carousel articles based on selection (first 3 only)
-  const getCarouselArticles = () => {
-    if (selectedCategory === "") {
-      // Show first 3 from all articles (blogs contains all articles)
-      return blogs.slice(0, 3);
-    }
-    
-    // Show first 3 from selected category
-    switch (selectedCategory) {
-      case "play": return plays.slice(0, 3);
-      case "build": return builds.slice(0, 3);
-      case "learn": return learns.slice(0, 3);
-      case "guides": return guides.slice(0, 3);
-      default: return blogs.slice(0, 3);
-    }
-  };
-
   // Get journal list articles (remaining articles after first 3)
   const getJournalArticles = () => {
     if (selectedCategory === "") {
@@ -124,7 +81,6 @@ export default function JournalPage() {
     }
   };
 
-  const carouselArticles = getCarouselArticles();
   const allJournalArticles = getJournalArticles();
   
   // Filter journal articles based on search query
