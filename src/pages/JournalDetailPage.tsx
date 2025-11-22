@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Blog } from '../services/hygraph';
+import JournalDetailHero from '../components/Journal/JournalDetailHero';
+import Footer from '../components/Home/footer';
 
 const JournalDetailPage: React.FC = () => {
   const location = useLocation();
@@ -31,100 +33,147 @@ const JournalDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      <div className="mx-auto px-6 md:px-24 py-16 md:py-24 max-w-7xl">
-        {/* Header Image */}
-        <div className="w-full h-[406px] md:h-[495px] mb-8 rounded-none flex items-center justify-center">
-          {journal.img?.url && (
-            <img
-              src={journal.img.url}
-              alt={journal.title}
-              className="w-full  max-w-6xl h-full object-fill"
-            />
-          )}
-        </div>
+      <JournalDetailHero 
+        title={journal.title}
+        category={journal.category}
+        readTime="5 min read"
+        publishedDate={formattedDate}
+        coverImage={journal.img?.url || '/placeholder.jpg'}
+      />
+      {/* Content Section */}
+      <div className="bg-black px-8 md:px-16 lg:px-24 py-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-12">
+          {/* Left Sidebar */}
+          <div className="space-y-12">
+            {/* Contributors - Would come from Hygraph */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Contributors
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
+                    <span className="text-gray-400">👤</span>
+                  </div>
+                  <div>
+                    <p className="text-white" style={{ fontFamily: 'DM Sans', fontSize: '14px' }}>Korzi Team</p>
+                    <p className="text-gray-400 text-sm" style={{ fontFamily: 'DM Sans', fontSize: '12px' }}>Content Creator</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Title and Date - Same Line */}
-        <div className="flex justify-between items-start mb-8">
-          <h1 className="text-3xl md:text-5xl font-heading leading-tight text-[var(--foreground)] flex-1 pr-4 break-words">
-            {journal.title}
-          </h1>
-          <p className="text-xs md:text-base text-[var(--text-secondary)] flex-shrink-0 font-body">
-            {formattedDate.replace(" ", ", ")}
-          </p>
-        </div>
+            <div className="border-t border-gray-800 pt-8" />
 
-        {/* Desktop Layout (>600px): Two columns */}
-        <div className="hidden sm:block">
-          {/* First Row: Content1 and Content2 */}
-          <div className="flex gap-8 mb-8">
-          <div className="w-1/2">
+            {/* Newsletter */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Subscribe to newsletter
+              </h3>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
+                style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
+              />
+              <button 
+                className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors"
+                style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
+              >
+                Subscribe
+              </button>
+              <p className="text-gray-500 text-xs mt-3" style={{ fontFamily: 'DM Sans' }}>
+                By subscribing you agree to with our Privacy Policy.
+              </p>
+            </div>
+
+            <div className="border-t border-gray-800 pt-8" />
+
+            {/* Share */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Share
+              </h3>
+              <div className="flex gap-3">
+                {['FB', 'TW', 'IN', 'LI'].map((social) => (
+                  <button 
+                    key={social}
+                    className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    style={{ fontFamily: 'DM Sans', fontSize: '12px', fontWeight: 600 }}
+                  >
+                    {social}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Content */}
+          <div className="space-y-8">
+            {/* Main Content with proper typography */}
+            <div 
+              className="prose prose-invert max-w-none"
+              style={{ fontFamily: 'DM Sans' }}
+            >
+              {/* Content 1 */}
               <div 
-                className="text-sm md:text-lg text-[var(--foreground)] leading-loose break-words font-body"
+                className="text-white text-lg leading-relaxed mb-8"
+                style={{ fontSize: '18px', lineHeight: '1.8' }}
                 dangerouslySetInnerHTML={{ __html: journal.content1?.html || '' }}
               />
-            </div>
-            <div className="w-1/2">
+
+              {/* Image with Caption */}
+              {journal.img?.url && (
+                <div className="my-12">
+                  <img
+                    src={journal.img.url}
+                    alt={journal.title}
+                    className="w-full h-[500px] object-cover mb-2"
+                  />
+                  <p className="text-gray-500 text-sm italic" style={{ fontFamily: 'DM Sans' }}>
+                    Image caption goes here
+                  </p>
+                </div>
+              )}
+
+              {/* Content 2 */}
               <div 
-                className="text-lg text-[var(--foreground)] leading-loose break-words font-body"
+                className="text-white text-lg leading-relaxed mb-8"
+                style={{ fontSize: '18px', lineHeight: '1.8' }}
                 dangerouslySetInnerHTML={{ __html: journal.content2?.html || '' }}
               />
-            </div>
-          </div>
 
-          {/* Second Row: Subtitle and Content3 */}
-          <div className="flex gap-8 mb-8">
-            <div className="w-1/2">
-              <h2 className="text-xl md:text-[32px] font-heading text-[var(--accent)] md:leading-[43px] md:tracking-[-1px] break-words">
-                {journal.shortdes}
-              </h2>
+              {/* Conclusion Section */}
+              {journal.shortdes && (
+                <div className="mt-12">
+                  <h2 
+                    className="text-4xl md:text-5xl mb-6"
+                    style={{ fontFamily: 'Bebas Neue', color: 'white' }}
+                  >
+                    Conclusion
+                  </h2>
+                  <p 
+                    className="text-white text-lg leading-relaxed"
+                    style={{ fontSize: '18px', lineHeight: '1.8' }}
+                  >
+                    {journal.shortdes}
+                  </p>
+                </div>
+              )}
             </div>
-            {journal.content3 && (
-              <div className="w-1/2">
-                <p className="text-base text-[var(--foreground)] leading-relaxed break-words font-body">
-                  {journal.content3}
-                </p>
-              </div>
-            )}
           </div>
         </div>
-
-        {/* Mobile Layout (≤600px): Single column */}
-          <div className="sm:hidden">
-            {/* Subtitle */}
-            <div className="mb-8">
-              <h2 className="text-xl font-heading text-[var(--accent)] break-words">
-                {journal.shortdes}
-              </h2>
-            </div>
-
-            {/* Content1 */}
-            <div className="mb-8">
-              <div 
-                className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
-                dangerouslySetInnerHTML={{ __html: journal.content1?.html || '' }}
-              />
-            </div>
-
-            {/* Content2 */}
-            <div className="mb-8">
-              <div 
-                className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
-                dangerouslySetInnerHTML={{ __html: journal.content2?.html || '' }}
-              />
-            </div>
-
-            {/* Content3 */}
-            {journal.content3 && (
-              <div className="mb-8">
-                <div 
-                  className="text-sm text-[var(--foreground)] leading-loose break-words font-body"
-                  dangerouslySetInnerHTML={{ __html: journal.content3?.html || '' }}
-                />
-              </div>
-            )}
-          </div>
-
       </div>
+      <Footer />
     </div>
   );
 };

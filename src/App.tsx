@@ -8,6 +8,7 @@ import ComingSoonPage from './pages/ComingSoonPage'
 import ShopPage from './pages/ShopPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import LoginPage from './pages/LoginPage'
 import CustomerActivationPage from './pages/CustomerActivationPage'
 import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
@@ -57,27 +58,27 @@ function App() {
   }, [refreshCartCount]);
 
   return (    
-      <Routes>
-  <Route path="/more" element={<HomePage />} />
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route path="/more" element={<HomePage />} />
+        <Route path="/" element={<ComingSoonPage />} />
+        <Route path="/logs" element={<JournalPage />} />
+        <Route path="/logs/:slug" element={<JournalDetailPage />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/product/:handle" element={<ProductDetailPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+      </Route>
 
-  <Route element={<AppLayout />}>
-    <Route path="/" element={<ComingSoonPage />} />
-    <Route path="/logs" element={<JournalPage />} />
-    <Route path="/logs/:slug" element={<JournalDetailPage />} />
-    <Route path="/shop" element={<ShopPage />} />
-    <Route path="/product/:handle" element={<ProductDetailPage />} />
-    <Route path="/about" element={<AboutPage />} />
-    <Route path="/login" element={<LoginPage />} />
-    <Route path="/checkout" element={<CheckoutPage />} />
-    <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
-    <Route path="/orders" element={<OrdersPage />} />
-  </Route>
-
-  <Route path="/signin" element={<LoginPage />} />
-  <Route path="/activate" element={<CustomerActivationPage />} />
-  <Route path="/account/activate/:customerId/:activationToken" element={<ShopifyActivationRedirect />} />
-  <Route path="/account/activate/:customerId/:activationToken/*" element={<ShopifyActivationRedirect />} />
-</Routes>
+      <Route path="/signin" element={<LoginPage />} />
+      <Route path="/activate" element={<CustomerActivationPage />} />
+      <Route path="/account/activate/:customerId/:activationToken" element={<ShopifyActivationRedirect />} />
+      <Route path="/account/activate/:customerId/:activationToken/*" element={<ShopifyActivationRedirect />} />
+    </Routes>
   )
 }
 
