@@ -70,7 +70,7 @@ export default function ComingSoonPage() {
           {/* Desktop Layout (lg and above) */}
           <div className="hidden lg:block">
             {/* KORZI Logo */}
-            <div className="absolute top-8 left-8 z-10 transition-all duration-300 ease-in-out" style={{
+            <div className="absolute top-16 left-8 z-10 transition-all duration-300 ease-in-out" style={{
               left: 'var(--sidebar-width, 2rem)'
             }}>
               <img 
@@ -84,7 +84,7 @@ export default function ComingSoonPage() {
                 - Made absolute and aligned with top-10 to match logo
             */}
             <div 
-              className="absolute top-2 right-12 z-10 transition-all duration-300 ease-in-out" 
+              className="absolute top-8 right-12 z-10 transition-all duration-300 ease-in-out" 
               style={{
                 right: 'var(--sidebar-width, 3rem)'
               }}
@@ -100,7 +100,7 @@ export default function ComingSoonPage() {
                 - Replaced xl:-mt-36 with pt-40 to push content down
                 - This prevents overlap with the absolute positioned logo
             */}
-            <div className="absolute bottom-32 left-0 right-0 px-8 sm:px-12 4xl:px-32">
+            <div className="absolute bottom-28 left-0 right-0 px-8 sm:px-12 4xl:px-32">
               {/* Main Heading */}
               <div className="mb-8 3xl:mb-12 4xl:mb-16">
                   <h2 className="leading-tight mb-6 3xl:mb-8  font-heading">
