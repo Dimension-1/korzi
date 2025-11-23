@@ -9,6 +9,7 @@ import ShopPage from './pages/ShopPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import SupportPage from './pages/SupportPage'
 import LoginPage from './pages/LoginPage'
 import CustomerActivationPage from './pages/CustomerActivationPage'
 import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
@@ -68,6 +69,7 @@ function App() {
         <Route path="/product/:handle" element={<ProductDetailPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
