@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { X, Plus, Minus, Trash2, ArrowUpRight } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
@@ -14,7 +14,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     cartItems, 
     isDrawerOpen, 
     updateQuantity, 
-    removeFromCart, 
     getTotalPrice,
     closeDrawer,
     isUserLoggedIn
@@ -30,9 +29,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
 
   // Calculate totals
   const cartTotal = getTotalPrice();
-  const originalTotal = cartItems.reduce((sum, item) => 
-    sum + ((item.originalPrice || item.price) * item.quantity), 0
-  );
 
   const handleClose = () => {
     closeDrawer();
@@ -40,10 +36,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     updateQuantity(id, newQuantity);
-  };
-
-  const handleRemoveItem = (id: string) => {
-    removeFromCart(id);
   };
 
   const handleCheckout = async () => {
@@ -98,34 +90,8 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     }
   };
 
-  // Sample recommendation products
-  const recommendations = [
-    {
-      id: 'rec-1',
-      title: 'PROTEIN WAFERS - VARIETY PACK OF 10',
-      price: 499,
-      originalPrice: 550,
-      image: '/image.png'
-    },
-    {
-      id: 'rec-2',
-      title: 'PROTEIN CHIPS - VARIETY PACK OF 10',
-      price: 400,
-      image: '/image.png'
-    },
-    {
-      id: 'rec-3',
-      title: 'CHOCOLATE 1 KG - FERMENTED YEAST PROTEIN',
-      price: 2699,
-      originalPrice: 2899,
-      image: '/image.png'
-    }
-  ];
 
-  const addRecommendation = (rec: typeof recommendations[0]) => {
-    // This would typically add the product to cart
-    console.log('Adding recommendation:', rec.title);
-  };
+
 
   return (
     <>
