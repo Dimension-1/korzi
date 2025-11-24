@@ -32,10 +32,28 @@ const { default: bigshipService } = await import('./bigship.js');
 // console.log('===================================');
 
 const app = express();
+const allowedOrigins = [
+  'https://korzi.toys',
+  'https://www.korzi.toys',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5173'
+];
+
 app.use(cors({
-    origin: ['https://korzi.toys', 'https://www.korzi.toys'],
-    credentials: true
-  }));
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 const razorpay = new Razorpay({
@@ -188,6 +206,7 @@ app.post('/api/razorpay/webhook', (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
+  console.log('Allowed CORS origins:', allowedOrigins);
 });
 // ============= BIGSHIP ENDPOINTS =============
 

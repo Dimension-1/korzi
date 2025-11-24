@@ -151,6 +151,8 @@ const CheckoutPage: React.FC = () => {
         },
         onSuccess: async (response: RazorpaySuccessResponse) => {
           console.log('Payment successful:', response);
+          console.log('Shopify Order Number:', shopifyOrderNumber);
+          console.log('Shopify Order ID:', shopifyOrderId);
           
           // Create complete order object
           const completedOrder = {
@@ -181,17 +183,14 @@ const CheckoutPage: React.FC = () => {
           };
 
           
-          // Save to order history immediately (without shipment info first)
           // Save to order history immediately
           addToOrderHistory(completedOrder);
 
           // Clear cart
           clearCart();
 
-          // Navigate to confirmation immediately
-          navigate('/order-confirmation', {
-            state: completedOrder
-          });
+          // Navigate to thank you page first
+          navigate(`/thank-you?orderId=${shopifyOrderNumber || shopifyOrderId}`);
 
           // Create BigShip shipment in background
         // Create BigShip shipment in background
@@ -230,7 +229,10 @@ const CheckoutPage: React.FC = () => {
    
         },        
         onFailure: (error) => {
+          console.error('Payment failed:', error);
           setSubmitError(error.description || 'Payment failed. Please try again.');
+          // Navigate to error page
+          navigate('/error');
         }
       });
       

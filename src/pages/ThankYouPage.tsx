@@ -1,10 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { useOrderStore } from '../stores/orderStore';
 
 export default function ThankYouPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('orderId') || '#23431f';
+  const { orderHistory } = useOrderStore();
+  const [currentOrder, setCurrentOrder] = useState<any>(null);
+
+  useEffect(() => {
+    // Find the order in history by orderId
+    const order = orderHistory.find(o => o.orderNumber === orderId || o.id === orderId);
+    setCurrentOrder(order);
+  }, [orderId, orderHistory]);
 
   return (
     <div className="bg-black min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
@@ -41,7 +51,7 @@ export default function ThankYouPage() {
 
         {/* Order Details */}
         <p className="text-white text-[16px] leading-[24px] mb-2">
-          Thanks for placing your order <span className="text-[#02FF00]">{orderId}</span>
+          Thanks for placing your order <span className="text-[#02FF00]">{currentOrder?.orderNumber || orderId}</span>
         </p>
         <p className="text-white text-[16px] leading-[24px] mb-12">
           We will send you an update when the order is shipped.
@@ -64,7 +74,13 @@ export default function ThankYouPage() {
           <span className="text-white text-[16px] uppercase">OR</span>
 
           <button 
-            onClick={() => navigate('/order-confirmation')}
+            onClick={() => {
+              if (currentOrder) {
+                navigate('/order-confirmation', { state: currentOrder });
+              } else {
+                navigate('/orders');
+              }
+            }}
             className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" 
             style={{ width: '200px', height: '46px' }}
           >
