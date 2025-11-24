@@ -74,7 +74,7 @@ export default function AppLayout() {
         <div className="fixed top-16 left-4 w-64 bg-black shadow-xl z-40">
           {/* Navigation Links */}
           <nav className="flex flex-col gap-6 px-8 py-8 text-white font-heading uppercase">
-            <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/product-description" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Shop</span>
             </Link>

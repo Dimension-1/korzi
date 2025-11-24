@@ -84,7 +84,7 @@ export default function ApexDriveSection() {
             <div className="w-full max-w-full flex items-start">
               <div className="relative -left-10">
           <Link 
-                to="/shop"
+                to="/product-description"
                 className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden"
                 style={{
                   width: '275px',

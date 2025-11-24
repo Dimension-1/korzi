@@ -2,11 +2,11 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function WarrantyServiceSection() {
   return (
-    <section className="bg-black text-white relative py-20 px-6 lg:px-12" style={{ zIndex: 2 }}>
+    <section className="bg-black text-white py-20 px-6 lg:px-12">
       <div className="max-w-6xl mx-auto relative" style={{ zIndex: 10 }}>
         <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 0 }}>
           {/* Top Left - Muddy Car Image */}
-          <div className="bg-black" style={{ width: '600px', height: '400px' }}>
+          <div className="bg-black w-full max-w-[600px] h-[400px]">
             <img 
               src="/assets/Support/warranty.png" 
               alt="Muddy RC Car" 
@@ -15,7 +15,7 @@ export default function WarrantyServiceSection() {
           </div>
 
           {/* Top Right - Warranty Information */}
-          <div className="bg-[#1a1a1a]" style={{ width: '600px', height: '400px', padding: '14px 20px' }}>
+          <div className="bg-[#1a1a1a] w-full max-w-[600px] h-[400px] px-5 py-3.5">
             {/* Header */}
             <div className="flex items-start justify-between mb-3">
               <h2 className="text-[#02FF00] text-[32px] leading-[48px] uppercase" style={{ fontFamily: 'Bebas Neue' }}>
@@ -71,7 +71,7 @@ export default function WarrantyServiceSection() {
           </div>
 
           {/* Bottom Left - Service & Repairs */}
-          <div className="bg-[#151515]" style={{ width: '600px', height: '400px', padding: '14px 20px' }}>
+          <div className="bg-[#151515] w-full max-w-[600px] h-[400px] px-5 py-3.5">
             <h2 className="text-[#02FF00] text-[32px] leading-[48px] uppercase mb-3" style={{ fontFamily: 'Bebas Neue' }}>
               SERVICE & REPAIRS
             </h2>
@@ -105,7 +105,7 @@ export default function WarrantyServiceSection() {
           </div>
 
           {/* Bottom Right - Repair Image */}
-          <div className="bg-black" style={{ width: '600px', height: '400px' }}>
+          <div className="bg-black w-full max-w-[600px] h-[400px]">
             <img 
               src="/assets/Support/repair.png" 
               alt="Repair Service" 

@@ -98,7 +98,7 @@ export default function VideoCard({
         </div>
 
         {/* Buy Now Button */}
-        <button className="w-full bg-[var(--primary)] hover:bg-[var(--secondary)] text-black font-bold py-3 rounded-lg transition-colors duration-300" onClick={()=>navigate('/shop')}>
+        <button className="w-full bg-[var(--primary)] hover:bg-[var(--secondary)] text-black font-bold py-3 rounded-lg transition-colors duration-300" onClick={()=>navigate('/product-description')}>
           Buy Now
         </button>
       </div>

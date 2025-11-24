@@ -1,18 +1,19 @@
 export default function TroubleshootingSection() {
   return (
-    <section className="bg-black text-white py-20 px-6 lg:px-12 relative" style={{ zIndex: 1 }}>
+    <section className="bg-black text-white py-20 px-6 lg:px-12 relative overflow-visible">
       {/* Green Bloom Effect */}
-      <img 
-        src="/assets/homepage/Ellipse80.png" 
-        alt="" 
-        className="absolute left-0 bottom-0 w-[800px] h-[800px] pointer-events-none"
-        style={{
-          transform: 'translate(-30%, 50%)',
-          zIndex: -1
-        }}
-      />
+      <div className="absolute left-0 bottom-0 w-[800px] h-[800px] pointer-events-none" style={{ zIndex: 0 }}>
+        <img 
+          src="/assets/homepage/Ellipse80.png" 
+          alt="" 
+          className="w-full h-full"
+          style={{
+            transform: 'translate(-30%, 50%)'
+          }}
+        />
+      </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative" style={{ zIndex: 10 }}>
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-36">
           {/* Left Column */}
           <div className="lg:w-[400px] flex-shrink-0">

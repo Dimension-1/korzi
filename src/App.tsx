@@ -16,6 +16,8 @@ import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
 import CheckoutPage from './components/CheckoutPage'
 import OrderConfirmationPage from './components/OrderConfirmationPage'
 import OrdersPage from './components/OrdersPage'
+import ThankYouPage from './pages/ThankYouPage'
+import ErrorPage from './pages/ErrorPage'
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
 
@@ -72,8 +74,11 @@ function App() {
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
+        <Route path="/error" element={<ErrorPage />} />
         <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
         <Route path="/orders" element={<OrdersPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
 
       <Route path="/signin" element={<LoginPage />} />

@@ -41,7 +41,7 @@ const ProductDetailPage = () => {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl text-white mb-4">Product not found</h2>
-          <button onClick={() => navigate('/shop')} className="text-[#39FF14]">
+          <button onClick={() => navigate('/product-description')} className="text-[#39FF14]">
             Back to Shop
           </button>
         </div>

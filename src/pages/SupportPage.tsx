@@ -1,6 +1,8 @@
 import SupportHero from '../components/Support/SupportHero';
 import TroubleshootingSection from '../components/Support/TroubleshootingSection';
 import WarrantyServiceSection from '../components/Support/WarrantyServiceSection';
+import SafetyCareSection from '../components/Support/SafetyCareSection';
+import ContactSection from '../components/Support/ContactSection';
 import Footer from '../components/Home/footer';
 
 export default function SupportPage() {
@@ -9,6 +11,8 @@ export default function SupportPage() {
       <SupportHero />
       <TroubleshootingSection />
       <WarrantyServiceSection />
+      <SafetyCareSection />
+      <ContactSection />
       <Footer />
     </div>
   );

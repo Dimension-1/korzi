@@ -146,7 +146,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
                 
                 {/* Continue Shopping Button */}
                 <button
-                  onClick={() => { handleClose(); navigate('/shop'); }}
+                  onClick={() => { handleClose(); navigate('/product-description'); }}
                   className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-6"
                   style={{
                     width: '190px',
