@@ -2,11 +2,11 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
-    <section className="bg-black text-white py-20 px-6 lg:px-12">
+    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12">
       <div className="max-w-7xl mx-auto" style={{ position: 'relative', zIndex: 10 }}>
-        <div className="border border-white/30 px-12 py-16 bg-[#0F0F0F]">
-          <div className="mb-12">
-            <h2 className="text-[48px] leading-[48px] uppercase mb-6" style={{ 
+        <div className="border border-white/30 px-6 py-8 lg:px-12 lg:py-16 bg-[#0F0F0F]">
+          <div className="mb-6 lg:mb-12">
+            <h2 className="text-[32px] lg:text-[48px] leading-[36px] lg:leading-[48px] uppercase mb-4 lg:mb-6" style={{ 
               fontFamily: 'Bebas Neue',
               background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
               WebkitBackgroundClip: 'text',
@@ -17,36 +17,36 @@ export default function ContactSection() {
             </h2>
           </div>
 
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-white text-[16px] leading-[24px] mb-2">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
+            <div className="lg:flex-1">
+              <p className="text-white text-[13px] lg:text-[16px] leading-[18px] lg:leading-[24px] mb-1 lg:mb-2">
                 Machines need care. We're here to keep yours moving.
               </p>
-              <p className="text-white text-[16px] leading-[24px] mb-8">
+              <p className="text-white text-[13px] lg:text-[16px] leading-[18px] lg:leading-[24px] mb-6 lg:mb-8">
                 If you're stuck, confused, or unsure message us. We'll handle the rest.
               </p>
               
-              <div className="flex gap-8">
-              <div>
-                <span className="text-[#02FF00] text-[14px]">Email: </span>
-                <span className="text-white text-[14px]">support@korzi.toys</span>
+              <div className="flex flex-col lg:flex-row gap-0 lg:gap-8 mb-8 lg:mb-0">
+              <div className="border border-white/30 px-3 py-2.5 lg:border-0 lg:px-0 lg:py-0">
+                <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Email: </span>
+                <span className="text-white text-[12px] lg:text-[14px]">support@korzi.toys</span>
               </div>
-              <div>
-                <span className="text-[#02FF00] text-[14px]">Workshop: </span>
-                <span className="text-white text-[14px]">JP Nagar, Bangalore</span>
+              <div className="border border-white/30 border-t-0 lg:border-t lg:border-0 px-3 py-2.5 lg:px-0 lg:py-0">
+                <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Response Time: </span>
+                <span className="text-white text-[12px] lg:text-[14px]">12–24 hours</span>
               </div>
-              <div>
-                <span className="text-[#02FF00] text-[14px]">Response Time: </span>
-                <span className="text-white text-[14px]">12–24 hours</span>
+              <div className="border border-white/30 border-t-0 lg:border-t lg:border-0 px-3 py-2.5 lg:px-0 lg:py-0">
+                <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Workshop: </span>
+                <span className="text-white text-[12px] lg:text-[14px]">JP Nagar, Bangalore</span>
               </div>
               </div>
             </div>
 
             <div>
-              <p className="text-white text-[16px] leading-[24px] mb-2">
+              <p className="text-white text-[13px] lg:text-[16px] leading-[18px] lg:leading-[24px] mb-1 lg:mb-2">
                 Real humans.
               </p>
-              <p className="text-white text-[16px] leading-[24px] mb-8">
+              <p className="text-white text-[13px] lg:text-[16px] leading-[18px] lg:leading-[24px] mb-6 lg:mb-8">
                 Available 10am – 6pm, Monday – Friday.
               </p>
               

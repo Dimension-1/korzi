@@ -19,7 +19,9 @@ export default function HomePage() {
       <HeroSection />
       <SpecsSection />
       <ApexDriveSection />
-      <MarqueeBar />
+      <div className="hidden md:block">
+        <MarqueeBar />
+      </div>
       <DetailCarousel />
       <div className="relative">
         <ManufacturingSection />       
@@ -34,7 +36,9 @@ export default function HomePage() {
       {/* <VideoCarousel />       */}
       <FaqSection />      
       <InsightsSection />      
-      <JoinFamSection />
+      <div className="hidden md:block">
+        <JoinFamSection />
+      </div>
       {/* <PaymentBanner /> */}
       <Footer />
     </div>

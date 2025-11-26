@@ -3,10 +3,10 @@ import Footer from '../components/Home/footer';
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-black text-white pt-24">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto px-6 md:px-8 pb-16">
         {/* Title */}
         <h1 
-          className="text-center text-5xl md:text-6xl lg:text-7xl mb-16 uppercase"
+          className="text-center text-3xl md:text-5xl lg:text-7xl mb-8 md:mb-16 uppercase"
           style={{
             fontFamily: 'Bebas Neue',
             background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
@@ -19,11 +19,11 @@ export default function PrivacyPolicyPage() {
         </h1>
 
         {/* Content Sections */}
-        <div className="space-y-12">
+        <div className="space-y-8 md:space-y-12">
           {/* Section 1 */}
           <div>
             <h2 
-              className="text-3xl mb-6"
+              className="text-2xl md:text-3xl mb-4 md:mb-6"
               style={{
                 fontFamily: 'DM Sans',
                 color: '#02FF00',
@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
             >
               Conclusion
             </h2>
-            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '1.8' }}>
+            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '14px', lineHeight: '1.8' }}>
               <p>
                 Morbi sed imperdiet in ipsum, adipiscing elit dui lectus. Tellus id scelerisque est ultricies ultricies. Duis est sit sed leo nisl, blandit elit sagittis. Quisque tristique consequat quam sed. Nisl at scelerisque amet nulla purus habitasse.
               </p>
@@ -48,7 +48,7 @@ export default function PrivacyPolicyPage() {
           {/* Section 2 */}
           <div>
             <h2 
-              className="text-3xl mb-6"
+              className="text-2xl md:text-3xl mb-4 md:mb-6"
               style={{
                 fontFamily: 'DM Sans',
                 color: '#02FF00',
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
             >
               Conclusion
             </h2>
-            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '1.8' }}>
+            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '14px', lineHeight: '1.8' }}>
               <p>
                 Morbi sed imperdiet in ipsum, adipiscing elit dui lectus. Tellus id scelerisque est ultricies ultricies. Duis est sit sed leo nisl, blandit elit sagittis. Quisque tristique consequat quam sed. Nisl at scelerisque amet nulla purus habitasse.
               </p>
@@ -73,7 +73,7 @@ export default function PrivacyPolicyPage() {
           {/* Section 3 */}
           <div>
             <h2 
-              className="text-3xl mb-6"
+              className="text-2xl md:text-3xl mb-4 md:mb-6"
               style={{
                 fontFamily: 'DM Sans',
                 color: '#02FF00',
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
             >
               Conclusion
             </h2>
-            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '1.8' }}>
+            <div className="space-y-4 text-white" style={{ fontFamily: 'DM Sans', fontSize: '14px', lineHeight: '1.8' }}>
               <p>
                 Morbi sed imperdiet in ipsum, adipiscing elit dui lectus. Tellus id scelerisque est ultricies ultricies. Duis est sit sed leo nisl, blandit elit sagittis. Quisque tristique consequat quam sed. Nisl at scelerisque amet nulla purus habitasse.
               </p>

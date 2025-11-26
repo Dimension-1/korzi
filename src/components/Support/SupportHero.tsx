@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function SupportHero() {
   return (
-    <section className="bg-black text-white py-20 px-6 lg:px-12">
+    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12">
       <div className="max-w-7xl mx-auto">
         {/* Hero Title */}
         <h1 

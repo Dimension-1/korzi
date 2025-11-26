@@ -34,27 +34,25 @@ export default function InsightsSection() {
   }
 
   return (
-    <section className="bg-black py-16 px-8 -mt-32">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 mt-0 md:-mt-32 relative">
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto">
         <h2 
-          className="text-center uppercase text-white mb-12"
+          className="uppercase bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-8 md:mb-12 text-center text-[32px] leading-[40px] md:text-[64px] md:leading-[72px] relative z-30"
           style={{
             fontFamily: 'Bebas Neue',
-            fontSize: '64px',
-            lineHeight: '72px',
             letterSpacing: '0.1em'
           }}
         >
-          INSIGHTS, PRESS & MORE
+          KORZI LOGS
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="flex overflow-x-auto gap-4 mb-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:mb-12 scrollbar-hide relative z-30">
           {blogs.map((blog) => (
             <Link 
               key={blog.id} 
               to={`/logs/${blog.id}`}
               state={{ journal: blog }}
-              className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group z-30"
+              className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group flex-shrink-0 w-[280px] md:w-auto relative z-30"
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
@@ -87,7 +85,7 @@ export default function InsightsSection() {
           ))}
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center relative z-30">
           <Link 
             to="/logs"
             className="bg-[#3A3A3A] text-white px-8 py-4 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden"

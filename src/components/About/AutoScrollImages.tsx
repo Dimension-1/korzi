@@ -29,16 +29,16 @@ export default function AutoScrollImages() {
   }, [activeIndex, images.length]);
 
   return (
-    <section className="bg-black py-16 px-4 md:px-8">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8">
       <div className="w-full mx-auto">
         {/* Scrolling Images */}
         <div 
           ref={scrollContainerRef}
-          className="flex gap-4 overflow-x-hidden scroll-smooth"
+          className="flex gap-2 md:gap-4 overflow-x-hidden scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {images.map((image, idx) => (
-            <div key={idx} className="flex-shrink-0 w-[calc(33.333%-11px)]">
+            <div key={idx} className="flex-shrink-0 w-[70%] md:w-[calc(33.333%-11px)]">
               <img 
                 src={image} 
                 alt={`Korzi ${idx + 1}`}
@@ -49,7 +49,7 @@ export default function AutoScrollImages() {
         </div>
 
         {/* Indicators */}
-        <div className="flex gap-2 justify-center mt-8">
+        <div className="flex gap-2 justify-center mt-4 md:mt-8">
           {images.map((_, idx) => (
             <button
               key={idx}

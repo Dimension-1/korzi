@@ -43,8 +43,8 @@ const JournalDetailPage: React.FC = () => {
       {/* Content Section */}
       <div className="bg-black px-8 md:px-16 lg:px-24 py-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-12">
-          {/* Left Sidebar */}
-          <div className="space-y-12">
+          {/* Left Sidebar - Desktop only, moved to bottom on mobile */}
+          <div className="hidden lg:block space-y-12">
             {/* Contributors - Would come from Hygraph */}
             <div>
               <h3 
@@ -118,7 +118,7 @@ const JournalDetailPage: React.FC = () => {
           </div>
 
           {/* Right Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 lg:order-none">
             {/* Main Content with proper typography */}
             <div 
               className="prose prose-invert max-w-none"
@@ -169,6 +169,80 @@ const JournalDetailPage: React.FC = () => {
                   </p>
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Left Sidebar - Mobile only, appears after content */}
+          <div className="lg:hidden space-y-12 mt-12">
+            {/* Contributors - Would come from Hygraph */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Contributors
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
+                    <span className="text-gray-400">👤</span>
+                  </div>
+                  <div>
+                    <p className="text-white" style={{ fontFamily: 'DM Sans', fontSize: '14px' }}>Korzi Team</p>
+                    <p className="text-gray-400 text-sm" style={{ fontFamily: 'DM Sans', fontSize: '12px' }}>Content Creator</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-800 pt-8" />
+
+            {/* Newsletter */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Subscribe to newsletter
+              </h3>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
+                style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
+              />
+              <button 
+                className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors"
+                style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
+              >
+                Subscribe
+              </button>
+              <p className="text-gray-500 text-xs mt-3" style={{ fontFamily: 'DM Sans' }}>
+                By subscribing you agree to with our Privacy Policy.
+              </p>
+            </div>
+
+            <div className="border-t border-gray-800 pt-8" />
+
+            {/* Share */}
+            <div>
+              <h3 
+                className="text-xl mb-6"
+                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              >
+                Share
+              </h3>
+              <div className="flex gap-3">
+                {['FB', 'TW', 'IN', 'LI'].map((social) => (
+                  <button 
+                    key={social}
+                    className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    style={{ fontFamily: 'DM Sans', fontSize: '12px', fontWeight: 600 }}
+                  >
+                    {social}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

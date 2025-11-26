@@ -18,29 +18,40 @@ export default function VideoCarouselSection() {
   };
 
   return (
-    <section className="bg-black py-16">
-      <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-8">
+    <section className="bg-black py-8 lg:py-16">
+      <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4 lg:px-8">
         {/* Title */}
         <h2 
-          className="text-center uppercase mb-12 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
+          className="text-center uppercase mb-6 lg:mb-12 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent text-3xl lg:text-[64px]"
           style={{
             fontFamily: 'Bebas Neue',
-            fontSize: '64px',
-            lineHeight: '64px',
+            lineHeight: '1',
           }}
         >
           WATCH KORZI TAKE OVER
         </h2>
 
+        {/* Description Text */}
+        <p 
+          className="text-center text-sm lg:text-base leading-relaxed mb-6 lg:mb-12 px-4 max-w-[248px] lg:max-w-[600px] mx-auto bg-gradient-to-br from-white to-gray-500 bg-clip-text text-transparent"
+          style={{
+            fontFamily: 'DM Sans',
+            lineHeight: '22px'
+          }}
+        >
+          Built for driveways, terraces, streets, parks, and dirt tracks.
+          Wherever there's space, the K-01 makes motion happen.
+        </p>
+
         {/* Video Carousel with Hover Scroll */}
         <div 
           ref={scrollContainerRef}
           onMouseMove={handleMouseMove}
-          className="flex gap-4 overflow-x-hidden mb-8 pb-4 cursor-pointer scroll-smooth"
+          className="flex gap-2 lg:gap-4 overflow-x-hidden mb-4 lg:mb-8 pb-4 cursor-pointer scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {videos.map((video, index) => (
-            <div key={index} className="flex-shrink-0 w-[180px] h-[320px] bg-gray-800 relative">
+            <div key={index} className="flex-shrink-0 w-[120px] h-[213px] lg:w-[180px] lg:h-[320px] bg-gray-800 relative">
               <video 
                 src={video}
                 className="w-full h-full object-cover"
@@ -54,7 +65,7 @@ export default function VideoCarouselSection() {
         </div>
 
         {/* Shop Now Button */}
-        <div className="flex justify-center mb-20">
+        <div className="flex justify-center mb-8 lg:mb-20">
           <button className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
             <span className="relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', fontSize: '14px', letterSpacing: '0.05em' }}>

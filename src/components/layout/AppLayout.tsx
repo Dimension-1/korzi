@@ -19,12 +19,12 @@ export default function AppLayout() {
     <div className="min-h-screen text-[var(--foreground)]">
       
       {/* === GLOBAL HEADER === */}
-      <div className="fixed top-0 md:top-4 left-0 md:left-4 right-0 md:right-4 z-50">
-        <header className="bg-black flex items-center justify-between px-4 md:px-6 py-3 shadow-xl">
-          {/* Hamburger/Close Menu */}
+      <div className="fixed top-4 left-4 right-4 z-50">
+        <header className="bg-black flex items-stretch md:items-center md:justify-between shadow-xl border border-gray-700 md:px-4 md:py-3">
+          {/* Hamburger - Desktop only (left side) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-white p-2 hover:text-[#02FF00] transition-colors"
+            className="hidden md:block text-white p-2 hover:text-[#02FF00] transition-colors"
             aria-label="Menu"
           >
             {menuOpen ? (
@@ -38,8 +38,8 @@ export default function AppLayout() {
             )}
           </button>
 
-          {/* Logo - Center */}
-          <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
+          {/* Logo - Left on mobile, Center on desktop */}
+          <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-0">
             <img 
               src="/logo-horizontal.png" 
               alt="KORZI" 
@@ -48,63 +48,79 @@ export default function AppLayout() {
           </Link>
 
           {/* Right Icons */}
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-stretch md:items-center flex-1 md:flex-none md:gap-3">
             <button 
               onClick={openDrawer}
-              className="relative hover:opacity-80 transition-opacity" 
+              className="relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" 
               aria-label="Cart"
             >
-              <img src="/assets/homepage/cart.png" alt="Cart" className="w-5 h-5 md:w-6 md:h-6" />
+              <img src="/assets/homepage/cart.png" alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#02FF00] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-2 right-[calc(50%-20px)] md:top-auto md:right-auto md:-top-1 md:-right-1 bg-[#02FF00] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <div className="h-8 md:h-10 w-px bg-white/20"></div>
-            <Link to="/signin" className="hover:opacity-80 transition-opacity" aria-label="Account">
-              <img src="/assets/homepage/profile.png" alt="Profile" className="w-5 h-5 md:w-6 md:h-6" />
+            <div className="hidden md:block h-8 w-px bg-gray-700"></div>
+            <Link to="/signin" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="Account">
+              <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
             </Link>
+            {/* Hamburger - Mobile only (right side) */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden text-white py-4 hover:text-[#02FF00] transition-colors flex-1 flex items-center justify-center"
+              aria-label="Menu"
+            >
+              {menuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
         </header>
       </div>
 
       {/* === DROPDOWN MENU === */}
       {menuOpen && (
-        <div className="fixed top-[52px] md:top-16 left-0 md:left-4 w-full md:w-64 bg-black shadow-xl z-40">
+        <div className="fixed top-[68px] left-4 right-4 md:w-64 md:right-auto bg-black shadow-xl z-40 border-l border-r border-b border-gray-700">
           {/* Navigation Links */}
-          <nav className="flex flex-col gap-4 md:gap-6 px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
-            <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+          <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
+            <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Shop</span>
             </Link>
-            <Link to="/about" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/about" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">About</span>
             </Link>
-            <Link to="/events" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/events" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Events</span>
             </Link>
-            <Link to="/partner" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/partner" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Partner with Korzi</span>
             </Link>
-            <Link to="/logs" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/logs" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Logs</span>
             </Link>
-            <Link to="/crew" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/crew" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span>
             </Link>
-            <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+            <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Careers</span>
             </Link>
             
             {isAuthenticated && (
-              <div className="pt-6 border-t border-gray-800 mt-4">
+              <div className="pt-6 border-t border-gray-700 mt-4">
                 <p className="text-sm text-gray-400 mb-4">{customer?.displayName || customer?.email}</p>
                 <button
                   onClick={() => {

@@ -19,12 +19,12 @@ export default function PillarsSection() {
   ];
 
   return (
-    <section className="bg-black py-16 px-8 md:px-16 lg:px-24">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 lg:px-24">
       <div className="w-full mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <h1 
-            className="uppercase text-5xl md:text-6xl lg:text-7xl mb-2 inline-block"
+            className="uppercase text-3xl md:text-6xl lg:text-7xl mb-2 inline-block"
             style={{
               fontFamily: 'Bebas Neue',
               fontWeight: 700,
@@ -39,7 +39,7 @@ export default function PillarsSection() {
           </h1>
           <br />
           <p 
-            className="uppercase text-3xl md:text-4xl lg:text-5xl inline-block"
+            className="uppercase text-xl md:text-4xl lg:text-5xl inline-block"
             style={{
               fontFamily: 'DM Sans',
               fontWeight: 400,
@@ -55,8 +55,8 @@ export default function PillarsSection() {
           </p>
         </div>
 
-        {/* Pillars Grid */}
-        <div className="flex justify-between items-end gap-0 md:gap-1 lg:gap-2 min-h-[500px] relative">
+        {/* Pillars Grid - Desktop */}
+        <div className="hidden lg:flex justify-between items-end gap-0 md:gap-1 lg:gap-2 min-h-[500px] relative">
           {pillars.map((pillar, index) => {
             const isActive = activePillar === pillar.id;
             const isLastPillar = index === pillars.length - 1;
@@ -118,16 +118,55 @@ export default function PillarsSection() {
           })}
         </div>
 
+        {/* Mobile Description - Above pillars */}
+        <div className="lg:hidden text-center mb-6 px-4 min-h-[60px]">
+          {activePillar && (
+            <p className="text-white text-sm" style={{ fontFamily: 'DM Sans', lineHeight: '1.6' }}>
+              {pillars.find(p => p.id === activePillar)?.description}
+            </p>
+          )}
+        </div>
+
+        {/* Pillars Grid - Mobile (3x2) */}
+        <div className="lg:hidden grid grid-cols-3 gap-2 justify-items-center mb-8">
+          {pillars.map((pillar) => (
+            <button
+              key={pillar.id}
+              className="relative cursor-pointer"
+              onClick={() => setActivePillar(activePillar === pillar.id ? null : pillar.id)}
+              style={{ width: '80px', height: '140px' }}
+            >
+              <img
+                src={activePillar === pillar.id ? '/assets/About/PillarAnimation/green_mobile.png' : '/assets/About/PillarAnimation/Black.png'}
+                alt={pillar.label}
+                className="w-full h-full object-contain"
+              />
+              <div className="absolute bottom-5 left-8">
+                <span 
+                  className={`block transition-colors duration-300 ${
+                    activePillar === pillar.id ? 'text-black' : 'text-white'
+                  }`}
+                  style={{ 
+                    fontFamily: 'DM Sans',
+                    fontSize: '8px',
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: 'bottom left',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {pillar.label}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
         {/* Promise Image */}
-        <div className="mt-16 flex justify-center">
+        <div className="mt-8 md:mt-16 flex justify-center">
           <img 
             src="/assets/About/Promise.png" 
             alt="Korzi Promise" 
-            style={{
-              width: '668px',
-              height: '725px'
-            }}
-            className="object-contain"
+            className="w-full max-w-[300px] md:max-w-[668px] h-auto object-contain"
           />
         </div>
       </div>

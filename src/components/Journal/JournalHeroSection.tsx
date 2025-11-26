@@ -23,11 +23,11 @@ export default function JournalHeroSection({ onSearch, onCategoryChange }: Journ
   };
 
   return (
-    <section className="bg-black text-white pt-24 pb-16 px-8 md:px-16 lg:px-24">
+    <section className="bg-black text-white pt-24 pb-12 md:pb-16 px-4 md:px-8 lg:px-24">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h1 
-          className="text-6xl md:text-7xl lg:text-8xl mb-8 uppercase"
+          className="text-4xl md:text-7xl lg:text-8xl mb-6 md:mb-8 uppercase text-center lg:text-left"
           style={{
             fontFamily: 'Bebas Neue',
             fontWeight: 400,
@@ -40,23 +40,25 @@ export default function JournalHeroSection({ onSearch, onCategoryChange }: Journ
           KORZI LOGS
         </h1>
 
-        {/* Description Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Left Description */}
-          <div style={{ fontFamily: 'DM Sans', fontSize: '18px', lineHeight: '1.6' }}>
-            <p>Logs are where curiosity meets creation.</p>
-            <p>Cars, drones, robots → whatever we build, break, and rebuild.</p>
+        {/* Description - Single paragraph on mobile, grid on desktop */}
+        <div className="mb-8 md:mb-12 text-center lg:text-left">
+          <div className="lg:hidden" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '1.6' }}>
+            <p>Logs are where curiosity meets creation. Cars, drones, robots → whatever we build, break, and rebuild. We document it here. Expect experiments, insights, and the occasional aha-moment.</p>
           </div>
-
-          {/* Right Description */}
-          <div style={{ fontFamily: 'DM Sans', fontSize: '18px', lineHeight: '1.6' }}>
-            <p>We document it here.</p>
-            <p>Expect experiments, insights, and the occasional aha-moment.</p>
+          <div className="hidden lg:grid grid-cols-2 gap-8">
+            <div style={{ fontFamily: 'DM Sans', fontSize: '18px', lineHeight: '1.6' }}>
+              <p>Logs are where curiosity meets creation.</p>
+              <p>Cars, drones, robots → whatever we build, break, and rebuild.</p>
+            </div>
+            <div style={{ fontFamily: 'DM Sans', fontSize: '18px', lineHeight: '1.6' }}>
+              <p>We document it here.</p>
+              <p>Expect experiments, insights, and the occasional aha-moment.</p>
+            </div>
           </div>
         </div>
 
         {/* Search and Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="relative">
             <div className="flex items-center border border-white/30 bg-black">
@@ -75,7 +77,7 @@ export default function JournalHeroSection({ onSearch, onCategoryChange }: Journ
           </form>
 
           {/* Category Buttons */}
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap justify-center lg:justify-start">
             {categories.map((category) => (
               <button
                 key={category}

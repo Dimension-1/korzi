@@ -128,21 +128,21 @@ export default function JournalPage() {
          />
         {/* Featured Article */}
         {featuredArticle && (
-          <section className="px-8 md:px-16 lg:px-24 pb-16">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <section className="px-4 md:px-8 lg:px-24 pb-8 md:pb-16">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Image */}
-              <div>
+              <div className="text-center lg:text-left">
                 <img
                   src={featuredArticle?.img?.url || fallbackImage}
                   alt={featuredArticle.title}
-                  className="w-full h-[500px] object-cover"
+                  className="w-full h-[300px] md:h-[500px] object-cover mx-auto"
                 />
               </div>
               
               {/* Content */}
-              <div className="flex flex-col justify-center space-y-4">
+              <div className="flex flex-col justify-center space-y-3 md:space-y-4 text-center lg:text-left">
                 <h2 
-                  className="text-3xl md:text-4xl lg:text-5xl uppercase"
+                  className="text-2xl md:text-4xl lg:text-5xl uppercase"
                   style={{
                     fontFamily: 'Bebas Neue',
                     color: '#02FF00'
@@ -151,17 +151,16 @@ export default function JournalPage() {
                   {featuredArticle.title}
                 </h2>
                 <p 
-                  className="text-gray-400"
+                  className="text-gray-400 text-sm md:text-base"
                   style={{
                     fontFamily: 'DM Sans',
-                    fontSize: '16px',
                     lineHeight: '1.8'
                   }}
                 >
                   {featuredArticle.shortdes}
                 </p>
                 <p 
-                  className="text-gray-500 text-sm"
+                  className="text-gray-500 text-xs md:text-sm"
                   style={{ fontFamily: 'DM Sans' }}
                 >
                   {formatDate(featuredArticle.createdAt)}
@@ -214,8 +213,8 @@ export default function JournalPage() {
             </div>
 
             {/* Blog Grid Section - Full Width */}
-            <div className="mt-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="mt-8 md:mt-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
                 {blogs.map((blog) => (
                   <Link 
                     key={blog.id} 

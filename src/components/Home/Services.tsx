@@ -35,11 +35,89 @@ export default function ManufacturingSection() {
   ];
 
   return (
-    <section className="bg-black py-16">
-      <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <section className="bg-black py-8 md:py-16">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+        {/* Mobile Layout */}
+        <div className="lg:hidden flex flex-col items-center text-center">
+          {/* Title */}
+          <h2 
+            className="text-white uppercase mb-3 text-3xl leading-tight"
+            style={{
+              fontFamily: 'Bebas Neue',
+            }}
+          >
+            REAL MACHINES MADE BY REAL PEOPLE.
+          </h2>
+          
+          {/* Description */}
+          <p 
+            className="text-white mb-6 text-sm px-4"
+            style={{
+              fontFamily: 'DM Sans',
+            }}
+          >
+            See where Korzi machines are built and tested for real performance.
+          </p>
+
+          {/* Steps List */}
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
+            {steps.map((step, index) => (
+              <button
+                key={step.name}
+                onClick={() => setActiveStep(index)}
+                className="text-center"
+              >
+                <span 
+                  className={`uppercase transition-all block ${
+                    index === activeStep ? 'text-[#02FF00]' : 'text-transparent'
+                  }`}
+                  style={{
+                    fontFamily: 'Bebas Neue',
+                    fontSize: '32px',
+                    lineHeight: '32px',
+                    WebkitTextStroke: '1px',
+                    WebkitTextStrokeColor: index === activeStep ? 'transparent' : '#4A4A4A',
+                  }}
+                >
+                  {step.name}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Images */}
+          <div className="relative w-full max-w-md mb-6">
+            <div className="grid grid-cols-2 gap-3">
+              <img 
+                src={steps[activeStep].image1} 
+                alt={steps[activeStep].name}
+                className="w-full h-auto object-cover"
+              />
+              <img 
+                src={steps[activeStep].image2} 
+                alt={`${steps[activeStep].name} detail`}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Button */}
+          <button 
+            onClick={() => navigate('/about')}
+            className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden cursor-pointer"
+          >
+            <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-xs" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
+              ABOUT US
+            </span>
+            <ArrowUpRight className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+          </button>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden lg:grid grid-cols-12 gap-6">
           {/* Left: Title and Steps */}
-          <div className="lg:col-span-3 flex flex-col justify-between">
+          <div className="col-span-3 flex flex-col justify-between">
             <div>
               <h2 
                 className="text-white uppercase mb-4"
@@ -91,7 +169,7 @@ export default function ManufacturingSection() {
           </div>
 
           {/* Right: Overlapping Images Section */}
-          <div className="lg:col-span-8 flex justify-center items-center">
+          <div className="col-span-8 flex justify-center items-center">
             <div className="relative w-full max-w-[800px] h-[400px] md:h-[500px] lg:h-[600px]">
               {/* First Image - Top Left */}
               <div className="absolute w-[45%] md:w-[370px] h-[250px] md:h-[350px] lg:h-[410px] z-10 top-0 left-[10%] md:left-[150px]">

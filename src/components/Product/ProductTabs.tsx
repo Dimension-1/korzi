@@ -13,18 +13,18 @@ export default function ProductTabs() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="w-full bg-black py-8 md:py-16">
-      <div className="w-full mx-auto px-4 md:px-8">
+    <div className="w-full bg-black py-4 md:py-16">
+      <div className="w-full mx-auto px-0 md:px-8">
         {/* Tabs */}
-        <div className="flex border-b border-zinc-800 overflow-x-auto scrollbar-hide">
+        <div className="flex border-t border-b border-zinc-800 overflow-x-auto scrollbar-hide bg-[#0F0F0F]">
           {tabs.map((tab, idx) => (
             <button
               key={idx}
               onClick={() => setActiveTab(idx)}
-              className={`px-6 py-4 text-xs font-semibold tracking-wider whitespace-nowrap transition-all duration-300 ${
+              className={`px-3 py-3 lg:px-6 lg:py-4 text-[10px] lg:text-xs font-semibold tracking-wider whitespace-nowrap transition-all duration-300 ${
                 activeTab === idx
                   ? 'text-white bg-zinc-900 border-t-2 border-t-[#02FF00]'
-                  : 'text-zinc-500 hover:text-zinc-300 bg-black'
+                  : 'text-zinc-500 hover:text-zinc-300 bg-[#0F0F0F]'
               }`}
             >
               {tab}
@@ -33,17 +33,17 @@ export default function ProductTabs() {
         </div>
 
         {/* Tab Content */}
-        <div className="border border-zinc-800 border-t-0">
+        <div className="border-x border-b border-zinc-800 bg-[#0F0F0F]">
           {activeTab === 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-6 text-white">
-                <p className="text-sm leading-relaxed">
+              <div className="p-4 md:p-12 space-y-4 md:space-y-6 text-white">
+                <p className="text-xs md:text-sm leading-relaxed">
                   The K-01 drives with attitude tight suspension, a punchy motor, and a body that doesn't back down from impact.
                 </p>
-                <p className="text-sm leading-relaxed">
+                <p className="text-xs md:text-sm leading-relaxed">
                   Every squeeze of the throttle feels intentional, every turn feels clean.
                 </p>
-                <p className="text-sm leading-relaxed">
+                <p className="text-xs md:text-sm leading-relaxed">
                   It's a small machine with a big-machine spirit, built to deliver real drive anywhere you take it.
                 </p>
               </div>
@@ -59,45 +59,45 @@ export default function ProductTabs() {
 
           {activeTab === 1 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-3 text-white">
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Scale</span>
-                  <span className="text-sm">1:16</span>
+              <div className="p-4 md:p-12 space-y-2 md:space-y-3 text-white">
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Scale</span>
+                  <span className="text-xs md:text-sm">1:16</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Drive</span>
-                  <span className="text-sm">4WD</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Drive</span>
+                  <span className="text-xs md:text-sm">4WD</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Top Speed:</span>
-                  <span className="text-sm">Up to 25 km/h</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Top Speed:</span>
+                  <span className="text-xs md:text-sm">Up to 25 km/h</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Control Range</span>
-                  <span className="text-sm">50+ meters</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Control Range</span>
+                  <span className="text-xs md:text-sm">50+ meters</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Battery</span>
-                  <span className="text-sm">1200 mAh Rechargeable Li-ion Pack (7.4V)</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Battery</span>
+                  <span className="text-xs md:text-sm">1200 mAh Rechargeable Li-ion Pack (7.4V)</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Run Time</span>
-                  <span className="text-sm">~25 minutes (surface & style dependent)</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Run Time</span>
+                  <span className="text-xs md:text-sm">~25 minutes (surface & style dependent)</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Charge Time</span>
-                  <span className="text-sm flex items-center gap-2">
-                    <span className="bg-[#02FF00] text-black px-2 py-0.5 text-xs uppercase font-bold">SLOW CHARGE FOR SAFETY</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Charge Time</span>
+                  <span className="text-xs md:text-sm flex items-center gap-2">
+                    <span className="bg-[#02FF00] text-black px-2 py-0.5 text-[8px] md:text-xs uppercase font-bold">SLOW CHARGE FOR SAFETY</span>
                     ~180 minutes
                   </span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Controller</span>
-                  <span className="text-sm">2.4 GHz Remote</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Controller</span>
+                  <span className="text-xs md:text-sm">2.4 GHz Remote</span>
                 </div>
-                <div className="flex justify-between py-3">
-                  <span className="text-sm font-bold text-white">Age</span>
-                  <span className="text-sm">6+ (adult supervision recommended)</span>
+                <div className="flex justify-between py-2 md:py-3">
+                  <span className="text-xs md:text-sm font-bold text-white">Age</span>
+                  <span className="text-xs md:text-sm">6+ (adult supervision recommended)</span>
                 </div>
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
@@ -112,22 +112,22 @@ export default function ProductTabs() {
 
           {activeTab === 2 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-3 text-white">
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Product Dimensions (L × W × H)</span>
-                  <span className="text-sm">29.8 × 17.7 × 12.5 cm</span>
+              <div className="p-4 md:p-12 space-y-2 md:space-y-3 text-white">
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Product Dimensions (L × W × H)</span>
+                  <span className="text-xs md:text-sm">29.8 × 17.7 × 12.5 cm</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Box Dimensions (L × W × H)</span>
-                  <span className="text-sm">42 × 23 × 20.2 cm</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Box Dimensions (L × W × H)</span>
+                  <span className="text-xs md:text-sm">42 × 23 × 20.2 cm</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Product Weight</span>
-                  <span className="text-sm">852.6g (with battery)</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Product Weight</span>
+                  <span className="text-xs md:text-sm">852.6g (with battery)</span>
                 </div>
-                <div className="flex justify-between py-3">
-                  <span className="text-sm font-bold text-white">Material</span>
-                  <span className="text-sm">ABS Shell, PA Components, Reinforced Chassis, Hardware & Electronics</span>
+                <div className="flex justify-between py-2 md:py-3">
+                  <span className="text-xs md:text-sm font-bold text-white">Material</span>
+                  <span className="text-xs md:text-sm">ABS Shell, PA Components, Reinforced Chassis, Hardware & Electronics</span>
                 </div>
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
@@ -142,46 +142,46 @@ export default function ProductTabs() {
 
           {activeTab === 3 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-3 text-white">
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Steering</span>
-                  <span className="text-sm">Front Wheel Steering</span>
+              <div className="p-4 md:p-12 space-y-2 md:space-y-3 text-white">
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Steering</span>
+                  <span className="text-xs md:text-sm">Front Wheel Steering</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Motor Type</span>
-                  <span className="text-sm">Brushed (7.4V)</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Motor Type</span>
+                  <span className="text-xs md:text-sm">Brushed (7.4V)</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Motor RPM</span>
-                  <span className="text-sm">22,000 RPM</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Motor RPM</span>
+                  <span className="text-xs md:text-sm">22,000 RPM</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Gear Ratio</span>
-                  <span className="text-sm">1:86</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Gear Ratio</span>
+                  <span className="text-xs md:text-sm">1:86</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Differential</span>
-                  <span className="text-sm">Open</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Differential</span>
+                  <span className="text-xs md:text-sm">Open</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">ESC Rating</span>
-                  <span className="text-sm">7.4V, Max 60A</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">ESC Rating</span>
+                  <span className="text-xs md:text-sm">7.4V, Max 60A</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Suspension</span>
-                  <span className="text-sm">Independent</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Suspension</span>
+                  <span className="text-xs md:text-sm">Independent</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Suspension Type</span>
-                  <span className="text-sm">Swing Arm</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Suspension Type</span>
+                  <span className="text-xs md:text-sm">Swing Arm</span>
                 </div>
-                <div className="flex justify-between py-3 border-b border-zinc-800">
-                  <span className="text-sm font-bold text-white">Wheelbase</span>
-                  <span className="text-sm">178 mm</span>
+                <div className="flex justify-between py-2 md:py-3 border-b border-zinc-800">
+                  <span className="text-xs md:text-sm font-bold text-white">Wheelbase</span>
+                  <span className="text-xs md:text-sm">178 mm</span>
                 </div>
-                <div className="flex justify-between py-3">
-                  <span className="text-sm font-bold text-white">Tire Diameter</span>
-                  <span className="text-sm">66 mm</span>
+                <div className="flex justify-between py-2 md:py-3">
+                  <span className="text-xs md:text-sm font-bold text-white">Tire Diameter</span>
+                  <span className="text-xs md:text-sm">66 mm</span>
                 </div>
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
@@ -196,8 +196,8 @@ export default function ProductTabs() {
 
           {activeTab === 4 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-4 text-white">
-                <ul className="space-y-3 text-sm">
+              <div className="p-4 md:p-12 space-y-3 md:space-y-4 text-white">
+                <ul className="space-y-2 md:space-y-3 text-xs md:text-sm">
                   <li className="flex items-start gap-2">
                     <span className="text-[#02FF00]">→</span>
                     <span>1 x Apex Drive K-01 RC Machine (1:16, 4WD)</span>
@@ -236,23 +236,23 @@ export default function ProductTabs() {
 
           {activeTab === 5 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
-              <div className="p-6 md:p-12 space-y-6 text-white">
-                <p className="text-sm leading-relaxed">
+              <div className="p-4 md:p-12 space-y-4 md:space-y-6 text-white">
+                <p className="text-xs md:text-sm leading-relaxed">
                   Korzi Care provides comprehensive coverage for manufacturing defects and normal wear. Local service available across India.
                 </p>
                 <div className="space-y-3">
-                  <h3 className="text-base font-bold text-white">Covered:</h3>
-                  <ul className="space-y-2 text-sm">
+                  <h3 className="text-sm md:text-base font-bold text-white">Covered:</h3>
+                  <ul className="space-y-2 text-xs md:text-sm">
                     <li>• Motor and drivetrain issues</li>
                     <li>• Electronic component failures</li>
                     <li>• Structural defects</li>
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm text-[#02FF00] leading-relaxed">
+                  <p className="text-xs md:text-sm text-[#02FF00] leading-relaxed">
                     Repair assistance available through Korzi Support.
                   </p>
-                  <p className="text-sm text-[#02FF00] leading-relaxed">
+                  <p className="text-xs md:text-sm text-[#02FF00] leading-relaxed">
                     Local team. Real humans. Real service.
                   </p>
                 </div>

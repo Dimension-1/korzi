@@ -143,7 +143,7 @@ export default function TestimonialsSection() {
       <div className="w-full mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 md:gap-12">
           {/* Left: Rating Summary */}
-          <div>
+          <div className="text-center lg:text-left">
             <h2 
               className="uppercase mb-6 md:mb-8 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent text-3xl md:text-4xl lg:text-5xl"
               style={{
@@ -153,7 +153,7 @@ export default function TestimonialsSection() {
               TESTIMONIALS
             </h2>
 
-            <div className="mb-6 md:mb-8">
+            <div className="mb-6 md:mb-8 flex flex-col items-center lg:items-start">
               <div className="flex items-baseline gap-2 mb-2">
                 <span 
                   className="text-[#02FF00] text-5xl md:text-6xl"
@@ -177,7 +177,7 @@ export default function TestimonialsSection() {
             </div>
 
             {/* Rating Bars */}
-            <div className="space-y-2">
+            <div className="space-y-2 max-w-xs mx-auto lg:mx-0">
               {ratingBreakdown.map((item) => (
                 <div key={item.stars} className="flex items-center gap-3">
                   <span className="text-white text-sm w-3">{item.stars}</span>
