@@ -1,6 +1,8 @@
+import Footer from '../components/Home/footer';
+
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-16 px-8 md:px-16 lg:px-24">
+    <div className="min-h-screen bg-black text-white pt-24">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
         <h1 
@@ -94,6 +96,7 @@ export default function PrivacyPolicyPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

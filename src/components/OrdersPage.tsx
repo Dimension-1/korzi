@@ -50,7 +50,7 @@ const OrdersPage: React.FC = () => {
               You haven't placed any orders yet. Start shopping to see your orders here.
             </p>
             <button
-              onClick={() => navigate('/product-description')}
+              onClick={() => navigate('/shop')}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Start Shopping

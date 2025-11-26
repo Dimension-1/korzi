@@ -30,7 +30,7 @@ export default function DetailCarousel() {
       title: "CRASH-TESTED TOUGHNESS.",
       description: "Made to drift, jump, and survive impact. Korzi machines are built to handle chaos, not sit on shelves. Up to 25 km/h of tight control and instant response. It's not playtime, it's performance time.",
       buttonText: "EXPLORE APEX DRIVE K-01",
-      buttonLink: "/products/apex-drive",
+      buttonLink: "/shop",
       image: "/assets/homepage/crashed_test.png"
     },
     {

@@ -60,7 +60,7 @@ export default function ThankYouPage() {
         {/* Buttons */}
         <div className="flex items-center justify-center gap-6">
           <button 
-            onClick={() => navigate('/product-description')}
+            onClick={() => navigate('/shop')}
             className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" 
             style={{ width: '200px', height: '46px' }}
           >

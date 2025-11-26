@@ -44,7 +44,8 @@ export default function SpecsSection() {
     return (
       <section className="bg-black py-16 md:py-0 overflow-hidden">
         <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4">
-          <div className="relative h-[400px] flex justify-center items-center">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex relative h-[400px] justify-center items-center">
             <div className="relative" style={{ width: '950px', height: '300px' }}>
               {specs.map((spec, index) => (
                 <img
@@ -68,6 +69,87 @@ export default function SpecsSection() {
                   onMouseLeave={() => setHoveredIndex(null)}
                 />
               ))}
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden flex justify-center">
+            <div className="relative" style={{ width: '359.84px', height: '286px' }}>
+              <img
+                src={specs[0].image}
+                alt="25 KM/H"
+                style={{
+                  position: 'absolute',
+                  width: '124.5px',
+                  height: '138.21px',
+                  left: '13px',
+                  top: '11.52px',
+                  transform: 'rotate(-3.47deg)',
+                  borderRadius: '4.39px',
+                  background: 'rgba(255, 255, 255, 0.05)'
+                }}
+                className="object-contain"
+              />
+              <img
+                src={specs[1].image}
+                alt="1:16 Scale"
+                style={{
+                  position: 'absolute',
+                  width: '124.5px',
+                  height: '138.21px',
+                  left: '126.53px',
+                  top: '0px',
+                  transform: 'rotate(4.96deg)',
+                  borderRadius: '4.39px',
+                  background: 'rgba(255, 255, 255, 0.05)'
+                }}
+                className="object-contain"
+              />
+              <img
+                src={specs[2].image}
+                alt="2.4Ghz"
+                style={{
+                  position: 'absolute',
+                  width: '124.5px',
+                  height: '138.21px',
+                  left: '240.6px',
+                  top: '28.52px',
+                  transform: 'rotate(-3.3deg)',
+                  borderRadius: '4.39px',
+                  background: 'rgba(255, 255, 255, 0.05)'
+                }}
+                className="object-contain"
+              />
+              <img
+                src={specs[3].image}
+                alt="4x4 Control"
+                style={{
+                  position: 'absolute',
+                  width: '131.34px',
+                  height: '144.34px',
+                  left: '73.33px',
+                  top: '112.97px',
+                  transform: 'rotate(3.5deg)',
+                  borderRadius: '4.39px',
+                  background: 'rgba(255, 255, 255, 0.05)'
+                }}
+                className="object-contain"
+              />
+              <img
+                src={specs[4].image}
+                alt="50m+ Range"
+                style={{
+                  position: 'absolute',
+                  width: '126.45px',
+                  height: '139.96px',
+                  left: '190.69px',
+                  top: '130.52px',
+                  transform: 'rotate(-2.8deg)',
+                  borderRadius: '4.39px',
+                  background: 'rgba(255, 255, 255, 0.05)'
+                }}
+                className="object-contain"
+              />
             </div>
           </div>
         </div>

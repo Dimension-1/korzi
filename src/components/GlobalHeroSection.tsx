@@ -79,7 +79,7 @@ export default function GlobalHeader() {
 
         <nav className="flex flex-col gap-6 p-8 text-white font-heading uppercase">
           <Link to="/" className="text-lg hover:text-[#02FF00] transition-colors" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/product-description" className="text-lg hover:text-[#02FF00] transition-colors" onClick={() => setMenuOpen(false)}>Shop</Link>
+          <Link to="/shop" className="text-lg hover:text-[#02FF00] transition-colors" onClick={() => setMenuOpen(false)}>Shop</Link>
           <Link to="/logs" className="text-lg hover:text-[#02FF00] transition-colors" onClick={() => setMenuOpen(false)}>Logs</Link>
           <Link to="/orders" className="text-lg hover:text-[#02FF00] transition-colors" onClick={() => setMenuOpen(false)}>Orders</Link>
           

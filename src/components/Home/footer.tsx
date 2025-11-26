@@ -3,6 +3,12 @@ import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
   const navigate = useNavigate();
+  
+  const handleLinkClick = (path: string) => {
+    window.scrollTo(0, 0);
+    navigate(path);
+  };
+  
   return (
     <footer className="bg-grey relative">
       {/* Car Image Section */}
@@ -59,7 +65,7 @@ export default function Footer() {
           {/* SHOP Column */}
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
             <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SHOP</h3>
-            <Link to="/products/apex-drive" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group">
+            <Link to="/shop" onClick={() => handleLinkClick('/shop')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group">
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Apex Drive RC Car</span>
             </Link>
@@ -69,12 +75,12 @@ export default function Footer() {
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
           <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>COMPANY</h3>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
-              <li><Link to="/careers" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li>
-              <li><Link to="/journal" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Journal</span></Link></li>
-              <li><Link to="/events" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li>
-              <li><Link to="/partners" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li>
-              <li><Link to="/crew" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li>
+              <li><Link to="/about" onClick={() => handleLinkClick('/about')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
+              <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li>
+              <li><Link to="/logs" onClick={() => handleLinkClick('/logs')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Journal</span></Link></li>
+              <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li>
+              <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li>
+              <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li>
             </ul>
           </div>
 
@@ -82,10 +88,10 @@ export default function Footer() {
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
           <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SUPPORT</h3>
             <ul className="space-y-3">
-              <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
-              <li><Link to="/returns" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Returns & Exchange</span></Link></li>
-              <li><Link to="/shipping" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping</span></Link></li>
-              <li><Link to="/delivery" className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Delivery</span></Link></li>
+              <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
+              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Returns & Exchange</span></Link></li>
+              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping</span></Link></li>
+              <li><Link to="/delivery" onClick={() => handleLinkClick('/delivery')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Delivery</span></Link></li>
             </ul>
           </div>
 

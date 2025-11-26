@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getProductByHandle, ShopifyProduct } from '../services/shopify';
 import CartDrawer from '../components/CartDrawer';
 import ProductHero from '../components/Product/ProductHero';
@@ -12,21 +12,20 @@ import Footer from '../components/Home/footer';
 import SpecsSection from '../components/Home/SpecsSection';
 
 const ProductDetailPage = () => {
-  const { handle } = useParams<{ handle: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
-      if (!handle) return;
+      const productHandle = 'apex-dr4x16-vortex-green-edition';
       setLoading(true);
-      const data = await getProductByHandle(handle);
+      const data = await getProductByHandle(productHandle);
       setProduct(data);
       setLoading(false);
     };
     fetchProduct();
-  }, [handle]);
+  }, []);
 
   if (loading) {
     return (
@@ -41,7 +40,7 @@ const ProductDetailPage = () => {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl text-white mb-4">Product not found</h2>
-          <button onClick={() => navigate('/product-description')} className="text-[#39FF14]">
+          <button onClick={() => navigate('/shop')} className="text-[#39FF14]">
             Back to Shop
           </button>
         </div>

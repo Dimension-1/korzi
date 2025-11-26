@@ -16,18 +16,15 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black/40" />
   
         {/* Bottom Content */}
-        <div className="absolute bottom-0 left-0 right-0 bg-black p-6 md:p-8 lg:p-12 z-20">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-end gap-8">
+        <div className="absolute bottom-0 left-0 right-0 bg-black p-4 md:p-8 lg:p-12 z-20">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center lg:items-end gap-4 md:gap-8 text-center lg:text-left">
             {/* Left Text with Gradient */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 w-full lg:w-auto">
               <h1 
+                className="text-[32px] leading-[36px] md:text-[64px] md:leading-[64px]"
                 style={{
-                  width: '400px',
-                  height: '128px',
                   fontFamily: 'Bebas Neue',
                   fontWeight: 400,
-                  fontSize: '64px',
-                  lineHeight: '64px',
                   background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -40,13 +37,10 @@ export default function HeroSection() {
   
             {/* Right Text */}
             <div 
+              className="w-full lg:w-auto text-sm leading-[20px] md:text-[18px] md:leading-[26px]"
               style={{
-                width: '900px',
-                height: '104px',
                 fontFamily: 'DM Sans',
                 fontWeight: 400,
-                fontSize: '18px',
-                lineHeight: '26px',
                 color: '#FFFFFF',
               }}
             >

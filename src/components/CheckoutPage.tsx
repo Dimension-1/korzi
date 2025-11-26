@@ -33,7 +33,7 @@ const CheckoutPage: React.FC = () => {
 
   useEffect(() => {
     if (!currentOrder) {
-      navigate('/product-description');
+      navigate('/shop');
     }
   }, [currentOrder, navigate]);
 
@@ -247,7 +247,7 @@ const CheckoutPage: React.FC = () => {
         <div className="text-center">
           <h2 className="text-2xl text-gray-900 mb-4 font-heading">No items in cart</h2>
           <button
-            onClick={() => navigate('/product-description')}
+            onClick={() => navigate('/shop')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Continue Shopping

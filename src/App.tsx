@@ -67,10 +67,10 @@ function App() {
         <Route path="/" element={<ComingSoonPage />} />
         <Route path="/logs" element={<JournalPage />} />
         <Route path="/logs/:slug" element={<JournalDetailPage />} />
-        <Route path="/shop" element={<ShopPage />} />
-        <Route path="/product/:handle" element={<ProductDetailPage />} />
+        <Route path="/shop" element={<ProductDetailPage />} />
+        <Route path="/oldshop" element={<ShopPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />

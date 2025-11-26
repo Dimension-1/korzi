@@ -19,8 +19,8 @@ export default function AppLayout() {
     <div className="min-h-screen text-[var(--foreground)]">
       
       {/* === GLOBAL HEADER === */}
-      <div className="fixed top-4 left-4 right-4 z-50">
-        <header className="bg-black flex items-center justify-between px-6 py-3 shadow-xl">
+      <div className="fixed top-0 md:top-4 left-0 md:left-4 right-0 md:right-4 z-50">
+        <header className="bg-black flex items-center justify-between px-4 md:px-6 py-3 shadow-xl">
           {/* Hamburger/Close Menu */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -43,27 +43,27 @@ export default function AppLayout() {
             <img 
               src="/logo-horizontal.png" 
               alt="KORZI" 
-              className="h-10 w-auto"
+              className="h-8 md:h-10 w-auto"
             />
           </Link>
 
           {/* Right Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             <button 
               onClick={openDrawer}
               className="relative hover:opacity-80 transition-opacity" 
               aria-label="Cart"
             >
-              <img src="/assets/homepage/cart.png" alt="Cart" className="w-6 h-6" />
+              <img src="/assets/homepage/cart.png" alt="Cart" className="w-5 h-5 md:w-6 md:h-6" />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-[#02FF00] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <div className="h-10 w-px bg-white/20"></div>
+            <div className="h-8 md:h-10 w-px bg-white/20"></div>
             <Link to="/signin" className="hover:opacity-80 transition-opacity" aria-label="Account">
-              <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
+              <img src="/assets/homepage/profile.png" alt="Profile" className="w-5 h-5 md:w-6 md:h-6" />
             </Link>
           </div>
         </header>
@@ -71,10 +71,10 @@ export default function AppLayout() {
 
       {/* === DROPDOWN MENU === */}
       {menuOpen && (
-        <div className="fixed top-16 left-4 w-64 bg-black shadow-xl z-40">
+        <div className="fixed top-[52px] md:top-16 left-0 md:left-4 w-full md:w-64 bg-black shadow-xl z-40">
           {/* Navigation Links */}
-          <nav className="flex flex-col gap-6 px-8 py-8 text-white font-heading uppercase">
-            <Link to="/product-description" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
+          <nav className="flex flex-col gap-4 md:gap-6 px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
+            <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Shop</span>
             </Link>
