@@ -31,3 +31,5 @@ npm-debug.log*
 # Misc
 .cache/
 coverage/
+.env.production
+.env.development
