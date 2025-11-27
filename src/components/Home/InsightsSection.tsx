@@ -52,6 +52,7 @@ export default function InsightsSection() {
               key={blog.id} 
               to={`/logs/${blog.id}`}
               state={{ journal: blog }}
+              onClick={() => window.scrollTo(0, 0)}
               className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group flex-shrink-0 w-[280px] md:w-auto relative z-30"
             >
               <div className="aspect-[4/3] overflow-hidden">

@@ -13,7 +13,7 @@ export default function ApexDriveSection() {
             <img 
               src="/assets/homepage/korziwithouticon.png" 
               alt="KORZI" 
-              className="h-8"
+              className="h-6"
             />
           </div>
 
@@ -22,7 +22,7 @@ export default function ApexDriveSection() {
             <img 
               src="/assets/homepage/ApexDrive.png"
               alt="APEX DRIVE"
-              className="w-auto h-[40px]"
+              className="w-auto h-[32px]"
             />
           </div>
 

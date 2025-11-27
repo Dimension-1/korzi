@@ -56,7 +56,7 @@ export default function AppLayout() {
             >
               <img src="/assets/homepage/cart.png" alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute top-2 right-[calc(50%-20px)] md:top-auto md:right-auto md:-top-1 md:-right-1 bg-[#02FF00] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-2 right-[calc(50%-20px)] md:-top-1 md:-right-1 bg-[#02FF00] text-black text-[10px] md:text-[9px] font-bold rounded-full w-5 h-5 md:w-4 md:h-4 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}

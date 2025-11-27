@@ -27,27 +27,27 @@ export default function JoinFamSection() {
           
           {/* Social Buttons */}
           <div className="space-y-3 mt-32">
-            <button className="w-full border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
-              <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+            <a href="https://www.instagram.com/korzitoys/" target="_blank" rel="noopener noreferrer" className="w-full border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
+              <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
-                <Instagram className="w-6 h-6 text-[#02FF00]" />
+                <Instagram className="w-6 h-6 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
               </div>
               <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>BE A PART OF  OUR INSTAGRAM COMMUNITY</span>
-            </button>
+            </a>
             
             <div className="grid grid-cols-2 gap-3">
-              <button className="border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
-                <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+              <a href="https://www.linkedin.com/company/korzi/" target="_blank" rel="noopener noreferrer" className="border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
                 <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
-                  <Linkedin className="w-6 h-6 text-[#02FF00]" />
+                  <Linkedin className="w-6 h-6 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
                 </div>
                 <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>LINKEDIN</span>
-              </button>
+              </a>
               
               <button className="border border-gray-500 text-white flex items-center h-14 relative overflow-hidden group">
-                <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
                 <div className="border-r border-gray-500 px-5 h-full flex items-center relative z-10">
-                  <Youtube className="w-6 h-6 text-[#02FF00]" />
+                  <Youtube className="w-6 h-6 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
                 </div>
                 <span className="flex-1 text-center text-sm relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', letterSpacing: '0.1em' }}>YOUTUBE</span>
               </button>

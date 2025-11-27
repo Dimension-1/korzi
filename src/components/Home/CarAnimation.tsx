@@ -34,18 +34,18 @@ export default function CarAnimation() {
   const carPosition = startPosition + (scrollProgress * (endPosition - startPosition));
 
   return (
-    <section ref={sectionRef} className="bg-black overflow-hidden" style={{ height: '50vh' }}>
-      <div className="sticky top-0 h-96 flex items-start pt-8">
-        <div className="w-full relative h-64">
+    <section ref={sectionRef} className="bg-black overflow-hidden" style={{ height: window.innerWidth < 768 ? '20vh' : '50vh' }}>
+      <div className="sticky top-0 h-32 md:h-96 flex items-start pt-2 md:pt-8">
+        <div className="w-full relative h-32 md:h-64">
           {/* Right tire marks - reveal from right to left */}
           <img 
             src="/assets/homepage/tyremarks.png"
             alt="right tire marks"
             className="absolute h-auto"
             style={{ 
-              top: '274px',
+              top: window.innerWidth < 768 ? '137px' : '274px',
               width: '4000px',
-              height:'60px',
+              height: window.innerWidth < 768 ? '30px' : '60px',
               opacity: scrollProgress > 0 ? 1 : 0,
               clipPath: `inset(0 0 0 ${95 - (scrollProgress * 100)}%)`,
               zIndex: 20
@@ -58,9 +58,9 @@ export default function CarAnimation() {
             alt="left tire marks"
             className="absolute h-auto"
             style={{ 
-              top: '50px',
+              top: window.innerWidth < 768 ? '25px' : '50px',
               width: '4000px',
-              height: '60px',
+              height: window.innerWidth < 768 ? '30px' : '60px',
               opacity: scrollProgress > 0 ? 1 : 0,
               clipPath: `inset(0 0 0 ${95 - (scrollProgress * 100)}%)`,
               zIndex: 20
@@ -73,9 +73,9 @@ export default function CarAnimation() {
             alt="car"
             className="absolute h-auto"
             style={{ 
-              top: '10px',
+              top: window.innerWidth < 768 ? '5px' : '10px',
               left: `${carPosition}%`,
-              width: '600px',
+              width: window.innerWidth < 768 ? '300px' : '600px',
               zIndex: 30
             }}
           />

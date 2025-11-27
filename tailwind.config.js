@@ -22,6 +22,7 @@ export default {
       },
       animation: {
         marquee: 'marquee 30s linear infinite',
+        'marquee-mobile': 'marquee 8s linear infinite',
         fadeIn: 'fadeIn 0.5s ease-in',
       },
       keyframes: {

@@ -39,11 +39,11 @@ export default function ErrorPage() {
           The page you are looking for is not available.
         </p>
         <p className="text-white text-[14px] md:text-[16px] leading-[22px] md:leading-[24px] mb-8 md:mb-12 px-4">
-          Error message here.
+          An unexpected error occurred.
         </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+        {/* Button */}
+        <div className="flex justify-center">
           <button 
             onClick={() => navigate('/shop')}
             className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full md:w-[200px]" 
@@ -53,19 +53,6 @@ export default function ErrorPage() {
             <ChevronLeft className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
             <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">
               BACK TO SHOPPING
-            </span>
-          </button>
-
-          <span className="text-white text-[14px] md:text-[16px] uppercase">or</span>
-
-          <button 
-            onClick={() => navigate('/')}
-            className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full md:w-[200px]" 
-            style={{ height: '46px' }}
-          >
-            <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">
-              LOREM IPSUM
             </span>
           </button>
         </div>

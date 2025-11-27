@@ -13,7 +13,7 @@ export default function MarqueeBar() {
   
     return (
       <div className="bg-[#02FF00] py-4 overflow-hidden -mt-24 relative z-0">
-        <div className="flex animate-marquee whitespace-nowrap">
+        <div className="flex animate-marquee-mobile md:animate-marquee whitespace-nowrap">
           {[...features, ...features].map((feature, index) => (
             <span
               key={index}

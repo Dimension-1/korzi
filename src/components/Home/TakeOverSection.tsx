@@ -18,7 +18,7 @@ export default function TakeOverSection() {
   };
 
   return (
-    <section className="bg-black py-16">
+    <section className="bg-black py-5 md:py-16">
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-8">
         {/* Title */}
         <h2 

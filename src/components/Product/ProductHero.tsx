@@ -187,7 +187,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
           </p>
 
           {/* Features Grid */}
-          <div className="bg-[#0F0F0F] grid grid-cols-2 gap-0 border border-zinc-800 bg-black">
+          <div className="bg-[#1F1F1F] grid grid-cols-2 gap-0 border border-zinc-800 bg-black">
             {features.map((feature, idx) => (
               <div 
                 key={idx} 

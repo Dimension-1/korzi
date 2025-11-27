@@ -54,8 +54,17 @@ export default function HeroSection() {
               className="md:hidden w-full h-auto object-cover"
             />
 
-            {/* DragonFly Badge - Overlapping top right, 3/4 outside */}
-            <div className="absolute -right-[15%] -top-[15%] md:-right-[12%] md:-top-[12%] lg:-right-[8%] lg:-top-[10%] w-[120px] h-[120px] md:w-[180px] md:h-[180px] lg:w-[240px] lg:h-[240px]">
+            {/* DragonFly Badge - Mobile */}
+            <div className="absolute md:hidden -right-[5%] -top-[5%] w-[120px] h-[120px]">
+              <img 
+                src="/assets/About/Hero Section/DragonFly.png" 
+                alt="Korzi DragonFly" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+
+            {/* DragonFly Badge - Desktop */}
+            <div className="hidden md:block absolute md:-right-[12%] md:-top-[12%] lg:-right-[8%] lg:-top-[10%] md:w-[180px] md:h-[180px] lg:w-[240px] lg:h-[240px]">
               <img 
                 src="/assets/About/Hero Section/DragonFly.png" 
                 alt="Korzi DragonFly" 

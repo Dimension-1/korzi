@@ -58,13 +58,13 @@ export default function Footer() {
                 <ArrowUpRight className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
               </button>
               <div className="flex gap-4">
-                <a href="https://instagram.com/korzi" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/korzitoys/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
                   <Instagram className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
                 </a>
-                <a href="https://linkedin.com/company/korzi" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/company/korzi/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
                   <Linkedin className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
                 </a>
-                <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer">
+                <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
                   <Youtube className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
                 </a>
               </div>
@@ -194,13 +194,13 @@ export default function Footer() {
             <ArrowUpRight className="w-4 h-4 text-[#02FF00]" />
           </button>
           <div className="flex gap-4">
-            <a href="https://instagram.com/korzi" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/korzitoys/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
               <Instagram className="w-8 h-8 text-[#02FF00]" strokeWidth={1.5} />
             </a>
-            <a href="https://linkedin.com/company/korzi" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/company/korzi/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
               <Linkedin className="w-8 h-8 text-[#02FF00]" strokeWidth={1.5} />
             </a>
-            <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer">
+            <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
               <Youtube className="w-8 h-8 text-[#02FF00]" strokeWidth={1.5} />
             </a>
           </div>

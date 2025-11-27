@@ -181,6 +181,7 @@ export default function JournalPage() {
                       key={`journal-${article.id}-${index}`}
                       to={`/logs/${article.id}`}
                       state={{ journal: article }}
+                      onClick={() => window.scrollTo(0, 0)}
                       className="border-b border-[var(--border)] pb-4 lg:pb-6 block hover:opacity-80 transition-opacity"
                     >
                       <div className="flex gap-4 lg:gap-6 items-start">
@@ -220,6 +221,7 @@ export default function JournalPage() {
                     key={blog.id} 
                     to={`/logs/${blog.id}`}
                     state={{ journal: blog }}
+                    onClick={() => window.scrollTo(0, 0)}
                     className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group z-30"
                   >
                     <div className="aspect-[4/3] overflow-hidden">

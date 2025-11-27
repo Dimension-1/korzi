@@ -49,7 +49,7 @@ export default function FaqSection() {
       </div>
 
       {/* Background gradient ellipse - Mobile */}
-      <div className="absolute -right-10 -top-20 w-5/6 h-full pointer-events-none z-10 md:hidden">
+      <div className="absolute -right-10 bottom-40 w-5/6 h-full pointer-events-none z-10 md:hidden">
         <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
