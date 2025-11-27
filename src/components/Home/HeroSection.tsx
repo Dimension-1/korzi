@@ -5,13 +5,27 @@ export default function HeroSection() {
 
     useEffect(() => {
       if (videoRef.current) {
+        const video = videoRef.current;
+        
         // Force play for iOS Safari
-        const playPromise = videoRef.current.play();
+        const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
             console.log('Video autoplay prevented:', error);
           });
         }
+
+        // Ensure video loops on iOS
+        const handleVideoEnd = () => {
+          video.currentTime = 0;
+          video.play();
+        };
+        
+        video.addEventListener('ended', handleVideoEnd);
+        
+        return () => {
+          video.removeEventListener('ended', handleVideoEnd);
+        };
       }
     }, []);
 
@@ -25,7 +39,11 @@ export default function HeroSection() {
           muted
           playsInline
           preload="auto"
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
+          style={{ pointerEvents: 'none' }}
         >
           <source src="/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4" type="video/mp4" />
         </video>

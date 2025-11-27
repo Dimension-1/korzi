@@ -114,6 +114,10 @@ export default function AppLayout() {
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span>
             </Link>
+            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Support</span>
+            </Link>
             <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Careers</span>

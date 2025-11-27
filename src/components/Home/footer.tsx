@@ -93,12 +93,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* SUPPORT Column */}
+          {/* USER RESOURCES Column */}
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
-          <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SUPPORT</h3>
+          <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>USER RESOURCES</h3>
             <ul className="space-y-3">
               <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
-              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Returns & Exchange</span></Link></li>
+              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Support</span></Link></li>
               <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping</span></Link></li>
               <li><Link to="/delivery" onClick={() => handleLinkClick('/delivery')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Delivery</span></Link></li>
             </ul>
@@ -156,12 +156,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* SUPPORT Column */}
+          {/* USER RESOURCES Column */}
           <div className="p-6 border-t border-r border-gray-600" style={{ borderRightColor: '#02FF00', borderRightWidth: '0.5px' }}>
-            <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>SUPPORT</h3>
+            <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>USER RESOURCES</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-white">Privacy Policy</Link></li>
-              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-white">Returns & Exchange</Link></li>
+              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-white">Support</Link></li>
               <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-white">Shipping</Link></li>
               <li><Link to="/delivery" onClick={() => handleLinkClick('/delivery')} className="text-white">Delivery</Link></li>
             </ul>
