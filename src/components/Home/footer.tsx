@@ -38,7 +38,7 @@ export default function Footer() {
             <img 
               src="/logo-horizontal.png" 
               alt="KORZI" 
-              className="h-12"
+              className="h-12 w-auto max-w-[200px]"
             />
             <div className="space-y-8 mt-auto">
               <button 

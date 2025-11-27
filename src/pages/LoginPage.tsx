@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from 'lucide-react';
 import { recoverPassword, LoginCredentials, RegisterData } from '../services/auth';
 import { useAuthStore } from '../stores/authStore';
 
@@ -133,6 +133,15 @@ export default function LoginPage() {
   return (
     <div className="h-auto bg-[var(--background)] flex items-center justify-center px-4 sm:px-6 md:px-8 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
       <div className="max-w-md w-full">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors mb-6 font-body"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back
+        </button>
+        
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl text-[var(--foreground)] mb-2 font-heading">

@@ -1,12 +1,30 @@
+import { useEffect, useRef } from 'react';
+
 export default function HeroSection() {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+      if (videoRef.current) {
+        // Force play for iOS Safari
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log('Video autoplay prevented:', error);
+          });
+        }
+      }
+    }, []);
+
     return (
       <div className="relative w-full h-screen overflow-hidden bg-black">
         {/* Video Background */}
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         >
           <source src="/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4" type="video/mp4" />
