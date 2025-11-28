@@ -449,8 +449,6 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'cart-storage',
       partialize: () => ({
-        // Only persist drawer state, not cart items
-        // Cart items are always fetched fresh from Shopify
         isDrawerOpen: false, // Always start closed
       }),
     }
