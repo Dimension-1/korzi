@@ -154,79 +154,120 @@ const CheckoutPage: React.FC = () => {
           console.log('Shopify Order Number:', shopifyOrderNumber);
           console.log('Shopify Order ID:', shopifyOrderId);
           
-          // Create complete order object
-          const completedOrder = {
-            id: shopifyOrderId,
-            orderNumber: shopifyOrderNumber,
-            orderId: shopifyOrderId,
-            paymentId: response.razorpay_payment_id,
-            status: 'confirmed',
-            totalAmount: currentOrder.totalAmount,
-            items: currentOrder.items,
-            customer: {
-              firstName: formData.firstName,
-              lastName: formData.lastName,
-              email: formData.email,
-              phone: formData.phone
-            },
-            shippingAddress: {
-              address1: formData.address1,
-              address2: formData.address2,
-              city: formData.city,
-              province: formData.province,
-              country: formData.country,
-              zip: formData.zip
-            },
-            createdAt: new Date().toISOString(),
-            bigshipShipmentId: undefined,
-            awbNumber: undefined
-          };
-
-          
-          // Save to order history immediately
-          addToOrderHistory(completedOrder);
-
-          // Clear cart
-          clearCart();
-
-          // Navigate to thank you page first
-          navigate(`/thank-you?orderId=${shopifyOrderNumber || shopifyOrderId}`);
-
-          // Create BigShip shipment in background
-        // Create BigShip shipment in background
-        (async () => {
           try {
-            console.log('Creating BigShip shipment...');
-            const shipmentResult = await createShipment(completedOrder);
-            console.log('BigShip shipment created:', shipmentResult);
-            
-            const trackingInfo = {
-              bigshipShipmentId: shipmentResult.shipmentId,
-              awbNumber: shipmentResult.awbNumber,
-              courierName: shipmentResult.courierName
-            };
-            
-            // Update order history with tracking
-            const store = useOrderStore.getState();
-            store.updateOrderWithTracking(shopifyOrderNumber || shopifyOrderId, trackingInfo);
-            
-            // Update Shopify order with tracking info
-            await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/update-order-tracking`, {
+            // 1. Verify payment with backend
+            console.log('Verifying payment...');
+            const verifyResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/razorpay/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                orderId: shopifyOrderId,
-                awbNumber: shipmentResult.awbNumber,
-                courierName: shipmentResult.courierName,
-                lrnNumber: shipmentResult.lrnNumber,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+
+            const verifyData = await verifyResponse.json();
+            
+            if (!verifyData.success || !verifyData.verified) {
+              throw new Error('Payment verification failed');
+            }
+
+            console.log('Payment verified successfully');
+
+            // 2. Complete draft order and send invoice
+            console.log('Completing order and sending invoice...');
+            const completeResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/complete-order`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                draftOrderId: shopifyOrderId,
                 paymentId: response.razorpay_payment_id
               })
             });
+
+            const completeData = await completeResponse.json();
+            
+            if (!completeData.success) {
+              throw new Error('Failed to complete order');
+            }
+
+            console.log('Order completed and invoice sent:', completeData);
+
+            // 3. Create complete order object
+            const completedOrder = {
+              id: completeData.orderId,
+              orderNumber: completeData.orderNumber,
+              orderId: completeData.orderId,
+              paymentId: response.razorpay_payment_id,
+              status: 'confirmed',
+              totalAmount: currentOrder.totalAmount,
+              items: currentOrder.items,
+              customer: {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone
+              },
+              shippingAddress: {
+                address1: formData.address1,
+                address2: formData.address2,
+                city: formData.city,
+                province: formData.province,
+                country: formData.country,
+                zip: formData.zip
+              },
+              createdAt: new Date().toISOString(),
+              bigshipShipmentId: undefined,
+              awbNumber: undefined
+            };
+
+            // 4. Save to order history
+            addToOrderHistory(completedOrder);
+
+            // 5. Clear cart
+            clearCart();
+
+            // 6. Navigate to thank you page
+            navigate(`/thank-you?orderId=${completeData.orderNumber}`);
+
+            // 7. Create BigShip shipment in background
+            (async () => {
+              try {
+                console.log('Creating BigShip shipment...');
+                const shipmentResult = await createShipment(completedOrder);
+                console.log('BigShip shipment created:', shipmentResult);
+                
+                const trackingInfo = {
+                  bigshipShipmentId: shipmentResult.shipmentId,
+                  awbNumber: shipmentResult.awbNumber,
+                  courierName: shipmentResult.courierName
+                };
+                
+                // Update order history with tracking
+                const store = useOrderStore.getState();
+                store.updateOrderWithTracking(completeData.orderNumber, trackingInfo);
+                
+                // Update Shopify order with tracking info
+                await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/update-order-tracking`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    orderId: completeData.orderId,
+                    awbNumber: shipmentResult.awbNumber,
+                    courierName: shipmentResult.courierName,
+                    lrnNumber: shipmentResult.lrnNumber,
+                    paymentId: response.razorpay_payment_id
+                  })
+                });
+              } catch (error) {
+                console.error('Failed to create BigShip shipment:', error);
+              }
+            })();
           } catch (error) {
-            console.error('Failed to create BigShip shipment:', error);
+            console.error('Error in payment success handler:', error);
+            setSubmitError('Payment successful but order completion failed. Please contact support.');
           }
-        })();
-   
         },        
         onFailure: (error) => {
           console.error('Payment failed:', error);

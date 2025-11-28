@@ -33,3 +33,8 @@ npm-debug.log*
 coverage/
 .env.production
 .env.development
+
+# Backend environment files
+backend/.env
+backend/.env.local
+backend/.env.production

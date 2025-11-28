@@ -43,13 +43,47 @@ jobs:
         strip_components: 1
         rm: true
 
-    - name: Restart Nginx
+    - name: Deploy Backend to VPS
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "backend/server.js,backend/bigship.js,backend/package.json"
+        target: "/root/korzi-backend/"
+        strip_components: 1
+
+    - name: Setup Backend & Restart Services
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
+          cd /root/korzi-backend
+          npm install --production
+          
+          # Create .env.local with secrets
+          cat > .env.local << 'EOF'
+          VITE_SHOPIFY_ADMIN_TOKEN=${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          VITE_SHOPIFY_TOKEN=${{ secrets.SHOPIFY_TOKEN }}
+          VITE_SHOPIFY_STOREFRONT_URL=${{ vars.VITE_SHOPIFY_STOREFRONT_URL }}
+          VITE_RAZORPAY_KEY_ID=${{ vars.VITE_RAZORPAY_KEY_ID }}
+          VITE_RAZORPAY_SECRET=${{ secrets.RAZORPAY_SECRET }}
+          BIGSHIP_ACCESS_KEY=${{ secrets.BIGSHIP_ACCESS_KEY }}
+          BIGSHIP_API_URL=https://api.bigship.in/
+          BIGSHIP_WAREHOUSE_NAME=Korzi Warehouse
+          BIGSHIP_EMAIL=${{ secrets.BIGSHIP_EMAIL }}
+          BIGSHIP_PASSWORD=${{ secrets.BIGSHIP_PASSWORD }}
+          BIGSHIP_WAREHOUSE_ID=199184
+          RAZORPAY_WEBHOOK_SECRET=${{ secrets.RAZORPAY_WEBHOOK_SECRET }}
+          EOF
+          
+          # Restart backend with PM2
+          pm2 restart korzi-backend || pm2 start server.js --name korzi-backend
+          pm2 save
+          
+          # Restart frontend
           chown -R www-data:www-data ${{ secrets.VPS_PATH }}
           chmod -R 755 ${{ secrets.VPS_PATH }}
           systemctl restart nginx

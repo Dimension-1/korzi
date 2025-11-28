@@ -447,11 +447,12 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'cart-storage', // localStorage key
-      partialize: () => ({ 
-        // Don't persist isInitialized - always fetch cart on app startup
-        // Cart items should be fetched from Shopify on app load
-      }), // No persistence - always fetch fresh data from Shopify
+      name: 'cart-storage',
+      partialize: (state) => ({
+        // Only persist drawer state, not cart items
+        // Cart items are always fetched fresh from Shopify
+        isDrawerOpen: false, // Always start closed
+      }),
     }
   )
 );

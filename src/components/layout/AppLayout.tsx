@@ -62,9 +62,15 @@ export default function AppLayout() {
               )}
             </button>
             <div className="hidden md:block h-8 w-px bg-gray-700"></div>
-            <Link to="/signin" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="Account">
-              <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
-            </Link>
+            {isAuthenticated ? (
+              <Link to="/orders" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="My Orders">
+                <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
+              </Link>
+            ) : (
+              <Link to="/signin" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="Account">
+                <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
+              </Link>
+            )}
             {/* Hamburger - Mobile only (right side) */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -126,6 +132,9 @@ export default function AppLayout() {
             {isAuthenticated && (
               <div className="pt-6 border-t border-gray-700 mt-4">
                 <p className="text-sm text-gray-400 mb-4">{customer?.displayName || customer?.email}</p>
+                <Link to="/orders" className="text-lg hover:text-[#02FF00] transition-colors block mb-3" onClick={() => setMenuOpen(false)}>
+                  My Orders
+                </Link>
                 <button
                   onClick={() => {
                     logout();

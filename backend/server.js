@@ -62,8 +62,16 @@ const razorpay = new Razorpay({
 });
 
 // Shopify Admin GraphQL Client
+// Use the same API version as Storefront API
+const shopifyAdminUrl = process.env.VITE_SHOPIFY_STOREFRONT_URL.replace('/api/', '/admin/api/');
+console.log('=== Shopify Configuration ===');
+console.log('Storefront URL:', process.env.VITE_SHOPIFY_STOREFRONT_URL);
+console.log('Admin URL:', shopifyAdminUrl);
+console.log('Admin Token:', process.env.VITE_SHOPIFY_ADMIN_TOKEN ? `${process.env.VITE_SHOPIFY_ADMIN_TOKEN.substring(0, 15)}...` : 'Missing');
+console.log('============================');
+
 const shopifyAdminClient = new GraphQLClient(
-    process.env.VITE_SHOPIFY_STOREFRONT_URL.replace('/api/', '/admin/api/'),
+    shopifyAdminUrl,
     {
       headers: {
         'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
@@ -89,20 +97,59 @@ app.post('/api/razorpay/create-order', async (req, res) => {
   }
 });
 
-// Verify Payment
-app.post('/api/razorpay/verify-payment', (req, res) => {
+// Verify Payment with Razorpay API
+app.post('/api/razorpay/verify-payment', async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
+    // 1. Verify signature
     const generated_signature = crypto
       .createHmac('sha256', process.env.VITE_RAZORPAY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');
 
-    if (generated_signature === razorpay_signature) {
-      res.json({ success: true, verified: true });
-    } else {
-      res.status(400).json({ success: false, verified: false });
+    if (generated_signature !== razorpay_signature) {
+      return res.status(400).json({ success: false, verified: false, error: 'Invalid signature' });
+    }
+
+    // 2. Verify payment status via Razorpay API
+    try {
+      const payment = await razorpay.payments.fetch(razorpay_payment_id);
+      
+      if (payment.status !== 'captured' && payment.status !== 'authorized') {
+        return res.status(400).json({ 
+          success: false, 
+          verified: false, 
+          error: `Payment not successful. Status: ${payment.status}` 
+        });
+      }
+
+      // 3. Verify order_id matches
+      if (payment.order_id !== razorpay_order_id) {
+        return res.status(400).json({ 
+          success: false, 
+          verified: false, 
+          error: 'Order ID mismatch' 
+        });
+      }
+
+      res.json({ 
+        success: true, 
+        verified: true,
+        payment: {
+          id: payment.id,
+          amount: payment.amount,
+          status: payment.status,
+          method: payment.method
+        }
+      });
+    } catch (apiError) {
+      console.error('Razorpay API error:', apiError);
+      return res.status(500).json({ 
+        success: false, 
+        verified: false, 
+        error: 'Failed to verify payment with Razorpay' 
+      });
     }
   } catch (error) {
     console.error('Error verifying payment:', error);
@@ -177,7 +224,12 @@ app.post('/api/shopify/create-order', async (req, res) => {
     });
   } catch (error) {
     console.error('Error creating Shopify order:', error);
-    res.status(500).json({ success: false, error: error.message });
+    console.error('Error details:', error.response?.errors || error.response?.data || error);
+    res.status(500).json({ 
+      success: false, 
+      error: error.message,
+      details: error.response?.errors || error.response?.data
+    });
   }
 });
 
@@ -401,15 +453,114 @@ app.get('/api/shopify/orders/:email', async (req, res) => {
 
 
 
+// Complete draft order and send invoice
+app.post('/api/shopify/complete-order', async (req, res) => {
+  try {
+    const { draftOrderId, paymentId } = req.body;
+
+    console.log('Completing draft order:', draftOrderId);
+
+    // Complete the draft order
+    const COMPLETE_DRAFT_ORDER = `
+      mutation draftOrderComplete($id: ID!) {
+        draftOrderComplete(id: $id) {
+          draftOrder {
+            id
+            order {
+              id
+              name
+              email
+            }
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;
+
+    const result = await shopifyAdminClient.request(COMPLETE_DRAFT_ORDER, {
+      id: draftOrderId
+    });
+
+    const userErrors = result.draftOrderComplete.userErrors;
+    if (userErrors && userErrors.length > 0) {
+      console.error('Error completing draft order:', userErrors);
+      return res.status(400).json({ 
+        success: false, 
+        errors: userErrors.map(e => e.message) 
+      });
+    }
+
+    const order = result.draftOrderComplete.draftOrder.order;
+    console.log('Draft order completed successfully:', order);
+
+    // Mark order as paid
+    const orderId = order.id;
+    await markOrderAsPaid(orderId, paymentId);
+
+    res.json({ 
+      success: true, 
+      orderId: order.id,
+      orderNumber: order.name,
+      message: 'Order completed and invoice sent to customer'
+    });
+  } catch (error) {
+    console.error('Error completing order:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Helper function to mark order as paid
+async function markOrderAsPaid(orderId, paymentId) {
+  const MARK_AS_PAID = `
+    mutation orderUpdate($input: OrderInput!) {
+      orderUpdate(input: $input) {
+        order {
+          id
+          displayFinancialStatus
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  try {
+    const result = await shopifyAdminClient.request(MARK_AS_PAID, {
+      input: {
+        id: orderId,
+        note: `Paid via Razorpay. Payment ID: ${paymentId}`,
+        tags: [`razorpay:${paymentId}`, 'paid']
+      }
+    });
+
+    const userErrors = result.orderUpdate.userErrors;
+    if (userErrors && userErrors.length > 0) {
+      console.error('Error updating order:', userErrors);
+      throw new Error(userErrors.map(e => e.message).join(', '));
+    }
+
+    console.log('Order updated with payment info:', result.orderUpdate.order);
+    return result.orderUpdate.order;
+  } catch (error) {
+    console.error('Failed to update order:', error);
+    throw error;
+  }
+}
+
 // Update Shopify order with shipment tracking
 app.post('/api/shopify/update-order-tracking', async (req, res) => {
     try {
       const { orderId, awbNumber, courierName, lrnNumber, paymentId } = req.body;
   
       const UPDATE_ORDER = `
-        mutation draftOrderUpdate($id: ID!, $input: DraftOrderInput!) {
-          draftOrderUpdate(id: $id, input: $input) {
-            draftOrder {
+        mutation orderUpdate($input: OrderInput!) {
+          orderUpdate(input: $input) {
+            order {
               id
             }
             userErrors {
@@ -421,8 +572,8 @@ app.post('/api/shopify/update-order-tracking', async (req, res) => {
       `;
   
       const result = await shopifyAdminClient.request(UPDATE_ORDER, {
-        id: orderId,
         input: {
+          id: orderId,
           tags: [
             `payment:${paymentId}`,
             `awb:${awbNumber}`,
@@ -432,7 +583,7 @@ app.post('/api/shopify/update-order-tracking', async (req, res) => {
         }
       });
   
-      const userErrors = result.draftOrderUpdate.userErrors;
+      const userErrors = result.orderUpdate.userErrors;
       if (userErrors && userErrors.length > 0) {
         return res.status(400).json({ 
           success: false, 
@@ -440,10 +591,12 @@ app.post('/api/shopify/update-order-tracking', async (req, res) => {
         });
       }
   
+      console.log('Order tracking updated successfully');
       res.json({ success: true });
     } catch (error) {
       console.error('Error updating order tracking:', error);
-      res.status(500).json({ success: false, error: error.message });
+      // Don't fail the whole process if tracking update fails
+      res.json({ success: true, warning: 'Order completed but tracking update failed' });
     }
   });
   
