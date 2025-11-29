@@ -7,6 +7,7 @@ import { useAuthStore } from '../stores/authStore';
 import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse } from '../services/razorpay';
 import { createShopifyOrder } from '../services/orders';
 import { createShipment } from '../services/bigship';
+import ProcessingOverlay from './ProcessingOverlay';
 
 
 const CheckoutPage: React.FC = () => {
@@ -30,6 +31,7 @@ const CheckoutPage: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string>('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (!currentOrder) {
@@ -81,6 +83,8 @@ const CheckoutPage: React.FC = () => {
       setSubmitError('Order not found. Please try again.');
       return;
     }
+
+    setIsProcessing(true);
 
     try {
       updateCustomerInfo({
@@ -154,6 +158,8 @@ const CheckoutPage: React.FC = () => {
           console.log('Shopify Order Number:', shopifyOrderNumber);
           console.log('Shopify Order ID:', shopifyOrderId);
           
+          setIsProcessing(true);
+          
           try {
             // 1. Verify payment with backend
             console.log('Verifying payment...');
@@ -222,51 +228,58 @@ const CheckoutPage: React.FC = () => {
               awbNumber: undefined
             };
 
-            // 4. Save to order history
+            // 4. Save to order history with tracking
             addToOrderHistory(completedOrder);
 
             // 5. Clear cart
             clearCart();
 
-            // 6. Navigate to thank you page
-            navigate(`/thank-you?orderId=${completeData.orderNumber}`);
-
-            // 7. Create BigShip shipment in background
-            (async () => {
-              try {
-                console.log('Creating BigShip shipment...');
-                const shipmentResult = await createShipment(completedOrder);
-                console.log('BigShip shipment created:', shipmentResult);
-                
-                const trackingInfo = {
-                  bigshipShipmentId: shipmentResult.shipmentId,
+            // 6. Create BigShip shipment
+            try {
+              console.log('Creating BigShip shipment...');
+              const shipmentResult = await createShipment(completedOrder);
+              console.log('BigShip shipment created:', shipmentResult);
+              
+              const trackingInfo = {
+                bigshipShipmentId: shipmentResult.shipmentId,
+                awbNumber: shipmentResult.awbNumber,
+                courierName: shipmentResult.courierName,
+                lrnNumber: shipmentResult.lrnNumber
+              };
+              
+              // Update completed order with tracking
+              Object.assign(completedOrder, trackingInfo);
+              
+              // Update order history with tracking
+              const store = useOrderStore.getState();
+              store.updateOrderWithTracking(completeData.orderNumber, trackingInfo);
+              
+              // Update Shopify order with tracking info
+              await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/update-order-tracking`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  orderId: completeData.orderId,
                   awbNumber: shipmentResult.awbNumber,
-                  courierName: shipmentResult.courierName
-                };
-                
-                // Update order history with tracking
-                const store = useOrderStore.getState();
-                store.updateOrderWithTracking(completeData.orderNumber, trackingInfo);
-                
-                // Update Shopify order with tracking info
-                await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/update-order-tracking`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    orderId: completeData.orderId,
-                    awbNumber: shipmentResult.awbNumber,
-                    courierName: shipmentResult.courierName,
-                    lrnNumber: shipmentResult.lrnNumber,
-                    paymentId: response.razorpay_payment_id
-                  })
-                });
-              } catch (error) {
-                console.error('Failed to create BigShip shipment:', error);
-              }
-            })();
+                  courierName: shipmentResult.courierName,
+                  lrnNumber: shipmentResult.lrnNumber,
+                  paymentId: response.razorpay_payment_id
+                })
+              });
+            } catch (error) {
+              console.error('Failed to create BigShip shipment:', error);
+            }
+
+            // 7. Navigate to thank you page
+            console.log('=== NAVIGATING TO THANK YOU PAGE ===');
+            console.log('Order Number:', completeData.orderNumber);
+            console.log('=======================================');
+            navigate(`/thank-you?orderId=${encodeURIComponent(completeData.orderNumber)}`);
           } catch (error) {
             console.error('Error in payment success handler:', error);
             setSubmitError('Payment successful but order completion failed. Please contact support.');
+          } finally {
+            setIsProcessing(false);
           }
         },        
         onFailure: (error) => {
@@ -279,19 +292,29 @@ const CheckoutPage: React.FC = () => {
       
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   if (!currentOrder) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl text-gray-900 mb-4 font-heading">No items in cart</h2>
+          <h2 className="text-[32px] leading-[36px] uppercase mb-6" style={{ 
+            fontFamily: 'Bebas Neue',
+            background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>No items in cart</h2>
           <button
             onClick={() => navigate('/shop')}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer mx-auto"
+            style={{ width: '200px', height: '46px' }}
           >
-            Continue Shopping
+            <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">Continue Shopping</span>
           </button>
         </div>
       </div>
@@ -299,32 +322,42 @@ const CheckoutPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      {isProcessing && <ProcessingOverlay />}
+      <div className="min-h-screen bg-black py-8 pt-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <button
             onClick={() => navigate('/cart')}
-            className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
+            className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mb-6"
+            style={{ width: '160px', height: '46px' }}
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Cart
+            <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+            <ArrowLeft className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">Back to Cart</span>
           </button>
-          <h1 className="text-3xl text-gray-900 font-heading">Checkout</h1>
+          <h1 className="text-[48px] leading-[48px] uppercase" style={{ 
+            fontFamily: 'Bebas Neue',
+            background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>Checkout</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Customer Information */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-[#1a1a1a] border border-white/20 rounded-lg p-6">
                 <div className="flex items-center mb-4">
-                  <User className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg text-gray-900 font-heading">Customer Information</h2>
+                  <User className="w-5 h-5 text-[#02FF00] mr-2" />
+                  <h2 className="text-[24px] leading-[24px] uppercase text-white" style={{ fontFamily: 'Bebas Neue' }}>Customer Information</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="firstName" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       First Name *
                     </label>
                     <input
@@ -333,15 +366,15 @@ const CheckoutPage: React.FC = () => {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                        errors.firstName ? 'border-red-500' : 'border-white/30'
                       }`}
                     />
                     {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
                   </div>
                   
                   <div>
-                    <label htmlFor="lastName" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="lastName" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Last Name *
                     </label>
                     <input
@@ -350,15 +383,15 @@ const CheckoutPage: React.FC = () => {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.lastName ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                        errors.lastName ? 'border-red-500' : 'border-white/30'
                       }`}
                     />
                     {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="email" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Email *
                     </label>
                     <input
@@ -367,15 +400,15 @@ const CheckoutPage: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.email ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                        errors.email ? 'border-red-500' : 'border-white/30'
                       }`}
                     />
                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                   </div>
                   
                   <div>
-                    <label htmlFor="phone" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="phone" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Phone Number *
                     </label>
                     <input
@@ -384,8 +417,8 @@ const CheckoutPage: React.FC = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.phone ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                        errors.phone ? 'border-red-500' : 'border-white/30'
                       }`}
                     />
                     {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
@@ -394,15 +427,15 @@ const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Shipping Address */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-[#1a1a1a] border border-white/20 rounded-lg p-6">
                 <div className="flex items-center mb-4">
-                  <MapPin className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg text-gray-900 font-heading">Shipping Address</h2>
+                  <MapPin className="w-5 h-5 text-[#02FF00] mr-2" />
+                  <h2 className="text-[24px] leading-[24px] uppercase text-white" style={{ fontFamily: 'Bebas Neue' }}>Shipping Address</h2>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="address1" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="address1" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Address Line 1 *
                     </label>
                     <input
@@ -411,15 +444,15 @@ const CheckoutPage: React.FC = () => {
                       name="address1"
                       value={formData.address1}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.address1 ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                        errors.address1 ? 'border-red-500' : 'border-white/30'
                       }`}
                     />
                     {errors.address1 && <p className="text-red-500 text-sm mt-1">{errors.address1}</p>}
                   </div>
                   
                   <div>
-                    <label htmlFor="address2" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="address2" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Address Line 2
                     </label>
                     <input
@@ -428,13 +461,13 @@ const CheckoutPage: React.FC = () => {
                       name="address2"
                       value={formData.address2}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-[#393737] text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00]"
                     />
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label htmlFor="city" className="block text-sm text-gray-700 mb-1 font-body">
+                      <label htmlFor="city" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                         City *
                       </label>
                       <input
@@ -443,15 +476,15 @@ const CheckoutPage: React.FC = () => {
                         name="city"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                          errors.city ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                          errors.city ? 'border-red-500' : 'border-white/30'
                         }`}
                       />
                       {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
                     </div>
                     
                     <div>
-                      <label htmlFor="province" className="block text-sm text-gray-700 mb-1 font-body">
+                      <label htmlFor="province" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                         State/Province *
                       </label>
                       <input
@@ -460,15 +493,15 @@ const CheckoutPage: React.FC = () => {
                         name="province"
                         value={formData.province}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                          errors.province ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                          errors.province ? 'border-red-500' : 'border-white/30'
                         }`}
                       />
                       {errors.province && <p className="text-red-500 text-sm mt-1">{errors.province}</p>}
                     </div>
                     
                     <div>
-                      <label htmlFor="zip" className="block text-sm text-gray-700 mb-1 font-body">
+                      <label htmlFor="zip" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                         ZIP Code *
                       </label>
                       <input
@@ -477,8 +510,8 @@ const CheckoutPage: React.FC = () => {
                         name="zip"
                         value={formData.zip}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                          errors.zip ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                          errors.zip ? 'border-red-500' : 'border-white/30'
                         }`}
                       />
                       {errors.zip && <p className="text-red-500 text-sm mt-1">{errors.zip}</p>}
@@ -486,7 +519,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="country" className="block text-sm text-gray-700 mb-1 font-body">
+                    <label htmlFor="country" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Country
                     </label>
                     <select
@@ -494,7 +527,7 @@ const CheckoutPage: React.FC = () => {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-[#393737] text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00]"
                     >
                       <option value="India">India</option>
                       <option value="United States">United States</option>
@@ -506,17 +539,17 @@ const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Payment Information */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-[#1a1a1a] border border-white/20 rounded-lg p-6">
                 <div className="flex items-center mb-4">
-                  <CreditCard className="w-5 h-5 text-blue-600 mr-2" />
-                  <h2 className="text-lg text-gray-900 font-heading">Payment</h2>
+                  <CreditCard className="w-5 h-5 text-[#02FF00] mr-2" />
+                  <h2 className="text-[24px] leading-[24px] uppercase text-white" style={{ fontFamily: 'Bebas Neue' }}>Payment</h2>
                 </div>
                 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-blue-800 text-sm">
+                <div className="bg-[#393737] border border-[#02FF00]/30 rounded-lg p-4">
+                  <p className="text-white text-sm" style={{ fontFamily: 'DM Sans' }}>
                     <strong>Payment will be processed securely via Razorpay</strong>
                   </p>
-                  <p className="text-blue-600 text-xs mt-1">
+                  <p className="text-[#02FF00] text-xs mt-1" style={{ fontFamily: 'DM Sans' }}>
                     You will be redirected to Razorpay's secure payment gateway after clicking "Place Order"
                   </p>
                 </div>
@@ -536,18 +569,22 @@ const CheckoutPage: React.FC = () => {
 
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-body hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isLoading || isProcessing}
+                className="w-full bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ height: '56px', fontFamily: 'DM Sans', fontSize: '16px' }}
               >
-                {isLoading ? 'Processing Order...' : 'Place Order'}
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <span className="relative z-10 group-hover:text-black transition-colors duration-300 uppercase font-medium">
+                  {isProcessing ? 'Processing Order...' : isLoading ? 'Loading...' : 'Place Order'}
+                </span>
               </button>
             </form>
           </div>
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-              <h2 className="text-lg text-gray-900 mb-4 font-heading">Order Summary</h2>
+            <div className="bg-[#1a1a1a] border border-white/20 rounded-lg p-6 sticky top-8">
+              <h2 className="text-[24px] leading-[24px] uppercase text-white mb-4" style={{ fontFamily: 'Bebas Neue' }}>Order Summary</h2>
               
               <div className="space-y-4">
                 {currentOrder.items.map((item) => (
@@ -562,18 +599,18 @@ const CheckoutPage: React.FC = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900 truncate font-body">{item.title}</p>
-                      <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <p className="text-sm text-white truncate" style={{ fontFamily: 'DM Sans' }}>{item.title}</p>
+                      <p className="text-sm text-[#02FF00]">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-sm text-gray-900 font-body">₹{item.price * item.quantity}</p>
+                    <p className="text-sm text-white" style={{ fontFamily: 'DM Sans' }}>₹{item.price * item.quantity}</p>
                   </div>
                 ))}
               </div>
               
-              <div className="border-t border-gray-200 pt-4 mt-4">
-                <div className="flex justify-between text-lg text-gray-900 font-heading">
+              <div className="border-t border-white/30 pt-4 mt-4">
+                <div className="flex justify-between text-lg text-white" style={{ fontFamily: 'Bebas Neue', fontSize: '24px' }}>
                   <span>Total</span>
-                  <span>₹{currentOrder.totalAmount}</span>
+                  <span className="text-[#02FF00]">₹{currentOrder.totalAmount}</span>
                 </div>
               </div>
             </div>
@@ -581,6 +618,7 @@ const CheckoutPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

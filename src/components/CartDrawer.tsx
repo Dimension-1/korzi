@@ -104,7 +104,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
       )}
 
       {/* Cart Drawer */}
-      <div className={`fixed top-0 right-0 w-[365px] md:w-[480px] h-[636px] md:h-[828px] bg-black border border-[#5E5E5E] z-50 transform transition-transform duration-300 ease-in-out ${
+      <div className={`fixed top-0 right-0 w-[365px] md:w-[480px] h-[636px] md:h-[780px] bg-black border border-[#5E5E5E] z-50 transform transition-transform duration-300 ease-in-out ${
         isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="flex flex-col h-full">

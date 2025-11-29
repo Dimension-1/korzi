@@ -1,20 +1,52 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Loader2 } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
+import { useAuthStore } from '../stores/authStore';
 
 export default function ThankYouPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const orderId = searchParams.get('orderId') || '#23431f';
-  const { orderHistory } = useOrderStore();
-  const [currentOrder, setCurrentOrder] = useState<any>(null);
+  const orderId = searchParams.get('orderId') || '';
+  
+  console.log('=== THANK YOU PAGE DEBUG ===');
+  console.log('orderId from URL:', orderId);
+  console.log('Full URL:', window.location.href);
+  console.log('===========================');
+  const { orderHistory, fetchOrderHistory } = useOrderStore();
+  const { customer } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Find the order in history by orderId
-    const order = orderHistory.find(o => o.orderNumber === orderId || o.id === orderId);
-    setCurrentOrder(order);
-  }, [orderId, orderHistory]);
+    const loadOrder = async () => {
+      if (!orderId) {
+        setIsLoading(false);
+        return;
+      }
+      
+      setIsLoading(true);
+      
+      // First check local order history
+      let order = orderHistory.find(o => o.orderNumber === orderId || o.id === orderId);
+      
+      // If not found and customer is logged in, fetch from Shopify
+      if (!order && customer?.email) {
+        await fetchOrderHistory(customer.email);
+      }
+      
+      setIsLoading(false);
+    };
+    
+    loadOrder();
+  }, [orderId, customer?.email, fetchOrderHistory]);
+
+  if (isLoading) {
+    return (
+      <div className="bg-black min-h-screen flex items-center justify-center">
+        <Loader2 className="w-12 h-12 text-[#02FF00] animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
@@ -51,7 +83,7 @@ export default function ThankYouPage() {
 
         {/* Order Details */}
         <p className="text-white text-[14px] md:text-[16px] leading-[22px] md:leading-[24px] mb-2 px-4">
-          Thanks for placing your order <span className="text-[#02FF00]">{currentOrder?.orderNumber || orderId}</span>
+          Thanks for placing your order {orderId && <span className="text-[#02FF00]">{orderId}</span>}
         </p>
         <p className="text-white text-[14px] md:text-[16px] leading-[22px] md:leading-[24px] mb-8 md:mb-12 px-4">
           We will send you an update when the order is shipped.
@@ -75,10 +107,12 @@ export default function ThankYouPage() {
 
           <button 
             onClick={() => {
-              if (currentOrder) {
-                navigate('/order-confirmation', { state: currentOrder });
+              console.log('Navigating to order confirmation with orderId:', orderId);
+              if (orderId) {
+                navigate(`/order-confirmation/${orderId.replace('#', '')}`);
               } else {
-                navigate('/orders');
+                console.error('No orderId available!');
+                alert('Order ID not found. Please try again.');
               }
             }}
             className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full md:w-[200px]" 

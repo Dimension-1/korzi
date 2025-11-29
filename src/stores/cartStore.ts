@@ -52,14 +52,9 @@ export const useCartStore = create<CartStore>()(
 
       // Add to cart with Shopify sync and race condition prevention
       addToCart: async (item) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping...');
-          return;
-        }
-
         const id = `${item.title}-${item.variant || 'default'}`;
         
+        // Update local state immediately
         set((state) => {
           const existingItem = state.cartItems.find(cartItem => cartItem.id === id);
           
@@ -78,23 +73,16 @@ export const useCartStore = create<CartStore>()(
           }
         });
 
-        // Sync with Shopify immediately when item is added
+        // Sync with Shopify in background
         if (item.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             const newQuantity = get().cartItems.find(cartItem => cartItem.id === id)?.quantity || item.quantity;
             const updatedCart = await addOrUpdateCart(item.variantId, newQuantity);
             
             if (updatedCart) {
               console.log('Cart synced with Shopify successfully');
               console.log('Shopify cart:', updatedCart);
-              
-              // Verify sync by fetching latest cart state
-              await new Promise(resolve => setTimeout(resolve, 200));
-              const latestCart = await getCart();
-              if (latestCart) {
-                console.log('Verified cart sync:', latestCart);
-              }
             }
           } catch (error) {
             console.error('Failed to sync with Shopify:', error);
@@ -103,21 +91,15 @@ export const useCartStore = create<CartStore>()(
               cartItems: state.cartItems.filter(cartItem => cartItem.id !== id)
             }));
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         } else {
           console.warn('No variantId provided, item not synced with Shopify');
         }
       },
 
-      // Update quantity with Shopify sync and race condition prevention
+      // Update quantity with Shopify sync
       updateQuantity: async (id: string, quantity: number) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping quantity update...');
-          return;
-        }
-
         if (quantity <= 0) {
           get().removeFromCart(id);
           return;
@@ -133,18 +115,11 @@ export const useCartStore = create<CartStore>()(
         const item = get().cartItems.find(item => item.id === id);
         if (item?.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             const updatedCart = await addOrUpdateCart(item.variantId, quantity);
             
             if (updatedCart) {
               console.log('Cart quantity updated in Shopify');
-              
-              // Verify sync by fetching latest cart state
-              await new Promise(resolve => setTimeout(resolve, 200));
-              const latestCart = await getCart();
-              if (latestCart) {
-                console.log('Verified quantity update:', latestCart);
-              }
             }
           } catch (error) {
             console.error('Failed to sync with Shopify:', error);
@@ -158,19 +133,13 @@ export const useCartStore = create<CartStore>()(
               }));
             }
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         }
       },
 
-      // Remove from cart with Shopify sync and race condition prevention
+      // Remove from cart with Shopify sync
       removeFromCart: async (id: string) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping removal...');
-          return;
-        }
-
         const item = get().cartItems.find(item => item.id === id);
         
         // Update React state first
@@ -181,7 +150,7 @@ export const useCartStore = create<CartStore>()(
         // Sync with Shopify
         if (item?.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             
             // Get current Shopify cart to find the line ID
             const shopifyCart = await getCart();
@@ -195,13 +164,6 @@ export const useCartStore = create<CartStore>()(
                 
                 if (updatedCart) {
                   console.log('Item removed from Shopify cart successfully');
-                  
-                  // Verify sync by fetching latest cart state
-                  await new Promise(resolve => setTimeout(resolve, 200));
-                  const latestCart = await getCart();
-                  if (latestCart) {
-                    console.log('Verified removal:', latestCart);
-                  }
                 }
               }
             }
@@ -212,41 +174,28 @@ export const useCartStore = create<CartStore>()(
               cartItems: [...state.cartItems, item!]
             }));
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         }
       },
 
-      // Clear cart with Shopify sync and race condition prevention
+      // Clear cart with Shopify sync
       clearCart: async () => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping clear...');
-          return;
-        }
-
         // Update React state first
         set({ cartItems: [] });
 
         // Sync with Shopify
         try {
-          set({ isLoading: true, operationInProgress: true });
+          set({ isLoading: true });
           const clearedCart = await clearCart();
           
           if (clearedCart) {
             console.log('Cart cleared in Shopify successfully');
-            
-            // Verify sync by fetching latest cart state
-            await new Promise(resolve => setTimeout(resolve, 200));
-            const latestCart = await getCart();
-            if (latestCart) {
-              console.log('Verified cart clear:', latestCart);
-            }
           }
         } catch (error) {
           console.error('Failed to clear Shopify cart:', error);
         } finally {
-          set({ isLoading: false, operationInProgress: false });
+          set({ isLoading: false });
         }
       },
 

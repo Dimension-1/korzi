@@ -63,8 +63,8 @@ function App() {
   return (    
     <Routes>
       <Route element={<AppLayout />}>
-        <Route path="/more" element={<HomePage />} />
-        <Route path="/" element={<ComingSoonPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/more" element={<ComingSoonPage />} />
         <Route path="/logs" element={<JournalPage />} />
         <Route path="/logs/:slug" element={<JournalDetailPage />} />
         <Route path="/shop" element={<ProductDetailPage />} />
@@ -76,7 +76,7 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/error" element={<ErrorPage />} />
-        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+        <Route path="/order-confirmation/:orderNumber" element={<OrderConfirmationPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>

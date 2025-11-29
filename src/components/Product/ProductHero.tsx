@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../stores/cartStore';
 
 interface ProductHeroProps {
@@ -17,6 +18,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCartStore();
+  const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -67,6 +69,18 @@ export default function ProductHero({ product }: ProductHeroProps) {
       image: product.images[0]?.url || '/image.png',
       variantId: product.variantId
     });
+  };
+
+  const handleBuyNow = async () => {
+    await addToCart({
+      title: product.title,
+      price: product.price,
+      originalPrice: product.compareAtPrice,
+      quantity,
+      image: product.images[0]?.url || '/image.png',
+      variantId: product.variantId
+    });
+    navigate('/checkout');
   };
 
   const features = [
@@ -241,7 +255,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
               </button>
             </div>
 
-            <button className="w-full lg:w-[200px] h-[45px] lg:h-[50px] bg-[#02FF00] hover:bg-[#00DD00] text-black px-8 lg:px-10 font-bold transition text-[11px] lg:text-xs uppercase tracking-widest">
+            <button 
+              onClick={handleBuyNow}
+              className="w-full lg:w-[200px] h-[45px] lg:h-[50px] bg-[#02FF00] hover:bg-[#00DD00] text-black px-8 lg:px-10 font-bold transition text-[11px] lg:text-xs uppercase tracking-widest"
+            >
               BUY NOW
             </button>
           </div>

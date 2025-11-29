@@ -79,8 +79,8 @@ class BigShipService {
           return_location_id: parseInt(this.pickupLocationId, 10)
         },
         consignee_detail: {
-          first_name: orderData.customer.firstName,
-          last_name: orderData.customer.lastName,
+          first_name: orderData.customer.firstName.padEnd(3, 'X'),
+          last_name: orderData.customer.lastName.padEnd(3, 'X'),
           company_name: '',
           contact_number_primary: orderData.customer.phone.replace(/[^0-9]/g, '').slice(-10), // Clean phone, last 10 digits
           contact_number_secondary: '',
@@ -151,7 +151,11 @@ class BigShipService {
       return response.data;
     } catch (error) {
       // --- FIX: Corrected error log message ---
-      console.error('BigShip createOrder error:', error.response?.data || error.message);
+      console.error('=== BigShip createOrder ERROR ===');
+      console.error('Status:', error.response?.status);
+      console.error('Error Data:', JSON.stringify(error.response?.data, null, 2));
+      console.error('Validation Errors:', error.response?.data?.validationErrors);
+      console.error('================================');
       throw error;
     }
   }

@@ -13,8 +13,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-// Load .env.local from current directory
-dotenv.config({ path: path.resolve(__dirname, '.env.local') });
+// Load environment variables based on NODE_ENV
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.local';
+dotenv.config({ path: path.resolve(__dirname, envFile) });
+console.log(`Loaded environment from: ${envFile}`);
 
 
 // THEN import bigship (so it can read env vars)
@@ -186,29 +188,54 @@ app.post('/api/shopify/create-order', async (req, res) => {
       quantity: item.quantity,
     }));
 
-    const result = await shopifyAdminClient.request(CREATE_DRAFT_ORDER, {
-      input: {
-        email: orderData.customer.email,
-        phone: orderData.customer.phone,
-        lineItems: lineItems,
-        shippingAddress: {
-          firstName: orderData.customer.firstName,
-          lastName: orderData.customer.lastName,
-          address1: orderData.shippingAddress.address1,
-          address2: orderData.shippingAddress.address2,
-          city: orderData.shippingAddress.city,
-          province: orderData.shippingAddress.province,
-          country: orderData.shippingAddress.country,
-          zip: orderData.shippingAddress.zip,
-          phone: orderData.customer.phone
-        },
-        note: `Razorpay Payment ID: ${paymentId}`,
-        tags: [`payment:${paymentId}`]
-      }
+    // Use fetch instead of graphql-request to handle errors better
+    const response = await fetch(shopifyAdminUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+      },
+      body: JSON.stringify({
+        query: CREATE_DRAFT_ORDER,
+        variables: {
+          input: {
+            email: orderData.customer.email,
+            phone: orderData.customer.phone,
+            lineItems: lineItems,
+            shippingAddress: {
+              firstName: orderData.customer.firstName,
+              lastName: orderData.customer.lastName,
+              address1: orderData.shippingAddress.address1,
+              address2: orderData.shippingAddress.address2,
+              city: orderData.shippingAddress.city,
+              province: orderData.shippingAddress.province,
+              country: orderData.shippingAddress.country,
+              zip: orderData.shippingAddress.zip,
+              phone: orderData.customer.phone
+            },
+            note: `Razorpay Payment ID: ${paymentId}`,
+            tags: [`payment:${paymentId}`]
+          }
+        }
+      })
     });
 
-    const draftOrder = result.draftOrderCreate.draftOrder;
-    const userErrors = result.draftOrderCreate.userErrors;
+    const result = await response.json();
+    console.log('Shopify response:', JSON.stringify(result, null, 2));
+
+    if (result.errors) {
+      console.error('Shopify GraphQL errors:', result.errors);
+      const errorMsg = Array.isArray(result.errors) 
+        ? result.errors.map(e => e.message).join(', ')
+        : JSON.stringify(result.errors);
+      return res.status(400).json({ 
+        success: false, 
+        error: errorMsg
+      });
+    }
+
+    const draftOrder = result.data.draftOrderCreate.draftOrder;
+    const userErrors = result.data.draftOrderCreate.userErrors;
 
     if (userErrors && userErrors.length > 0) {
       return res.status(400).json({ 
@@ -224,11 +251,9 @@ app.post('/api/shopify/create-order', async (req, res) => {
     });
   } catch (error) {
     console.error('Error creating Shopify order:', error);
-    console.error('Error details:', error.response?.errors || error.response?.data || error);
     res.status(500).json({ 
       success: false, 
-      error: error.message,
-      details: error.response?.errors || error.response?.data
+      error: error.message
     });
   }
 });
@@ -283,6 +308,7 @@ app.post('/api/bigship/create-shipment', async (req, res) => {
       });
     } catch (error) {
       console.error('Error creating BigShip shipment:', error);
+      console.error('BigShip error details:', error.response?.data);
       res.status(500).json({ 
         success: false, 
         error: error.message,
@@ -358,45 +384,57 @@ app.get('/api/bigship/warehouses', async (req, res) => {
   
 
 // Fetch customer orders from Shopify
-app.get('/api/shopify/orders/:email', async (req, res) => {
+app.get('/api/shopify/orders/:emailOrOrderNumber', async (req, res) => {
     try {
-      const { email } = req.params;
+      const { emailOrOrderNumber } = req.params;
+      
+      // Check if it's an order number (starts with #)
+      const isOrderNumber = emailOrOrderNumber.startsWith('#') || emailOrOrderNumber.startsWith('D');
+      const searchQuery = isOrderNumber ? `name:${emailOrOrderNumber}` : emailOrOrderNumber;
   
       const FETCH_ORDERS = `
-        query getOrders($email: String!) {
-        draftOrders(first: 50, query: $email) {
+        query getOrders($query: String!) {
+        orders(first: 50, query: $query) {
             edges {
             node {
                 id
                 name
                 createdAt
-                totalPrice
+                totalPriceSet {
+                  shopMoney {
+                    amount
+                  }
+                }
                 tags
                 email
                 phone
                 shippingAddress {
-                firstName
-                lastName
-                address1
-                address2
-                city
-                province
-                zip
-                country
-                phone
+                  firstName
+                  lastName
+                  address1
+                  address2
+                  city
+                  province
+                  zip
+                  country
+                  phone
                 }
                 lineItems(first: 10) {
-                edges {
+                  edges {
                     node {
-                    id
-                    title
-                    quantity
-                    originalUnitPrice
-                    image {
+                      id
+                      title
+                      quantity
+                      originalUnitPriceSet {
+                        shopMoney {
+                          amount
+                        }
+                      }
+                      image {
                         url
+                      }
                     }
-                    }
-                }
+                  }
                 }
             }
             }
@@ -405,9 +443,9 @@ app.get('/api/shopify/orders/:email', async (req, res) => {
         `;
 
   
-      const result = await shopifyAdminClient.request(FETCH_ORDERS, { email });
+      const result = await shopifyAdminClient.request(FETCH_ORDERS, { query: searchQuery });
       
-      const orders = result.draftOrders.edges.map(edge => {
+      const orders = result.orders.edges.map(edge => {
         const tags = edge.node.tags || [];
         
         // Parse tracking info from tags
@@ -415,15 +453,16 @@ app.get('/api/shopify/orders/:email', async (req, res) => {
         const courierTag = tags.find(t => t.startsWith('courier:'));
         const lrnTag = tags.find(t => t.startsWith('lrn:'));
         const paymentTag = tags.find(t => t.startsWith('payment:'));
+        const razorpayTag = tags.find(t => t.startsWith('razorpay:'));
 
         
         return {
           id: edge.node.id,
           orderNumber: edge.node.name,
           status: 'confirmed',
-          totalAmount: parseFloat(edge.node.totalPrice),
+          totalAmount: parseFloat(edge.node.totalPriceSet.shopMoney.amount),
           createdAt: edge.node.createdAt,
-          paymentId: paymentTag ? paymentTag.replace('payment:', '') : undefined,
+          paymentId: paymentTag ? paymentTag.replace('payment:', '') : (razorpayTag ? razorpayTag.replace('razorpay:', '') : undefined),
           bigshipShipmentId: lrnTag ? lrnTag.replace('lrn:', '') : undefined,
           awbNumber: awbTag ? awbTag.replace('awb:', '') : undefined,
           courierName: courierTag ? courierTag.replace('courier:', '') : undefined,
@@ -438,7 +477,7 @@ app.get('/api/shopify/orders/:email', async (req, res) => {
             id: item.node.id,
             title: item.node.title,
             quantity: item.node.quantity,
-            price: parseFloat(item.node.originalUnitPrice),
+            price: parseFloat(item.node.originalUnitPriceSet.shopMoney.amount),
             image: item.node.image?.url
           }))
         };
