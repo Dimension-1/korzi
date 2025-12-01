@@ -19,7 +19,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { addToCart, cartItems, getTotalPrice } = useCartStore();
+  const { addToCart } = useCartStore();
   const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -108,7 +108,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
       
       // Create order data with all cart items
       const orderData = {
-        items: updatedCartItems.map((item, index) => ({
+        items: updatedCartItems.map((item) => ({
           id: item.id,
           title: item.title,
           price: item.price,
