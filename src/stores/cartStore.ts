@@ -202,45 +202,8 @@ export const useCartStore = create<CartStore>()(
       // Drawer controls
       openDrawer: async () => {
         console.log('Opening cart drawer...');
-        set({ isDrawerOpen: true, isLoading: true });
+        set({ isDrawerOpen: true });
         document.body.classList.add('overflow-hidden');
-        
-        // Fetch latest cart data from Shopify when drawer opens
-        try {
-          console.log('Fetching latest cart data for drawer...');
-          const shopifyCart = await syncCartWithShopify();
-          
-          if (shopifyCart && shopifyCart.lines.edges.length > 0) {
-            console.log('Found cart items in Shopify:', shopifyCart.lines.edges.length);
-            
-            // Debug each edge to see the actual data
-            shopifyCart.lines.edges.forEach((edge, index) => {
-              console.log(`Drawer Edge ${index}:`, edge);
-              console.log(`Drawer Edge ${index} quantity:`, edge.node.quantity);
-            });
-            
-            // Convert Shopify cart to React cart format
-            const cartItems: CartItem[] = shopifyCart.lines.edges.map(edge => ({
-              id: `${edge.node.merchandise.product.title}-${edge.node.merchandise.title}`,
-              title: edge.node.merchandise.product.title,
-              price: parseFloat(edge.node.merchandise.price.amount),
-              quantity: edge.node.quantity,
-              variant: edge.node.merchandise.title,
-              variantId: edge.node.merchandise.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
-            }));
-            
-            set({ cartItems });
-            console.log('Cart drawer updated with', cartItems.length, 'items:', cartItems);
-          } else {
-            console.log('No cart items found in Shopify');
-            set({ cartItems: [] });
-          }
-        } catch (error) {
-          console.error('Failed to fetch cart data for drawer:', error);
-        } finally {
-          set({ isLoading: false });
-        }
       },
 
       closeDrawer: () => {

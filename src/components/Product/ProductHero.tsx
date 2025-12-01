@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../stores/cartStore';
+import { useOrderStore } from '../../stores/orderStore';
 
 interface ProductHeroProps {
   product: {
@@ -17,7 +18,9 @@ interface ProductHeroProps {
 export default function ProductHero({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCartStore();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addToCart, cartItems, getTotalPrice } = useCartStore();
+  const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -61,26 +64,84 @@ export default function ProductHero({ product }: ProductHeroProps) {
     : 0;
 
   const handleAddToCart = async () => {
-    await addToCart({
-      title: product.title,
-      price: product.price,
-      originalPrice: product.compareAtPrice,
-      quantity,
-      image: product.images[0]?.url || '/image.png',
-      variantId: product.variantId
-    });
+    if (isAddingToCart) return; // Prevent multiple clicks
+    
+    setIsAddingToCart(true);
+    try {
+      await addToCart({
+        title: product.title,
+        price: product.price,
+        originalPrice: product.compareAtPrice,
+        quantity,
+        image: product.images[0]?.url || '/image.png',
+        variantId: product.variantId
+      });
+    } finally {
+      setTimeout(() => setIsAddingToCart(false), 500);
+    }
   };
 
-  const handleBuyNow = async () => {
-    await addToCart({
-      title: product.title,
-      price: product.price,
-      originalPrice: product.compareAtPrice,
-      quantity,
-      image: product.images[0]?.url || '/image.png',
-      variantId: product.variantId
-    });
-    navigate('/checkout');
+  const handleBuyNow = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isAddingToCart) return; // Prevent multiple clicks
+    
+    setIsAddingToCart(true);
+    try {
+      // Add 1 item to cart (don't clear)
+      await addToCart({
+        title: product.title,
+        price: product.price,
+        originalPrice: product.compareAtPrice,
+        quantity: 1,
+        image: product.images[0]?.url || '/image.png',
+        variantId: product.variantId
+      });
+      
+      // Wait for cart to update
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Get updated cart items
+      const updatedCartItems = useCartStore.getState().cartItems;
+      const totalPrice = useCartStore.getState().getTotalPrice();
+      
+      // Create order data with all cart items
+      const orderData = {
+        items: updatedCartItems.map((item, index) => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+          variantId: item.variantId
+        })),
+        customer: {
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: ''
+        },
+        shippingAddress: {
+          address1: '',
+          address2: '',
+          city: '',
+          province: '',
+          country: 'India',
+          zip: ''
+        },
+        totalAmount: totalPrice,
+        currency: 'INR'
+      };
+      
+      // Set current order
+      setCurrentOrder(orderData);
+      
+      // Navigate to checkout
+      navigate('/checkout');
+    } catch (error) {
+      console.error('Buy now error:', error);
+    }
   };
 
   const features = [
@@ -240,7 +301,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
 
               <button
                 onClick={handleAddToCart}
-                className="flex-1 lg:w-[200px] h-[45px] lg:h-[50px] px-4 lg:px-5 flex items-center justify-center gap-2 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer"
+                disabled={isAddingToCart}
+                className="flex-1 lg:w-[200px] h-[45px] lg:h-[50px] px-4 lg:px-5 flex items-center justify-center gap-2 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   fontFamily: 'DM Sans',
                   fontSize: '11px',
@@ -248,7 +310,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                 }}
               >
                 <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                <span className="relative z-20 group-hover:text-black transition-colors duration-300">ADD TO CART</span>
+                <span className="relative z-20 group-hover:text-black transition-colors duration-300">{isAddingToCart ? 'ADDING...' : 'ADD TO CART'}</span>
                 <svg className="relative z-10 w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
@@ -257,9 +319,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
 
             <button 
               onClick={handleBuyNow}
-              className="w-full lg:w-[200px] h-[45px] lg:h-[50px] bg-[#02FF00] hover:bg-[#00DD00] text-black px-8 lg:px-10 font-bold transition text-[11px] lg:text-xs uppercase tracking-widest"
+              disabled={isAddingToCart}
+              className="w-full lg:w-[200px] h-[45px] lg:h-[50px] bg-[#02FF00] hover:bg-[#00DD00] text-black px-8 lg:px-10 font-bold transition text-[11px] lg:text-xs uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              BUY NOW
+              {isAddingToCart ? 'ADDING...' : 'BUY NOW'}
             </button>
           </div>
         </div>
