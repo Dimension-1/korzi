@@ -8,6 +8,7 @@ import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse }
 import { createShopifyOrder } from '../services/orders';
 import { createShipment } from '../services/bigship';
 import ProcessingOverlay from './ProcessingOverlay';
+import CouponInput from './CouponInput';
 
 
 const CheckoutPage: React.FC = () => {
@@ -28,10 +29,15 @@ const CheckoutPage: React.FC = () => {
     zip: '',
     country: 'India'
   });
+  const [countryCode, setCountryCode] = useState('+91');
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<string>('');
+  const [discount, setDiscount] = useState<number>(0);
+
+  const finalAmount = currentOrder ? currentOrder.totalAmount - discount : 0;
 
   useEffect(() => {
     if (!currentOrder) {
@@ -52,6 +58,25 @@ const CheckoutPage: React.FC = () => {
         [name]: ''
       }));
     }
+  };
+
+  const handleApplyCoupon = async (code: string) => {
+    // Remove coupon if empty code
+    if (!code) {
+      setAppliedCoupon('');
+      setDiscount(0);
+      return { success: true };
+    }
+
+    // For testing: Fixed ₹6489 discount
+    if (code === 'TESTFREEDEV468864' && currentOrder) {
+      const discountAmount = 6489;
+      setAppliedCoupon(code);
+      setDiscount(discountAmount);
+      return { success: true, discount: discountAmount };
+    }
+
+    return { success: false, message: 'Invalid coupon code' };
   };
 
   const validateForm = () => {
@@ -87,11 +112,13 @@ const CheckoutPage: React.FC = () => {
     setIsProcessing(true);
 
     try {
+      const fullPhone = `${countryCode}${formData.phone}`;
+      
       updateCustomerInfo({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
-        phone: formData.phone
+        phone: fullPhone
       });
 
       updateShippingAddress({
@@ -111,7 +138,7 @@ const CheckoutPage: React.FC = () => {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
-            phone: formData.phone
+            phone: fullPhone
           },
           shippingAddress: {
             address1: formData.address1,
@@ -135,23 +162,23 @@ const CheckoutPage: React.FC = () => {
       const shopifyOrderId = shopifyOrderResult.orderId;
       const shopifyOrderNumber = shopifyOrderResult.orderNumber;
 
-      // Create Razorpay order
+      // Create Razorpay order with final amount after discount
       const razorpayOrderId = await createRazorpayOrder(
-        currentOrder.totalAmount * 100,
+        finalAmount * 100,
         'INR',
         shopifyOrderNumber || shopifyOrderId
       );
 
       // Initiate payment
       await initiateRazorpayPayment({
-        amount: currentOrder.totalAmount * 100,
+        amount: finalAmount * 100,
         currency: 'INR',
         orderId: razorpayOrderId,
         customerInfo: {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
-          phone: formData.phone
+          phone: fullPhone
         },
         onSuccess: async (response: RazorpaySuccessResponse) => {
           console.log('Payment successful:', response);
@@ -411,16 +438,30 @@ const CheckoutPage: React.FC = () => {
                     <label htmlFor="phone" className="block text-sm text-white mb-1" style={{ fontFamily: 'DM Sans' }}>
                       Phone Number *
                     </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={`w-full px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
-                        errors.phone ? 'border-red-500' : 'border-white/30'
-                      }`}
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        className="w-24 px-2 py-2 bg-[#393737] text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00]"
+                      >
+                        <option value="+91">+91</option>
+                        <option value="+1">+1</option>
+                        <option value="+44">+44</option>
+                        <option value="+61">+61</option>
+                        <option value="+971">+971</option>
+                      </select>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="1234567890"
+                        className={`flex-1 px-3 py-2 bg-[#393737] text-white border rounded-lg focus:ring-2 focus:ring-[#02FF00] focus:border-[#02FF00] ${
+                          errors.phone ? 'border-red-500' : 'border-white/30'
+                        }`}
+                      />
+                    </div>
                     {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                   </div>
                 </div>
@@ -607,10 +648,31 @@ const CheckoutPage: React.FC = () => {
                 ))}
               </div>
               
+              {/* Coupon Input */}
               <div className="border-t border-white/30 pt-4 mt-4">
+                <CouponInput 
+                  onApplyCoupon={handleApplyCoupon}
+                  appliedCoupon={appliedCoupon}
+                  discount={discount}
+                />
+              </div>
+
+              <div className="border-t border-white/30 pt-4 mt-4">
+                {discount > 0 && (
+                  <div className="flex justify-between text-sm text-white mb-2">
+                    <span>Subtotal</span>
+                    <span>₹{currentOrder.totalAmount}</span>
+                  </div>
+                )}
+                {discount > 0 && (
+                  <div className="flex justify-between text-sm text-[#02FF00] mb-2">
+                    <span>Discount</span>
+                    <span>-₹{discount}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-lg text-white" style={{ fontFamily: 'Bebas Neue', fontSize: '24px' }}>
                   <span>Total</span>
-                  <span className="text-[#02FF00]">₹{currentOrder.totalAmount}</span>
+                  <span className="text-[#02FF00]">₹{finalAmount}</span>
                 </div>
               </div>
             </div>
