@@ -164,11 +164,11 @@ export default function PillarsSection() {
         </div>
 
         {/* Promise Image */}
-        <div className="mt-8 md:mt-16 flex justify-center">
+        <div className="mt-8 md:mt-16 flex justify-center ">
           <img 
             src={getCloudinaryUrl('/assets/About/Promise.png')} 
             alt="Korzi Promise" 
-            className="w-full max-w-[300px] md:max-w-[668px] h-auto object-contain"
+            className="w-[110%] max-w-none md:max-w-[668px] md:w-full h-auto object-contain"
           />
         </div>
       </div>

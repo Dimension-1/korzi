@@ -355,13 +355,13 @@ const CheckoutPage: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <button
-            onClick={() => navigate('/cart')}
+            onClick={() => navigate('/shop')}
             className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mb-6"
             style={{ width: '160px', height: '46px' }}
           >
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
             <ArrowLeft className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
-            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">Back to Cart</span>
+            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[13px] leading-[16px] uppercase font-medium">Back to Shop</span>
           </button>
           <h1 className="text-[48px] leading-[48px] uppercase" style={{ 
             fontFamily: 'Bebas Neue',

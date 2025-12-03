@@ -23,10 +23,11 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const { addToCart } = useCartStore();
   const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
-  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const desktopContainerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const container = imageContainerRef.current;
+    const container = e.currentTarget;
     if (!container) return;
     
     const rect = container.getBoundingClientRect();
@@ -38,18 +39,34 @@ export default function ProductHero({ product }: ProductHeroProps) {
   };
 
   useEffect(() => {
-    const container = imageContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
+    const handleScroll = (container: HTMLDivElement) => () => {
       const scrollLeft = container.scrollLeft;
       const imageWidth = container.clientWidth;
       const index = Math.round(scrollLeft / imageWidth);
       setSelectedImage(index);
     };
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
+    const mobileContainer = mobileContainerRef.current;
+    const desktopContainer = desktopContainerRef.current;
+    
+    const mobileHandler = mobileContainer ? handleScroll(mobileContainer) : null;
+    const desktopHandler = desktopContainer ? handleScroll(desktopContainer) : null;
+
+    if (mobileContainer && mobileHandler) {
+      mobileContainer.addEventListener('scroll', mobileHandler);
+    }
+    if (desktopContainer && desktopHandler) {
+      desktopContainer.addEventListener('scroll', desktopHandler);
+    }
+
+    return () => {
+      if (mobileContainer && mobileHandler) {
+        mobileContainer.removeEventListener('scroll', mobileHandler);
+      }
+      if (desktopContainer && desktopHandler) {
+        desktopContainer.removeEventListener('scroll', desktopHandler);
+      }
+    };
   }, []);
 
   const discount = product.compareAtPrice && product.compareAtPrice > product.price
@@ -146,9 +163,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
         <div className="space-y-2 lg:hidden">
           <div className="relative">
             <div 
-              ref={imageContainerRef}
-              onMouseMove={handleMouseMove}
-              className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
+              ref={mobileContainerRef}
+              className="flex gap-4 overflow-x-auto bg-zinc-950"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {product.images.map((image, idx) => (
@@ -163,7 +179,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </div>
             <button 
               onClick={() => {
-                const container = imageContainerRef.current;
+                const container = mobileContainerRef.current;
                 if (container) {
                   const newIndex = Math.max(0, selectedImage - 1);
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
@@ -177,7 +193,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </button>
             <button 
               onClick={() => {
-                const container = imageContainerRef.current;
+                const container = mobileContainerRef.current;
                 if (container) {
                   const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
@@ -195,7 +211,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
               <button
                 key={idx}
                 onClick={() => {
-                  const container = imageContainerRef.current;
+                  const container = mobileContainerRef.current;
                   if (container) {
                     container.scrollTo({ left: idx * container.clientWidth, behavior: 'smooth' });
                   }
@@ -320,7 +336,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
         <div className="hidden lg:block space-y-4">
           <div className="relative max-w-[600px] mx-auto">
             <div 
-              ref={imageContainerRef}
+              ref={desktopContainerRef}
               onMouseMove={handleMouseMove}
               className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -337,7 +353,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </div>
             <button 
               onClick={() => {
-                const container = imageContainerRef.current;
+                const container = desktopContainerRef.current;
                 if (container) {
                   const newIndex = Math.max(0, selectedImage - 1);
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
@@ -351,7 +367,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </button>
             <button 
               onClick={() => {
-                const container = imageContainerRef.current;
+                const container = desktopContainerRef.current;
                 if (container) {
                   const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
@@ -369,7 +385,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
               <button
                 key={idx}
                 onClick={() => {
-                  const container = imageContainerRef.current;
+                  const container = desktopContainerRef.current;
                   if (container) {
                     container.scrollTo({ left: idx * container.clientWidth, behavior: 'smooth' });
                   }

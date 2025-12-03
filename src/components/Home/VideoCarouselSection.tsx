@@ -1,9 +1,11 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function VideoCarouselSection() {
   const videos = Array(9).fill('/assets/homepage/KORZI WEBSITE HEROBANNER VIDEO.mp4');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollContainerRef.current) return;
@@ -66,7 +68,7 @@ export default function VideoCarouselSection() {
 
         {/* Shop Now Button */}
         <div className="flex justify-center mb-8 lg:mb-20">
-          <button className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
+          <button onClick={() => { window.scrollTo(0, 0); navigate('/shop'); }} className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
             <span className="relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', fontSize: '14px', letterSpacing: '0.05em' }}>
               SHOP NOW
