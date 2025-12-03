@@ -23,11 +23,11 @@ export default function Footer() {
       </div>
 
       {/* Mobile Car Image Section */}
-      <div className="md:hidden relative w-full flex items-center justify-center bg-black">
+      <div className="md:hidden relative w-full h-[200px] flex items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
+          src={getCloudinaryUrl('/Car_2_wst85g.png')} 
           alt="Korzi RC Car"
-          className="w-full max-w-[400px] h-auto object-contain"
+          className="w-auto h-full object-contain"
         />
       </div>
 
