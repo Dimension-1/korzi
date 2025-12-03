@@ -1,4 +1,6 @@
 import { ArrowUpRight, Download } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function SafetyCareSection() {
   return (
@@ -11,19 +13,19 @@ export default function SafetyCareSection() {
         style={{ right: 0, top: '30px', zIndex: 0, transform: 'translateX(30%)' }}
       />
       <img 
-        src="/assets/homepage/dragonfly.png" 
+        src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
         alt="" 
         className="hidden lg:block absolute w-[547px] h-[401px] pointer-events-none opacity-60"
         style={{ right: '-273.5px', top: '480px', zIndex: 1 }}
       />
       <img 
-        src="/assets/homepage/Ellipse80.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
         alt="" 
         className="hidden lg:block absolute w-[1391px] h-[1092px] pointer-events-none"
         style={{ left: '-545.5px', top: '370px', zIndex: 0 }}
       />
       <img 
-        src="/assets/homepage/dragonfly.png" 
+        src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
         alt="" 
         className="hidden lg:block absolute w-[547px] h-[401px] pointer-events-none opacity-60"
         style={{ left: '-273.5px', top: '843px', zIndex: 1 }}
@@ -31,13 +33,13 @@ export default function SafetyCareSection() {
       
       {/* Decorative Elements - Mobile Only - Safety & Care Left */}
       <img 
-        src="/assets/homepage/Ellipse80.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
         alt="" 
         className="lg:hidden absolute w-[293px] h-[394px] pointer-events-none"
         style={{ left: '-80px', top: '700px', zIndex: 0 }}
       />
       <img 
-        src="/assets/homepage/dragonfly.png" 
+        src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
         alt="" 
         className="lg:hidden absolute w-[200px] h-[147px] pointer-events-none opacity-60"
         style={{ left: '-100px', top: '870px', zIndex: 1 }}
@@ -51,7 +53,7 @@ export default function SafetyCareSection() {
         style={{ right: '-100px', bottom: '-200px', zIndex: 0 }}
       />
       <img 
-        src="/assets/homepage/dragonfly.png" 
+        src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
         alt="" 
         className="lg:hidden absolute w-[200px] h-[147px] pointer-events-none opacity-60"
         style={{ right: '-100px', bottom: '-120px', zIndex: 1 }}
@@ -153,14 +155,14 @@ export default function SafetyCareSection() {
           {/* Center - Image with BIS Badge */}
           <div className="relative bg-gradient-to-br from-gray-300 to-gray-500 min-h-[200px] flex items-center justify-center overflow-visible order-2 lg:order-none max-w-[320px] lg:max-w-none mx-auto mb-8 lg:mb-0">
             <img 
-              src="/assets/Support/safety.png" 
+              src={getCloudinaryUrl('/assets/Support/safety.png')} 
               alt="Korzi RC Car" 
               className="w-full h-full object-cover"
             />
             
             {/* BIS Certified Logo */}
             <img 
-              src="/assets/Support/logo.png" 
+              src={getCloudinaryUrl('/assets/Support/logo.png')} 
               alt="BIS Certified" 
               className="absolute -top-4 -left-8 lg:-top-7 lg:left-auto lg:-right-16 w-24 h-24 lg:w-36 lg:h-36 z-20"
             />

@@ -31,11 +31,11 @@ export default function ContactSection() {
                 <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Email: </span>
                 <span className="text-white text-[12px] lg:text-[14px]">support@korzi.toys</span>
               </div>
-              <div className="border border-white/30 border-t-0 lg:border-t lg:border-0 px-3 py-2.5 lg:px-0 lg:py-0">
+              <div className="border border-white/30 px-3 py-2.5 lg:border-0 lg:px-0 lg:py-0">
                 <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Response Time: </span>
                 <span className="text-white text-[12px] lg:text-[14px]">12–24 hours</span>
               </div>
-              <div className="border border-white/30 border-t-0 lg:border-t lg:border-0 px-3 py-2.5 lg:px-0 lg:py-0">
+              <div className="border border-white/30 px-3 py-2.5 lg:border-0 lg:px-0 lg:py-0">
                 <span className="text-[#02FF00] text-[12px] lg:text-[14px]">Workshop: </span>
                 <span className="text-white text-[12px] lg:text-[14px]">JP Nagar, Bangalore</span>
               </div>

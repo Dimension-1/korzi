@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function SpecsSection() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -50,7 +51,7 @@ export default function SpecsSection() {
               {specs.map((spec, index) => (
                 <img
                   key={index}
-                  src={spec.image}
+                  src={getCloudinaryUrl(spec.image)}
                   alt={`Spec ${index + 1}`}
                   style={{
                     position: 'absolute',
@@ -76,7 +77,7 @@ export default function SpecsSection() {
           <div className="md:hidden flex justify-center">
             <div className="relative" style={{ width: '359.84px', height: '286px' }}>
               <img
-                src={specs[0].image}
+                src={getCloudinaryUrl(specs[0].image)}
                 alt="25 KM/H"
                 style={{
                   position: 'absolute',
@@ -91,7 +92,7 @@ export default function SpecsSection() {
                 className="object-contain"
               />
               <img
-                src={specs[1].image}
+                src={getCloudinaryUrl(specs[1].image)}
                 alt="1:16 Scale"
                 style={{
                   position: 'absolute',
@@ -106,7 +107,7 @@ export default function SpecsSection() {
                 className="object-contain"
               />
               <img
-                src={specs[2].image}
+                src={getCloudinaryUrl(specs[2].image)}
                 alt="2.4Ghz"
                 style={{
                   position: 'absolute',
@@ -121,7 +122,7 @@ export default function SpecsSection() {
                 className="object-contain"
               />
               <img
-                src={specs[3].image}
+                src={getCloudinaryUrl(specs[3].image)}
                 alt="4x4 Control"
                 style={{
                   position: 'absolute',
@@ -136,7 +137,7 @@ export default function SpecsSection() {
                 className="object-contain"
               />
               <img
-                src={specs[4].image}
+                src={getCloudinaryUrl(specs[4].image)}
                 alt="50m+ Range"
                 style={{
                   position: 'absolute',

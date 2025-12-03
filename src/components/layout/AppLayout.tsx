@@ -3,9 +3,13 @@ import { Link, Outlet } from 'react-router-dom';
 import CartDrawer from '../CartDrawer';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { openDrawer, getTotalItems, cartItems } = useCartStore();
   const { customer, isAuthenticated, logout } = useAuthStore();
 
@@ -15,11 +19,37 @@ export default function AppLayout() {
     console.log('AppLayout - Cart items changed:', cartItems);
   }, [cartItems]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+
+      // Always show navbar in hero section (first screen)
+      if (currentScrollY < heroHeight) {
+        setIsVisible(true);
+      } else {
+        // Hide when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
     <div className="min-h-screen text-[var(--foreground)]">
       
       {/* === GLOBAL HEADER === */}
-      <div className="fixed top-4 left-4 right-4 z-50">
+      <div className={`fixed top-4 left-4 right-4 z-50 transition-transform duration-300 ${
+        isVisible ? 'translate-y-0' : '-translate-y-24'
+      }`}>
         <header className="bg-black flex items-stretch md:items-center md:justify-between shadow-xl border border-gray-700 md:px-4 md:py-3">
           {/* Hamburger - Desktop only (left side) */}
           <button
@@ -41,7 +71,7 @@ export default function AppLayout() {
           {/* Logo - Left on mobile, Center on desktop */}
           <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-0">
             <img 
-              src="/logo-horizontal.png" 
+              src={getCloudinaryUrl('/logo-horizontal.png')} 
               alt="KORZI" 
               className="h-8 md:h-10 w-auto"
             />
@@ -54,7 +84,7 @@ export default function AppLayout() {
               className="relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" 
               aria-label="Cart"
             >
-              <img src="/assets/homepage/cart.png" alt="Cart" className="w-6 h-6" />
+              <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
                 <span className="absolute top-2 right-[calc(50%-20px)] md:-top-1 md:-right-1 bg-[#02FF00] text-black text-[10px] md:text-[9px] font-bold rounded-full w-5 h-5 md:w-4 md:h-4 flex items-center justify-center">
                   {totalItems}
@@ -64,11 +94,11 @@ export default function AppLayout() {
             <div className="hidden md:block h-8 w-px bg-gray-700"></div>
             {isAuthenticated ? (
               <Link to="/orders" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="My Orders">
-                <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
+                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
               </Link>
             ) : (
               <Link to="/signin" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="Account">
-                <img src="/assets/homepage/profile.png" alt="Profile" className="w-6 h-6" />
+                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
               </Link>
             )}
             {/* Hamburger - Mobile only (right side) */}

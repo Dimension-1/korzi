@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+
 
 export default function ThankYouPage() {
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ export default function ThankYouPage() {
         {/* Dragonfly Icon */}
         <div className="mb-6 md:mb-8 flex justify-center">
           <img 
-            src="/assets/party.png" 
+            src={getCloudinaryUrl('/assets/party.png')} 
             alt="Success" 
             className="w-12 h-12 md:w-16 md:h-16"
           />

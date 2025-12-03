@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function TakeOverSection() {
   const videos = Array(9).fill('/assets/homepage/KORZI WEBSITE HERO BNNER VIDEO.mp4');
@@ -103,7 +105,7 @@ export default function TakeOverSection() {
           <div className="relative">
              <div className="text-[#02FF00] text-6xl">
               <img 
-                src="/assets/homepage/network.png" 
+                src={getCloudinaryUrl('/assets/homepage/network.png')} 
                 alt="Network circuit board"
                 className="w-full h-auto max-w-full"
                 style={{ filter: 'brightness(1.2)' }}

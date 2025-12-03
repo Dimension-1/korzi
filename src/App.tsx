@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
@@ -24,6 +24,12 @@ import { useAuthStore } from './stores/authStore'
 function App() {
   const { initializeCart, refreshCartCount } = useCartStore();
   const { restoreFromPersistence } = useAuthStore();
+  const location = useLocation();
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   // Initialize app state when it loads
   useEffect(() => {

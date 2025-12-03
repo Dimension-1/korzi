@@ -8,6 +8,8 @@ import ShopFooter from '../components/Shop/ShopFooter';
 import ProductSection from '../components/Shop/ProductSection';
 import CartDrawer from '../components/CartDrawer';
 import { getProducts, ShopifyProduct } from '../services/shopify';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+
 
 // Transform Shopify product to ProductCarousel format
 const transformShopifyProduct = (product: ShopifyProduct) => {
@@ -74,7 +76,7 @@ function ShopPage() {
       {/* Hero Image */}
       <ProductSection/>
       <div className="">
-        <img className="w-full h-[30%] object-fit" src="/image.png" alt="Shop" />
+        <img className="w-full h-[30%] object-fit" src={getCloudinaryUrl('/image.png')} alt="Shop" />
       </div>
       
       <div className="w-full">

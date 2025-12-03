@@ -1,4 +1,6 @@
 import { Instagram, Youtube, Linkedin } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function JoinFamSection() {
   return (
@@ -58,7 +60,7 @@ export default function JoinFamSection() {
         {/* Right Side - Image */}
         <div className="relative">
           <img
-            src="/assets/homepage/Korziteam.png"
+            src={getCloudinaryUrl('/assets/homepage/Korziteam.png')}
             alt="Korzi Crew"
             className="w-full h-auto object-cover"
           />

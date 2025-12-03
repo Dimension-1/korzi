@@ -1,10 +1,12 @@
+import { getCloudinaryUrl } from '../../utils/cloudinary';
+
 export default function TroubleshootingSection() {
   return (
     <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12 relative overflow-visible">
       {/* Green Bloom Effect */}
       <div className="absolute left-0 bottom-0 w-[800px] h-[800px] pointer-events-none" style={{ zIndex: 0 }}>
         <img 
-          src="/assets/homepage/Ellipse80.png" 
+          src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
           alt="" 
           className="w-full h-full"
           style={{

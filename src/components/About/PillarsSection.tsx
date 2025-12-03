@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
+
 
 interface Pillar {
   id: number;
@@ -73,7 +75,7 @@ export default function PillarsSection() {
                 >
                   {/* Pillar Image */}
                   <img
-                    src={isActive ? '/assets/About/PillarAnimation/Green.png' : '/assets/About/PillarAnimation/Black.png'}
+                    src={getCloudinaryUrl(isActive ? '/assets/About/PillarAnimation/Green.png' : '/assets/About/PillarAnimation/Black.png')}
                     alt={pillar.label}
                     className="w-full h-full object-contain transition-all duration-500"
                   />
@@ -137,7 +139,7 @@ export default function PillarsSection() {
               style={{ width: '80px', height: '140px' }}
             >
               <img
-                src={activePillar === pillar.id ? '/assets/About/PillarAnimation/green_mobile.png' : '/assets/About/PillarAnimation/Black.png'}
+                src={getCloudinaryUrl(activePillar === pillar.id ? '/assets/About/PillarAnimation/green_mobile.png' : '/assets/About/PillarAnimation/Black.png')}
                 alt={pillar.label}
                 className="w-full h-full object-contain"
               />
@@ -164,7 +166,7 @@ export default function PillarsSection() {
         {/* Promise Image */}
         <div className="mt-8 md:mt-16 flex justify-center">
           <img 
-            src="/assets/About/Promise.png" 
+            src={getCloudinaryUrl('/assets/About/Promise.png')} 
             alt="Korzi Promise" 
             className="w-full max-w-[300px] md:max-w-[668px] h-auto object-contain"
           />

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Frown } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+
 
 export default function ErrorPage() {
   const navigate = useNavigate();

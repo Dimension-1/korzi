@@ -1,3 +1,5 @@
+import { getCloudinaryUrl } from "../../utils/cloudinary";
+
 export default function HeroSection() {
   return (
     <section className="bg-black text-white py-8 md:py-16 lg:py-24 px-4 md:px-8 lg:px-16">
@@ -44,12 +46,12 @@ export default function HeroSection() {
           {/* Main Image Container */}
           <div className="relative w-full max-w-[1024px]">
             <img 
-              src="/assets/About/Hero Section/Main.png" 
+              src={getCloudinaryUrl('/assets/About/Hero Section/Main.png')} 
               alt="Korzi RC Machines" 
               className="hidden md:block w-full h-auto object-cover"
             />
             <img 
-              src="/assets/About/Hero Section/Main_mobile.png" 
+              src={getCloudinaryUrl('/assets/About/Hero Section/Main_mobile.png')} 
               alt="Korzi RC Machines" 
               className="md:hidden w-full h-auto object-cover"
             />
@@ -57,7 +59,7 @@ export default function HeroSection() {
             {/* DragonFly Badge - Mobile */}
             <div className="absolute md:hidden -right-[5%] -top-[5%] w-[120px] h-[120px]">
               <img 
-                src="/assets/About/Hero Section/DragonFly.png" 
+                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.png')} 
                 alt="Korzi DragonFly" 
                 className="w-full h-full object-contain"
               />
@@ -66,7 +68,7 @@ export default function HeroSection() {
             {/* DragonFly Badge - Desktop */}
             <div className="hidden md:block absolute md:-right-[12%] md:-top-[12%] lg:-right-[8%] lg:-top-[10%] md:w-[180px] md:h-[180px] lg:w-[240px] lg:h-[240px]">
               <img 
-                src="/assets/About/Hero Section/DragonFly.png" 
+                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.png')} 
                 alt="Korzi DragonFly" 
                 className="w-full h-full object-contain"
               />

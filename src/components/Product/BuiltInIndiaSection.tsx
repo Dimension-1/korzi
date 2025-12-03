@@ -1,4 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function BuiltInIndiaSection() {
   return (
@@ -23,7 +25,7 @@ export default function BuiltInIndiaSection() {
           {/* Car Image - Mobile */}
           <div className="relative -mt-12 flex right-20 w-full">
             <img 
-              src="/assets/homepage/Car_1.png" 
+              src={getCloudinaryUrl('/assets/homepage/Car_1.png')} 
               alt="Korzi RC Car" 
               className="w-[120%] max-w-none h-auto"
             />
@@ -78,7 +80,7 @@ export default function BuiltInIndiaSection() {
           {/* Center: Car Image */}
           <div className="flex justify-center">
             <img 
-              src="/assets/homepage/Car_1.png" 
+              src={getCloudinaryUrl('/assets/homepage/Car_1.png')} 
               alt="Korzi RC Car" 
               className="w-full max-w-2xl h-auto"
             />

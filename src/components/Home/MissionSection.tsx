@@ -1,4 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function MissionSection() {
   return (
@@ -20,7 +22,7 @@ export default function MissionSection() {
           <div className="relative lg:order-2">
              <div className="text-[#02FF00] text-6xl">
               <img 
-                src="/assets/homepage/network.png" 
+                src={getCloudinaryUrl('/assets/homepage/network.png')} 
                 alt="Network circuit board"
                 className="w-full h-auto max-w-full"
                 style={{ filter: 'brightness(1.2)' }}

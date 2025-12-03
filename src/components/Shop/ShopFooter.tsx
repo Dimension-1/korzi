@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Gift } from 'lucide-react';
 import { useCartStore } from '../../stores/cartStore';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 const ShopFooter: React.FC = () => {
   const [, setIsScrolling] = useState(false);
@@ -60,7 +62,7 @@ const ShopFooter: React.FC = () => {
           
           {/* WhatsApp Support */}
           <img 
-            src="/whatsapp-svgrepo-com.svg" 
+            src={getCloudinaryUrl('/whatsapp-svgrepo-com.svg')} 
             alt="WhatsApp" 
             className={`bg-green-500 rounded-full p-1 sm:p-2 w-8 h-8 sm:w-12 sm:h-12 transition-all duration-300 absolute -top-6 right-0 sm:right-4 ${
               showWhatsApp ? 'opacity-100 transform scale-100' : 'opacity-0 transform pointer-events-none'

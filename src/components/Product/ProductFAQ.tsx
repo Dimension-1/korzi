@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function ProductFAQ() {
   const [openFaq, setOpenFaq] = useState<number | null>(2);
@@ -40,7 +42,7 @@ export default function ProductFAQ() {
     <section className="bg-black py-8 md:py-16 px-4 md:px-8 relative overflow-x-clip">
       {/* Background gradient ellipse - Desktop */}
       <div className="absolute -left-40 top-0 w-1/2 h-[180%] pointer-events-none z-10 hidden md:block">
-        <img src="/assets/homepage/Ellipse80.png" alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       {/* Background gradient ellipse - Mobile */}
@@ -65,7 +67,7 @@ export default function ProductFAQ() {
             
             {/* Dragonfly - Mobile only, right side of heading */}
             <img 
-              src="/assets/homepage/dragonfly.png" 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 
               className="lg:hidden w-40 h-35 flex mt-2"
             />
@@ -74,7 +76,7 @@ export default function ProductFAQ() {
           {/* Dragonfly - Desktop only, bottom */}
           <div className="flex justify-start mt-20 items-center flex-1 -ml-2 hidden lg:flex">
             <img 
-              src="/assets/homepage/dragonfly.png" 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 
               className="w-64 lg:w-80 xl:w-96 h-auto"
             />

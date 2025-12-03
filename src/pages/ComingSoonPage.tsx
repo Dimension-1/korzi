@@ -1,5 +1,7 @@
 import { Heart, MoveRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+
 
 export default function ComingSoonPage() {
   const [timeLeft, setTimeLeft] = useState({
@@ -74,7 +76,7 @@ export default function ComingSoonPage() {
               left: 'var(--sidebar-width, 2rem)'
             }}>
               <img 
-                src="/logo-horizontal.png" 
+                src={getCloudinaryUrl('/logo-horizontal.png')} 
                 alt="KORZI" 
                 className="h-24 3xl:h-[9rem] 4xl:h-[12rem] w-auto"
               />
@@ -90,7 +92,7 @@ export default function ComingSoonPage() {
               }}
             >
               <img
-                src="/coming-soon.gif"
+                src={getCloudinaryUrl('/coming-soon.gif')}
                 alt="Coming Soon Animation"
                 className="w-96 xl:w-120 h-96 xl:h-120 3xl:w-[43rem] 3xl:h-[43rem] 4xl:w-[55rem] 4xl:h-[55rem] object-cover -rotate-[6deg] -z-10"
               />
@@ -143,7 +145,7 @@ export default function ComingSoonPage() {
             {/* Logo Section */}
             <div className="flex justify-center py-4 sm:py-6 mb-4">
               <img 
-                src="/logo-horizontal.png" 
+                src={getCloudinaryUrl('/logo-horizontal.png')} 
                 alt="KORZI" 
                 className="h-14 sm:h-20 md:h-20 w-auto object-contain"
               />
@@ -164,7 +166,7 @@ export default function ComingSoonPage() {
               {/* GIF Section - Now at the bottom */}
             <div className="flex sm:justify-center mb-4">
               <img
-                src="/coming-soon.gif"
+                src={getCloudinaryUrl('/coming-soon.gif')}
                 alt="Coming Soon Animation"
                 className="w-full bg-transparent h-72 sm:w-96 sm:h-92 md:w-120 md:h-96 object-cover shadow-2xl -rotate-[6deg]"
               />

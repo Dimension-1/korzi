@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 interface Slide {
   id: number;
@@ -88,7 +89,7 @@ export default function DetailCarousel() {
                   {/* Image Section - First on Mobile */}
                   <div className="relative bg-gray-800 lg:order-2 h-[300px] lg:h-auto">
                     <img 
-                      src={slide.image} 
+                      src={getCloudinaryUrl(slide.image)} 
                       alt={slide.title}
                       className="w-full h-full object-cover"
                       loading="lazy"

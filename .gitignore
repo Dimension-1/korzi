@@ -38,3 +38,7 @@ coverage/
 backend/.env
 backend/.env.local
 backend/.env.production
+
+# Documentation and archives
+fix-github-secrets.md
+public.zip

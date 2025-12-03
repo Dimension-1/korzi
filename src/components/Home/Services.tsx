@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function ManufacturingSection() {
   const [activeStep, setActiveStep] = useState(0);
@@ -89,12 +91,12 @@ export default function ManufacturingSection() {
           <div className="relative w-full max-w-md mb-6">
             <div className="grid grid-cols-2 gap-3">
               <img 
-                src={steps[activeStep].image1} 
+                src={getCloudinaryUrl(steps[activeStep].image1)} 
                 alt={steps[activeStep].name}
                 className="w-full h-auto object-cover"
               />
               <img 
-                src={steps[activeStep].image2} 
+                src={getCloudinaryUrl(steps[activeStep].image2)} 
                 alt={`${steps[activeStep].name} detail`}
                 className="w-full h-auto object-cover"
               />
@@ -174,7 +176,7 @@ export default function ManufacturingSection() {
               {/* First Image - Top Left */}
               <div className="absolute w-[45%] md:w-[370px] h-[250px] md:h-[350px] lg:h-[410px] z-10 top-0 left-[10%] md:left-[150px]">
                 <img 
-                  src={steps[activeStep].image1} 
+                  src={getCloudinaryUrl(steps[activeStep].image1)} 
                   alt={steps[activeStep].name}
                   className="w-full h-full object-cover"
                 />
@@ -183,7 +185,7 @@ export default function ManufacturingSection() {
               {/* Second Image - Bottom Right with Overlay */}
               <div className="absolute w-[45%] md:w-[370px] h-[250px] md:h-[350px] lg:h-[410px] z-20 top-[120px] md:top-[150px] lg:top-[180px] right-[5%] md:-right-[110px]">
                 <img 
-                  src={steps[activeStep].image2} 
+                  src={getCloudinaryUrl(steps[activeStep].image2)} 
                   alt={`${steps[activeStep].name} detail`}
                   className="w-full h-full object-cover"
                 />
@@ -192,7 +194,7 @@ export default function ManufacturingSection() {
               {/* Curved Arrow and Text */}
               <div className="absolute left-[55%] md:left-[530px] top-[80px] md:top-[100px] lg:top-[120px] flex items-start gap-1 z-30">
                 <img 
-                  src="/assets/homepage/curvedarrow.png" 
+                  src={getCloudinaryUrl('/assets/homepage/curvedarrow.png')} 
                   alt="arrow"
                   className="w-8 h-8 md:w-10 md:h-10"
                 />

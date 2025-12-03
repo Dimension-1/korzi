@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 const tabs = [
   'DESCRIPTION',
@@ -49,7 +51,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/Desc.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/Desc.png')} 
                   alt="Product" 
                   className="w-full h-full object-cover"
                 />
@@ -102,7 +104,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/CoreSpecs.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/CoreSpecs.png')} 
                   alt="Specifications" 
                   className="w-full h-full object-cover"
                 />
@@ -132,7 +134,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/builddim.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/builddim.png')} 
                   alt="Dimensions" 
                   className="w-full h-full object-cover"
                 />
@@ -186,7 +188,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/performance.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/performance.png')} 
                   alt="Mechanics" 
                   className="w-full h-full object-cover"
                 />
@@ -226,7 +228,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/whatinbox.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/whatinbox.png')} 
                   alt="Box Contents" 
                   className="w-full h-full object-cover"
                 />
@@ -259,7 +261,7 @@ export default function ProductTabs() {
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
                 <img 
-                  src="/assets/Product/ProductTabs/warranty.png" 
+                  src={getCloudinaryUrl('/assets/Product/ProductTabs/warranty.png')} 
                   alt="Warranty" 
                   className="w-full h-full object-cover"
                 />

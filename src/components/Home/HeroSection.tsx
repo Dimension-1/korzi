@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function HeroSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -45,7 +47,7 @@ export default function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover opacity-80"
           style={{ pointerEvents: 'none' }}
         >
-          <source src="/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4" type="video/mp4" />
+          <source src={getCloudinaryVideoUrl('/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4')} type="video/mp4" />
         </video>
   
         {/* Pure Black Overlay */}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CheckCircle, Package, Truck, Home } from 'lucide-react';
 import ShipmentTracking from './ShipmentTracking';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+
 
 
 const OrderConfirmationPage: React.FC = () => {

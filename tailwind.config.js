@@ -21,8 +21,8 @@ export default {
         '120': '30rem', // 480px
       },
       animation: {
-        marquee: 'marquee 30s linear infinite',
-        'marquee-mobile': 'marquee 8s linear infinite',
+        marquee: 'marquee 10s linear infinite',
+        'marquee-mobile': 'marquee 3s linear infinite',
         fadeIn: 'fadeIn 0.5s ease-in',
       },
       keyframes: {

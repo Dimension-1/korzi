@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../stores/cartStore';
 import { useOrderStore } from '../../stores/orderStore';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 interface ProductHeroProps {
   product: {
@@ -273,7 +274,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                 }`}
               >
                 <div className="flex-shrink-0 w-5 h-5 lg:w-8 lg:h-8">
-                  <img src={feature.icon} alt={feature.title} className="w-full h-full object-contain" />
+                  <img src={getCloudinaryUrl(feature.icon)} alt={feature.title} className="w-full h-full object-contain" />
                 </div>
                 <p className="text-[10px] lg:text-sm font-medium text-white">{feature.title}</p>
               </div>

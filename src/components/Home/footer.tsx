@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export default function Footer() {
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
-          src="/assets/homepage/Car_2.png" 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[356px] object-contain"
         />
@@ -23,7 +25,7 @@ export default function Footer() {
       {/* Mobile Car Image Section */}
       <div className="md:hidden relative w-full flex items-center justify-center bg-black">
         <img 
-          src="/assets/homepage/Car_2.png" 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-full max-w-[400px] h-auto object-contain"
         />
@@ -36,7 +38,7 @@ export default function Footer() {
           {/* Logo & Subscribe Column */}
           <div className="flex flex-col justify-between p-12">
             <img 
-              src="/logo-horizontal.png" 
+              src={getCloudinaryUrl('/logo-horizontal.png')} 
               alt="KORZI" 
               className="h-12 w-auto max-w-[200px]"
             />
@@ -129,7 +131,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="flex justify-center py-6 border-t border-gray-600">
           <img 
-            src="/logo-horizontal.png" 
+            src={getCloudinaryUrl('/logo-horizontal.png')} 
             alt="KORZI" 
             className="h-12"
           />

@@ -1,5 +1,7 @@
 // src/components/Home/CarAnimation.tsx
 import { useEffect, useRef, useState } from 'react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function CarAnimation() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -39,7 +41,7 @@ export default function CarAnimation() {
         <div className="w-full relative h-32 md:h-64">
           {/* Right tire marks - reveal from right to left */}
           <img 
-            src="/assets/homepage/tyremarks.png"
+            src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
             alt="right tire marks"
             className="absolute h-auto"
             style={{ 
@@ -54,7 +56,7 @@ export default function CarAnimation() {
 
           {/* Left tire marks - reveal from right to left */}
           <img 
-            src="/assets/homepage/tyremarks.png"
+            src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
             alt="left tire marks"
             className="absolute h-auto"
             style={{ 
@@ -69,7 +71,7 @@ export default function CarAnimation() {
 
           {/* Car - moves right to left */}
           <img 
-            src="/assets/homepage/Car_3.png"
+            src={getCloudinaryUrl('/assets/homepage/Car_3.png')}
             alt="car"
             className="absolute h-auto"
             style={{ 

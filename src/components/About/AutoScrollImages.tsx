@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function AutoScrollImages() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ export default function AutoScrollImages() {
           {images.map((image, idx) => (
             <div key={idx} className="flex-shrink-0 w-[70%] md:w-[calc(33.333%-11px)]">
               <img 
-                src={image} 
+                src={getCloudinaryUrl(image)} 
                 alt={`Korzi ${idx + 1}`}
                 className="w-full h-auto object-cover"
               />

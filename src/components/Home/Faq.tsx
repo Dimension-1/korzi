@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 export default function FaqSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(2);
@@ -45,7 +47,7 @@ export default function FaqSection() {
     <section className="bg-black py-8 md:py-16 px-4 md:px-8 md:pb-48 relative overflow-x-clip">
       {/* Background gradient ellipse - Desktop */}
       <div className="absolute -left-32 top-3/4 -translate-y-1/2 w-1/3 h-[200%] pointer-events-none z-[5] hidden md:block">
-        <img src="/assets/homepage/Ellipse80.png" alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       {/* Background gradient ellipse - Mobile */}
@@ -70,7 +72,7 @@ export default function FaqSection() {
             
             {/* Dragonfly - Mobile only, right side of heading */}
             <img 
-              src="/assets/homepage/dragonfly.png" 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 
               className="lg:hidden w-40 h-35 flex mt-2"
             />
@@ -79,7 +81,7 @@ export default function FaqSection() {
           {/* Dragonfly - Desktop only, bottom */}
           <div className="hidden lg:flex justify-start items-center flex-1 -ml-2 mt-20 relative z-[5]">
             <img 
-              src="/assets/homepage/dragonfly.png" 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 
               className="w-96 h-auto"
             />
