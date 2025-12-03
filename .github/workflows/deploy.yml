@@ -30,6 +30,7 @@ jobs:
         VITE_SHOPIFY_TOKEN: ${{ vars.VITE_SHOPIFY_TOKEN }}
         VITE_RAZORPAY_KEY_ID: ${{ vars.VITE_RAZORPAY_KEY_ID }}
         VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+        VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
       run: npm run build
 
     - name: Deploy to VPS
