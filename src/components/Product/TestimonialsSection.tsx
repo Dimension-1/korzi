@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
 
 
 const allTestimonials = [

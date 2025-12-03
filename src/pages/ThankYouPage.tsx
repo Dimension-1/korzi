@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 export default function ThankYouPage() {

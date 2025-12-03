@@ -1,7 +1,7 @@
 
 import { Heart, Send,  Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+import { getCloudinaryVideoUrl } from '../../utils/cloudinary';
 
 
 interface VideoCardProps {

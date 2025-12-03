@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+import { getCloudinaryVideoUrl } from '../../utils/cloudinary';
 
 
 export default function HeroSection() {

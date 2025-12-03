@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Gift } from 'lucide-react';
 import { useCartStore } from '../../stores/cartStore';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 
 const ShopFooter: React.FC = () => {

@@ -3,7 +3,7 @@ import { X, ArrowUpRight } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 interface CartDrawerProps {

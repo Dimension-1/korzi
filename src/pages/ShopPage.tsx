@@ -8,7 +8,7 @@ import ShopFooter from '../components/Shop/ShopFooter';
 import ProductSection from '../components/Shop/ProductSection';
 import CartDrawer from '../components/CartDrawer';
 import { getProducts, ShopifyProduct } from '../services/shopify';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 // Transform Shopify product to ProductCarousel format

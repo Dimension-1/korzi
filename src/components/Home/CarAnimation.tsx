@@ -1,6 +1,6 @@
 // src/components/Home/CarAnimation.tsx
 import { useEffect, useRef, useState } from 'react';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 
 export default function CarAnimation() {

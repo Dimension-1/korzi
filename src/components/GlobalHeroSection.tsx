@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from './../stores/cartStore';
 import { useAuthStore } from './../stores/authStore';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 export default function GlobalHeader() {

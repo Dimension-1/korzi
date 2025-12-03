@@ -1,6 +1,6 @@
 import { Heart, MoveRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 export default function ComingSoonPage() {

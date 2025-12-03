@@ -1,3 +1,4 @@
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function RealFoodSection() {
   return (

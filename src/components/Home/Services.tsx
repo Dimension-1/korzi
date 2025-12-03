@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../../utils/cloudinary';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 
 export default function ManufacturingSection() {
