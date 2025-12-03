@@ -16,7 +16,7 @@ export default function Footer() {
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
+          src={getCloudinaryUrl('/Car_2_wst85g.png')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[356px] object-contain"
         />

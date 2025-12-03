@@ -99,6 +99,40 @@ export default function TestimonialsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const scrollWidth = container.scrollWidth;
+      const clientWidth = container.clientWidth;
+      
+      // If at the end, show last indicator
+      if (scrollLeft + clientWidth >= scrollWidth - 10) {
+        setActiveIndex(5);
+        return;
+      }
+      
+      const cardWidth = window.innerWidth < 768 ? 280 + 12 : 329 + 16;
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(Math.min(Math.max(0, index), 5));
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const cardWidth = window.innerWidth < 768 ? 280 + 12 : 329 + 16;
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth'
+    });
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollContainerRef.current) return;
     
@@ -110,21 +144,6 @@ export default function TestimonialsSection() {
     
     container.scrollLeft = scrollPercentage * maxScroll;
   };
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const cardWidth = 329 + 16;
-      const index = Math.round(scrollLeft / cardWidth);
-      setActiveIndex(index);
-    };
-
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const renderStars = (rating: number) => {
     return Array(5).fill(0).map((_, i) => (
@@ -199,13 +218,18 @@ export default function TestimonialsSection() {
             <div 
               ref={scrollContainerRef}
               onMouseMove={handleMouseMove}
-              className="flex gap-3 md:gap-4 overflow-x-auto pb-6 cursor-pointer scroll-smooth"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="flex gap-3 md:gap-4 overflow-x-auto pb-6 cursor-pointer"
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch',
+                scrollSnapType: 'none'
+              }}
             >
               {allTestimonials.map((testimonial) => (
                 <div 
                   key={testimonial.id}
-                  className="p-4 md:p-6 relative flex-shrink-0 w-[280px] md:w-[329px] h-[350px] md:h-[392px]"
+                  className="p-4 md:p-6 relative flex-shrink-0 w-[280px] md:w-[329px] h-[350px] md:h-[392px] snap-start"
                   style={{
                     background: '#0F0F0F',
                     border: '1px solid #5E5E5E',
@@ -256,15 +280,11 @@ export default function TestimonialsSection() {
               {allTestimonials.slice(0, 6).map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => {
-                    if (scrollContainerRef.current) {
-                      const cardWidth = 329 + 16;
-                      scrollContainerRef.current.scrollLeft = idx * cardWidth;
-                    }
-                  }}
+                  onClick={() => scrollToIndex(idx)}
                   className={`h-1 transition-all ${
                     idx === activeIndex ? 'w-8 bg-[#02FF00]' : 'w-8 bg-zinc-800 border border-zinc-700'
                   }`}
+                  aria-label={`Go to testimonial ${idx + 1}`}
                 />
               ))}
             </div>

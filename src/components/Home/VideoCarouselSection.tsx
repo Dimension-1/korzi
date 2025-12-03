@@ -47,11 +47,11 @@ export default function VideoCarouselSection() {
         <div 
           ref={scrollContainerRef}
           onMouseMove={handleMouseMove}
-          className="flex gap-2 lg:gap-4 overflow-x-hidden mb-4 lg:mb-8 pb-4 cursor-pointer scroll-smooth"
+          className="flex gap-3 lg:gap-6 overflow-x-hidden mb-4 lg:mb-8 pb-4 cursor-pointer scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {videos.map((video, index) => (
-            <div key={index} className="flex-shrink-0 w-[120px] h-[213px] lg:w-[180px] lg:h-[320px] bg-gray-800 relative">
+            <div key={index} className="flex-shrink-0 w-[280px] h-[497px] lg:w-[360px] lg:h-[640px] bg-gray-800 relative rounded-lg overflow-hidden">
               <video 
                 src={video}
                 className="w-full h-full object-cover"

@@ -46,6 +46,7 @@ export default function CarAnimation() {
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '137px' : '274px',
+              left: window.innerWidth < 768 ? '50px' : '0px',
               width: '4000px',
               height: window.innerWidth < 768 ? '30px' : '60px',
               opacity: scrollProgress > 0 ? 1 : 0,
@@ -61,6 +62,7 @@ export default function CarAnimation() {
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '25px' : '50px',
+              left: window.innerWidth < 768 ? '50px' : '0px',
               width: '4000px',
               height: window.innerWidth < 768 ? '30px' : '60px',
               opacity: scrollProgress > 0 ? 1 : 0,
@@ -71,13 +73,13 @@ export default function CarAnimation() {
 
           {/* Car - moves right to left */}
           <img 
-            src={getCloudinaryUrl('/assets/homepage/Car_3.png')}
+            src={`${getCloudinaryUrl('/assets/homepage/Car_3.png')}?v=2`}
             alt="car"
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '5px' : '10px',
               left: `${carPosition}%`,
-              width: window.innerWidth < 768 ? '300px' : '600px',
+              width: window.innerWidth < 768 ? '310px' : '620px',
               zIndex: 30
             }}
           />

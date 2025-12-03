@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
@@ -15,6 +15,8 @@ interface Slide {
 export default function DetailCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const slides: Slide[] = [
@@ -52,15 +54,36 @@ export default function DetailCarousel() {
     }
   ];
 
+  // Intersection Observer to detect when section is in view
   useEffect(() => {
-    if (isHovered) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        // Reset to first slide when entering view
+        if (entry.isIntersecting) {
+          setCurrentSlide(0);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-play timer - only when in view and not hovered
+  useEffect(() => {
+    if (!isInView || isHovered) return;
     
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [slides.length, isHovered]);
+  }, [slides.length, isHovered, isInView, currentSlide]);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -70,8 +93,12 @@ export default function DetailCarousel() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
+  const goToSlide = useCallback((index: number) => {
+    setCurrentSlide(index);
+  }, []);
+
   return (
-    <section className="relative bg-black py-4 md:py-16">
+    <section ref={sectionRef} className="relative bg-black py-4 md:py-16">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
         {/* Carousel Card Container */}
         <div className="relative bg-black border border-gray-700 overflow-hidden z-10">
@@ -166,7 +193,7 @@ export default function DetailCarousel() {
               {slides.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentSlide(index)}
+                  onClick={() => goToSlide(index)}
                   className={`w-2 h-2 rounded-full transition-colors ${
                     index === currentSlide ? 'bg-[#02FF00]' : 'bg-gray-600'
                   }`}

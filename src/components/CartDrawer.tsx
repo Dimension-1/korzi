@@ -241,15 +241,15 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
               <div className="grid grid-cols-3 border-t border-b border-white/20">
                 <div className="flex flex-col items-center justify-center py-3 md:py-5 border-r border-white/20">
                   <img src={getCloudinaryUrl('/assets/CartDrawer/shipping.png')} alt="Delivery" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
-                  <span className="text-white text-[10px] md:text-xs">2 Days Return</span>
+                  <span className="text-white text-[10px] md:text-xs">2-5 Days Delivery</span>
                 </div>
                 <div className="flex flex-col items-center justify-center py-3 md:py-5 border-r border-white/20">
                   <img src={getCloudinaryUrl('/assets/CartDrawer/exchange.png')} alt="Exchange" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
-                  <span className="text-white text-[10px] md:text-xs">10 Days Exchange</span>
+                  <span className="text-white text-[10px] md:text-xs">Easy Support</span>
                 </div>
                 <div className="flex flex-col items-center justify-center py-3 md:py-5">
                   <img src={getCloudinaryUrl('/assets/CartDrawer/cod.png')} alt="Cash" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
-                  <span className="text-white text-[10px] md:text-xs">Cash On Delivery</span>
+                  <span className="text-white text-[10px] md:text-xs">Value for money</span>
                 </div>
               </div>
 
@@ -263,7 +263,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
 
               {/* Tax Notice */}
               <div className="px-4 py-2 md:px-5 md:py-3 text-center border-t border-b border-white/20">
-                <p className="text-white text-[10px] md:text-xs">Taxes included. Discounts and shipping calculated at checkout.</p>
+                <p className="text-white text-[10px] md:text-xs">Price inclusive of shipping and taxes.</p>
               </div>
 
               {/* Action Buttons */}

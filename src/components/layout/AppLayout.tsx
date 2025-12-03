@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import CartDrawer from '../CartDrawer';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
@@ -8,8 +8,10 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
   const { openDrawer, getTotalItems, cartItems } = useCartStore();
   const { customer, isAuthenticated, logout } = useAuthStore();
 
@@ -92,15 +94,13 @@ export default function AppLayout() {
               )}
             </button>
             <div className="hidden md:block h-8 w-px bg-gray-700"></div>
-            {isAuthenticated ? (
-              <Link to="/orders" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="My Orders">
-                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
-              </Link>
-            ) : (
-              <Link to="/signin" className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" aria-label="Account">
-                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
-              </Link>
-            )}
+            <button
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none"
+              aria-label="Profile"
+            >
+              <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
+            </button>
             {/* Hamburger - Mobile only (right side) */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -126,55 +126,59 @@ export default function AppLayout() {
         <div className="fixed top-[68px] left-4 right-4 md:w-64 md:right-auto bg-black shadow-xl z-40 border-l border-r border-b border-gray-700">
           {/* Navigation Links */}
           <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
+            {location.pathname !== '/' && (
+              <Link to="/" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                <span className="group-hover:scale-110 transition-transform duration-300">Home</span>
+              </Link>
+            )}
+            {location.pathname !== '/shop' && (
             <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Shop</span>
             </Link>
+            )}
+            {location.pathname !== '/about' && (
             <Link to="/about" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">About</span>
             </Link>
+            )}
+            {location.pathname !== '/events' && (
             <Link to="/events" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Events</span>
             </Link>
+            )}
+            {location.pathname !== '/partner' && (
             <Link to="/partner" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Partner with Korzi</span>
             </Link>
+            )}
+            {location.pathname !== '/logs' && (
             <Link to="/logs" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Logs</span>
             </Link>
+            )}
+            {location.pathname !== '/crew' && (
             <Link to="/crew" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span>
             </Link>
+            )}
+            {location.pathname !== '/support' && (
             <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Support</span>
             </Link>
+            )}
+            {location.pathname !== '/careers' && (
             <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Careers</span>
             </Link>
-            
-            {isAuthenticated && (
-              <div className="pt-6 border-t border-gray-700 mt-4">
-                <p className="text-sm text-gray-400 mb-4">{customer?.displayName || customer?.email}</p>
-                <Link to="/orders" className="text-lg hover:text-[#02FF00] transition-colors block mb-3" onClick={() => setMenuOpen(false)}>
-                  My Orders
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMenuOpen(false);
-                  }}
-                  className="text-lg hover:text-[#02FF00] transition-colors"
-                >
-                  Sign Out
-                </button>
-              </div>
             )}
           </nav>
         </div>
@@ -185,6 +189,46 @@ export default function AppLayout() {
         <div
           className="fixed inset-0 bg-black/50 z-30"
           onClick={() => setMenuOpen(false)}
+        />
+      )}
+
+      {/* === PROFILE DROPDOWN === */}
+      {profileOpen && (
+        <div className="fixed top-[68px] right-4 md:w-64 bg-black shadow-xl z-40 border-l border-r border-b border-gray-700">
+          <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
+            {isAuthenticated ? (
+              <>
+                <p className="text-sm text-gray-400 mb-4 normal-case">{customer?.displayName || customer?.email}</p>
+                <Link to="/orders" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setProfileOpen(false)}>
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">My Orders</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setProfileOpen(false);
+                  }}
+                  className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 text-left"
+                >
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">Sign Out</span>
+                </button>
+              </>
+            ) : (
+              <Link to="/signin" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setProfileOpen(false)}>
+                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                <span className="group-hover:scale-110 transition-transform duration-300">Sign In</span>
+              </Link>
+            )}
+          </nav>
+        </div>
+      )}
+
+      {/* Profile Overlay */}
+      {profileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30"
+          onClick={() => setProfileOpen(false)}
         />
       )}
 

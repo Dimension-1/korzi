@@ -25,24 +25,16 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const navigate = useNavigate();
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSelectedImage((prev) => (prev + 1) % product.images.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [product.images.length]);
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageContainerRef.current) return;
-    
     const container = imageContainerRef.current;
+    if (!container) return;
+    
     const rect = container.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const scrollPercentage = x / rect.width;
     const maxScroll = container.scrollWidth - container.clientWidth;
     
-    container.scrollLeft = scrollPercentage * maxScroll;
+    container.scrollTo({ left: scrollPercentage * maxScroll, behavior: 'auto' });
   };
 
   useEffect(() => {
@@ -65,7 +57,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
     : 0;
 
   const handleAddToCart = async () => {
-    if (isAddingToCart) return; // Prevent multiple clicks
+    if (isAddingToCart) return;
     
     setIsAddingToCart(true);
     try {
@@ -86,11 +78,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
     e.preventDefault();
     e.stopPropagation();
     
-    if (isAddingToCart) return; // Prevent multiple clicks
+    if (isAddingToCart) return;
     
     setIsAddingToCart(true);
     try {
-      // Add 1 item to cart (don't clear)
       await addToCart({
         title: product.title,
         price: product.price,
@@ -100,14 +91,11 @@ export default function ProductHero({ product }: ProductHeroProps) {
         variantId: product.variantId
       });
       
-      // Wait for cart to update
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Get updated cart items
       const updatedCartItems = useCartStore.getState().cartItems;
       const totalPrice = useCartStore.getState().getTotalPrice();
       
-      // Create order data with all cart items
       const orderData = {
         items: updatedCartItems.map((item) => ({
           id: item.id,
@@ -135,10 +123,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
         currency: 'INR'
       };
       
-      // Set current order
       setCurrentOrder(orderData);
-      
-      // Navigate to checkout
       navigate('/checkout');
     } catch (error) {
       console.error('Buy now error:', error);
@@ -163,7 +148,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             <div 
               ref={imageContainerRef}
               onMouseMove={handleMouseMove}
-              className="flex gap-4 overflow-x-auto scroll-smooth cursor-pointer bg-zinc-950"
+              className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {product.images.map((image, idx) => (
@@ -178,9 +163,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </div>
             <button 
               onClick={() => {
-                if (imageContainerRef.current) {
+                const container = imageContainerRef.current;
+                if (container) {
                   const newIndex = Math.max(0, selectedImage - 1);
-                  imageContainerRef.current.scrollLeft = newIndex * imageContainerRef.current.clientWidth;
+                  container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
               className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-2 transition-colors z-10"
@@ -191,9 +177,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </button>
             <button 
               onClick={() => {
-                if (imageContainerRef.current) {
+                const container = imageContainerRef.current;
+                if (container) {
                   const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
-                  imageContainerRef.current.scrollLeft = newIndex * imageContainerRef.current.clientWidth;
+                  container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
               className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-2 transition-colors z-10"
@@ -208,8 +195,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
               <button
                 key={idx}
                 onClick={() => {
-                  if (imageContainerRef.current) {
-                    imageContainerRef.current.scrollLeft = idx * imageContainerRef.current.clientWidth;
+                  const container = imageContainerRef.current;
+                  if (container) {
+                    container.scrollTo({ left: idx * container.clientWidth, behavior: 'smooth' });
                   }
                 }}
                 className={`transition-all ${
@@ -334,7 +322,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             <div 
               ref={imageContainerRef}
               onMouseMove={handleMouseMove}
-              className="flex gap-4 overflow-x-auto scroll-smooth cursor-pointer bg-zinc-950"
+              className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {product.images.map((image, idx) => (
@@ -349,9 +337,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </div>
             <button 
               onClick={() => {
-                if (imageContainerRef.current) {
+                const container = imageContainerRef.current;
+                if (container) {
                   const newIndex = Math.max(0, selectedImage - 1);
-                  imageContainerRef.current.scrollLeft = newIndex * imageContainerRef.current.clientWidth;
+                  container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-3 transition-colors z-10"
@@ -362,9 +351,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </button>
             <button 
               onClick={() => {
-                if (imageContainerRef.current) {
+                const container = imageContainerRef.current;
+                if (container) {
                   const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
-                  imageContainerRef.current.scrollLeft = newIndex * imageContainerRef.current.clientWidth;
+                  container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-3 transition-colors z-10"
@@ -379,8 +369,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
               <button
                 key={idx}
                 onClick={() => {
-                  if (imageContainerRef.current) {
-                    imageContainerRef.current.scrollLeft = idx * imageContainerRef.current.clientWidth;
+                  const container = imageContainerRef.current;
+                  if (container) {
+                    container.scrollTo({ left: idx * container.clientWidth, behavior: 'smooth' });
                   }
                 }}
                 className={`transition-all ${

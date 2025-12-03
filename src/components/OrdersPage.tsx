@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Package, Calendar, CreditCard } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
-import { getCloudinaryUrl, getCloudinaryVideoUrl } from '../utils/cloudinary';
 
 
 const OrdersPage: React.FC = () => {
