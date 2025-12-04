@@ -7,6 +7,7 @@ import { GraphQLClient } from 'graphql-request';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import axios from 'axios';
+import { OAuth2Client } from 'google-auth-library';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,6 +63,9 @@ const razorpay = new Razorpay({
   key_id: process.env.VITE_RAZORPAY_KEY_ID,
   key_secret: process.env.VITE_RAZORPAY_SECRET,
 });
+
+// Google OAuth Client
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Shopify Admin GraphQL Client
 // Use the same API version as Storefront API
@@ -280,12 +284,56 @@ app.post('/api/razorpay/webhook', (req, res) => {
   res.json({ success: true });
 });
 
+// ============= GOOGLE AUTH ENDPOINT =============
+
+app.post('/api/auth/google', async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    // Verify Google token
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      return res.status(400).json({ success: false, error: 'Invalid token' });
+    }
+
+    const { email, given_name, family_name, sub: googleId, picture } = payload;
+
+    // Return customer data directly without Shopify integration
+    // Customer will be created in Shopify when they place an order
+    const customer = {
+      id: `google_${googleId}`,
+      email: email,
+      firstName: given_name || '',
+      lastName: family_name || '',
+      displayName: `${given_name || ''} ${family_name || ''}`.trim() || email.split('@')[0],
+      acceptsMarketing: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      picture: picture || null
+    };
+    
+    res.json({
+      success: true,
+      customer: customer
+    });
+  } catch (error) {
+    console.error('Google auth error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
   console.log('Allowed CORS origins:', allowedOrigins);
 });
 // ============= BIGSHIP ENDPOINTS =============
+
 
 // Create complete shipment (create + manifest + get AWB)
 app.post('/api/bigship/create-shipment', async (req, res) => {

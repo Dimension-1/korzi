@@ -31,6 +31,7 @@ jobs:
         VITE_RAZORPAY_KEY_ID: ${{ vars.VITE_RAZORPAY_KEY_ID }}
         VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
         VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
+        VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
       run: npm run build
 
     - name: Deploy to VPS
