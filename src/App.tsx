@@ -9,6 +9,9 @@ import ShopPage from './pages/ShopPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import ReturnExchangePage from './pages/ReturnExchangePage'
+import ShippingPolicyPage from './pages/ShippingPolicyPage'
+import TermsConditionsPage from './pages/TermsConditionsPage'
 import SupportPage from './pages/SupportPage'
 import LoginPage from './pages/LoginPage'
 import CustomerActivationPage from './pages/CustomerActivationPage'
@@ -77,6 +80,9 @@ function App() {
         <Route path="/oldshop" element={<ShopPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/return-exchange" element={<ReturnExchangePage />} />
+        <Route path="/shipping" element={<ShippingPolicyPage />} />
+        <Route path="/terms" element={<TermsConditionsPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
