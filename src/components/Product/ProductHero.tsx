@@ -69,6 +69,24 @@ export default function ProductHero({ product }: ProductHeroProps) {
     };
   }, []);
 
+  // Auto-scroll images every 6 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const nextIndex = (selectedImage + 1) % product.images.length;
+      const mobileContainer = mobileContainerRef.current;
+      const desktopContainer = desktopContainerRef.current;
+      
+      if (mobileContainer) {
+        mobileContainer.scrollTo({ left: nextIndex * mobileContainer.clientWidth, behavior: 'smooth' });
+      }
+      if (desktopContainer) {
+        desktopContainer.scrollTo({ left: nextIndex * desktopContainer.clientWidth, behavior: 'smooth' });
+      }
+    }, 6000);
+
+    return () => clearInterval(timer);
+  }, [selectedImage, product.images.length]);
+
   const discount = product.compareAtPrice && product.compareAtPrice > product.price
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
@@ -165,7 +183,6 @@ export default function ProductHero({ product }: ProductHeroProps) {
             <div 
               ref={mobileContainerRef}
               className="flex gap-4 overflow-x-auto bg-zinc-950"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {product.images.map((image, idx) => (
                 <div key={idx} className="flex-shrink-0 w-full">
@@ -217,7 +234,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   }
                 }}
                 className={`transition-all ${
-                  selectedImage === idx ? 'w-6 h-1 bg-[#02FF00] rounded-full' : 'w-6 h-1 bg-zinc-800 border border-zinc-700 rounded-sm'
+                  selectedImage === idx ? 'w-8 h-1.5 bg-[#02FF00]' : 'w-8 h-1.5 bg-transparent border border-[#02FF00]'
                 }`}
               />
             ))}
@@ -339,7 +356,6 @@ export default function ProductHero({ product }: ProductHeroProps) {
               ref={desktopContainerRef}
               onMouseMove={handleMouseMove}
               className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {product.images.map((image, idx) => (
                 <div key={idx} className="flex-shrink-0 w-full">
@@ -391,7 +407,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   }
                 }}
                 className={`transition-all ${
-                  selectedImage === idx ? 'w-8 h-1 bg-[#02FF00] rounded-full' : 'w-8 h-1 bg-zinc-800 border border-zinc-700 rounded-sm'
+                  selectedImage === idx ? 'w-10 h-1.5 bg-[#02FF00]' : 'w-10 h-1.5 bg-transparent border border-[#02FF00]'
                 }`}
               />
             ))}

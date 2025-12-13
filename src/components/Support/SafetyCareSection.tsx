@@ -83,7 +83,10 @@ export default function SafetyCareSection() {
               <div className="border-t border-white/30 px-3 py-2 text-white text-[13px]"></div>
             </div>
 
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full max-w-[220px] h-[42px]">
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full max-w-[220px] h-[42px]"
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[10px] leading-[14px] uppercase font-medium">
                 REQUEST A PART OR ACCESSORY
@@ -124,7 +127,9 @@ export default function SafetyCareSection() {
                 All manuals are written to be simple, visual, and beginner-friendly.
               </p>
 
-              <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full max-w-[180px] h-[42px]">
+              <button 
+                className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer w-full max-w-[180px] h-[42px]"
+              >
                 <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
                 <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[10px] leading-[14px] uppercase font-medium">
                   VIEW ALL DOWNLOADS

@@ -61,8 +61,8 @@ export default function AutoScrollImages() {
                   setActiveIndex(idx);
                 }
               }}
-              className={`h-1 transition-all ${
-                idx === activeIndex ? 'w-8 bg-[#02FF00]' : 'w-8 bg-zinc-800 border border-zinc-700'
+              className={`h-1.5 transition-all ${
+                idx === activeIndex ? 'w-8 md:w-10 bg-[#02FF00]' : 'w-8 md:w-10 bg-transparent border border-[#02FF00]'
               }`}
             />
           ))}

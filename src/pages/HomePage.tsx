@@ -35,9 +35,7 @@ export default function HomePage() {
       {/* <VideoCarousel />       */}
       <FaqSection />      
       <InsightsSection />      
-      <div className="hidden md:block">
-        <JoinFamSection />
-      </div>
+      <JoinFamSection />
       {/* <PaymentBanner /> */}
       <Footer />
     </div>

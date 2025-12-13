@@ -63,7 +63,11 @@ export default function WarrantyServiceSection() {
               </div>
             </div>
 
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" style={{ width: '130px', height: '38px' }}>
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" 
+              style={{ width: '130px', height: '38px' }}
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[10px] leading-[14px] uppercase">
                 START A CLAIM
@@ -97,7 +101,11 @@ export default function WarrantyServiceSection() {
               Pan-India support, with a workshop in Bangalore for repairs.
             </p>
 
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-auto" style={{ width: '130px', height: '38px' }}>
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-auto" 
+              style={{ width: '130px', height: '38px' }}
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-[10px] leading-[14px] uppercase">
                 BOOK A REPAIR

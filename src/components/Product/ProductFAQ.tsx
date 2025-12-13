@@ -74,7 +74,7 @@ export default function ProductFAQ() {
           </div>
           
           {/* Dragonfly - Desktop only, bottom */}
-          <div className="flex justify-start mt-20 items-center flex-1 -ml-2 hidden lg:flex">
+          <div className="hidden lg:block absolute bottom-8 left-8">
             <img 
               src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 

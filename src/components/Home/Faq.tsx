@@ -58,7 +58,7 @@ export default function FaqSection() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-12 relative z-[25]">
         
         {/* Left Side - Title and Dragonfly */}
-        <div className="flex flex-col justify-between">
+        <div className="relative lg:h-[700px]">
           <div className="flex items-start justify-between gap-4">
             <h2 
               className="uppercase bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-6 md:mb-12 text-2xl md:text-[64px] leading-tight md:leading-[72px] mt-8 md:mt-0"
@@ -79,7 +79,7 @@ export default function FaqSection() {
           </div>
           
           {/* Dragonfly - Desktop only, bottom */}
-          <div className="hidden lg:flex justify-start items-center flex-1 -ml-2 mt-20 relative z-[5]">
+          <div className="hidden lg:block absolute bottom-8 left-0 z-[5]">
             <img 
               src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 

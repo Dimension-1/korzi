@@ -101,8 +101,9 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
               <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Support</span></Link></li>
-              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping</span></Link></li>
-              <li><Link to="/delivery" onClick={() => handleLinkClick('/delivery')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Delivery</span></Link></li>
+              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping Policy</span></Link></li>
+              <li><Link to="/return-exchange" onClick={() => handleLinkClick('/return-exchange')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Return & Exchange</span></Link></li>
+              <li><Link to="/terms" onClick={() => handleLinkClick('/terms')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Terms & Conditions</span></Link></li>
             </ul>
           </div>
 
@@ -164,8 +165,9 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-white">Privacy Policy</Link></li>
               <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-white">Support</Link></li>
-              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-white">Shipping</Link></li>
-              <li><Link to="/delivery" onClick={() => handleLinkClick('/delivery')} className="text-white">Delivery</Link></li>
+              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-white">Shipping Policy</Link></li>
+              <li><Link to="/return-exchange" onClick={() => handleLinkClick('/return-exchange')} className="text-white">Return & Exchange</Link></li>
+              <li><Link to="/terms" onClick={() => handleLinkClick('/terms')} className="text-white">Terms & Conditions</Link></li>
             </ul>
           </div>
 

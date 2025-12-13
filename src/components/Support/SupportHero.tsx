@@ -44,7 +44,10 @@ export default function SupportHero() {
                 Facing a problem? Tell us what's happening and we'll guide you step-by-step.
               </p>
             </div>
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit">
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-sm">
                 SUBMIT A SUPPORT REQUEST
@@ -63,7 +66,10 @@ export default function SupportHero() {
                 Need a part replaced or serviced? We'll help source it.
               </p>
             </div>
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit">
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-sm">
                 REQUEST A PART
@@ -82,7 +88,10 @@ export default function SupportHero() {
                 BIS-certified, tested, and backed. If it's our fault, we fix it.
               </p>
             </div>
-            <button className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit">
+            <button 
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-sm">
                 START A CLAIM

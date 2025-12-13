@@ -7,9 +7,9 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 export default function ApexDriveSection() {
     return (
       <section className="bg-black py-4 md:py-8 relative pb-16 md:pb-32">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Mobile Layout */}
-        <div className="md:hidden flex flex-col items-center text-center px-4">
+        <div className="md:hidden flex flex-col items-center text-center">
           {/* KORZI Logo */}
           <div className="mb-4">
             <img 
@@ -29,16 +29,16 @@ export default function ApexDriveSection() {
           </div>
 
           {/* Car Image */}
-          <div className="relative z-10 -mt-12 mb-0 flex right-20">
+          <div className="relative z-10 -mt-16 mb-0 flex justify-center">
             <img
               src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
               alt="Apex Drive K-01"
-              className="w-[120%] max-w-none h-auto object-contain"
+              className="w-[180%] max-w-none h-auto object-contain"
             />
           </div>
 
           {/* Marquee Bar */}
-          <div className="w-screen -mx-8 -mt-1 mb-6 relative z-0">
+          <div className="w-screen -mx-8 mt-4 mb-6 relative z-0">
             <MarqueeBar />
           </div>
 
@@ -97,10 +97,10 @@ export default function ApexDriveSection() {
           </div>
   
           {/* Main Content - Car with text on sides */}
-          <div className="relative max-w-full flex items-start justify-center">
+          <div className="relative max-w-full flex items-center justify-between px-8">
             {/* Left Text */}
             <div 
-              className="relative -left-10 z-10 mt-8"
+              className="relative z-10 mt-16"
               style={{
                 width: '349px',
                 fontFamily: 'DM Sans',
@@ -117,9 +117,10 @@ export default function ApexDriveSection() {
   
             {/* Center: Large Car Image */}
             <div 
-              className="relative z-10 -ml-40 w-[920px] max-w-[920px]"
+              className="absolute left-1/2 -translate-x-1/2 z-10"
               style={{
-                marginTop: '-8rem',
+                width: '1000px',
+                marginTop: '10rem',
               }}
             >
               <img
@@ -131,7 +132,7 @@ export default function ApexDriveSection() {
   
             {/* Right Text */}
             <div 
-              className="relative z-10 mt-8 -mb-30"
+              className="relative z-10 mt-16"
               style={{
                 width: '293px',
                 fontFamily: 'DM Sans',
@@ -148,24 +149,20 @@ export default function ApexDriveSection() {
           </div>
   
           {/* Button - Left aligned */}
-          <div className="-mt-72 relative z-20 flex justify-center">
-            <div className="w-full max-w-full flex items-start">
-              <div className="relative -left-10">
-          <Link 
-                to="/shop"
-                className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden w-[275px] h-[64px]"
-                style={{
-                  fontFamily: 'DM Sans',
-                  fontSize: '16px',
-                  lineHeight: '21px',
-                }}
-              >
-                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                <span className="relative z-10 group-hover:text-black transition-colors duration-300">EXPLORE MORE</span>
-                <ArrowUpRight className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+          <div className="mt-8 relative z-20 px-8">
+            <Link 
+              to="/shop"
+              className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden w-[275px] h-[64px]"
+              style={{
+                fontFamily: 'DM Sans',
+                fontSize: '16px',
+                lineHeight: '21px',
+              }}
+            >
+              <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+              <span className="relative z-10 group-hover:text-black transition-colors duration-300">EXPLORE MORE</span>
+              <ArrowUpRight className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
             </Link>
-              </div>
-            </div>
           </div>
         </div>
         </div>

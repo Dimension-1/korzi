@@ -6,7 +6,7 @@ import ProductHero from '../components/Product/ProductHero';
 import ProductTabs from '../components/Product/ProductTabs';
 import BuiltInIndiaSection from '../components/Product/BuiltInIndiaSection';
 import TestimonialsSection from '../components/Product/TestimonialsSection';
-import VideoCarouselSection from '../components/Home/VideoCarouselSection';
+
 import ProductFAQ from '../components/Product/ProductFAQ';
 import Footer from '../components/Home/footer';
 import SpecsSection from '../components/Home/SpecsSection';
@@ -70,7 +70,6 @@ const ProductDetailPage = () => {
         <ProductHero product={productData} />
         <SpecsSection />
         <ProductTabs />
-        <VideoCarouselSection />
         <ProductFAQ />
         <BuiltInIndiaSection />
         <TestimonialsSection />

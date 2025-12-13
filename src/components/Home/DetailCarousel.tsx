@@ -48,8 +48,8 @@ export default function DetailCarousel() {
       id: 4,
       title: "MACHINES MADE TO BRING PEOPLE TOGETHER.",
       description: "From kids discovering their first RC to grown-ups reliving the rush. Korzi is where control meets connection. Drive, race, or build. You're part of the Crew.",
-      buttonText: "JOIN THE KORZI CREW",
-      buttonLink: "/crew",
+      buttonText: "SHOP NOW",
+      buttonLink: "/shop",
       image: "/assets/homepage/Parentkid.png"
     }
   ];
@@ -101,20 +101,20 @@ export default function DetailCarousel() {
     <section ref={sectionRef} className="relative bg-black py-4 md:py-16">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
         {/* Carousel Card Container */}
-        <div className="relative bg-black border border-gray-700 overflow-hidden z-10">
+        <div className="relative bg-black border border-gray-700 overflow-hidden z-10 h-[600px] md:h-[500px]">
           {/* Slides Container */}
-          <div className="relative">
+          <div className="relative h-full">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
-                className={`transition-opacity duration-500 ${
+                className={`transition-opacity duration-500 h-full ${
                   index === currentSlide ? 'opacity-100 relative' : 'opacity-0 absolute inset-0'
                 }`}
               >
                 {/* Slide Content Grid */}
-                <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[400px] lg:min-h-[500px]">
+                <div className="flex flex-col lg:grid lg:grid-cols-2 h-full">
                   {/* Image Section - First on Mobile */}
-                  <div className="relative bg-gray-800 lg:order-2 h-[300px] lg:h-auto">
+                  <div className="relative bg-gray-800 lg:order-2 h-[250px] lg:h-full">
                     <img 
                       src={getCloudinaryUrl(slide.image)} 
                       alt={slide.title}
@@ -124,11 +124,11 @@ export default function DetailCarousel() {
                   </div>
 
                   {/* Content Section - Second on Mobile */}
-                  <div className="bg-gray p-6 md:p-12 lg:p-16 flex flex-col justify-between lg:order-1">
+                  <div className="bg-gray p-6 md:p-12 lg:p-16 flex flex-col justify-between lg:order-1 flex-1">
                     {/* Text Content */}
-                    <div className="space-y-4 md:space-y-6">
+                    <div className="space-y-3 md:space-y-6">
                       <h2 
-                        className="text-white uppercase text-2xl md:text-[48px] leading-tight md:leading-[56px]"
+                        className="text-white uppercase text-xl md:text-[48px] leading-tight md:leading-[56px]"
                         style={{
                           fontFamily: 'Bebas Neue',
                         }}
@@ -136,7 +136,7 @@ export default function DetailCarousel() {
                         {slide.title}
                       </h2>
                       <p 
-                        className="text-white text-sm md:text-base leading-relaxed"
+                        className="text-white text-xs md:text-base leading-relaxed"
                         style={{
                           fontFamily: 'DM Sans',
                         }}
@@ -146,12 +146,12 @@ export default function DetailCarousel() {
                     </div>
                     
                     {/* Action Button */}
-                    <div className="mt-6 md:mt-8">
+                    <div className="mt-4 md:mt-8">
                       <button 
                         onClick={() => navigate(slide.buttonLink)}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="px-5 py-3 md:px-6 md:py-4 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-xs md:text-sm"
+                        className="px-4 py-2 md:px-6 md:py-4 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-xs md:text-sm"
                         style={{
                           fontFamily: 'DM Sans',
                           letterSpacing: '0.05em'
@@ -159,7 +159,7 @@ export default function DetailCarousel() {
                       >
                         <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
                         <span className="relative z-20 group-hover:text-black transition-colors duration-300">{slide.buttonText}</span>
-                        <ArrowUpRight className="relative z-10 w-4 h-4 md:w-5 md:h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+                        <ArrowUpRight className="relative z-10 w-3 h-3 md:w-5 md:h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
                       </button>
                     </div>
                   </div>
@@ -173,7 +173,7 @@ export default function DetailCarousel() {
             {/* Previous Button */}
             <button
               onClick={prevSlide}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-2 md:p-3 transition-colors z-30 pointer-events-auto"
+              className="absolute left-2 top-[210px] lg:left-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-2 md:p-3 transition-colors z-30 pointer-events-auto"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -182,25 +182,11 @@ export default function DetailCarousel() {
             {/* Next Button */}
             <button
               onClick={nextSlide}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-2 md:p-3 transition-colors z-30 pointer-events-auto"
+              className="absolute right-2 top-[210px] lg:right-4 lg:top-1/2 lg:-translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-2 md:p-3 transition-colors z-30 pointer-events-auto"
               aria-label="Next slide"
             >
               <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-black" />
             </button>
-
-            {/* Slide Indicators */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30 pointer-events-auto">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentSlide ? 'bg-[#02FF00]' : 'bg-gray-600'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>
