@@ -93,9 +93,6 @@ export default function DetailCarousel() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-  }, []);
 
   return (
     <section ref={sectionRef} className="relative bg-black py-4 md:py-16">
