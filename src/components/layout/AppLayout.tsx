@@ -144,42 +144,42 @@ export default function AppLayout() {
               <span className="group-hover:scale-110 transition-transform duration-300">About</span>
             </Link>
             )}
-            {location.pathname !== '/events' && (
+            {/* {location.pathname !== '/events' && (
             <Link to="/events" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Events</span>
             </Link>
-            )}
-            {location.pathname !== '/partner' && (
+            )} */}
+            {/* {location.pathname !== '/partner' && (
             <Link to="/partner" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Partner with Korzi</span>
             </Link>
-            )}
+            )} */}
             {location.pathname !== '/logs' && (
             <Link to="/logs" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Logs</span>
             </Link>
             )}
-            {location.pathname !== '/crew' && (
+            {/* {location.pathname !== '/crew' && (
             <Link to="/crew" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span>
             </Link>
-            )}
+            )} */}
             {location.pathname !== '/support' && (
-            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Support</span>
             </Link>
             )}
-            {location.pathname !== '/careers' && (
+            {/* {location.pathname !== '/careers' && (
             <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Careers</span>
             </Link>
-            )}
+            )} */}
           </nav>
         </div>
       )}

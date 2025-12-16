@@ -26,17 +26,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const desktopContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    if (!container) return;
-    
-    const rect = container.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const scrollPercentage = x / rect.width;
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    
-    container.scrollTo({ left: scrollPercentage * maxScroll, behavior: 'auto' });
-  };
+
 
   useEffect(() => {
     const handleScroll = (container: HTMLDivElement) => () => {
@@ -69,7 +59,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
     };
   }, []);
 
-  // Auto-scroll images every 6 seconds
+  // Auto-scroll images every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       const nextIndex = (selectedImage + 1) % product.images.length;
@@ -82,7 +72,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
       if (desktopContainer) {
         desktopContainer.scrollTo({ left: nextIndex * desktopContainer.clientWidth, behavior: 'smooth' });
       }
-    }, 6000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [selectedImage, product.images.length]);
@@ -182,7 +172,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
           <div className="relative">
             <div 
               ref={mobileContainerRef}
-              className="flex gap-4 overflow-x-auto bg-zinc-950"
+              className="flex overflow-x-hidden bg-zinc-950"
             >
               {product.images.map((image, idx) => (
                 <div key={idx} className="flex-shrink-0 w-full">
@@ -202,9 +192,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-2 transition-colors z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 transition-colors z-10 group"
             >
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-white group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -216,9 +206,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-2 transition-colors z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 transition-colors z-10 group"
             >
-              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-white group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -354,8 +344,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
           <div className="relative max-w-[600px] mx-auto">
             <div 
               ref={desktopContainerRef}
-              onMouseMove={handleMouseMove}
-              className="flex gap-4 overflow-x-auto cursor-pointer bg-zinc-950"
+              className="flex overflow-x-hidden bg-zinc-950"
             >
               {product.images.map((image, idx) => (
                 <div key={idx} className="flex-shrink-0 w-full">
@@ -375,9 +364,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-3 transition-colors z-10"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-3 transition-colors z-10 group"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -389,9 +378,9 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-3 transition-colors z-10"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-3 transition-colors z-10 group"
             >
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>

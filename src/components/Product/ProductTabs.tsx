@@ -42,7 +42,7 @@ export default function ProductTabs() {
         </div>
 
         {/* Tab Content */}
-        <div className="border-x border-b border-zinc-800 bg-[#0F0F0F]">
+        <div className="border-x border-b border-zinc-800 bg-[#0F0F0F] min-h-[600px] md:min-h-[650px]">
           {activeTab === 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-[60%_40%]">
               <div className="p-4 md:p-8 space-y-4 md:space-y-6 text-white">

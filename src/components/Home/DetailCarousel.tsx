@@ -143,12 +143,12 @@ export default function DetailCarousel() {
                     </div>
                     
                     {/* Action Button */}
-                    <div className="mt-4 md:mt-8">
+                    <div className="mt-2 md:mt-4">
                       <button 
                         onClick={() => navigate(slide.buttonLink)}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        className="px-4 py-2 md:px-6 md:py-4 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-xs md:text-sm"
+                        className="px-4 py-2 md:px-6 md:py-4 flex items-center gap-3 md:gap-4 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-xs md:text-sm"
                         style={{
                           fontFamily: 'DM Sans',
                           letterSpacing: '0.05em'
@@ -170,19 +170,19 @@ export default function DetailCarousel() {
             {/* Previous Button */}
             <button
               onClick={prevSlide}
-              className="absolute left-2 top-[210px] lg:left-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-gray-700 p-2 md:p-3 transition-colors z-30 pointer-events-auto"
+              className="absolute left-2 top-[210px] lg:left-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 pointer-events-auto group"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
             </button>
             
             {/* Next Button */}
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-[210px] lg:right-4 lg:top-1/2 lg:-translate-y-1/2 bg-[#02FF00] hover:bg-[#00DD00] p-2 md:p-3 transition-colors z-30 pointer-events-auto"
+              className="absolute right-2 top-[210px] lg:right-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 pointer-events-auto group"
               aria-label="Next slide"
             >
-              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-black" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
             </button>
           </div>
         </div>
