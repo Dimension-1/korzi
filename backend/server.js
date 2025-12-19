@@ -22,6 +22,7 @@ console.log(`Loaded environment from: ${envFile}`);
 
 // THEN import bigship (so it can read env vars)
 const { default: bigshipService } = await import('./bigship.js');
+const { default: newsletterService } = await import('./newsletter.js');
 
 
 
@@ -324,6 +325,43 @@ app.post('/api/auth/google', async (req, res) => {
   } catch (error) {
     console.error('Google auth error:', error);
     res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// ============= NEWSLETTER ENDPOINT =============
+app.post('/api/newsletter/subscribe', async (req, res) => {
+  try {
+    const { email, logName } = req.body;
+
+    if (!email || !logName) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Email and log name are required' 
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid email format' 
+      });
+    }
+
+    const result = await newsletterService.subscribe(email, logName);
+    
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error('Newsletter subscription error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to subscribe. Please try again later.' 
+    });
   }
 });
 

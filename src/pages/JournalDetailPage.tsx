@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Blog } from '../services/hygraph';
 import JournalDetailHero from '../components/Journal/JournalDetailHero';
@@ -6,9 +6,54 @@ import Footer from '../components/Home/footer';
 
 const JournalDetailPage: React.FC = () => {
   const location = useLocation();
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeMessage, setSubscribeMessage] = useState('');
+  const [subscribeError, setSubscribeError] = useState('');
   
   // Get journal data from navigation state
   const journal = location.state?.journal as Blog | undefined;
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Newsletter subscription started:', { email, journal: journal?.title });
+    
+    setIsSubscribing(true);
+    setSubscribeMessage('');
+    setSubscribeError('');
+
+    try {
+      const payload = { 
+        email, 
+        logName: journal?.title || 'Unknown Log' 
+      };
+      console.log('Sending newsletter request:', payload);
+      
+      const response = await fetch('http://localhost:3001/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      console.log('Newsletter response status:', response.status);
+      const data = await response.json();
+      console.log('Newsletter response data:', data);
+
+      if (data.success) {
+        setSubscribeMessage(data.message);
+        setEmail('');
+        console.log('Newsletter subscription successful');
+      } else {
+        setSubscribeError(data.error || 'Failed to subscribe');
+        console.error('Newsletter subscription failed:', data);
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setSubscribeError('Failed to subscribe. Please try again later.');
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   // Handle case when journal is not provided
   if (!journal) {
@@ -76,18 +121,35 @@ const JournalDetailPage: React.FC = () => {
               >
                 Subscribe to newsletter
               </h3>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
-                style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
-              />
-              <button 
-                className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors"
-                style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
-              >
-                Subscribe
-              </button>
+              <form onSubmit={handleSubscribe}>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
+                  style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
+                />
+                <button 
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
+                >
+                  {isSubscribing ? 'Subscribing...' : 'Subscribe'}
+                </button>
+              </form>
+              {subscribeMessage && (
+                <p className="text-green-400 text-sm mt-2" style={{ fontFamily: 'DM Sans' }}>
+                  {subscribeMessage}
+                </p>
+              )}
+              {subscribeError && (
+                <p className="text-red-400 text-sm mt-2" style={{ fontFamily: 'DM Sans' }}>
+                  {subscribeError}
+                </p>
+              )}
               <p className="text-gray-500 text-xs mt-3" style={{ fontFamily: 'DM Sans' }}>
                 By subscribing you agree to with our Privacy Policy.
               </p>
@@ -205,18 +267,35 @@ const JournalDetailPage: React.FC = () => {
               >
                 Subscribe to newsletter
               </h3>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
-                style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
-              />
-              <button 
-                className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors"
-                style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
-              >
-                Subscribe
-              </button>
+              <form onSubmit={handleSubscribe}>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full bg-transparent border border-gray-700 px-4 py-3 text-white mb-4"
+                  style={{ fontFamily: 'DM Sans', fontSize: '14px' }}
+                />
+                <button 
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="w-full bg-white text-black py-3 hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  style={{ fontFamily: 'DM Sans', fontSize: '14px', fontWeight: 600 }}
+                >
+                  {isSubscribing ? 'Subscribing...' : 'Subscribe'}
+                </button>
+              </form>
+              {subscribeMessage && (
+                <p className="text-green-400 text-sm mt-2" style={{ fontFamily: 'DM Sans' }}>
+                  {subscribeMessage}
+                </p>
+              )}
+              {subscribeError && (
+                <p className="text-red-400 text-sm mt-2" style={{ fontFamily: 'DM Sans' }}>
+                  {subscribeError}
+                </p>
+              )}
               <p className="text-gray-500 text-xs mt-3" style={{ fontFamily: 'DM Sans' }}>
                 By subscribing you agree to with our Privacy Policy.
               </p>
