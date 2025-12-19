@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Copy } from 'lucide-react';
 import { Blog } from '../services/hygraph';
 import JournalDetailHero from '../components/Journal/JournalDetailHero';
 import Footer from '../components/Home/footer';
@@ -10,9 +11,20 @@ const JournalDetailPage: React.FC = () => {
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeError, setSubscribeError] = useState('');
+  const [copied, setCopied] = useState(false);
   
   // Get journal data from navigation state
   const journal = location.state?.journal as Blog | undefined;
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
+  };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,23 +171,20 @@ const JournalDetailPage: React.FC = () => {
 
             {/* Share */}
             <div>
-              <h3 
-                className="text-xl mb-6"
-                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              <button 
+                onClick={handleCopyLink}
+                className="px-6 py-4 flex items-center gap-4 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-sm"
+                style={{
+                  fontFamily: 'DM Sans',
+                  letterSpacing: '0.05em'
+                }}
               >
-                Share
-              </h3>
-              <div className="flex gap-3">
-                {['FB', 'TW', 'IN', 'LI'].map((social) => (
-                  <button 
-                    key={social}
-                    className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
-                    style={{ fontFamily: 'DM Sans', fontSize: '12px', fontWeight: 600 }}
-                  >
-                    {social}
-                  </button>
-                ))}
-              </div>
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <span className="relative z-20 group-hover:text-black transition-colors duration-300">
+                  {copied ? 'COPIED!' : 'SHARE'}
+                </span>
+                <Copy className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+              </button>
             </div>
           </div>
 
@@ -305,23 +314,20 @@ const JournalDetailPage: React.FC = () => {
 
             {/* Share */}
             <div>
-              <h3 
-                className="text-xl mb-6"
-                style={{ fontFamily: 'DM Sans', color: '#02FF00' }}
+              <button 
+                onClick={handleCopyLink}
+                className="px-6 py-4 flex items-center gap-4 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer text-sm"
+                style={{
+                  fontFamily: 'DM Sans',
+                  letterSpacing: '0.05em'
+                }}
               >
-                Share
-              </h3>
-              <div className="flex gap-3">
-                {['FB', 'TW', 'IN', 'LI'].map((social) => (
-                  <button 
-                    key={social}
-                    className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
-                    style={{ fontFamily: 'DM Sans', fontSize: '12px', fontWeight: 600 }}
-                  >
-                    {social}
-                  </button>
-                ))}
-              </div>
+                <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                <span className="relative z-20 group-hover:text-black transition-colors duration-300">
+                  {copied ? 'COPIED!' : 'SHARE'}
+                </span>
+                <Copy className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
+              </button>
             </div>
           </div>
         </div>

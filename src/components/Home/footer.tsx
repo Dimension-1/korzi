@@ -66,7 +66,7 @@ export default function Footer() {
                 <a href="https://www.linkedin.com/company/korzi/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
                   <Linkedin className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
                 </a>
-                <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
+                <a href="https://www.youtube.com/@KorziToys" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
                   <Youtube className="w-6 h-6 text-[#02FF00]" strokeWidth={1.5} />
                 </a>
               </div>
@@ -204,7 +204,7 @@ export default function Footer() {
             <a href="https://www.linkedin.com/company/korzi/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
               <Linkedin className="w-8 h-8 text-[#02FF00]" strokeWidth={1.5} />
             </a>
-            <a href="https://youtube.com/korzi" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
+            <a href="https://www.youtube.com/@KorziToys" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-125">
               <Youtube className="w-8 h-8 text-[#02FF00]" strokeWidth={1.5} />
             </a>
           </div>

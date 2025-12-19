@@ -51,7 +51,7 @@ export default function ContactSection() {
               </p>
               
               <button 
-                onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+                onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Contact%20Us', '_blank')}
                 className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" 
                 style={{ width: '160px', height: '46px' }}
               >

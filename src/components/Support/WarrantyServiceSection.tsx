@@ -64,7 +64,7 @@ export default function WarrantyServiceSection() {
             </div>
 
             <button 
-              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Start%20a%20Claim%20-%20Order%20ID:%20', '_blank')}
               className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer" 
               style={{ width: '130px', height: '38px' }}
             >
@@ -102,7 +102,7 @@ export default function WarrantyServiceSection() {
             </p>
 
             <button 
-              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Book%20a%20Repair%20-%20Order%20ID:%20', '_blank')}
               className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[4px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-auto" 
               style={{ width: '130px', height: '38px' }}
             >

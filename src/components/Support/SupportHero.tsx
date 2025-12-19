@@ -45,7 +45,7 @@ export default function SupportHero() {
               </p>
             </div>
             <button 
-              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Support%20Request%20-%20Order%20ID:%20', '_blank')}
               className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
             >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
@@ -67,7 +67,7 @@ export default function SupportHero() {
               </p>
             </div>
             <button 
-              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Request%20a%20Part', '_blank')}
               className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
             >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
@@ -89,7 +89,7 @@ export default function SupportHero() {
               </p>
             </div>
             <button 
-              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys', '_blank')}
+              onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=support@korzi.toys&su=Warranty%20Claim%20-%20Order%20ID:%20', '_blank')}
               className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l-[3px] border-[#02FF00] group relative overflow-hidden cursor-pointer mt-8 py-3 px-6 w-fit"
             >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>

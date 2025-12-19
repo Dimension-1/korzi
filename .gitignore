@@ -42,3 +42,7 @@ backend/.env.production
 # Documentation and archives
 fix-github-secrets.md
 public.zip
+
+# Exclude get-refresh-token files
+**/get-refresh-token*
+get-refresh-token*
