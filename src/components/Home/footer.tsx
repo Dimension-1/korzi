@@ -1,14 +1,46 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
+import { useState } from 'react';
+import { useAuthStore } from '../../stores/authStore';
 
 
 export default function Footer() {
   const navigate = useNavigate();
+  const [isSubscribing, setIsSubscribing] = useState(false);
   
   const handleLinkClick = (path: string) => {
     window.scrollTo(0, 0);
     navigate(path);
+  };
+  
+  const { customer } = useAuthStore();
+  
+  const handleSubscribe = async () => {
+    if (!customer?.email) {
+      navigate('/signin');
+      return;
+    }
+    
+    setIsSubscribing(true);
+    
+    try {
+      const response = await fetch('http://localhost:3001/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: customer.email,
+          logName: 'Subscribed for Updates' 
+        })
+      });
+      
+      const data = await response.json();
+      console.log('Newsletter subscription:', data);
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+    } finally {
+      setTimeout(() => setIsSubscribing(false), 1000);
+    }
   };
   
   return (
@@ -44,8 +76,9 @@ export default function Footer() {
             />
             <div className="space-y-8 mt-auto">
               <button 
-                onClick={() => navigate('/subscribe')}
-                className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l border-[#02FF00] group relative overflow-hidden cursor-pointer"
+                onClick={handleSubscribe}
+                disabled={isSubscribing}
+                className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l border-[#02FF00] group relative overflow-hidden cursor-pointer disabled:opacity-50"
                 style={{
                   borderLeftWidth: '3px',
                   width: '215px',
@@ -56,7 +89,9 @@ export default function Footer() {
                 }}
               >
                 <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                <span className="relative z-10 group-hover:text-black transition-colors duration-300">Subscribe For Updates!</span>
+                <span className="relative z-10 group-hover:text-black transition-colors duration-300">
+                  {isSubscribing ? 'Subscribed for Updates!' : 'Subscribe For Updates!'}
+                </span>
                 <ArrowUpRight className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
               </button>
               <div className="flex gap-4">
@@ -87,11 +122,11 @@ export default function Footer() {
           <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>COMPANY</h3>
             <ul className="space-y-3">
               <li><Link to="/about" onClick={() => handleLinkClick('/about')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
-              <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li>
+              {/* <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li> */}
               <li><Link to="/logs" onClick={() => handleLinkClick('/logs')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Logs</span></Link></li>
-              <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li>
-              <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li>
-              <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li>
+              {/* <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li> */}
+              {/* <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li> */}
+              {/* <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li> */}
             </ul>
           </div>
 
@@ -151,11 +186,11 @@ export default function Footer() {
             <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>COMPANY</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/about" onClick={() => handleLinkClick('/about')} className="text-white">About Us</Link></li>
-              <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-white">Careers</Link></li>
+              {/* <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-white">Careers</Link></li> */}
               <li><Link to="/logs" onClick={() => handleLinkClick('/logs')} className="text-white">Logs</Link></li>
-              <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-white">Events</Link></li>
-              <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-white">Partners</Link></li>
-              <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-white">Korzi Crew</Link></li>
+              {/* <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-white">Events</Link></li> */}
+              {/* <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-white">Partners</Link></li> */}
+              {/* <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-white">Korzi Crew</Link></li> */}
             </ul>
           </div>
 
@@ -185,8 +220,9 @@ export default function Footer() {
         {/* Subscribe & Social */}
         <div className="px-6 py-6 border-t border-gray-600 flex items-center justify-between">
           <button 
-            onClick={() => navigate('/subscribe')}
-            className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l border-[#02FF00]"
+            onClick={handleSubscribe}
+            disabled={isSubscribing}
+            className="bg-[#393737] text-white flex items-center justify-center gap-2 border-l border-[#02FF00] disabled:opacity-50"
             style={{
               borderLeftWidth: '3px',
               height: '48px',
@@ -194,7 +230,7 @@ export default function Footer() {
               fontSize: '13px',
             }}
           >
-            <span>Subscribe For Updates!</span>
+            <span>{isSubscribing ? 'Subscribed for Updates!' : 'Subscribe For Updates!'}</span>
             <ArrowUpRight className="w-4 h-4 text-[#02FF00]" />
           </button>
           <div className="flex gap-4">

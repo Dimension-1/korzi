@@ -28,7 +28,7 @@ export default {
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateX(-20px)' },

@@ -109,16 +109,18 @@ export default function SafetyCareSection() {
 
               {/* Download Buttons */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-                <button className="border border-white/30 text-white text-[12px] hover:bg-[#02FF00] hover:text-black transition-colors flex items-center">
-                  <span className="flex-1 px-4 py-2.5 text-left">K-01 Full User Manual (PDF)</span>
-                  <div className="border-l border-white/30 px-4 py-2.5 flex items-center justify-center">
-                    <Download className="w-4 h-4 text-[#02FF00]" />
+                <button className="border border-white/30 text-white text-[12px] flex items-center relative overflow-hidden group">
+                  <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                  <span className="flex-1 px-4 py-2.5 text-left relative z-10 group-hover:text-black transition-colors duration-300">K-01 Full User Manual (PDF)</span>
+                  <div className="border-l border-white/30 px-4 py-2.5 flex items-center justify-center relative z-10">
+                    <Download className="w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
                   </div>
                 </button>
-                <button className="border border-white/30 text-white text-[12px] hover:bg-[#02FF00] hover:text-black transition-colors flex items-center">
-                  <span className="flex-1 px-4 py-2.5 text-left">"How to Fix Common Issues" Guide</span>
-                  <div className="border-l border-white/30 px-4 py-2.5 flex items-center justify-center">
-                    <Download className="w-4 h-4 text-[#02FF00]" />
+                <button className="border border-white/30 text-white text-[12px] flex items-center relative overflow-hidden group">
+                  <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                  <span className="flex-1 px-4 py-2.5 text-left relative z-10 group-hover:text-black transition-colors duration-300">"How to Fix Common Issues" Guide</span>
+                  <div className="border-l border-white/30 px-4 py-2.5 flex items-center justify-center relative z-10">
+                    <Download className="w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
                   </div>
                 </button>
               </div>

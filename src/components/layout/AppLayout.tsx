@@ -52,26 +52,28 @@ export default function AppLayout() {
       <div className={`fixed top-4 left-4 right-4 z-50 transition-transform duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-24'
       }`}>
-        <header className="bg-black flex items-stretch md:items-center md:justify-between shadow-xl border border-gray-700 md:px-4 md:py-3">
+        <header className="bg-black flex items-stretch md:items-center md:justify-between shadow-xl border border-gray-700 md:px-0 md:py-0">
           {/* Hamburger - Desktop only (left side) */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="hidden md:block text-white p-2 hover:text-[#02FF00] transition-colors"
-            aria-label="Menu"
-          >
-            {menuOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
+          <div className="hidden md:flex items-center border-r border-gray-700">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-white p-4 hover:text-[#02FF00] transition-colors"
+              aria-label="Menu"
+            >
+              {menuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
 
           {/* Logo - Left on mobile, Center on desktop */}
-          <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-0">
+          <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-3">
             <img 
               src={getCloudinaryUrl('/logo-horizontal.png')} 
               alt="KORZI" 
@@ -80,23 +82,46 @@ export default function AppLayout() {
           </Link>
 
           {/* Right Icons */}
-          <div className="flex items-stretch md:items-center flex-1 md:flex-none md:gap-3">
+          <div className="flex items-stretch md:items-center flex-1 md:flex-none">
+            <div className="hidden md:flex items-center border-l border-r border-gray-700">
+              <button 
+                onClick={openDrawer}
+                className="relative hover:opacity-80 transition-opacity px-4 py-3" 
+                aria-label="Cart"
+              >
+                <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Cart" className="w-6 h-6" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#02FF00] text-black text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
+            <div className="hidden md:flex items-center border-r border-gray-700">
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="hover:opacity-80 transition-opacity px-4 py-3"
+                aria-label="Profile"
+              >
+                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
+              </button>
+            </div>
+            {/* Mobile buttons */}
             <button 
               onClick={openDrawer}
-              className="relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none" 
+              className="md:hidden relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center" 
               aria-label="Cart"
             >
               <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute top-2 right-[calc(50%-20px)] md:-top-1 md:-right-1 bg-[#02FF00] text-black text-[10px] md:text-[9px] font-bold rounded-full w-5 h-5 md:w-4 md:h-4 flex items-center justify-center">
+                <span className="absolute top-2 right-[calc(50%-20px)] bg-[#02FF00] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <div className="hidden md:block h-8 w-px bg-gray-700"></div>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center md:border-0 md:py-0 md:flex-none"
+              className="md:hidden hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center"
               aria-label="Profile"
             >
               <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />

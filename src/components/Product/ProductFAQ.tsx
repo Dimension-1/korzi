@@ -53,7 +53,7 @@ export default function ProductFAQ() {
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-12 relative z-20">
         
         {/* Left Side - Title and Dragonfly */}
-        <div className="flex flex-col justify-between">
+        <div className="relative lg:h-[500px]">
           <div className="flex items-start justify-between gap-4">
             <h2 
               className="uppercase bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-2 md:mb-2 text-2xl md:text-5xl lg:text-6xl mt-8 md:mt-0"
@@ -74,7 +74,7 @@ export default function ProductFAQ() {
           </div>
           
           {/* Dragonfly - Desktop only, bottom */}
-          <div className="hidden lg:block absolute bottom-8 left-8">
+          <div className="hidden lg:block absolute bottom-18 left-8 z-[5]">
             <img 
               src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
               alt="Dragonfly" 

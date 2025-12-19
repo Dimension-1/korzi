@@ -202,7 +202,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
               onClick={() => {
                 const container = mobileContainerRef.current;
                 if (container) {
-                  const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
+                  const newIndex = (selectedImage + 1) % product.images.length;
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
@@ -374,7 +374,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
               onClick={() => {
                 const container = desktopContainerRef.current;
                 if (container) {
-                  const newIndex = Math.min(product.images.length - 1, selectedImage + 1);
+                  const newIndex = (selectedImage + 1) % product.images.length;
                   container.scrollTo({ left: newIndex * container.clientWidth, behavior: 'smooth' });
                 }
               }}
