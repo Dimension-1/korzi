@@ -41,7 +41,7 @@ const JournalDetailPage: React.FC = () => {
       };
       console.log('Sending newsletter request:', payload);
       
-      const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const apiUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
       const response = await fetch(`${apiUrl}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

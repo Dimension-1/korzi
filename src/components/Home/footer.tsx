@@ -25,7 +25,7 @@ export default function Footer() {
     setIsSubscribing(true);
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/newsletter/subscribe`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys'}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
