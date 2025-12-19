@@ -41,7 +41,8 @@ const JournalDetailPage: React.FC = () => {
       };
       console.log('Sending newsletter request:', payload);
       
-      const response = await fetch('http://localhost:3001/api/newsletter/subscribe', {
+      const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
