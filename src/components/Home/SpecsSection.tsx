@@ -45,7 +45,7 @@ export default function SpecsSection() {
     return (
       <section className="bg-black py-16 md:py-0 overflow-hidden">
         <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4">
-          {/* Desktop Layout */}
+          {/* Desktop Layout - Unchanged */}
           <div className="hidden md:flex relative h-[400px] justify-center items-center">
             <div className="relative" style={{ width: '950px', height: '300px' }}>
               {specs.map((spec, index) => (
@@ -73,88 +73,93 @@ export default function SpecsSection() {
             </div>
           </div>
 
-          {/* Mobile Layout */}
-          <div className="md:hidden flex justify-center">
-            <div className="relative" style={{ width: '359.84px', height: '286px' }}>
-              <img
-                src={getCloudinaryUrl(specs[0].image)}
-                alt="25 KM/H"
-                style={{
-                  position: 'absolute',
-                  width: '124.5px',
-                  height: '138.21px',
-                  left: '13px',
-                  top: '11.52px',
-                  transform: 'rotate(-3.47deg)',
-                  borderRadius: '4.39px',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }}
-                className="object-contain"
-              />
-              <img
-                src={getCloudinaryUrl(specs[1].image)}
-                alt="1:16 Scale"
-                style={{
-                  position: 'absolute',
-                  width: '124.5px',
-                  height: '138.21px',
-                  left: '126.53px',
-                  top: '0px',
-                  transform: 'rotate(4.96deg)',
-                  borderRadius: '4.39px',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }}
-                className="object-contain"
-              />
-              <img
-                src={getCloudinaryUrl(specs[2].image)}
-                alt="2.4Ghz"
-                style={{
-                  position: 'absolute',
-                  width: '124.5px',
-                  height: '138.21px',
-                  left: '240.6px',
-                  top: '28.52px',
-                  transform: 'rotate(-3.3deg)',
-                  borderRadius: '4.39px',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }}
-                className="object-contain"
-              />
-              <img
-                src={getCloudinaryUrl(specs[3].image)}
-                alt="4x4 Control"
-                style={{
-                  position: 'absolute',
-                  width: '131.34px',
-                  height: '144.34px',
-                  left: '73.33px',
-                  top: '112.97px',
-                  transform: 'rotate(3.5deg)',
-                  borderRadius: '4.39px',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }}
-                className="object-contain"
-              />
-              <img
-                src={getCloudinaryUrl(specs[4].image)}
-                alt="50m+ Range"
-                style={{
-                  position: 'absolute',
-                  width: '126.45px',
-                  height: '139.96px',
-                  left: '190.69px',
-                  top: '130.52px',
-                  transform: 'rotate(-2.8deg)',
-                  borderRadius: '4.39px',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }}
-                className="object-contain"
-              />
-            </div>
+          {/* Mobile Layout - Fixed & Centered */}
+        <div className="md:hidden flex justify-center w-full">
+          {/* Using a 340px container to pull everything into a tighter cluster */}
+          <div className="relative flex-shrink-0" style={{ width: '340px', height: '280px' }}>
+            
+            {/* 1. 1:16 SCALE (Top Center) - Layered at the back */}
+            <img
+              src={getCloudinaryUrl(specs[1].image)}
+              alt="1:16 Scale"
+              style={{
+                position: 'absolute',
+                width: '124.5px',
+                height: '138.21px',
+                left: '108px',  // Moved left to tighten the gap
+                top: '0px',
+                transform: 'rotate(4.96deg)',
+                zIndex: 10,
+              }}
+              className="object-contain"
+            />
+
+            {/* 2. 25 KM/H (Top Left) - Overlaps the Scale card */}
+            <img
+              src={getCloudinaryUrl(specs[0].image)}
+              alt="25 KM/H"
+              style={{
+                position: 'absolute',
+                width: '124.5px',
+                height: '138.21px',
+                left: '5px',    // Pulled in closer
+                top: '12px',
+                transform: 'rotate(-3.47deg)',
+                zIndex: 20,
+              }}
+              className="object-contain"
+            />
+
+            {/* 3. 2.4Ghz (Top Right) - Overlaps the Scale card */}
+            <img
+              src={getCloudinaryUrl(specs[2].image)}
+              alt="2.4Ghz"
+              style={{
+                position: 'absolute',
+                width: '124.5px',
+                height: '138.21px',
+                left: '210px',  // Pulled in significantly to remove the right-side gap
+                top: '25px',
+                transform: 'rotate(-3.3deg)',
+                zIndex: 20,
+              }}
+              className="object-contain"
+            />
+
+            {/* 4. 4x4 CONTROL (Bottom Left) - Tucked behind Range */}
+            <img
+              src={getCloudinaryUrl(specs[3].image)}
+              alt="4x4 Control"
+              style={{
+                position: 'absolute',
+                width: '131.34px',
+                height: '144.34px',
+                left: '55px',   // Shifted right slightly to overlap top row
+                top: '105px',   // Moved up to close vertical gap
+                transform: 'rotate(3.5deg)',
+                zIndex: 15,
+              }}
+              className="object-contain"
+            />
+
+            {/* 5. 50m+ RANGE (Bottom Right) - Topmost card */}
+            <img
+              src={getCloudinaryUrl(specs[4].image)}
+              alt="50m+ Range"
+              style={{
+                position: 'absolute',
+                width: '126.45px',
+                height: '139.96px',
+                left: '165px',  // Tightened overlap with 4x4 control
+                top: '125px',   // Moved up to close vertical gap
+                transform: 'rotate(-2.8deg)',
+                zIndex: 25,
+              }}
+              className="object-contain"
+            />
           </div>
+        </div>
         </div>
       </section>
     );
-  }
-  
+}
