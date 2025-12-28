@@ -4,7 +4,7 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function MissionSection() {
   return (
-    <section className="bg-black py-8 md:py-16">
+    <section className="bg-black py-8 md:py-16 min-h-[500px] md:min-h-[600px]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Mission Statement Grid */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-12 items-center text-center lg:text-left">

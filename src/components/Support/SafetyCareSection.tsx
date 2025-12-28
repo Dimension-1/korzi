@@ -4,7 +4,7 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function SafetyCareSection() {
   return (
-    <section className="bg-black text-white relative pt-1 pb-2 lg:pb-20 px-6 lg:px-12 overflow-visible">
+    <section className="bg-black text-white relative pt-1 pb-2 lg:pb-20 px-6 lg:px-12 overflow-visible min-h-[800px] md:min-h-[1000px]">
       {/* Decorative Elements - Desktop Only */}
       <img 
         src="/assets/homepage/Ellipse 81.png" 

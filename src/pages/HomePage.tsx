@@ -14,7 +14,7 @@ import MissionSection from '../components/Home/MissionSection';
 
 export default function HomePage() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden min-h-screen">
       <HeroSection />
       <SpecsSection />
       <ApexDriveSection />

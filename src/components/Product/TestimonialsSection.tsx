@@ -154,7 +154,7 @@ export default function TestimonialsSection() {
 
 
   return (
-    <section className="bg-black py-8 md:py-16 relative" style={{ overflow: 'visible' }}>
+    <section className="bg-black py-8 md:py-16 relative min-h-[500px] md:min-h-[600px]" style={{ overflow: 'visible' }}>
       {/* Background ellipse extending from Built in India section */}
       <div className="absolute -right-32 -top-96 w-1/2 h-[200%] pointer-events-none hidden md:block" style={{ zIndex: 1 }}>
         <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />

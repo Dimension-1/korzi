@@ -2,7 +2,7 @@ import { getCloudinaryUrl } from "../../utils/cloudinary";
 
 export default function HeroSection() {
   return (
-    <section className="bg-black text-white py-8 md:py-16 lg:py-24 px-4 md:px-8 lg:px-16">
+    <section className="bg-black text-white py-8 md:py-16 lg:py-24 px-4 md:px-8 lg:px-16 min-h-[600px] md:min-h-[800px]">
       <div className="w-full mx-auto">
         {/* Top Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 mb-8 md:mb-16 text-center lg:text-left">

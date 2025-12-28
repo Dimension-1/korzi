@@ -17,7 +17,7 @@ export default function JournalDetailHero({
   coverImage 
 }: JournalDetailHeroProps) {
   return (
-    <section className="bg-black text-white pt-24 pb-16 px-8 md:px-16 lg:px-24">
+    <section className="bg-black text-white pt-24 pb-16 px-8 md:px-16 lg:px-24 min-h-[600px] md:min-h-[700px]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}

@@ -6,7 +6,7 @@ import CartDrawer from '../components/CartDrawer';
 
 const AboutPage = () => {
   return (
-    <div className="w-full overflow-x-hidden bg-black text-white pt-24">
+    <div className="w-full overflow-x-hidden bg-black text-white pt-24 min-h-screen">
       <HeroSection />
       <AutoScrollImages />
       <PillarsSection />

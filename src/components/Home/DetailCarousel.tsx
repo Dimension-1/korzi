@@ -95,8 +95,28 @@ export default function DetailCarousel() {
 
 
   return (
-    <section ref={sectionRef} className="relative bg-black py-4 md:py-16">
+    <section ref={sectionRef} className="relative bg-black py-4 md:py-16 min-h-[600px] md:min-h-[500px]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
+        {/* Navigation Controls - Outside Container */}
+        <div className="relative">
+          {/* Previous Button */}
+          <button
+            onClick={prevSlide}
+            className="absolute -left-2 md:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
+          </button>
+          
+          {/* Next Button */}
+          <button
+            onClick={nextSlide}
+            className="absolute -right-2 md:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
+          </button>
+
         {/* Carousel Card Container */}
         <div className="relative bg-black border border-gray-700 overflow-hidden z-10 h-[600px] md:h-[500px]">
           {/* Slides Container */}
@@ -166,25 +186,8 @@ export default function DetailCarousel() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Previous Button */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-2 top-[210px] lg:left-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 pointer-events-auto group"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
-            </button>
-            
-            {/* Next Button */}
-            <button
-              onClick={nextSlide}
-              className="absolute right-2 top-[210px] lg:right-4 lg:top-1/2 lg:-translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 pointer-events-auto group"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
-            </button>
-          </div>
+          {/* Removed - now outside container */}
+        </div>
         </div>
       </div>
     </section>

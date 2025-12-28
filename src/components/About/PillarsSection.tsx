@@ -21,7 +21,7 @@ export default function PillarsSection() {
   ];
 
   return (
-    <section className="bg-black py-8 md:py-16 px-4 md:px-8 lg:px-24">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 lg:px-24 min-h-[600px] md:min-h-[800px]">
       <div className="w-full mx-auto">
         {/* Header */}
         <div className="text-center mb-8 md:mb-16">

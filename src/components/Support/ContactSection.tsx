@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
-    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12">
+    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12 min-h-[400px] md:min-h-[500px]">
       <div className="max-w-7xl mx-auto" style={{ position: 'relative', zIndex: 10 }}>
         <div className="border border-white/30 px-6 py-8 lg:px-12 lg:py-16 bg-[#0F0F0F]">
           <div className="mb-6 lg:mb-12">

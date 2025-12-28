@@ -2,7 +2,7 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function TroubleshootingSection() {
   return (
-    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12 relative overflow-visible">
+    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12 relative overflow-visible min-h-[500px] md:min-h-[600px]">
       {/* Green Bloom Effect */}
       <div className="absolute left-0 bottom-0 w-[800px] h-[800px] pointer-events-none" style={{ zIndex: 0 }}>
         <img 

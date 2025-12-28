@@ -23,7 +23,7 @@ export default function JournalHeroSection({ onSearch, onCategoryChange }: Journ
   };
 
   return (
-    <section className="bg-black text-white pt-24 pb-12 md:pb-16 px-4 md:px-8 lg:px-24">
+    <section className="bg-black text-white pt-24 pb-12 md:pb-16 px-4 md:px-8 lg:px-24 min-h-[400px] md:min-h-[500px]">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h1 

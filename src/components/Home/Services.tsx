@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 
 export default function ManufacturingSection() {
   const [activeStep, setActiveStep] = useState(0);
-  const navigate = useNavigate();
 
   const steps = [
     {
@@ -37,7 +36,7 @@ export default function ManufacturingSection() {
   ];
 
   return (
-    <section className="bg-black py-8 md:py-16">
+    <section className="bg-black py-8 md:py-16 min-h-[600px] md:min-h-[800px]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Mobile Layout */}
         <div className="lg:hidden flex flex-col items-center text-center">
@@ -104,16 +103,21 @@ export default function ManufacturingSection() {
           </div>
 
           {/* Button */}
-          <button 
-            onClick={() => navigate('/about')}
-            className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden cursor-pointer"
+          <Link 
+            to="/about"
+            className="bg-[#3A3A3A] text-white px-4 py-3 flex items-center gap-2 border-l-4 border-[#02FF00] group relative overflow-hidden cursor-pointer w-fit"
+            style={{
+              fontFamily: 'DM Sans',
+              fontSize: '12px',
+              letterSpacing: '0.05em'
+            }}
           >
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-            <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-xs" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
+            <span className="relative z-10 group-hover:text-black transition-colors duration-300">
               ABOUT US
             </span>
             <ArrowUpRight className="relative z-10 w-4 h-4 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
-          </button>
+          </Link>
         </div>
 
         {/* Desktop Layout */}
@@ -204,16 +208,21 @@ export default function ManufacturingSection() {
               </div>
 
               {/* Button - Positioned between images */}
-              <button 
-                onClick={() => navigate('/about')}
-                className="absolute left-[30%] md:left-[315px] top-[280px] md:top-[360px] lg:top-[425px] bg-[#3A3A3A] text-white px-4 md:px-6 py-2 md:py-3 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] z-30 group relative overflow-hidden cursor-pointer"
+              <Link 
+                to="/about"
+                className="absolute left-[30%] md:left-[375px] top-[280px] md:top-[360px] lg:top-[425px] bg-[#3A3A3A] text-white px-4 md:px-6 py-2 md:py-3 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] z-30 group relative overflow-hidden cursor-pointer w-fit"
+                style={{
+                  fontFamily: 'DM Sans',
+                  fontSize: '12px',
+                  letterSpacing: '0.05em'
+                }}
               >
                 <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-xs md:text-sm" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
+                <span className="relative z-10 group-hover:text-black transition-colors duration-300">
                   ABOUT US
                 </span>
                 <ArrowUpRight className="relative z-10 w-4 h-4 md:w-5 md:h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

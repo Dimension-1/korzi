@@ -99,7 +99,7 @@ const JournalDetailPage: React.FC = () => {
         coverImage={journal.img?.url || '/placeholder.jpg'}
       />
       {/* Content Section */}
-      <div className="bg-black px-8 md:px-16 lg:px-24 py-16">
+      <div className="bg-black px-8 md:px-16 lg:px-24 py-16 min-h-[800px] md:min-h-[1000px]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-12">
           {/* Left Sidebar - Desktop only, moved to bottom on mobile */}
           <div className="hidden lg:block space-y-12">

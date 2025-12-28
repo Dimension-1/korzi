@@ -36,7 +36,7 @@ export default function CarAnimation() {
   const carPosition = startPosition + (scrollProgress * (endPosition - startPosition));
 
   return (
-    <section ref={sectionRef} className="bg-black overflow-hidden" style={{ height: window.innerWidth < 768 ? '35vh' : '50vh' }}>
+    <section ref={sectionRef} className="bg-black overflow-hidden min-h-[200px] md:min-h-[400px]" style={{ height: window.innerWidth < 768 ? '35vh' : '50vh' }}>
       <div className="sticky top-0 h-32 md:h-96 flex items-start pt-2 md:pt-8">
         <div className="w-full relative h-32 md:h-64">
           {/* Right tire marks - reveal from right to left */}

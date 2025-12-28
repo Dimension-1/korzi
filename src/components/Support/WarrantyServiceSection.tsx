@@ -4,7 +4,7 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function WarrantyServiceSection() {
   return (
-    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12">
+    <section className="bg-black text-white py-8 lg:py-20 px-6 lg:px-12 min-h-[600px] md:min-h-[800px]">
       <div className="max-w-7xl mx-auto relative" style={{ zIndex: 10 }}>
         <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 0 }}>
           {/* Top Left - Muddy Car Image */}

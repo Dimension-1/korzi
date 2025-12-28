@@ -7,7 +7,7 @@ export default function BuiltInIndiaSection() {
   const navigate = useNavigate();
   
   return (
-    <section className="bg-black py-8 md:py-16 relative overflow-hidden">
+    <section className="bg-black py-8 md:py-16 relative overflow-hidden min-h-[500px] md:min-h-[600px]">
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4 md:px-8 relative z-10">
         {/* Mobile Layout */}
         <div className="lg:hidden flex flex-col items-center text-center">
@@ -51,7 +51,7 @@ export default function BuiltInIndiaSection() {
           </p>
 
           {/* Button - Mobile */}
-          <button onClick={() => { navigate('/shop'); window.scrollTo(0, 0); }} className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden mt-6">
+          <button onClick={() => navigate('/shop')} className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden mt-6">
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
             <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-xs" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
               READY TO SHOP?
@@ -71,7 +71,7 @@ export default function BuiltInIndiaSection() {
               Every K-01 is built and assembled locally with multi-point testing, BIS compliance, and support you can actually reach.
             </p>
 
-            <button onClick={() => { navigate('/shop'); window.scrollTo(0, 0); }} className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden w-auto">
+            <button onClick={() => navigate('/shop')} className="bg-[#3A3A3A] text-white px-6 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden w-auto">
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
                 READY TO SHOP?

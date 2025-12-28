@@ -15,7 +15,7 @@ export default function ProductTabs() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="w-full bg-black py-4 md:py-16">
+    <div className="w-full bg-black py-4 md:py-16 min-h-[600px] md:min-h-[700px]">
       <div className="w-full mx-auto px-0 md:px-8">
         {/* Tabs */}
         <div className="relative">

@@ -20,7 +20,7 @@ export default function VideoCarouselSection() {
   };
 
   return (
-    <section className="bg-black py-8 lg:py-16">
+    <section className="bg-black py-8 lg:py-16 min-h-[600px] md:min-h-[800px]">
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4 lg:px-8">
         {/* Title */}
         <h2 
@@ -68,7 +68,7 @@ export default function VideoCarouselSection() {
 
         {/* Shop Now Button */}
         <div className="flex justify-center mb-8 lg:mb-20">
-          <button onClick={() => { window.scrollTo(0, 0); navigate('/shop'); }} className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
+          <button onClick={() => navigate('/shop')} className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
             <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
             <span className="relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', fontSize: '14px', letterSpacing: '0.05em' }}>
               SHOP NOW

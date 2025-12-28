@@ -6,7 +6,7 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function ApexDriveSection() {
     return (
-      <section className="bg-black py-4 md:py-8 relative pb-16 md:pb-32">
+      <section className="bg-black py-4 md:py-8 relative pb-16 md:pb-32 min-h-[350px] md:min-h-[500px]">
         <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Mobile Layout */}
         <div className="md:hidden flex flex-col items-center text-center">
@@ -31,7 +31,7 @@ export default function ApexDriveSection() {
           {/* Car Image */}
           <div className="relative z-10 -mt-16 mb-0 flex justify-center">
             <img
-              src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
+              src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
               alt="Apex Drive K-01"
               className="w-[180%] max-w-none h-auto object-contain"
             />
@@ -124,7 +124,7 @@ export default function ApexDriveSection() {
               }}
             >
               <img
-                src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
+                src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
                 alt="Apex Drive K-01"
                 className="w-full h-auto object-contain"
               />

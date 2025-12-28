@@ -117,7 +117,7 @@ export default function VideoCarousel() {
   };
 
   return (
-    <div className="py-16 px-8 bg-[var(--background)] w-full">
+    <div className="py-16 px-8 bg-[var(--background)] w-full min-h-[500px] md:min-h-[600px]">
       <div className="w-full">
         {/* Header with Title */}
         <div className="text-center mb-12 px-6 lg:px-8">

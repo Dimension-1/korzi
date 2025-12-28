@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigationType } from 'react-router-dom'
 import { useEffect } from 'react'
 import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
@@ -28,11 +28,14 @@ function App() {
   const { initializeCart, refreshCartCount } = useCartStore();
   const { restoreFromPersistence } = useAuthStore();
   const location = useLocation();
+  const navigationType = useNavigationType();
 
-  // Scroll to top on route change
+  // Scroll to top only for PUSH navigation (forward), not POP (back)
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    if (navigationType === 'PUSH') {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, navigationType]);
 
   // Initialize app state when it loads
   useEffect(() => {
@@ -47,7 +50,6 @@ function App() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden) {
-        console.log('App became visible, refreshing cart count...');
         refreshCartCount();
       }
     };
@@ -62,7 +64,6 @@ function App() {
   // Periodic cart count refresh (every 30 seconds) to keep count accurate
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('Periodic cart count refresh...');
       refreshCartCount();
     }, 30000); // 30 seconds
 

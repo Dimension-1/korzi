@@ -128,7 +128,7 @@ export default function JournalPage() {
          />
         {/* Featured Article */}
         {featuredArticle && (
-          <section className="px-4 md:px-8 lg:px-24 pb-8 md:pb-16">
+          <section className="px-4 md:px-8 lg:px-24 pb-8 md:pb-16 min-h-[400px] md:min-h-[500px]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Image */}
               <div className="text-center lg:text-left">
@@ -170,7 +170,7 @@ export default function JournalPage() {
           </section>
         )}
 
-        <section className="px-4 sm:px-6 lg:px-8">
+        <section className="px-4 sm:px-6 lg:px-8 min-h-[600px] md:min-h-[800px]">
           <div className="max-w-[1512px] mx-auto">
 
             {/* Journal List */}
@@ -181,7 +181,6 @@ export default function JournalPage() {
                       key={`journal-${article.id}-${index}`}
                       to={`/logs/${article.id}`}
                       state={{ journal: article }}
-                      onClick={() => window.scrollTo(0, 0)}
                       className="border-b border-[var(--border)] pb-4 lg:pb-6 block hover:opacity-80 transition-opacity"
                     >
                       <div className="flex gap-4 lg:gap-6 items-start">
@@ -221,7 +220,6 @@ export default function JournalPage() {
                     key={blog.id} 
                     to={`/logs/${blog.id}`}
                     state={{ journal: blog }}
-                    onClick={() => window.scrollTo(0, 0)}
                     className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group z-30"
                   >
                     <div className="aspect-[4/3] overflow-hidden">

@@ -9,11 +9,6 @@ export default function Footer() {
   const navigate = useNavigate();
   const [isSubscribing, setIsSubscribing] = useState(false);
   
-  const handleLinkClick = (path: string) => {
-    window.scrollTo(0, 0);
-    navigate(path);
-  };
-  
   const { customer } = useAuthStore();
   
   const handleSubscribe = async () => {
@@ -44,7 +39,7 @@ export default function Footer() {
   };
   
   return (
-    <footer className="relative">
+    <footer className="relative min-h-[600px] md:min-h-[800px]">
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
@@ -111,7 +106,7 @@ export default function Footer() {
           {/* SHOP Column */}
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
             <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>SHOP</h3>
-            <Link to="/shop" onClick={() => handleLinkClick('/shop')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group">
+            <Link to="/shop"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group">
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Korzi Apex Drive RC Car</span>
             </Link>
@@ -121,12 +116,12 @@ export default function Footer() {
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
           <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>COMPANY</h3>
             <ul className="space-y-3">
-              <li><Link to="/about" onClick={() => handleLinkClick('/about')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
-              {/* <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li> */}
-              <li><Link to="/logs" onClick={() => handleLinkClick('/logs')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Logs</span></Link></li>
-              {/* <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li> */}
-              {/* <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li> */}
-              {/* <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li> */}
+              <li><Link to="/about"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">About Us</span></Link></li>
+              {/* <li><Link to="/careers"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Careers</span></Link></li> */}
+              <li><Link to="/logs"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Logs</span></Link></li>
+              {/* <li><Link to="/events"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Events</span></Link></li> */}
+              {/* <li><Link to="/partners"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Partners</span></Link></li> */}
+              {/* <li><Link to="/crew"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span></Link></li> */}
             </ul>
           </div>
 
@@ -134,11 +129,11 @@ export default function Footer() {
           <div className="p-12 border-l border-[#02FF00]" style={{ borderLeftWidth: '0.5px' }}>
           <h3 className="text-white uppercase mb-6" style={{ fontFamily: 'Bebas Neue', fontSize: '40px', lineHeight: '48px' }}>USER RESOURCES</h3>
             <ul className="space-y-3">
-              <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
-              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Support</span></Link></li>
-              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping Policy</span></Link></li>
-              <li><Link to="/return-exchange" onClick={() => handleLinkClick('/return-exchange')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Return & Exchange</span></Link></li>
-              <li><Link to="/terms" onClick={() => handleLinkClick('/terms')} className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Terms & Conditions</span></Link></li>
+              <li><Link to="/privacy"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Privacy Policy</span></Link></li>
+              <li><Link to="/support"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Support</span></Link></li>
+              <li><Link to="/shipping"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Shipping Policy</span></Link></li>
+              <li><Link to="/return-exchange"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Return & Exchange</span></Link></li>
+              <li><Link to="/terms"  className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"><span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span><span className="group-hover:scale-110 transition-transform duration-300">Terms & Conditions</span></Link></li>
             </ul>
           </div>
 
@@ -178,19 +173,19 @@ export default function Footer() {
           {/* SHOP Column */}
           <div className="p-6 border-r border-[#02FF00]" style={{ borderRightWidth: '0.5px' }}>
             <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>SHOP</h3>
-            <Link to="/shop" onClick={() => handleLinkClick('/shop')} className="text-white text-sm">Korzi Apex Drive RC Car</Link>
+            <Link to="/shop"  className="text-white text-sm">Korzi Apex Drive RC Car</Link>
           </div>
 
           {/* COMPANY Column */}
           <div className="p-6">
             <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>COMPANY</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/about" onClick={() => handleLinkClick('/about')} className="text-white">About Us</Link></li>
-              {/* <li><Link to="/careers" onClick={() => handleLinkClick('/careers')} className="text-white">Careers</Link></li> */}
-              <li><Link to="/logs" onClick={() => handleLinkClick('/logs')} className="text-white">Logs</Link></li>
-              {/* <li><Link to="/events" onClick={() => handleLinkClick('/events')} className="text-white">Events</Link></li> */}
-              {/* <li><Link to="/partners" onClick={() => handleLinkClick('/partners')} className="text-white">Partners</Link></li> */}
-              {/* <li><Link to="/crew" onClick={() => handleLinkClick('/crew')} className="text-white">Korzi Crew</Link></li> */}
+              <li><Link to="/about"  className="text-white">About Us</Link></li>
+              {/* <li><Link to="/careers"  className="text-white">Careers</Link></li> */}
+              <li><Link to="/logs"  className="text-white">Logs</Link></li>
+              {/* <li><Link to="/events"  className="text-white">Events</Link></li> */}
+              {/* <li><Link to="/partners"  className="text-white">Partners</Link></li> */}
+              {/* <li><Link to="/crew"  className="text-white">Korzi Crew</Link></li> */}
             </ul>
           </div>
 
@@ -198,11 +193,11 @@ export default function Footer() {
           <div className="p-6 border-t border-r border-gray-600" style={{ borderRightColor: '#02FF00', borderRightWidth: '0.5px' }}>
             <h3 className="text-white uppercase mb-4" style={{ fontFamily: 'Bebas Neue', fontSize: '28px', lineHeight: '32px' }}>USER RESOURCES</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/privacy" onClick={() => handleLinkClick('/privacy')} className="text-white">Privacy Policy</Link></li>
-              <li><Link to="/support" onClick={() => handleLinkClick('/support')} className="text-white">Support</Link></li>
-              <li><Link to="/shipping" onClick={() => handleLinkClick('/shipping')} className="text-white">Shipping Policy</Link></li>
-              <li><Link to="/return-exchange" onClick={() => handleLinkClick('/return-exchange')} className="text-white">Return & Exchange</Link></li>
-              <li><Link to="/terms" onClick={() => handleLinkClick('/terms')} className="text-white">Terms & Conditions</Link></li>
+              <li><Link to="/privacy"  className="text-white">Privacy Policy</Link></li>
+              <li><Link to="/support"  className="text-white">Support</Link></li>
+              <li><Link to="/shipping"  className="text-white">Shipping Policy</Link></li>
+              <li><Link to="/return-exchange"  className="text-white">Return & Exchange</Link></li>
+              <li><Link to="/terms"  className="text-white">Terms & Conditions</Link></li>
             </ul>
           </div>
 

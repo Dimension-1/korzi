@@ -30,7 +30,7 @@ export default function AutoScrollImages() {
   }, [activeIndex, images.length]);
 
   return (
-    <section className="bg-black py-8 md:py-16 px-4 md:px-8">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 min-h-[400px] md:min-h-[500px]">
       <div className="w-full mx-auto">
         {/* Scrolling Images */}
         <div 

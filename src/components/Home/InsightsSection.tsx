@@ -34,7 +34,7 @@ export default function InsightsSection() {
   }
 
   return (
-    <section className="bg-black py-8 md:py-16 px-4 md:px-8 mt-0 md:-mt-32 relative">
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 mt-0 md:-mt-32 relative min-h-[500px] md:min-h-[600px]">
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto">
         <h2 
           className="uppercase bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-8 md:mb-12 text-center text-[32px] leading-[40px] md:text-[64px] md:leading-[72px] relative z-30"
@@ -52,7 +52,6 @@ export default function InsightsSection() {
               key={blog.id} 
               to={`/logs/${blog.id}`}
               state={{ journal: blog }}
-              onClick={() => window.scrollTo(0, 0)}
               className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group flex-shrink-0 w-[280px] md:w-auto relative z-30"
             >
               <div className="aspect-[4/3] overflow-hidden">

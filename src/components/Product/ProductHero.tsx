@@ -165,7 +165,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   ];
 
   return (
-    <div className="w-full mx-auto px-4 md:px-8 py-4 md:py-12">
+    <div className="w-full mx-auto px-4 md:px-8 py-4 md:py-12 min-h-[800px] md:min-h-[900px]">
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16">
         {/* Right: Images - First on mobile */}
         <div className="space-y-2 lg:hidden">
