@@ -331,12 +331,13 @@ app.post('/api/auth/google', async (req, res) => {
 // ============= NEWSLETTER ENDPOINT =============
 app.post('/api/newsletter/subscribe', async (req, res) => {
   try {
-    const { email, logName } = req.body;
+    const { email, logName, name } = req.body;
+    const sourceLog = logName || name || 'website';
 
-    if (!email || !logName) {
+    if (!email) {
       return res.status(400).json({ 
         success: false, 
-        error: 'Email and log name are required' 
+        error: 'Email is required' 
       });
     }
 
@@ -349,7 +350,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
       });
     }
 
-    const result = await newsletterService.subscribe(email, logName);
+    const result = await newsletterService.subscribe(email, sourceLog);
     
     if (!result.success) {
       return res.status(400).json(result);
