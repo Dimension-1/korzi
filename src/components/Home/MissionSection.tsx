@@ -1,8 +1,53 @@
 import { ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../stores/authStore';
 
 
 export default function MissionSection() {
+  const navigate = useNavigate();
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { customer } = useAuthStore();
+  
+  const handleJoinUs = async () => {
+    if (!customer?.email) {
+      navigate('/signin');
+      return;
+    }
+    
+    setIsSubscribing(true);
+    
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
+      console.log('Newsletter API URL:', `${backendUrl}/api/newsletter/subscribe`);
+      
+      const response = await fetch(`${backendUrl}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: customer.email,
+          logName: 'Join Us' 
+        })
+      });
+      
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${responseText}`);
+      }
+      
+      const data = JSON.parse(responseText);
+      console.log('Newsletter subscription success:', data);
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+    } finally {
+      setTimeout(() => setIsSubscribing(false), 1000);
+    }
+  };
+  
   return (
     <section className="bg-black py-8 md:py-16 min-h-[500px] md:min-h-[600px]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
@@ -52,10 +97,14 @@ export default function MissionSection() {
               It needs machines that make you learn and feel alive.
             </p>
 
-            <button className="bg-[#3A3A3A] text-white px-6 md:px-8 py-3 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden mx-auto lg:mx-0">
+            <button 
+              onClick={handleJoinUs}
+              disabled={isSubscribing}
+              className="bg-[#3A3A3A] text-white px-6 md:px-8 py-3 flex items-center gap-2 md:gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden mx-auto lg:mx-0 disabled:opacity-50"
+            >
               <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
               <span className="relative z-10 group-hover:text-black transition-colors duration-300 text-xs md:text-sm" style={{ fontFamily: 'DM Sans', letterSpacing: '0.05em' }}>
-                JOIN US
+                {isSubscribing ? 'Subscribed for Updates!' : 'JOIN US'}
               </span>
               <ArrowUpRight className="relative z-10 w-4 h-4 md:w-5 md:h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
             </button>

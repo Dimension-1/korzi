@@ -20,7 +20,10 @@ export default function Footer() {
     setIsSubscribing(true);
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys'}/api/newsletter/subscribe`, {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
+      console.log('Newsletter API URL:', `${backendUrl}/api/newsletter/subscribe`);
+      
+      const response = await fetch(`${backendUrl}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -29,8 +32,16 @@ export default function Footer() {
         })
       });
       
-      const data = await response.json();
-      console.log('Newsletter subscription:', data);
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${responseText}`);
+      }
+      
+      const data = JSON.parse(responseText);
+      console.log('Newsletter subscription success:', data);
     } catch (error) {
       console.error('Newsletter subscription error:', error);
     } finally {
