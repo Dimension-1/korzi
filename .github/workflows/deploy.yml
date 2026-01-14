@@ -36,9 +36,9 @@ jobs:
         GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
         GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
         GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
-        VITE_AWS_S3_BUCKET: ${{ vars.VITE_AWS_S3_BUCKET }}
-        VITE_AWS_CLOUDFRONT_URL: ${{ vars.VITE_AWS_CLOUDFRONT_URL }}
-        VITE_AWS_REGION: ${{ vars.VITE_AWS_REGION }}
+        VITE_AWS_S3_BUCKET: korzi-website-assets-2026
+        VITE_AWS_CLOUDFRONT_URL: https://d3cak41b2hfe7v.cloudfront.net
+        VITE_AWS_REGION: ap-south-1
       run: npm run build
 
     - name: Deploy to VPS
