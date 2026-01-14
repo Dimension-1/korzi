@@ -674,64 +674,64 @@ export const validateAndRefreshCart = async (): Promise<Cart | null> => {
   }
 };
 
-// Discount Code Functions
-const GET_DISCOUNT_CODES = `
-  query getDiscountCodes($first: Int!) {
-    discountNodes(first: $first) {
-      edges {
-        node {
-          id
-          discount {
-            ... on DiscountCodeBasic {
-              title
-              codes(first: 10) {
-                edges {
-                  node {
-                    code
-                  }
-                }
-              }
-              status
-              startsAt
-              endsAt
-              customerSelection {
-                ... on DiscountCustomerAll {
-                  allCustomers
-                }
-              }
-              minimumRequirement {
-                ... on DiscountMinimumSubtotal {
-                  greaterThanOrEqualToSubtotal {
-                    amount
-                    currencyCode
-                  }
-                }
-              }
-              customerGets {
-                value {
-                  ... on DiscountPercentage {
-                    percentage
-                  }
-                  ... on DiscountAmount {
-                    amount {
-                      amount
-                      currencyCode
-                    }
-                  }
-                }
-                items {
-                  ... on AllDiscountItems {
-                    allItems
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// // Discount Code Functions
+// const GET_DISCOUNT_CODES = `
+//   query getDiscountCodes($first: Int!) {
+//     discountNodes(first: $first) {
+//       edges {
+//         node {
+//           id
+//           discount {
+//             ... on DiscountCodeBasic {
+//               title
+//               codes(first: 10) {
+//                 edges {
+//                   node {
+//                     code
+//                   }
+//                 }
+//               }
+//               status
+//               startsAt
+//               endsAt
+//               customerSelection {
+//                 ... on DiscountCustomerAll {
+//                   allCustomers
+//                 }
+//               }
+//               minimumRequirement {
+//                 ... on DiscountMinimumSubtotal {
+//                   greaterThanOrEqualToSubtotal {
+//                     amount
+//                     currencyCode
+//                   }
+//                 }
+//               }
+//               customerGets {
+//                 value {
+//                   ... on DiscountPercentage {
+//                     percentage
+//                   }
+//                   ... on DiscountAmount {
+//                     amount {
+//                       amount
+//                       currencyCode
+//                     }
+//                   }
+//                 }
+//                 items {
+//                   ... on AllDiscountItems {
+//                     allItems
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 export interface DiscountCode {
   code: string;
