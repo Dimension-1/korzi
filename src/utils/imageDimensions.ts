@@ -1,0 +1,568 @@
+// Image dimension mapping to preserve exact layouts
+export const imageDimensions: Record<string, { width: number; height: number; aspectRatio: string }> = {
+  "/assets/About/AutoScroll/AutoScroll1.png": {
+    "width": 1512,
+    "height": 2000,
+    "aspectRatio": "132.28%"
+  },
+  "/assets/About/AutoScroll/AutoScroll2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/About/AutoScroll/AutoScroll3.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/About/AutoScroll/AutoScroll4.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/About/AutoScroll/AutoScroll5.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/About/AutoScroll/AutoScroll6.png": {
+    "width": 1580,
+    "height": 2000,
+    "aspectRatio": "126.58%"
+  },
+  "/assets/About/AutoScroll/AutoScroll7.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/About/Hero Section/DragonFly.png": {
+    "width": 1143,
+    "height": 1143,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/About/Hero Section/Main.png": {
+    "width": 4096,
+    "height": 1936,
+    "aspectRatio": "47.27%"
+  },
+  "/assets/About/Hero Section/Main_mobile.png": {
+    "width": 1460,
+    "height": 2172,
+    "aspectRatio": "148.77%"
+  },
+  "/assets/About/PillarAnimation/Black.png": {
+    "width": 558,
+    "height": 1739,
+    "aspectRatio": "311.65%"
+  },
+  "/assets/About/PillarAnimation/Green.png": {
+    "width": 558,
+    "height": 2776,
+    "aspectRatio": "497.49%"
+  },
+  "/assets/About/PillarAnimation/green_mobile.png": {
+    "width": 282,
+    "height": 878,
+    "aspectRatio": "311.35%"
+  },
+  "/assets/About/Promise.png": {
+    "width": 2672,
+    "height": 2900,
+    "aspectRatio": "108.53%"
+  },
+  "/assets/CartDrawer/cod.png": {
+    "width": 108,
+    "height": 108,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/CartDrawer/exchange.png": {
+    "width": 80,
+    "height": 88,
+    "aspectRatio": "110.00%"
+  },
+  "/assets/CartDrawer/shipping.png": {
+    "width": 112,
+    "height": 96,
+    "aspectRatio": "85.71%"
+  },
+  "/assets/Product/4wd.png": {
+    "width": 104,
+    "height": 115,
+    "aspectRatio": "110.58%"
+  },
+  "/assets/Product/Power.png": {
+    "width": 166,
+    "height": 106,
+    "aspectRatio": "63.86%"
+  },
+  "/assets/Product/ProductTabs/CoreSpecs.png": {
+    "width": 2288,
+    "height": 2288,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/ProductTabs/Desc.png": {
+    "width": 2288,
+    "height": 2288,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/ProductTabs/builddim.png": {
+    "width": 2288,
+    "height": 2288,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/ProductTabs/performance.png": {
+    "width": 2288,
+    "height": 2288,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/ProductTabs/warranty.png": {
+    "width": 2288,
+    "height": 2288,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/ProductTabs/whatinbox.png": {
+    "width": 588,
+    "height": 588,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Product/biscert.png": {
+    "width": 152,
+    "height": 121,
+    "aspectRatio": "79.61%"
+  },
+  "/assets/Product/crasht_tested.png": {
+    "width": 102,
+    "height": 126,
+    "aspectRatio": "123.53%"
+  },
+  "/assets/Product/support.png": {
+    "width": 126,
+    "height": 122,
+    "aspectRatio": "96.83%"
+  },
+  "/assets/Product/throttle.png": {
+    "width": 126,
+    "height": 126,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Support/logo.png": {
+    "width": 732,
+    "height": 732,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/Support/repair.png": {
+    "width": 2676,
+    "height": 1800,
+    "aspectRatio": "67.26%"
+  },
+  "/assets/Support/safety.png": {
+    "width": 1716,
+    "height": 2188,
+    "aspectRatio": "127.51%"
+  },
+  "/assets/Support/warranty.png": {
+    "width": 2640,
+    "height": 1800,
+    "aspectRatio": "68.18%"
+  },
+  "/assets/homepage/ASEEMBLY.png": {
+    "width": 590,
+    "height": 139,
+    "aspectRatio": "23.56%"
+  },
+  "/assets/homepage/ApexDrive.png": {
+    "width": 2765,
+    "height": 214,
+    "aspectRatio": "7.74%"
+  },
+  "/assets/homepage/BIS Certified for Every Racer..png": {
+    "width": 1867,
+    "height": 139,
+    "aspectRatio": "7.45%"
+  },
+  "/assets/homepage/BIScar.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/Built strong, engineered safe. Korzi machines meet Indian safety standards and global durability benchmarks. .png": {
+    "width": 1306,
+    "height": 277,
+    "aspectRatio": "21.21%"
+  },
+  "/assets/homepage/Car_1.png": {
+    "width": 920,
+    "height": 654,
+    "aspectRatio": "71.09%"
+  },
+  "/assets/homepage/Car_2.png": {
+    "width": 2528,
+    "height": 1424,
+    "aspectRatio": "56.33%"
+  },
+  "/assets/homepage/Car_3.png": {
+    "width": 3444,
+    "height": 2016,
+    "aspectRatio": "58.54%"
+  },
+  "/assets/homepage/Ellipse 81.png": {
+    "width": 2892,
+    "height": 4416,
+    "aspectRatio": "152.70%"
+  },
+  "/assets/homepage/Ellipse80.png": {
+    "width": 2512,
+    "height": 4416,
+    "aspectRatio": "175.80%"
+  },
+  "/assets/homepage/From kids discovering their first RC to grown-ups reliving the rush. Korzi is where control meets connection. Drive, race, or build. You’re part of the Crew. .png": {
+    "width": 1887,
+    "height": 277,
+    "aspectRatio": "14.68%"
+  },
+  "/assets/homepage/Ghz.png": {
+    "width": 965,
+    "height": 1059,
+    "aspectRatio": "109.74%"
+  },
+  "/assets/homepage/Group 47677.png": {
+    "width": 125,
+    "height": 125,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/homepage/Group 48405.png": {
+    "width": 720,
+    "height": 256,
+    "aspectRatio": "35.56%"
+  },
+  "/assets/homepage/Group 48406.png": {
+    "width": 720,
+    "height": 256,
+    "aspectRatio": "35.56%"
+  },
+  "/assets/homepage/Group 48427.png": {
+    "width": 720,
+    "height": 256,
+    "aspectRatio": "35.56%"
+  },
+  "/assets/homepage/Group 48428.png": {
+    "width": 964,
+    "height": 256,
+    "aspectRatio": "26.56%"
+  },
+  "/assets/homepage/Group 48429.png": {
+    "width": 5320,
+    "height": 1752,
+    "aspectRatio": "32.93%"
+  },
+  "/assets/homepage/HOME-1.png": {
+    "width": 5914,
+    "height": 32768,
+    "aspectRatio": "554.08%"
+  },
+  "/assets/homepage/HOME.png": {
+    "width": 5914,
+    "height": 32768,
+    "aspectRatio": "554.08%"
+  },
+  "/assets/homepage/How durable is it_ Can it handle crashes, jumps, or rough surfaces_ The Apex Drive K-01 is built to take hits. Crash-tested, drop-tested, and stress-tested on real Indian surfaces — tiles, cement, mud, gravel, brick, everything.  If somethi.png": {
+    "width": 2834,
+    "height": 685,
+    "aspectRatio": "24.17%"
+  },
+  "/assets/homepage/How long does the battery last and how fast can I get back to racing_ You get 20 –24 minutes of solid run time depending on your driving style.  Recharge, plug in, and you’re back in action within roughly an hour.   No AA batteries, no hi.png": {
+    "width": 2185,
+    "height": 582,
+    "aspectRatio": "26.64%"
+  },
+  "/assets/homepage/IMG_4358 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/IMG_4957 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Is it safe for kids_ Is Korzi BIS certified_ Absolutely. Every Korzi machine is BIS certified and built with child-safe materials. Strong outside, safe inside — no toxics, no sharp edges, no surprise hazards. It’s a machine kids can enjoy.png": {
+    "width": 2358,
+    "height": 477,
+    "aspectRatio": "20.23%"
+  },
+  "/assets/homepage/Korziteam.png": {
+    "width": 2616,
+    "height": 1856,
+    "aspectRatio": "70.95%"
+  },
+  "/assets/homepage/MANUFACTURING-1.png": {
+    "width": 1273,
+    "height": 185,
+    "aspectRatio": "14.53%"
+  },
+  "/assets/homepage/Machines Made to Bring People Together. .png": {
+    "width": 1965,
+    "height": 331,
+    "aspectRatio": "16.84%"
+  },
+  "/assets/homepage/Manufacturing.png": {
+    "width": 955,
+    "height": 139,
+    "aspectRatio": "14.55%"
+  },
+  "/assets/homepage/Mask group.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Packaging.png": {
+    "width": 630,
+    "height": 139,
+    "aspectRatio": "22.06%"
+  },
+  "/assets/homepage/Parentkid.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/Rectangle 39992.png": {
+    "width": 5320,
+    "height": 1752,
+    "aspectRatio": "32.93%"
+  },
+  "/assets/homepage/Rectangle 39993.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/Rectangle 39994.png": {
+    "width": 5320,
+    "height": 1752,
+    "aspectRatio": "32.93%"
+  },
+  "/assets/homepage/Rectangle 39995.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/Screenshot 2025-11-14 at 1.08.15 PM 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Screenshot 2025-11-14 at 12.06.16 PM 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Screenshot 2025-11-14 at 12.17.55 PM 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Screenshot 2025-11-14 at 12.44.03 PM 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Screenshot 2025-11-14 at 12.59.12 PM 1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/Servicing.png": {
+    "width": 586,
+    "height": 139,
+    "aspectRatio": "23.72%"
+  },
+  "/assets/homepage/TESTING.png": {
+    "width": 468,
+    "height": 139,
+    "aspectRatio": "29.70%"
+  },
+  "/assets/homepage/What makes a Korzi machines different from a regular RC toy_ Most RC toys look fast but aren’t built to handle real play.  A Korzi machine is designed like a mini vehicle → stronger shell, smoother control, better balance, and a rechargeabl.png": {
+    "width": 2814,
+    "height": 582,
+    "aspectRatio": "20.68%"
+  },
+  "/assets/homepage/Why should I choose an RC machine over screen time for kids_ Because RC machines build real skills → focus, coordination, spatial control, and confidence.  Kids learn to drive, react, adjust, and stay present.   It’s hands-on, fast, and f.png": {
+    "width": 2666,
+    "height": 582,
+    "aspectRatio": "21.83%"
+  },
+  "/assets/homepage/assembly1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/assembly2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/cart.png": {
+    "width": 87,
+    "height": 87,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/homepage/control.png": {
+    "width": 958,
+    "height": 1053,
+    "aspectRatio": "109.92%"
+  },
+  "/assets/homepage/crashed_test.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/curvedarrow.png": {
+    "width": 256,
+    "height": 219,
+    "aspectRatio": "85.55%"
+  },
+  "/assets/homepage/dragonfly.png": {
+    "width": 1424,
+    "height": 1044,
+    "aspectRatio": "73.31%"
+  },
+  "/assets/homepage/km.png": {
+    "width": 968,
+    "height": 1062,
+    "aspectRatio": "109.71%"
+  },
+  "/assets/homepage/kmh.png": {
+    "width": 968,
+    "height": 1062,
+    "aspectRatio": "109.71%"
+  },
+  "/assets/homepage/korziwithouticon.png": {
+    "width": 486,
+    "height": 84,
+    "aspectRatio": "17.28%"
+  },
+  "/assets/homepage/linkedin.png": {
+    "width": 124,
+    "height": 124,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/homepage/manufacturing1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/manufacturing2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/network.png": {
+    "width": 2624,
+    "height": 1600,
+    "aspectRatio": "60.98%"
+  },
+  "/assets/homepage/packaging1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/packaging2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/powermeetsprecision.png": {
+    "width": 2908,
+    "height": 1752,
+    "aspectRatio": "60.25%"
+  },
+  "/assets/homepage/profile.png": {
+    "width": 22,
+    "height": 22,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/homepage/range.png": {
+    "width": 923,
+    "height": 1021,
+    "aspectRatio": "110.62%"
+  },
+  "/assets/homepage/scale.png": {
+    "width": 992,
+    "height": 1083,
+    "aspectRatio": "109.17%"
+  },
+  "/assets/homepage/services1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/services2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/testing1.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/testing2.png": {
+    "width": 1600,
+    "height": 2000,
+    "aspectRatio": "125.00%"
+  },
+  "/assets/homepage/tyremarks.png": {
+    "width": 5380,
+    "height": 276,
+    "aspectRatio": "5.13%"
+  },
+  "/assets/homepage/youtube.png": {
+    "width": 144,
+    "height": 144,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/party.png": {
+    "width": 276,
+    "height": 276,
+    "aspectRatio": "100.00%"
+  },
+  "/assets/smiley.png": {
+    "width": 216,
+    "height": 216,
+    "aspectRatio": "100.00%"
+  },
+  "/buttonarrow.png": {
+    "width": 241,
+    "height": 240,
+    "aspectRatio": "99.59%"
+  },
+  "/coming-soon.gif": {
+    "width": 1080,
+    "height": 1350,
+    "aspectRatio": "125.00%"
+  },
+  "/favicon.png": {
+    "width": 64,
+    "height": 64,
+    "aspectRatio": "100.00%"
+  },
+  "/image.png": {
+    "width": 994,
+    "height": 624,
+    "aspectRatio": "62.78%"
+  },
+  "/logo-horizontal.png": {
+    "width": 2719,
+    "height": 628,
+    "aspectRatio": "23.10%"
+  },
+  "/logo-mono.png": {
+    "width": 4000,
+    "height": 3988,
+    "aspectRatio": "99.70%"
+  },
+  "/logo-stacked.png": {
+    "width": 4000,
+    "height": 4000,
+    "aspectRatio": "100.00%"
+  }
+};

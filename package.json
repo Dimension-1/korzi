@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "map-dimensions": "node scripts/map-dimensions.cjs",
+    "optimize-images": "node scripts/optimize-images.js",
+    "upload-assets": "node scripts/upload-to-s3.js",
+    "migrate-to-s3": "npm run map-dimensions && npm run optimize-images && npm run upload-assets"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.2",
@@ -16,6 +20,7 @@
     "@shopify/storefront-api-client": "^1.0.9",
     "@types/js-cookie": "^3.0.6",
     "@types/three": "^0.154.0",
+    "aws-sdk": "^2.1691.0",
     "cors": "^2.8.5",
     "dompurify": "^3.3.0",
     "dotenv": "^17.2.3",
@@ -27,6 +32,7 @@
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.542.0",
+    "mime-types": "^2.1.35",
     "prop-types": "^15.8.1",
     "razorpay": "^2.9.6",
     "react": "^19.1.0",
@@ -34,6 +40,7 @@
     "react-hot-toast": "^2.6.0",
     "react-responsive-masonry": "^2.7.1",
     "react-router-dom": "^6.8.1",
+    "sharp": "^0.33.5",
     "three": "^0.159.0",
     "zustand": "^5.0.8"
   },

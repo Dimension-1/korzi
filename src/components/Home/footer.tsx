@@ -54,7 +54,7 @@ export default function Footer() {
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/Car_2_wst85g.png')} 
+          src={getCloudinaryUrl('/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[356px] object-contain"
         />
@@ -63,7 +63,7 @@ export default function Footer() {
       {/* Mobile Car Image Section */}
       <div className="md:hidden relative w-full h-[200px] flex items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/Car_2_wst85g.png')} 
+          src={getCloudinaryUrl('/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-auto h-full object-contain"
         />
