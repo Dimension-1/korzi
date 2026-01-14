@@ -371,6 +371,193 @@ app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
   console.log('Allowed CORS origins:', allowedOrigins);
 });
+// ============= SHOPIFY DISCOUNT VALIDATION =============
+
+// Validate discount code
+app.post('/api/shopify/validate-discount', async (req, res) => {
+  try {
+    const { code, cartTotal, cartItems } = req.body;
+
+    console.log('Validating discount code:', code);
+    console.log('Cart items:', cartItems);
+
+    let discount = null;
+    
+    // Search through price rules to find the discount
+    try {
+      console.log('Fetching price rules...');
+      const priceRulesResponse = await fetch(
+        `https://ujivar-cd.myshopify.com/admin/api/2023-10/price_rules.json`,
+        {
+          headers: {
+            'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      const priceRulesData = await priceRulesResponse.json();
+      console.log('Price rules response status:', priceRulesResponse.status);
+      console.log('Price rules data:', JSON.stringify(priceRulesData, null, 2));
+      
+      if (priceRulesData.price_rules) {
+        console.log('Found', priceRulesData.price_rules.length, 'price rules');
+        
+        for (const priceRule of priceRulesData.price_rules) {
+          console.log('Checking price rule:', priceRule.id, priceRule.title);
+          
+          const codesResponse = await fetch(
+            `https://ujivar-cd.myshopify.com/admin/api/2023-10/price_rules/${priceRule.id}/discount_codes.json`,
+            {
+              headers: {
+                'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          
+          const codesData = await codesResponse.json();
+          console.log('Codes for rule', priceRule.id, ':', codesData);
+          
+          if (codesData.discount_codes) {
+            const foundCode = codesData.discount_codes.find(d => 
+              d.code.toUpperCase() === code.toUpperCase()
+            );
+            
+            if (foundCode) {
+              console.log('Found matching code:', foundCode);
+              discount = { ...foundCode, price_rule: priceRule };
+              break;
+            }
+          }
+        }
+      } else {
+        console.log('No price_rules in response');
+      }
+    } catch (error) {
+      console.log('Failed to get price rules:', error.message);
+      console.log('Error details:', error);
+    }
+    
+    if (!discount) {
+      return res.json({ valid: false, message: 'Coupon code not found' });
+    }
+
+    const rule = discount.price_rule;
+    
+    // Check if discount is enabled
+    if (rule.enabled === false) {
+      return res.json({ valid: false, message: 'Coupon is not active' });
+    }
+
+    // Check usage limit
+    if (rule.usage_limit && rule.usage_count >= rule.usage_limit) {
+      return res.json({ valid: false, message: 'Coupon usage limit exceeded' });
+    }
+
+    // Check date validity
+    const now = new Date();
+    if (rule.starts_at && new Date(rule.starts_at) > now) {
+      return res.json({ valid: false, message: 'Coupon is not yet active' });
+    }
+    if (rule.ends_at && new Date(rule.ends_at) < now) {
+      return res.json({ valid: false, message: 'Coupon has expired' });
+    }
+
+    // Check product eligibility - proper implementation
+    let finalCartTotal = cartTotal; // Default to full cart total
+    
+    if (rule.entitled_product_ids && rule.entitled_product_ids.length > 0) {
+      console.log('Product-specific discount - validating cart items');
+      console.log('Rule entitled_product_ids:', rule.entitled_product_ids);
+      console.log('Cart items:', cartItems);
+      
+      // Get actual product IDs from variant IDs
+      let hasEligibleProducts = false;
+      let eligibleCartTotal = 0;
+      
+      for (const item of cartItems || []) {
+        try {
+          // Fetch variant details to get product ID
+          const variantResponse = await fetch(
+            `https://ujivar-cd.myshopify.com/admin/api/2023-10/variants/${item.variantId}.json`,
+            {
+              headers: {
+                'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          
+          if (variantResponse.ok) {
+            const variantData = await variantResponse.json();
+            const productId = variantData.variant.product_id;
+            
+            console.log(`Variant ${item.variantId} belongs to product ${productId}`);
+            
+            // Check if this product is eligible for the discount
+            if (rule.entitled_product_ids.includes(productId)) {
+              hasEligibleProducts = true;
+              eligibleCartTotal += item.price * item.quantity;
+              console.log(`Product ${productId} is eligible for discount`);
+            } else {
+              console.log(`Product ${productId} is NOT eligible for discount`);
+            }
+          }
+        } catch (error) {
+          console.log('Error fetching variant details:', error.message);
+        }
+      }
+      
+      if (!hasEligibleProducts) {
+        return res.json({ 
+          valid: false, 
+          message: 'This coupon is not valid for the products in your cart' 
+        });
+      }
+      
+      // Use only eligible products total for discount calculation
+      finalCartTotal = eligibleCartTotal;
+      console.log('Eligible cart total:', eligibleCartTotal);
+    }
+    
+    console.log('Applying discount to cart total:', finalCartTotal);
+
+    // Check minimum requirement
+    if (rule.prerequisite_subtotal_range?.greater_than_or_equal_to) {
+      const minAmount = parseFloat(rule.prerequisite_subtotal_range.greater_than_or_equal_to);
+      if (finalCartTotal < minAmount) {
+        return res.json({ 
+          valid: false, 
+          message: `Minimum order amount ₹${minAmount} required` 
+        });
+      }
+    }
+
+    // Calculate discount amount
+    let discountAmount = 0;
+    let discountType = 'fixed';
+
+    if (rule.value_type === 'percentage') {
+      discountType = 'percentage';
+      discountAmount = (finalCartTotal * Math.abs(parseFloat(rule.value))) / 100;
+    } else if (rule.value_type === 'fixed_amount') {
+      discountAmount = Math.abs(parseFloat(rule.value));
+    }
+
+    res.json({
+      valid: true,
+      discount: Math.min(discountAmount, finalCartTotal),
+      type: discountType,
+      message: 'Coupon applied successfully'
+    });
+
+  } catch (error) {
+    console.error('Error validating discount:', error);
+    res.json({ valid: false, message: 'Failed to validate coupon' });
+  }
+});
+
 // ============= BIGSHIP ENDPOINTS =============
 
 

@@ -6,7 +6,7 @@ import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse } from '../services/razorpay';
 import { createShopifyOrder } from '../services/orders';
-import { createShipment } from '../services/bigship';
+import { validateDiscountCode } from '../services/shopify';
 import ProcessingOverlay from './ProcessingOverlay';
 import CouponInput from './CouponInput';
 
@@ -68,15 +68,24 @@ const CheckoutPage: React.FC = () => {
       return { success: true };
     }
 
-    // For testing: Fixed ₹6489 discount
-    if (code === 'TESTFREEDEV468864' && currentOrder) {
-      const discountAmount = 6489;
-      setAppliedCoupon(code);
-      setDiscount(discountAmount);
-      return { success: true, discount: discountAmount };
+    if (!currentOrder) {
+      return { success: false, message: 'No order found' };
     }
 
-    return { success: false, message: 'Invalid coupon code' };
+    try {
+      // Validate with Shopify via backend
+      const result = await validateDiscountCode(code, currentOrder.totalAmount, currentOrder.items);
+      
+      if (result.valid && result.discount) {
+        setAppliedCoupon(code);
+        setDiscount(result.discount);
+        return { success: true, discount: result.discount };
+      } else {
+        return { success: false, message: result.message || 'Invalid coupon code' };
+      }
+    } catch (error) {
+      return { success: false, message: 'Failed to validate coupon' };
+    }
   };
 
   const validateForm = () => {

@@ -674,6 +674,115 @@ export const validateAndRefreshCart = async (): Promise<Cart | null> => {
   }
 };
 
+// Discount Code Functions
+const GET_DISCOUNT_CODES = `
+  query getDiscountCodes($first: Int!) {
+    discountNodes(first: $first) {
+      edges {
+        node {
+          id
+          discount {
+            ... on DiscountCodeBasic {
+              title
+              codes(first: 10) {
+                edges {
+                  node {
+                    code
+                  }
+                }
+              }
+              status
+              startsAt
+              endsAt
+              customerSelection {
+                ... on DiscountCustomerAll {
+                  allCustomers
+                }
+              }
+              minimumRequirement {
+                ... on DiscountMinimumSubtotal {
+                  greaterThanOrEqualToSubtotal {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+              customerGets {
+                value {
+                  ... on DiscountPercentage {
+                    percentage
+                  }
+                  ... on DiscountAmount {
+                    amount {
+                      amount
+                      currencyCode
+                    }
+                  }
+                }
+                items {
+                  ... on AllDiscountItems {
+                    allItems
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export interface DiscountCode {
+  code: string;
+  title: string;
+  status: string;
+  percentage?: number;
+  amount?: number;
+  minimumAmount?: number;
+  startsAt?: string;
+  endsAt?: string;
+}
+
+// Note: This requires Admin API access, not Storefront API
+// For production, you'll need to implement this on your backend
+export const getDiscountCodes = async (): Promise<DiscountCode[]> => {
+  // This is a placeholder - Shopify Storefront API doesn't support discount codes
+  // You need to implement this on your backend using Admin API
+  console.warn('Discount codes must be fetched via Admin API on backend');
+  return [];
+};
+
+// Validate discount code via backend
+export const validateDiscountCode = async (code: string, cartTotal: number, cartItems?: any[]): Promise<{
+  valid: boolean;
+  discount?: number;
+  type?: 'percentage' | 'fixed';
+  message?: string;
+}> => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/validate-discount`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        code, 
+        cartTotal,
+        cartItems: cartItems?.map(item => ({
+          variantId: item.variantId?.split('/').pop(), // Extract variant ID from GraphQL ID
+          price: item.price,
+          quantity: item.quantity
+        }))
+      })
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error validating discount code:', error);
+    return { valid: false, message: 'Failed to validate coupon' };
+  }
+};
+
 // Remove items from cart
 export const removeFromCart = async (lineIds: string[]): Promise<Cart | null> => {
   const cartId = getCartId();
