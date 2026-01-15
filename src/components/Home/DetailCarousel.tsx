@@ -129,13 +129,13 @@ export default function DetailCarousel() {
                 }`}
               >
                 {/* Slide Content Grid */}
-                <div className="flex flex-col lg:grid lg:grid-cols-2 lg:h-full overflow-visible">
+                <div className="flex flex-col lg:grid lg:grid-cols-2 h-full ">
                   {/* Image Section - First on Mobile */}
                   <div className="relative bg-gray-800 lg:order-2 h-[250px] lg:h-full">
                     <img 
                       src={getCloudinaryUrl(slide.image)} 
                       alt={slide.title}
-                      className="relative w-full h-full object-cover z-20"
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                     <button
