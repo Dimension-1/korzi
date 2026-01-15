@@ -38,8 +38,4 @@ export default {
     },
   },
   plugins: [],
-  safelist: [
-    'bg-transparent',
-    'bg-black',
-  ],
 }
