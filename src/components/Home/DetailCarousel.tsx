@@ -102,7 +102,7 @@ export default function DetailCarousel() {
           {/* Previous Button */}
           <button
             onClick={prevSlide}
-            className="absolute -left-2 md:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            className="hidden md:block absolute -left-2 md:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
@@ -111,14 +111,14 @@ export default function DetailCarousel() {
           {/* Next Button */}
           <button
             onClick={nextSlide}
-            className="absolute -right-2 md:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            className="hidden md:block absolute -right-2 md:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
           </button>
 
         {/* Carousel Card Container */}
-        <div className="relative bg-black border border-gray-700 overflow-hidden z-10 h-[600px] md:h-[500px]">
+        <div className="relative bg-black border border-gray-700 overflow-visible z-10 h-[600px] md:h-[500px]">
           {/* Slides Container */}
           <div className="relative h-full">
             {slides.map((slide, index) => (
@@ -129,15 +129,53 @@ export default function DetailCarousel() {
                 }`}
               >
                 {/* Slide Content Grid */}
-                <div className="flex flex-col lg:grid lg:grid-cols-2 h-full">
+                <div className="flex flex-col lg:grid lg:grid-cols-2 lg:h-full overflow-visible">
                   {/* Image Section - First on Mobile */}
                   <div className="relative bg-gray-800 lg:order-2 h-[250px] lg:h-full">
                     <img 
                       src={getCloudinaryUrl(slide.image)} 
                       alt={slide.title}
-                      className="w-full h-full object-cover"
+                      className="relative w-full h-full object-cover z-20"
                       loading="lazy"
                     />
+                    <button
+  onClick={prevSlide}
+  aria-label="Previous slide"
+  className="
+    absolute
+    -left-3
+    -bottom-2.5
+    p-2
+    bg-gray-800
+    hover:bg-[#02FF00]
+    flex items-center justify-center
+    z-30
+    transition-colors
+    group
+    lg:hidden
+  "
+>
+  <ChevronLeft className="w-5 h-5 text-white group-hover:text-black transition-colors" />
+</button>
+<button
+  onClick={nextSlide}
+  aria-label="Next slide"
+  className="
+    absolute
+    -right-3
+    -bottom-2.5
+    p-2
+    bg-gray-800
+    hover:bg-[#02FF00]
+    flex items-center justify-center
+    z-30
+    transition-colors
+    group
+    lg:hidden
+  "
+>
+  <ChevronRight className="w-5 h-5 text-white group-hover:text-black transition-colors" />
+</button>
                   </div>
 
                   {/* Content Section - Second on Mobile */}

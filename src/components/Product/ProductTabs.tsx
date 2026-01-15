@@ -134,9 +134,9 @@ export default function ProductTabs() {
                   <span className="text-sm md:text-base font-bold text-white">Product Weight</span>
                   <span className="text-sm md:text-base">852.6g (with battery)</span>
                 </div>
-                <div className="flex justify-between py-1.5 md:py-2">
+                <div className="flex justify-between py-1.5 md:py-2 gap-x-16">
                   <span className="text-sm md:text-base font-bold text-white">Material</span>
-                  <span className="text-sm md:text-base">ABS Shell, PA Components, Reinforced Chassis, Hardware & Electronics</span>
+                  <span className="text-sm md:text-base text-right">ABS Shell, PA Components, Reinforced Chassis, Hardware & Electronics</span>
                 </div>
               </div>
               <div className="bg-zinc-900 flex items-center justify-center p-0 overflow-hidden">
