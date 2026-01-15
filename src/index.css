@@ -185,6 +185,6 @@ a {
 }
 
 /* Fix Google Sign-In white background leak */
-.S9gUrf-YoZ4jf > div {
+.S9gUrf-YoZ4jf > div:empty {
   display: none;
 }
