@@ -183,3 +183,8 @@ a {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Fix Google Sign-In white background leak */
+.S9gUrf-YoZ4jf > div {
+  display: none;
+}
