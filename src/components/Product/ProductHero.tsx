@@ -22,7 +22,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const { addToCart } = useCartStore();
-  const { setCurrentOrder, currentOrder } = useOrderStore();
+  const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const desktopContainerRef = useRef<HTMLDivElement>(null);
