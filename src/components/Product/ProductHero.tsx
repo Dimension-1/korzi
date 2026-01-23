@@ -122,14 +122,14 @@ export default function ProductHero({ product }: ProductHeroProps) {
       product_id:product?.variantId,
       content_type:product.title
     });
-    
+
     setIsAddingToCart(true);
     try {
       await addToCart({
         title: product.title,
         price: product.price,
         originalPrice: product.compareAtPrice,
-        quantity: 1,
+        quantity: quantity || 1,
         image: product.images[0]?.url || '/image.png',
         variantId: product.variantId
       });
