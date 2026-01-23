@@ -4,7 +4,12 @@ import { useCartStore } from '../stores/cartStore';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
 import { getCloudinaryUrl } from '../utils/cloudinary';
+import { eventNames, pushToDataLayer } from '../utils/gtm';
 
+export enum Operation {
+  INCREASE = 'INCREASE',
+  DECREASE = 'DECREASE',
+}
 
 interface CartDrawerProps {
   onCheckout?: () => void;
@@ -36,7 +41,32 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     closeDrawer();
   };
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
+  const handleQuantityChange = (id: string, newQuantity: number, currentQuantity:number, operation:Operation, price:number) => {
+ 
+    if(operation === Operation.DECREASE){
+      pushToDataLayer({
+        event: eventNames.remove_from_cart,
+        button_name: '-',
+        newQuantity:newQuantity,
+        prevQuantiry:currentQuantity,
+        previousValue:price * newQuantity,
+        product_id:id,
+        value:price * currentQuantity
+      });
+    }
+    else if(operation === Operation.INCREASE){
+      pushToDataLayer({
+        event: eventNames.add_quantity_cart,
+        button_name: '+',
+        newQuantity:newQuantity,
+        prevQuantiry:currentQuantity,
+        product_id:id,
+        previousValue:price * newQuantity,
+        value:price * currentQuantity
+
+      });
+    }
+  
     updateQuantity(id, newQuantity);
   };
 
@@ -213,14 +243,14 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
                         <span className="text-white text-base md:text-xl font-bold">₹{item.price.toLocaleString()}</span>
                         <div className="flex items-center gap-2 md:gap-3 border border-white/30 px-2 py-1 md:px-3 md:py-1.5">
                           <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                            onClick={() => handleQuantityChange(item.id, item.quantity - 1, item.quantity, Operation.DECREASE, item.price)}
                             className="text-white hover:text-[#02FF00] transition-colors text-lg md:text-xl leading-none"
                           >
                             −
                           </button>
                           <span className="text-white text-sm md:text-lg font-medium min-w-[24px] md:min-w-[30px] text-center">{String(item.quantity).padStart(2, '0')}</span>
                           <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                            onClick={() => handleQuantityChange(item.id, item.quantity + 1, item.quantity, Operation.INCREASE, item.price)}
                             className="text-white hover:text-[#02FF00] transition-colors text-lg md:text-xl leading-none"
                           >
                             +
