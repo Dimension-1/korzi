@@ -10,6 +10,7 @@ import { createShipment } from '../services/bigship';
 import { validateDiscountCode } from '../services/shopify';
 import ProcessingOverlay from './ProcessingOverlay';
 import CouponInput from './CouponInput';
+import { eventNames, pushToDataLayer } from '../utils/gtm';
 
 
 const CheckoutPage: React.FC = () => {
@@ -117,7 +118,7 @@ const CheckoutPage: React.FC = () => {
     if (!currentOrder) {
       setSubmitError('Order not found. Please try again.');
       return;
-    }
+    } 
 
     setIsProcessing(true);
 
@@ -166,11 +167,28 @@ const CheckoutPage: React.FC = () => {
 
       if (!shopifyOrderResult.success) {
         setSubmitError('Failed to create order. Please try again.');
+        pushToDataLayer({
+          event: eventNames.payment_initiated_failed,
+          button_name: 'Submit',
+          value:currentOrder.totalAmount,
+          quantiry:currentOrder.items.length,
+          error:'Failed to create order',
+          errorType:'SHOPIFY_ORDER_CREATION_FAILED'
+        })
         return;
       }
-
       const shopifyOrderId = shopifyOrderResult.orderId;
       const shopifyOrderNumber = shopifyOrderResult.orderNumber;
+
+      pushToDataLayer({
+        event: eventNames.payment_initiated,
+        button_name: 'Submit',
+        value:currentOrder.totalAmount,
+        quantiry:currentOrder.items.length,
+        shopify_order_id:shopifyOrderId || ''
+      })
+
+  
 
       // Create Razorpay order with final amount after discount
       const razorpayOrderId = await createRazorpayOrder(
@@ -194,7 +212,14 @@ const CheckoutPage: React.FC = () => {
           console.log('Payment successful:', response);
           console.log('Shopify Order Number:', shopifyOrderNumber);
           console.log('Shopify Order ID:', shopifyOrderId);
-          
+          pushToDataLayer({
+            event: eventNames.payment_initate_successful,
+            button_name: 'Submit',
+            value:currentOrder.totalAmount,
+            quantiry:currentOrder.items.length,
+            shopify_order_id:shopifyOrderId,
+            shopify_order_number:shopifyOrderNumber
+          })
           setIsProcessing(true);
           
           try {
@@ -213,9 +238,25 @@ const CheckoutPage: React.FC = () => {
             const verifyData = await verifyResponse.json();
             
             if (!verifyData.success || !verifyData.verified) {
+              pushToDataLayer({
+                event: eventNames.payment_verification_failed,
+                button_name: 'Submit',
+                value:currentOrder.totalAmount,
+                quantiry:currentOrder.items.length,
+                shopify_order_id:shopifyOrderId,
+                shopify_order_number:shopifyOrderNumber,
+                errorType:'RAZORPAY_PAYMENT_VERIFICATION_FAILED'
+              })
               throw new Error('Payment verification failed');
             }
-
+            pushToDataLayer({
+              event: eventNames.payment_verification_successful,
+              button_name: 'Submit',
+              value:currentOrder.totalAmount,
+              quantiry:currentOrder.items.length,
+              shopify_order_id:shopifyOrderId,
+              shopify_order_number:shopifyOrderNumber,
+            })
             console.log('Payment verified successfully');
 
             // 2. Complete draft order and send invoice
@@ -321,6 +362,15 @@ const CheckoutPage: React.FC = () => {
         },        
         onFailure: (error) => {
           console.error('Payment failed:', error);
+          pushToDataLayer({
+            event: eventNames.payment_failed,
+            button_name: 'Submit',
+            value:currentOrder.totalAmount,
+            quantiry:currentOrder.items.length,
+            shopify_order_id:shopifyOrderId,
+            shopify_order_number:shopifyOrderNumber,
+            error:JSON.stringify(error)
+          })
           setSubmitError(error.description || 'Payment failed. Please try again.');
           // Navigate to error page
           navigate('/error');
