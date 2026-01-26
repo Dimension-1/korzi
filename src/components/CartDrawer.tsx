@@ -4,7 +4,7 @@ import { useCartStore } from '../stores/cartStore';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
 import { getCloudinaryUrl } from '../utils/cloudinary';
-import { eventNames, pushToDataLayer } from '../utils/gtm';
+import { eventNames, gaEvent } from '../utils/gtm';
 
 export enum Operation {
   INCREASE = 'INCREASE',
@@ -44,27 +44,24 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
   const handleQuantityChange = (id: string, newQuantity: number, currentQuantity:number, operation:Operation, price:number) => {
  
     if(operation === Operation.DECREASE){
-      pushToDataLayer({
-        event: eventNames.remove_from_cart,
+      gaEvent(eventNames.remove_from_cart, {
         button_name: '-',
         newQuantity:newQuantity,
         prevQuantiry:currentQuantity,
         previousValue:price * newQuantity,
         product_id:id,
         value:price * currentQuantity
-      });
+      })
     }
     else if(operation === Operation.INCREASE){
-      pushToDataLayer({
-        event: eventNames.add_quantity_cart,
+      gaEvent(eventNames.add_quantity_cart, {
         button_name: '+',
         newQuantity:newQuantity,
         prevQuantiry:currentQuantity,
         product_id:id,
         previousValue:price * newQuantity,
         value:price * currentQuantity
-
-      });
+      })
     }
   
     updateQuantity(id, newQuantity);

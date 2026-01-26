@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../stores/cartStore';
 import { useOrderStore } from '../../stores/orderStore';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
-import { eventNames, pushToDataLayer } from '../../utils/gtm';
+import { eventNames, gaEvent } from '../../utils/gtm';
 
 interface ProductHeroProps {
   product: {
@@ -87,13 +87,12 @@ export default function ProductHero({ product }: ProductHeroProps) {
     
     setIsAddingToCart(true);
     try {
-      pushToDataLayer({
-        event: eventNames.add_to_cart,
+      gaEvent(eventNames.add_to_cart, {
         button_name: 'Add to cart',
         value:product.price * quantity,
         currency:'Rupee',
         product_id:product?.variantId
-      });
+      })
       await addToCart({
         title: product.title,
         price: product.price,
@@ -114,14 +113,13 @@ export default function ProductHero({ product }: ProductHeroProps) {
 
     
     if (isAddingToCart) return;
-
-    pushToDataLayer({
-      event: eventNames.purchase,
+    gaEvent(eventNames.purchase, {
       button_name: 'buy_now',
       value:quantity * product?.price || 0,
       product_id:product?.variantId,
       content_type:product.title
-    });
+    })
+  
 
     setIsAddingToCart(true);
     try {
