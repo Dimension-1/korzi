@@ -23,6 +23,7 @@ import ThankYouPage from './pages/ThankYouPage'
 import ErrorPage from './pages/ErrorPage'
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
+import { initMetaPixel } from './services/metaPixels'
 
 function App() {
   const { initializeCart, refreshCartCount } = useCartStore();
@@ -41,6 +42,9 @@ function App() {
   useEffect(() => {
     // Initialize cart from Shopify (this will also update cart count)
     initializeCart();
+
+    // Initialize met pixels for analytics
+    initMetaPixel();
     
     // Restore auth state from minimal persisted data
     restoreFromPersistence();

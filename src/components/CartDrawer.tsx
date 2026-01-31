@@ -42,7 +42,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
   };
 
   const handleQuantityChange = (id: string, newQuantity: number, currentQuantity:number, operation:Operation, price:number) => {
- 
+    console.log("$$$Id-------", operation)
     if(operation === Operation.DECREASE){
       gaEvent(eventNames.remove_from_cart, {
         button_name: '-',
