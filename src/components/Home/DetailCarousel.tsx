@@ -102,19 +102,19 @@ export default function DetailCarousel() {
           {/* Previous Button */}
           <button
             onClick={prevSlide}
-            className="hidden md:block absolute -left-2 md:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            className="hidden md:block absolute -left-3 md:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-1.5 md:p-3 transition-colors z-30 group"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
+            <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
           </button>
           
           {/* Next Button */}
           <button
             onClick={nextSlide}
-            className="hidden md:block absolute -right-2 md:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-2 md:p-3 transition-colors z-30 group"
+            className="hidden md:block absolute -right-3 md:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-[#02FF00] p-1.5 md:p-3 transition-colors z-30 group"
             aria-label="Next slide"
           >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
+            <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-white group-hover:text-black transition-colors" />
           </button>
 
         {/* Carousel Card Container */}

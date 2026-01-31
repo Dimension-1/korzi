@@ -72,7 +72,7 @@ export default function CouponInput({ onApplyCoupon, appliedCoupon, discount }: 
         <button
           onClick={handleApply}
           disabled={isApplying || !couponCode.trim()}
-          className="px-4 py-2 bg-[#02FF00] hover:bg-[#00DD00] text-black font-medium rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-24 py-2 bg-[#02FF00] hover:bg-[#00DD00] text-black font-medium rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isApplying ? 'Applying...' : 'Apply'}
         </button>
