@@ -1,3 +1,5 @@
+import { trackEvent } from "../services/metaPixels";
+
  export const eventNames = {
     payment_failed:"payment_failed",
     purchase:"purchase",
@@ -20,4 +22,5 @@ export const gaEvent = (
   if (typeof window === "undefined" || !window.gtag) return;
 
   window.gtag("event", name, params);
+  trackEvent(name, params)
 };

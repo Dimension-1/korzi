@@ -4,6 +4,7 @@ import { useCartStore } from '../../stores/cartStore';
 import { useOrderStore } from '../../stores/orderStore';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 import { eventNames, gaEvent } from '../../utils/gtm';
+import { Operation } from '../CartDrawer';
 
 interface ProductHeroProps {
   product: {
@@ -180,6 +181,33 @@ export default function ProductHero({ product }: ProductHeroProps) {
     { icon: '/assets/Product/support.png', title: 'Warranty & Support' }
   ];
 
+  const handleQuantityChange = (operation:Operation) => {
+    if(operation === Operation.DECREASE){
+      const newQuantity = Math.max(1, quantity - 1)
+      gaEvent(eventNames.remove_from_cart, {
+        button_name: '-',
+        newQuantity:newQuantity,
+        prevQuantiry:quantity,
+        previousValue:product.price * newQuantity,
+        product_id:product.variantId,
+        value:product.price * newQuantity
+      })
+      setQuantity(newQuantity)
+    }
+    else if(operation === Operation.INCREASE){
+      const newQuantity = quantity + 1;
+      gaEvent(eventNames.add_quantity_cart, {
+        button_name: '+',
+        newQuantity:newQuantity,
+        prevQuantiry:quantity,
+        product_id:product.variantId,
+        previousValue:product.price * newQuantity,
+        value:product.price * newQuantity
+      })
+      setQuantity(newQuantity)
+    }
+  };
+
   return (
     <div className="w-full mx-auto px-4 md:px-8 py-4 md:py-12 min-h-[800px] md:min-h-[900px]">
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16">
@@ -313,14 +341,16 @@ export default function ProductHero({ product }: ProductHeroProps) {
             <div className="flex gap-2 lg:contents">
               <div className="flex items-center border border-zinc-800 bg-black h-[45px] lg:h-[50px] w-auto">
                 <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={()=>{
+                    handleQuantityChange(Operation.DECREASE)
+                  }}
                   className="px-4 lg:px-5 h-full text-base lg:text-lg hover:bg-zinc-900 transition"
                 >
                   −
                 </button>
                 <span className="px-6 lg:px-8 h-full flex items-center justify-center border-x border-zinc-800 text-xs lg:text-sm font-mono">{String(quantity).padStart(2, '0')}</span>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() =>  handleQuantityChange(Operation.INCREASE)}
                   className="px-4 lg:px-5 h-full text-base lg:text-lg hover:bg-zinc-900 transition"
                 >
                   +
