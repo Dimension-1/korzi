@@ -82,18 +82,17 @@ const allTestimonials = [
   }
 ];
 
-// Calculate rating breakdown from all testimonials
-const calculateRatingBreakdown = () => {
-  const breakdown = [5, 4, 3, 2, 1].map(stars => ({
-    stars,
-    count: allTestimonials.filter(t => t.rating === stars).length
-  }));
-  return breakdown;
-};
+// Static rating breakdown as requested
+const ratingBreakdown = [
+  { stars: 5, count: 198 },
+  { stars: 4, count: 50 },
+  { stars: 3, count: 0 },
+  { stars: 2, count: 0 },
+  { stars: 1, count: 0 }
+];
 
-const ratingBreakdown = calculateRatingBreakdown();
-const totalReviews = allTestimonials.length;
-const averageRating = (allTestimonials.reduce((sum, t) => sum + t.rating, 0) / totalReviews).toFixed(1);
+const totalReviews = 248;
+const averageRating = '4.8';
 
 export default function TestimonialsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);

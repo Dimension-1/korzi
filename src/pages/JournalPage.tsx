@@ -132,11 +132,13 @@ export default function JournalPage() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Image */}
               <div className="text-center lg:text-left">
-                <img
-                  src={featuredArticle?.img?.url || fallbackImage}
-                  alt={featuredArticle.title}
-                  className="w-full h-[300px] md:h-[500px] object-cover mx-auto"
-                />
+                <Link to={`/logs/${featuredArticle.id}`} state={{ journal: featuredArticle }} className="block">
+                  <img
+                    src={featuredArticle?.img?.url || fallbackImage}
+                    alt={featuredArticle.title}
+                    className="w-full h-[300px] md:h-[500px] object-cover mx-auto cursor-pointer hover:opacity-90 hover:scale-105 transition-all duration-300 select-none"
+                  />
+                </Link>
               </div>
               
               {/* Content */}
