@@ -16,13 +16,11 @@ export default function TestimonialsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [testimonials, setTestimonials] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchReviews = async () => {
       const reviews = await getReviews();
       setTestimonials(reviews);
-      setLoading(false);
     };
     fetchReviews();
   }, []);
