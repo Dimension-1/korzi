@@ -1,88 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { getReviews, Review } from '../../services/hygraph';
 
-
-const allTestimonials = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    verified: true,
-    rating: 5,
-    title: "Amazing product!",
-    review: "Exceeded my expectations. Highly recommend to everyone.",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=200&fit=crop"
-  },
-  {
-    id: 2,
-    name: "Mike Chen",
-    verified: true,
-    rating: 4,
-    title: "Great quality",
-    review: "Great quality and fast shipping. Will definitely order again.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop"
-  },
-  {
-    id: 3,
-    name: "Emily Davis",
-    verified: true,
-    rating: 5,
-    title: "Perfect!",
-    review: "Exactly what I was looking for. Customer service was excellent too.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=200&fit=crop"
-  },
-  {
-    id: 4,
-    name: "David Wilson",
-    verified: true,
-    rating: 3,
-    title: "Good product",
-    review: "Good product overall, but could be better."
-  },
-  {
-    id: 5,
-    name: "Lisa Brown",
-    verified: true,
-    rating: 5,
-    title: "Outstanding quality",
-    review: "Outstanding quality and value for money. Very satisfied with my purchase.",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=200&fit=crop"
-  },
-  {
-    id: 6,
-    name: "Alex Rodriguez",
-    verified: true,
-    rating: 4,
-    title: "Fast delivery",
-    review: "Fast delivery and good packaging. Product works as described."
-  },
-  {
-    id: 7,
-    name: "Maria Garcia",
-    verified: true,
-    rating: 5,
-    title: "Love it!",
-    review: "Will definitely buy again. Great customer service.",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=200&fit=crop"
-  },
-  {
-    id: 8,
-    name: "John Smith",
-    verified: true,
-    rating: 4,
-    title: "Good product",
-    review: "Meets expectations. Would recommend to friends."
-  },
-  {
-    id: 9,
-    name: "Anna Taylor",
-    verified: true,
-    rating: 5,
-    title: "Excellent quality!",
-    review: "Better than I expected. Will order more soon.",
-    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=200&fit=crop"
-  }
-];
-
-// Static rating breakdown as requested
 const ratingBreakdown = [
   { stars: 5, count: 198 },
   { stars: 4, count: 50 },
@@ -97,6 +15,17 @@ const averageRating = '4.8';
 export default function TestimonialsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [testimonials, setTestimonials] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviews = await getReviews();
+      setTestimonials(reviews);
+      setLoading(false);
+    };
+    fetchReviews();
+  }, []);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -213,11 +142,11 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Right: Testimonial Cards */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pr-4">
             <div 
               ref={scrollContainerRef}
               onMouseMove={handleMouseMove}
-              className="flex gap-3 md:gap-4 overflow-x-hidden pb-6 cursor-pointer"
+              className="flex gap-3 md:gap-4 overflow-x-auto pb-6 cursor-pointer"
               style={{ 
                 scrollbarWidth: 'none', 
                 msOverflowStyle: 'none',
@@ -225,10 +154,10 @@ export default function TestimonialsSection() {
                 scrollSnapType: 'none'
               }}
             >
-              {allTestimonials.map((testimonial) => (
+              {testimonials.map((testimonial) => (
                 <div 
                   key={testimonial.id}
-                  className="p-4 md:p-6 relative flex-shrink-0 w-[280px] md:w-[329px] h-[350px] md:h-[392px] snap-start"
+                  className="p-4 md:p-6 relative flex-shrink-0 w-[280px] md:w-[329px] h-[480px] md:h-[520px] snap-start"
                   style={{
                     background: '#0F0F0F',
                     border: '1px solid #5E5E5E',
@@ -237,9 +166,9 @@ export default function TestimonialsSection() {
                 >
                   <div className="flex items-start gap-2 md:gap-3 mb-4 md:mb-6">
                     {/* Avatar */}
-                    {testimonial.image ? (
+                    {testimonial.image?.url ? (
                       <img 
-                        src={testimonial.image} 
+                        src={testimonial.image.url} 
                         alt={testimonial.name}
                         className="w-12 md:w-14 h-12 md:h-14 rounded-full object-cover flex-shrink-0"
                       />
@@ -276,7 +205,7 @@ export default function TestimonialsSection() {
             
             {/* Scroll Indicators */}
             <div className="flex gap-2 justify-center mt-4">
-              {allTestimonials.slice(0, 6).map((_, idx) => (
+              {testimonials.slice(0, 6).map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToIndex(idx)}

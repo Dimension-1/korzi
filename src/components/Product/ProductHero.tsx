@@ -292,8 +292,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
           </h1>
 
           <div className="flex items-center gap-2">
-            <span className="text-yellow-400 text-xs lg:text-sm">★ 4.5/5</span>
-            <span className="text-zinc-500 text-xs lg:text-sm">• 65 Reviews</span>
+            <span className="text-yellow-400 text-xs lg:text-sm">★ 4.8/5.0</span>
+            <span className="text-zinc-500 text-xs lg:text-sm">• 248 Reviews</span>
           </div>
 
           <div className="flex flex-wrap items-baseline gap-1.5 lg:gap-3">

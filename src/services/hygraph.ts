@@ -25,6 +25,17 @@ export interface Blog {
   createdAt?: string;
 }
 
+export interface Review {
+  id: string;
+  name: string;
+  rating: number;
+  title: string;
+  review: string;
+  image?: {
+    url: string;
+  };
+}
+
 export const getBlogs = async (): Promise<{
   blogs: Blog[];
   plays: Blog[];
@@ -112,5 +123,34 @@ export const getBlogs = async (): Promise<{
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return { blogs: [], plays: [], builds: [], learns: [], guides: [] };
+  }
+};
+
+export const getReviews = async (): Promise<Review[]> => {
+  try {
+    if (!hygraphClient) {
+      console.error("Hygraph client is not initialized.");
+      return [];
+    }
+
+    const data = await hygraphClient.request(`
+      query GetReviews {
+        reviews {
+          id
+          name
+          rating
+          title
+          review
+          image {
+            url
+          }
+        }
+      }
+    `);
+
+    return (data as any).reviews || [];
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
   }
 };
