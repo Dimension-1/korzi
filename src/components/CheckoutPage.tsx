@@ -39,7 +39,7 @@ const CheckoutPage: React.FC = () => {
   const [appliedCoupon, setAppliedCoupon] = useState<string>('');
   const [discount, setDiscount] = useState<number>(0);
 
-  const finalAmount = currentOrder ? currentOrder.totalAmount - discount : 0;
+  const finalAmount = currentOrder ? parseFloat((currentOrder.totalAmount - discount).toFixed(2)) : 0;
 
   useEffect(() => {
     if (!currentOrder) {
@@ -63,7 +63,6 @@ const CheckoutPage: React.FC = () => {
   };
 
   const handleApplyCoupon = async (code: string) => {
-    // Remove coupon if empty code
     if (!code) {
       setAppliedCoupon('');
       setDiscount(0);
@@ -75,11 +74,10 @@ const CheckoutPage: React.FC = () => {
     }
 
     try {
-      // Validate with Shopify via backend
       const result = await validateDiscountCode(code, currentOrder.totalAmount, currentOrder.items);
       
       if (result.valid && result.discount) {
-        setAppliedCoupon(code);
+        setAppliedCoupon(result.code || code);
         setDiscount(result.discount);
         return { success: true, discount: result.discount };
       } else {
@@ -162,7 +160,8 @@ const CheckoutPage: React.FC = () => {
           totalAmount: currentOrder.totalAmount,
           currency: 'INR'
         },
-        'pending'
+        'pending',
+        appliedCoupon || undefined
       );
 
       if (!shopifyOrderResult.success) {
@@ -190,14 +189,14 @@ const CheckoutPage: React.FC = () => {
 
       // Create Razorpay order with final amount after discount
       const razorpayOrderId = await createRazorpayOrder(
-        finalAmount * 100,
+        Math.round(finalAmount * 100),
         'INR',
         shopifyOrderNumber || shopifyOrderId
       );
 
       // Initiate payment
       await initiateRazorpayPayment({
-        amount: finalAmount * 100,
+        amount: Math.round(finalAmount * 100),
         currency: 'INR',
         orderId: razorpayOrderId,
         customerInfo: {
@@ -261,7 +260,8 @@ const CheckoutPage: React.FC = () => {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 draftOrderId: shopifyOrderId,
-                paymentId: response.razorpay_payment_id
+                paymentId: response.razorpay_payment_id,
+                discountCode: appliedCoupon || undefined
               })
             });
 
@@ -716,18 +716,18 @@ const CheckoutPage: React.FC = () => {
                 {discount > 0 && (
                   <div className="flex justify-between text-sm text-white mb-2">
                     <span>Subtotal</span>
-                    <span>₹{currentOrder.totalAmount}</span>
+                    <span>₹{currentOrder.totalAmount.toFixed(2)}</span>
                   </div>
                 )}
                 {discount > 0 && (
                   <div className="flex justify-between text-sm text-[#02FF00] mb-2">
                     <span>Discount</span>
-                    <span>-₹{discount}</span>
+                    <span>-₹{discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-lg text-white" style={{ fontFamily: 'Bebas Neue', fontSize: '24px' }}>
                   <span>Total</span>
-                  <span className="text-[#02FF00]">₹{finalAmount}</span>
+                  <span className="text-[#02FF00]">₹{finalAmount.toFixed(2)}</span>
                 </div>
               </div>
             </div>

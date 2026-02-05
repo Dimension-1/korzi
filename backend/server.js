@@ -167,7 +167,9 @@ app.post('/api/razorpay/verify-payment', async (req, res) => {
 // Create Shopify Order
 app.post('/api/shopify/create-order', async (req, res) => {
   try {
-    const { orderData, paymentId } = req.body;
+    const { orderData, paymentId, discountCode } = req.body;
+
+    console.log('Creating order with discount code:', discountCode);
 
     const CREATE_DRAFT_ORDER = `
       mutation draftOrderCreate($input: DraftOrderInput!) {
@@ -193,7 +195,29 @@ app.post('/api/shopify/create-order', async (req, res) => {
       quantity: item.quantity,
     }));
 
-    // Use fetch instead of graphql-request to handle errors better
+    const draftOrderInput = {
+      email: orderData.customer.email,
+      phone: orderData.customer.phone,
+      lineItems: lineItems,
+      shippingAddress: {
+        firstName: orderData.customer.firstName,
+        lastName: orderData.customer.lastName,
+        address1: orderData.shippingAddress.address1,
+        address2: orderData.shippingAddress.address2,
+        city: orderData.shippingAddress.city,
+        province: orderData.shippingAddress.province,
+        country: orderData.shippingAddress.country,
+        zip: orderData.shippingAddress.zip,
+        phone: orderData.customer.phone
+      },
+      note: `Razorpay Payment ID: ${paymentId}${discountCode ? ` | Discount Code: ${discountCode}` : ''}`,
+      tags: [`payment:${paymentId}`]
+    };
+
+    if (discountCode) {
+      draftOrderInput.tags.push(`discount:${discountCode}`);
+    }
+
     const response = await fetch(shopifyAdminUrl, {
       method: 'POST',
       headers: {
@@ -202,26 +226,7 @@ app.post('/api/shopify/create-order', async (req, res) => {
       },
       body: JSON.stringify({
         query: CREATE_DRAFT_ORDER,
-        variables: {
-          input: {
-            email: orderData.customer.email,
-            phone: orderData.customer.phone,
-            lineItems: lineItems,
-            shippingAddress: {
-              firstName: orderData.customer.firstName,
-              lastName: orderData.customer.lastName,
-              address1: orderData.shippingAddress.address1,
-              address2: orderData.shippingAddress.address2,
-              city: orderData.shippingAddress.city,
-              province: orderData.shippingAddress.province,
-              country: orderData.shippingAddress.country,
-              zip: orderData.shippingAddress.zip,
-              phone: orderData.customer.phone
-            },
-            note: `Razorpay Payment ID: ${paymentId}`,
-            tags: [`payment:${paymentId}`]
-          }
-        }
+        variables: { input: draftOrderInput }
       })
     });
 
@@ -549,7 +554,8 @@ app.post('/api/shopify/validate-discount', async (req, res) => {
       valid: true,
       discount: Math.min(discountAmount, finalCartTotal),
       type: discountType,
-      message: 'Coupon applied successfully'
+      message: 'Coupon applied successfully',
+      code: discount.code
     });
 
   } catch (error) {
@@ -769,35 +775,81 @@ app.get('/api/shopify/orders/:emailOrOrderNumber', async (req, res) => {
 // Complete draft order and send invoice
 app.post('/api/shopify/complete-order', async (req, res) => {
   try {
-    const { draftOrderId, paymentId } = req.body;
+    const { draftOrderId, paymentId, discountCode } = req.body;
 
-    console.log('Completing draft order:', draftOrderId);
+    console.log('Completing draft order:', draftOrderId, 'with discount:', discountCode);
 
-    // Complete the draft order
-    const COMPLETE_DRAFT_ORDER = `
-      mutation draftOrderComplete($id: ID!) {
-        draftOrderComplete(id: $id) {
-          draftOrder {
-            id
-            order {
-              id
-              name
-              email
+    // Apply discount code if provided
+    if (discountCode) {
+      try {
+        const APPLY_DISCOUNT = `
+          mutation draftOrderUpdate($id: ID!, $input: DraftOrderInput!) {
+            draftOrderUpdate(id: $id, input: $input) {
+              draftOrder {
+                id
+              }
+              userErrors {
+                field
+                message
+              }
             }
           }
-          userErrors {
-            field
-            message
-          }
-        }
-      }
-    `;
+        `;
 
-    const result = await shopifyAdminClient.request(COMPLETE_DRAFT_ORDER, {
-      id: draftOrderId
+        const discountResult = await shopifyAdminClient.request(APPLY_DISCOUNT, {
+          id: draftOrderId,
+          input: {
+            appliedDiscount: {
+              description: discountCode,
+              value: 0,
+              valueType: 'FIXED_AMOUNT'
+            }
+          }
+        });
+
+        if (discountResult.draftOrderUpdate.userErrors?.length > 0) {
+          console.error('Error applying discount:', discountResult.draftOrderUpdate.userErrors);
+        } else {
+          console.log('Discount applied successfully');
+        }
+      } catch (error) {
+        console.error('Failed to apply discount:', error);
+      }
+    }
+
+    // Complete the draft order using fetch to handle errors better
+    const response = await fetch(shopifyAdminUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+      },
+      body: JSON.stringify({
+        query: `
+          mutation draftOrderComplete($id: ID!) {
+            draftOrderComplete(id: $id) {
+              draftOrder {
+                id
+                order {
+                  id
+                  name
+                }
+              }
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+        `,
+        variables: { id: draftOrderId }
+      })
     });
 
-    const userErrors = result.draftOrderComplete.userErrors;
+    const result = await response.json();
+
+    // Check for userErrors (actual errors)
+    const userErrors = result.data?.draftOrderComplete?.userErrors;
     if (userErrors && userErrors.length > 0) {
       console.error('Error completing draft order:', userErrors);
       return res.status(400).json({ 
@@ -806,12 +858,19 @@ app.post('/api/shopify/complete-order', async (req, res) => {
       });
     }
 
-    const order = result.draftOrderComplete.draftOrder.order;
+    // Ignore PII access errors in result.errors - order was still created
+    const order = result.data?.draftOrderComplete?.draftOrder?.order;
+    if (!order) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Failed to complete draft order' 
+      });
+    }
+
     console.log('Draft order completed successfully:', order);
 
     // Mark order as paid
-    const orderId = order.id;
-    await markOrderAsPaid(orderId, paymentId);
+    await markOrderAsPaid(order.id, paymentId);
 
     res.json({ 
       success: true, 
