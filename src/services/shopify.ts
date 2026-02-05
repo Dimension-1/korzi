@@ -759,6 +759,7 @@ export const validateDiscountCode = async (code: string, cartTotal: number, cart
   discount?: number;
   type?: 'percentage' | 'fixed';
   message?: string;
+  code?: string;
 }> => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/validate-discount`, {

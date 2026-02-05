@@ -257,12 +257,12 @@ export const getOrderDetails = async (orderId: string): Promise<any> => {
 // Create order in Shopify Admin API after successful Razorpay payment
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
 
-export const createShopifyOrder = async (orderData: OrderData, paymentId: string): Promise<OrderResponse> => {
+export const createShopifyOrder = async (orderData: OrderData, paymentId: string, discountCode?: string): Promise<OrderResponse> => {
   try {
     const response = await fetch(`${BACKEND_URL}/api/shopify/create-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderData, paymentId }),
+      body: JSON.stringify({ orderData, paymentId, discountCode }),
     });
 
     const data = await response.json();
