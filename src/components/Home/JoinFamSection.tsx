@@ -61,7 +61,6 @@ export default function JoinFamSection() {
             src={getCloudinaryUrl('/assets/homepage/Korziteam.png')}
             alt="Korzi Crew"
             className="w-full h-auto object-cover"
-            loading="lazy"
           />
         </div>
       </div>
