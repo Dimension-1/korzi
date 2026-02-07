@@ -1,30 +1,29 @@
 import { Routes, Route, useLocation, useNavigationType } from 'react-router-dom'
-import { useEffect, lazy, Suspense } from 'react'
+import { useEffect } from 'react'
 import AppLayout from './components/layout/AppLayout'
 import HomePage from './pages/HomePage'
+import JournalPage from './pages/JournalPage'
+import JournalDetailPage from './pages/JournalDetailPage'
+import ComingSoonPage from './pages/ComingSoonPage'
+import ShopPage from './pages/ShopPage'
+import ProductDetailPage from './pages/ProductDetailPage'
+import AboutPage from './pages/AboutPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import ReturnExchangePage from './pages/ReturnExchangePage'
+import ShippingPolicyPage from './pages/ShippingPolicyPage'
+import TermsConditionsPage from './pages/TermsConditionsPage'
+import SupportPage from './pages/SupportPage'
+import LoginPage from './pages/LoginPage'
+import CustomerActivationPage from './pages/CustomerActivationPage'
+import ShopifyActivationRedirect from './pages/ShopifyActivationRedirect'
+import CheckoutPage from './components/CheckoutPage'
+import OrderConfirmationPage from './components/OrderConfirmationPage'
+import OrdersPage from './components/OrdersPage'
+import ThankYouPage from './pages/ThankYouPage'
+import ErrorPage from './pages/ErrorPage'
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
 import { initMetaPixel } from './services/metaPixels'
-
-const JournalPage = lazy(() => import('./pages/JournalPage'))
-const JournalDetailPage = lazy(() => import('./pages/JournalDetailPage'))
-const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage'))
-const ShopPage = lazy(() => import('./pages/ShopPage'))
-const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'))
-const AboutPage = lazy(() => import('./pages/AboutPage'))
-const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'))
-const ReturnExchangePage = lazy(() => import('./pages/ReturnExchangePage'))
-const ShippingPolicyPage = lazy(() => import('./pages/ShippingPolicyPage'))
-const TermsConditionsPage = lazy(() => import('./pages/TermsConditionsPage'))
-const SupportPage = lazy(() => import('./pages/SupportPage'))
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const CustomerActivationPage = lazy(() => import('./pages/CustomerActivationPage'))
-const ShopifyActivationRedirect = lazy(() => import('./pages/ShopifyActivationRedirect'))
-const CheckoutPage = lazy(() => import('./components/CheckoutPage'))
-const OrderConfirmationPage = lazy(() => import('./components/OrderConfirmationPage'))
-const OrdersPage = lazy(() => import('./components/OrdersPage'))
-const ThankYouPage = lazy(() => import('./pages/ThankYouPage'))
-const ErrorPage = lazy(() => import('./pages/ErrorPage'))
 
 function App() {
   const { initializeCart, refreshCartCount } = useCartStore();
@@ -75,8 +74,7 @@ function App() {
     return () => clearInterval(interval);
   }, [refreshCartCount]);
 
-  return (
-    <Suspense fallback={null}>
+  return (    
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
@@ -105,7 +103,6 @@ function App() {
       <Route path="/account/activate/:customerId/:activationToken" element={<ShopifyActivationRedirect />} />
       <Route path="/account/activate/:customerId/:activationToken/*" element={<ShopifyActivationRedirect />} />
     </Routes>
-    </Suspense>
   )
 }
 

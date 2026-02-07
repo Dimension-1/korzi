@@ -15,8 +15,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           three: ['three', '@react-three/fiber', '@react-three/drei'],
-          shopify: ['@shopify/storefront-api-client', 'graphql', 'graphql-request'],
-          motion: ['framer-motion']
+          shopify: ['@shopify/storefront-api-client', 'graphql', 'graphql-request']
         }
       }
     }
