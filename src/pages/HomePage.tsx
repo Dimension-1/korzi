@@ -1,16 +1,18 @@
-import JoinFamSection from '../components/Home/JoinFamSection';
-import FaqSection from '../components/Home/Faq';
-import Footer from '../components/Home/footer';
+import { lazy, Suspense } from 'react';
 import HeroSection from '../components/Home/HeroSection';
 import SpecsSection from '../components/Home/SpecsSection';
 import ApexDriveSection from '../components/Home/ApexDriveSection';
-import MarqueeBar from '../components/Home/MarqueeBar'; 
-import InsightsSection from '../components/Home/InsightsSection';
+import MarqueeBar from '../components/Home/MarqueeBar';
 import DetailCarousel from '../components/Home/DetailCarousel';
 import ManufacturingSection from '../components/Home/Services';
 import EllipseTransition from '../components/Home/EllipseTransition';
 import CarAnimation from '../components/Home/CarAnimation';
-import MissionSection from '../components/Home/MissionSection';
+
+const MissionSection = lazy(() => import('../components/Home/MissionSection'));
+const FaqSection = lazy(() => import('../components/Home/Faq'));
+const InsightsSection = lazy(() => import('../components/Home/InsightsSection'));
+const JoinFamSection = lazy(() => import('../components/Home/JoinFamSection'));
+const Footer = lazy(() => import('../components/Home/footer'));
 
 export default function HomePage() {
   return (
@@ -23,21 +25,17 @@ export default function HomePage() {
       </div>
       <DetailCarousel />
       <div className="relative">
-        <ManufacturingSection />       
+        <ManufacturingSection />
         <EllipseTransition />
       </div>
       <CarAnimation />
-      {/* <VideoCarouselSection /> */}
-      <MissionSection />
-      {/* <ImageCarousel /> */}
-      {/* <RollingTagsBanner /> */}
-      {/* <RealFoodSection /> */}
-      {/* <VideoCarousel />       */}
-      <FaqSection />      
-      <InsightsSection />      
-      <JoinFamSection />
-      {/* <PaymentBanner /> */}
-      <Footer />
+      <Suspense fallback={null}>
+        <MissionSection />
+        <FaqSection />
+        <InsightsSection />
+        <JoinFamSection />
+        <Footer />
+      </Suspense>
     </div>
   );
 }

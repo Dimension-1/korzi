@@ -16,6 +16,7 @@ export default function ApexDriveSection() {
               src={getCloudinaryUrl('/assets/homepage/korziwithouticon.png')} 
               alt="KORZI" 
               className="h-6"
+              loading="lazy"
             />
           </div>
 
@@ -25,6 +26,7 @@ export default function ApexDriveSection() {
               src={getCloudinaryUrl('/assets/homepage/ApexDrive.png')}
               alt="APEX DRIVE"
               className="w-auto h-[32px]"
+              loading="lazy"
             />
           </div>
 
@@ -34,6 +36,7 @@ export default function ApexDriveSection() {
               src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
               alt="Apex Drive K-01"
               className="w-[180%] max-w-none h-auto object-contain"
+              loading="lazy"
             />
           </div>
 
@@ -84,6 +87,7 @@ export default function ApexDriveSection() {
               src={getCloudinaryUrl('/assets/homepage/korziwithouticon.png')} 
               alt="KORZI" 
               className="h-5 mx-auto"
+              loading="lazy"
             />
           </div>
   
@@ -93,6 +97,7 @@ export default function ApexDriveSection() {
               src={getCloudinaryUrl('/assets/homepage/ApexDrive.png')}
               alt="APEX DRIVE"
               className="w-auto h-[53px]"
+              loading="lazy"
             />
           </div>
   
@@ -127,6 +132,7 @@ export default function ApexDriveSection() {
                 src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
                 alt="Apex Drive K-01"
                 className="w-full h-auto object-contain"
+                loading="lazy"
               />
             </div>
   

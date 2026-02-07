@@ -12,14 +12,11 @@ export default function AppLayout() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
-  const { openDrawer, getTotalItems, cartItems } = useCartStore();
+  const { openDrawer, getTotalItems } = useCartStore();
   const { customer, isAuthenticated, logout } = useAuthStore();
 
   const totalItems = getTotalItems();
 
-  useEffect(() => {
-    console.log('AppLayout - Cart items changed:', cartItems);
-  }, [cartItems]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,6 +75,10 @@ export default function AppLayout() {
               src={getCloudinaryUrl('/logo-horizontal.png')} 
               alt="KORZI" 
               className="h-8 md:h-10 w-auto"
+              fetchPriority="high"
+              decoding="async"
+              width={2719}
+              height={628}
             />
           </Link>
 
