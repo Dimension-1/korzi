@@ -53,6 +53,7 @@ export default function SpecsSection() {
                   key={index}
                   src={getCloudinaryUrl(spec.image)}
                   alt={`Spec ${index + 1}`}
+                  loading="lazy"
                   style={{
                     position: 'absolute',
                     width: spec.width,
@@ -82,6 +83,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[1].image)}
               alt="1:16 Scale"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -98,6 +100,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[0].image)}
               alt="25 KM/H"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -114,6 +117,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[2].image)}
               alt="2.4Ghz"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -130,6 +134,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[3].image)}
               alt="4x4 Control"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '131.34px',
@@ -146,6 +151,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[4].image)}
               alt="50m+ Range"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '126.45px',
