@@ -71,7 +71,6 @@ export default function MissionSection() {
                 alt="Network circuit board"
                 className="w-full h-auto max-w-full"
                 style={{ filter: 'brightness(1.2)' }}
-                loading="lazy"
               />
               </div>
           </div>

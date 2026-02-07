@@ -93,13 +93,11 @@ export default function ManufacturingSection() {
                 src={getCloudinaryUrl(steps[activeStep].image1)} 
                 alt={steps[activeStep].name}
                 className="w-full h-auto object-cover"
-                loading="lazy"
               />
               <img 
                 src={getCloudinaryUrl(steps[activeStep].image2)} 
                 alt={`${steps[activeStep].name} detail`}
                 className="w-full h-auto object-cover"
-                loading="lazy"
               />
             </div>
           </div>
@@ -185,7 +183,6 @@ export default function ManufacturingSection() {
                   src={getCloudinaryUrl(steps[activeStep].image1)} 
                   alt={steps[activeStep].name}
                   className="w-full h-full object-cover"
-                  loading="lazy"
                 />
               </div>
 
@@ -195,7 +192,6 @@ export default function ManufacturingSection() {
                   src={getCloudinaryUrl(steps[activeStep].image2)} 
                   alt={`${steps[activeStep].name} detail`}
                   className="w-full h-full object-cover"
-                  loading="lazy"
                 />
               </div>
 
@@ -205,7 +201,6 @@ export default function ManufacturingSection() {
                   src={getCloudinaryUrl('/assets/homepage/curvedarrow.png')} 
                   alt="arrow"
                   className="w-8 h-8 md:w-10 md:h-10"
-                  loading="lazy"
                 />
                 <span className="text-[#02FF00] text-xs md:text-sm" style={{ fontFamily: 'DM Sans' }}>
                   Some BTS for you :)
