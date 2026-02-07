@@ -43,7 +43,6 @@ export default function CarAnimation() {
           <img 
             src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
             alt="right tire marks"
-            loading="lazy"
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '137px' : '274px',
@@ -60,7 +59,6 @@ export default function CarAnimation() {
           <img 
             src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
             alt="left tire marks"
-            loading="lazy"
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '25px' : '50px',
@@ -77,7 +75,6 @@ export default function CarAnimation() {
           <img 
             src={`${getCloudinaryUrl('/assets/homepage/Car_3.png')}?v=2`}
             alt="car"
-            loading="lazy"
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '5px' : '10px',
