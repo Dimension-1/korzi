@@ -1,44 +1,53 @@
 import { useEffect, useRef } from 'react';
 import { getCloudinaryVideoUrl } from '../../utils/cloudinary';
 
-const HERO_VIDEO_PATH = '/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4';
 
 export default function HeroSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const videoSrc = getCloudinaryVideoUrl(HERO_VIDEO_PATH);
 
     useEffect(() => {
-      if (!videoRef.current) return;
-      const video = videoRef.current;
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
+      if (videoRef.current) {
+        const video = videoRef.current;
+        
+        // Force play for iOS Safari
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log('Video autoplay prevented:', error);
+          });
+        }
+
+        // Ensure video loops on iOS
+        const handleVideoEnd = () => {
+          video.currentTime = 0;
+          video.play();
+        };
+        
+        video.addEventListener('ended', handleVideoEnd);
+        
+        return () => {
+          video.removeEventListener('ended', handleVideoEnd);
+        };
       }
-      const handleVideoEnd = () => {
-        video.currentTime = 0;
-        video.play();
-      };
-      video.addEventListener('ended', handleVideoEnd);
-      return () => video.removeEventListener('ended', handleVideoEnd);
     }, []);
 
     return (
       <div className="relative w-full h-screen min-h-[600px] overflow-hidden bg-black">
-        {/* preload="metadata" keeps initial load light while video starts loading right away */}
+        {/* Video Background */}
         <video
           ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           controls={false}
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
           style={{ pointerEvents: 'none' }}
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src={getCloudinaryVideoUrl('/assets/homepage/KORZI WEBSITE HERO BANNER VIDEO.mp4')} type="video/mp4" />
         </video>
   
         {/* Pure Black Overlay */}
