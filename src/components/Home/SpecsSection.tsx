@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
+
+
+
 
 export default function SpecsSection() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     
-    const specs = [
+    const specs = useMemo(()=>[
       {
         image: '/assets/homepage/kmh.png',
         width: '227px',
@@ -40,8 +43,8 @@ export default function SpecsSection() {
         rotation: -2.8,
         left: 730,
       },
-    ];
-  
+    ], [])
+    
     return (
       <section className="bg-black py-16 md:py-0 overflow-hidden min-h-[400px]">
         <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4">
@@ -53,6 +56,7 @@ export default function SpecsSection() {
                   key={index}
                   src={getCloudinaryUrl(spec.image)}
                   alt={`Spec ${index + 1}`}
+                  loading="lazy"
                   style={{
                     position: 'absolute',
                     width: spec.width,
@@ -82,6 +86,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[1].image)}
               alt="1:16 Scale"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -98,6 +103,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[0].image)}
               alt="25 KM/H"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -114,6 +120,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[2].image)}
               alt="2.4Ghz"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '124.5px',
@@ -130,6 +137,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[3].image)}
               alt="4x4 Control"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '131.34px',
@@ -146,6 +154,7 @@ export default function SpecsSection() {
             <img
               src={getCloudinaryUrl(specs[4].image)}
               alt="50m+ Range"
+              loading="lazy"
               style={{
                 position: 'absolute',
                 width: '126.45px',

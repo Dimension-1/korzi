@@ -2,6 +2,12 @@ import { useEffect, useRef } from 'react';
 import { getCloudinaryVideoUrl } from '../../utils/cloudinary';
 
 
+// Small inline poster so LCP is this image (instant) instead of the video (slow on mobile).
+// Replace with a real poster URL from S3 (e.g. /assets/homepage/hero-poster.jpg) for better look.
+const HERO_POSTER =
+  'data:image/svg+xml,' +
+  encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 9" fill="%23000"><rect width="16" height="9"/></svg>');
+
 export default function HeroSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -33,14 +39,15 @@ export default function HeroSection() {
 
     return (
       <div className="relative w-full h-screen min-h-[600px] overflow-hidden bg-black">
-        {/* Video Background */}
+        {/* poster fixes LCP: browser paints poster immediately instead of waiting for video */}
         <video
           ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
+          poster={HERO_POSTER}
           controls={false}
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
