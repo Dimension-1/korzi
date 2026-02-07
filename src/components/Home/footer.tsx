@@ -57,6 +57,7 @@ export default function Footer() {
           src={getCloudinaryUrl('/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[356px] object-contain"
+          loading="lazy"
         />
       </div>
 
@@ -66,6 +67,7 @@ export default function Footer() {
           src={getCloudinaryUrl('/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-auto h-full object-contain"
+          loading="lazy"
         />
       </div>
 
@@ -79,6 +81,7 @@ export default function Footer() {
               src={getCloudinaryUrl('/logo-horizontal.png')} 
               alt="KORZI" 
               className="h-12 w-auto max-w-[200px]"
+              loading="lazy"
             />
             <div className="space-y-8 mt-auto">
               <button 
@@ -176,6 +179,7 @@ export default function Footer() {
             src={getCloudinaryUrl('/logo-horizontal.png')} 
             alt="KORZI" 
             className="h-12"
+            loading="lazy"
           />
         </div>
 
