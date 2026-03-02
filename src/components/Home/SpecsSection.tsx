@@ -43,7 +43,7 @@ export default function SpecsSection() {
     ];
   
     return (
-      <section className="bg-black py-16 md:py-0 overflow-hidden min-h-[400px]">
+      <section className="bg-black py-4 md:py-0 overflow-hidden min-h-[240px] md:min-h-[400px]">
         <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4">
           {/* Desktop Layout - Unchanged */}
           <div className="hidden md:flex relative h-[400px] justify-center items-center">
@@ -76,7 +76,7 @@ export default function SpecsSection() {
           {/* Mobile Layout - Fixed & Centered */}
         <div className="md:hidden flex justify-center w-full">
           {/* Using a 340px container to pull everything into a tighter cluster */}
-          <div className="relative flex-shrink-0" style={{ width: '340px', height: '280px' }}>
+          <div className="relative flex-shrink-0" style={{ width: '340px', height: '240px' }}>
             
             {/* 1. 1:16 SCALE (Top Center) - Layered at the back */}
             <img

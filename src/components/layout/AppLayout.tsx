@@ -8,7 +8,6 @@ import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
@@ -83,7 +82,7 @@ export default function AppLayout() {
 
           {/* Right Icons */}
           <div className="flex items-stretch md:items-center flex-1 md:flex-none">
-            <div className="hidden md:flex items-center border-l border-r border-gray-700">
+            <div className="hidden md:flex items-center border-l border-gray-700">
               <button 
                 onClick={openDrawer}
                 className="relative hover:opacity-80 transition-opacity px-4 py-3" 
@@ -95,15 +94,6 @@ export default function AppLayout() {
                     {totalItems}
                   </span>
                 )}
-              </button>
-            </div>
-            <div className="hidden md:flex items-center border-r border-gray-700">
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="hover:opacity-80 transition-opacity px-4 py-3"
-                aria-label="Profile"
-              >
-                <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
               </button>
             </div>
             {/* Mobile buttons */}
@@ -118,13 +108,6 @@ export default function AppLayout() {
                   {totalItems}
                 </span>
               )}
-            </button>
-            <button
-              onClick={() => setProfileOpen(!profileOpen)}
-              className="md:hidden hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center"
-              aria-label="Profile"
-            >
-              <img src={getCloudinaryUrl('/assets/homepage/profile.png')} alt="Profile" className="w-6 h-6" />
             </button>
             {/* Hamburger - Mobile only (right side) */}
             <button
@@ -194,10 +177,35 @@ export default function AppLayout() {
             </Link>
             )} */}
             {location.pathname !== '/support' && (
-            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
+            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
               <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
               <span className="group-hover:scale-110 transition-transform duration-300">Support</span>
             </Link>
+            )}
+            {/* Profile Section */}
+            {isAuthenticated ? (
+              <>
+                <Link to="/orders" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-t border-b border-gray-700 pt-6" onClick={() => setMenuOpen(false)}>
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">My Orders</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 text-left w-full"
+                >
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">Sign Out</span>
+                </button>
+                <p className="text-sm text-gray-400 mt-4 normal-case">{customer?.displayName || customer?.email}</p>
+              </>
+            ) : (
+              <Link to="/signin" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-t border-gray-700 pt-6" onClick={() => setMenuOpen(false)}>
+                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                <span className="group-hover:scale-110 transition-transform duration-300">Sign In</span>
+              </Link>
             )}
             {/* {location.pathname !== '/careers' && (
             <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
@@ -214,46 +222,6 @@ export default function AppLayout() {
         <div
           className="fixed inset-0 bg-black/50 z-30"
           onClick={() => setMenuOpen(false)}
-        />
-      )}
-
-      {/* === PROFILE DROPDOWN === */}
-      {profileOpen && (
-        <div className="fixed top-[68px] right-4 md:w-64 bg-black shadow-xl z-40 border-l border-r border-b border-gray-700">
-          <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
-            {isAuthenticated ? (
-              <>
-                <p className="text-sm text-gray-400 mb-4 normal-case">{customer?.displayName || customer?.email}</p>
-                <Link to="/orders" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setProfileOpen(false)}>
-                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                  <span className="group-hover:scale-110 transition-transform duration-300">My Orders</span>
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                    setProfileOpen(false);
-                  }}
-                  className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 text-left"
-                >
-                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                  <span className="group-hover:scale-110 transition-transform duration-300">Sign Out</span>
-                </button>
-              </>
-            ) : (
-              <Link to="/signin" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setProfileOpen(false)}>
-                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                <span className="group-hover:scale-110 transition-transform duration-300">Sign In</span>
-              </Link>
-            )}
-          </nav>
-        </div>
-      )}
-
-      {/* Profile Overlay */}
-      {profileOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30"
-          onClick={() => setProfileOpen(false)}
         />
       )}
 

@@ -65,14 +65,14 @@ const ProductDetailPage = () => {
   };
 
   return (
-    <div className="w-full overflow-x-hidden bg-black text-white pt-24 min-h-screen">
-      <div className="space-y-4 lg:space-y-0">
+    <div className="w-full overflow-x-hidden bg-black text-white pt-24 min-h-screen pb-20 lg:pb-0">
+      <div className="space-y-2 lg:space-y-0">
         <ProductHero product={productData} />
         <SpecsSection />
         <ProductTabs />
-        <ProductFAQ />
-        <BuiltInIndiaSection />
         <TestimonialsSection />
+        <BuiltInIndiaSection />
+        <ProductFAQ />
       </div>
       <Footer />
       <CartDrawer />

@@ -29,11 +29,11 @@ export default function ApexDriveSection() {
           </div>
 
           {/* Car Image */}
-          <div className="relative z-10 -mt-16 mb-0 flex justify-center">
+          <div className="relative z-10 -mt-5 mb-19 flex justify-center">
             <img
-              src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
+              src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
               alt="Apex Drive K-01"
-              className="w-[180%] max-w-none h-auto object-contain"
+              className="w-[110%] max-w-none h-auto object-contain"
             />
           </div>
 
@@ -119,12 +119,11 @@ export default function ApexDriveSection() {
             <div 
               className="absolute left-1/2 -translate-x-1/2 z-10"
               style={{
-                width: '1000px',
-                marginTop: '10rem',
+                marginTop: '13rem',
               }}
             >
               <img
-                src={`${getCloudinaryUrl('/assets/homepage/Car_1.png')}?v=3`}
+                src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
                 alt="Apex Drive K-01"
                 className="w-full h-auto object-contain"
               />

@@ -5,6 +5,7 @@ import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
 import { getCloudinaryUrl } from '../utils/cloudinary';
 import { eventNames, gaEvent } from '../utils/gtm';
+import { SiVisa, SiMastercard, SiGooglepay } from 'react-icons/si';
 
 export enum Operation {
   INCREASE = 'INCREASE',
@@ -293,20 +294,27 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
               </div>
 
               {/* Action Buttons */}
-              <div className="p-3 md:p-5 flex gap-2 md:gap-3">
-                <button
-                  onClick={handleClose}
-                  className="flex-1 bg-[#393737] text-white py-2 md:py-3 border-l-[3px] border-[#02FF00] group relative overflow-hidden flex items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
-                >
-                  <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                  <span className="relative z-10 group-hover:text-black transition-colors duration-300">‹ BACK TO SHOPPING</span>
-                </button>
-                <button
-                  onClick={handleCheckout}
-                  className="flex-1 bg-[#02FF00] text-black py-2 md:py-3 font-bold hover:bg-[#00dd00] transition-colors text-xs md:text-sm"
-                >
-                  PROCEED TO CHECKOUT
-                </button>
+              <div className="p-3 md:p-5">
+                <div className="flex gap-2 md:gap-3">
+                  <button
+                    onClick={handleClose}
+                    className="flex-1 bg-[#393737] text-white py-2 md:py-3 border-l-[3px] border-[#02FF00] group relative overflow-hidden flex items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
+                  >
+                    <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                    <span className="relative z-10 group-hover:text-black transition-colors duration-300">‹ BACK TO SHOPPING</span>
+                  </button>
+                  <button
+                    onClick={handleCheckout}
+                    className="flex-1 bg-[#02FF00] text-black py-2 md:py-3 font-bold hover:bg-[#00dd00] transition-colors text-xs md:text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>CHECKOUT</span>
+                    <div className="flex items-center gap-1">
+                      <SiVisa className="w-4 h-4" style={{ color: '#1A1F71' }} />
+                      <SiMastercard className="w-4 h-4" style={{ color: '#EB001B' }} />
+                      <SiGooglepay className="w-4 h-4" style={{ color: '#4285F4' }} />
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           )}

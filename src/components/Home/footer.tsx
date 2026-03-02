@@ -3,6 +3,7 @@ import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 import { useState } from 'react';
 import { useAuthStore } from '../../stores/authStore';
+import { SiVisa, SiMastercard, SiPaytm, SiGooglepay, SiPhonepe } from 'react-icons/si';
 
 
 export default function Footer() {
@@ -54,7 +55,7 @@ export default function Footer() {
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/Car_2.png')} 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[356px] object-contain"
         />
@@ -63,7 +64,7 @@ export default function Footer() {
       {/* Mobile Car Image Section */}
       <div className="md:hidden relative w-full h-[200px] flex items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/Car_2.png')} 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
           alt="Korzi RC Car"
           className="w-auto h-full object-contain"
         />
@@ -161,10 +162,17 @@ export default function Footer() {
 
         {/* Copyright with border */}
         <div 
-          className="text-center text-white text-sm py-8 border-t border-gray-600"
+          className="flex items-center justify-between px-12 py-8 border-t border-gray-600"
           style={{ height: '72px' }}
         >
-          Korzi@2025
+          <span className="text-white text-sm">Korzi@2025</span>
+          <div className="flex items-center gap-3">
+            <SiVisa className="w-10 h-10" style={{ color: '#1A1F71' }} />
+            <SiMastercard className="w-10 h-10" style={{ color: '#EB001B' }} />
+            <SiGooglepay className="w-10 h-10" style={{ color: '#4285F4' }} />
+            <SiPhonepe className="w-10 h-10" style={{ color: '#5F259F' }} />
+            <SiPaytm className="w-10 h-10" style={{ color: '#00BAF2' }} />
+          </div>
         </div>
       </div>
 
@@ -253,8 +261,15 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-white text-sm py-6 border-t border-gray-600">
-          Korzi@2025
+        <div className="flex flex-col items-center gap-3 py-6 border-t border-gray-600">
+          <div className="flex items-center gap-2">
+            <SiVisa className="w-8 h-8" style={{ color: '#1A1F71' }} />
+            <SiMastercard className="w-8 h-8" style={{ color: '#EB001B' }} />
+            <SiGooglepay className="w-8 h-8" style={{ color: '#4285F4' }} />
+            <SiPhonepe className="w-8 h-8" style={{ color: '#5F259F' }} />
+            <SiPaytm className="w-8 h-8" style={{ color: '#00BAF2' }} />
+          </div>
+          <span className="text-white text-sm">Korzi@2025</span>
         </div>
       </div>
     </footer>

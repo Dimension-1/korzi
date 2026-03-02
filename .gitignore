@@ -46,3 +46,6 @@ public.zip
 # Exclude get-refresh-token files
 **/get-refresh-token*
 get-refresh-token*
+
+# Optimized images (uploaded to S3)
+optimized/

@@ -40,13 +40,8 @@ export default function ProductFAQ() {
 
   return (
     <section className="bg-black py-8 md:py-16 px-4 md:px-8 relative overflow-x-clip min-h-[500px] md:min-h-[600px]">
-      {/* Background gradient ellipse - Desktop */}
-      <div className="absolute -left-40 top-0 w-1/2 h-[180%] pointer-events-none z-10 hidden md:block">
-        <img src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} alt="" className="w-full h-full object-contain opacity-100" />
-      </div>
-
-      {/* Background gradient ellipse - Mobile */}
-      <div className="absolute -right-10 -top-30 w-46/7 h-full pointer-events-none z-10 md:hidden">
+      {/* Background ellipse extending from Built in India section */}
+      <div className="absolute -right-32 -top-96 w-1/2 h-[200%] pointer-events-none hidden md:block" style={{ zIndex: 1 }}>
         <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 

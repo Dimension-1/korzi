@@ -337,7 +337,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
           </div>
 
           {/* Quantity & Actions */}
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 pt-2">
+          <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 pt-2 fixed lg:relative bottom-0 lg:bottom-auto left-0 lg:left-auto right-0 lg:right-auto bg-black lg:bg-transparent border-t lg:border-t-0 border-zinc-800 p-3 lg:p-0 z-40 lg:z-auto">
             <div className="flex gap-2 lg:contents">
               <div className="flex items-center border border-zinc-800 bg-black h-[45px] lg:h-[50px] w-auto">
                 <button
@@ -360,6 +360,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
               <button
                 onClick={handleAddToCart}
                 disabled={isAddingToCart}
+                data-add-to-cart
                 className="flex-1 lg:w-[200px] h-[45px] lg:h-[50px] px-4 lg:px-5 flex items-center justify-center gap-2 border-l-4 border-[#02FF00] relative overflow-hidden group bg-[#3A3A3A] text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   fontFamily: 'DM Sans',

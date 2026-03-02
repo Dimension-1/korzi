@@ -73,13 +73,13 @@ export default function CarAnimation() {
 
           {/* Car - moves right to left */}
           <img 
-            src={`${getCloudinaryUrl('/assets/homepage/Car_3.png')}?v=2`}
+            src={`${getCloudinaryUrl('/assets/homepage/Car_3.png')}`}
             alt="car"
             className="absolute h-auto"
             style={{ 
               top: window.innerWidth < 768 ? '5px' : '10px',
               left: `${carPosition}%`,
-              width: window.innerWidth < 768 ? '310px' : '620px',
+              width: window.innerWidth < 768 ? '270px' : '530px',
               zIndex: 30
             }}
           />
