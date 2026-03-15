@@ -57,7 +57,7 @@ export default function Footer() {
         <img 
           src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
           alt="Korzi RC Car"
-          className="w-[632px] h-[356px] object-contain"
+          className="w-[632px] h-[406px] object-contain"
         />
       </div>
 
