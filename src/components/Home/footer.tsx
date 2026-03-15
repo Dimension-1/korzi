@@ -3,7 +3,7 @@ import { Instagram, Linkedin, Youtube, ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 import { useState } from 'react';
 import { useAuthStore } from '../../stores/authStore';
-import { SiVisa, SiMastercard, SiPaytm, SiGooglepay, SiPhonepe } from 'react-icons/si';
+import PaymentIcons from '../PaymentIcons';
 
 
 export default function Footer() {
@@ -166,13 +166,7 @@ export default function Footer() {
           style={{ height: '72px' }}
         >
           <span className="text-white text-sm">Korzi@2025</span>
-          <div className="flex items-center gap-3">
-            <SiVisa className="w-10 h-10" style={{ color: '#1A1F71' }} />
-            <SiMastercard className="w-10 h-10" style={{ color: '#EB001B' }} />
-            <SiGooglepay className="w-10 h-10" style={{ color: '#4285F4' }} />
-            <SiPhonepe className="w-10 h-10" style={{ color: '#5F259F' }} />
-            <SiPaytm className="w-10 h-10" style={{ color: '#00BAF2' }} />
-          </div>
+          <PaymentIcons size="lg" />
         </div>
       </div>
 
@@ -262,13 +256,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="flex flex-col items-center gap-3 py-6 border-t border-gray-600">
-          <div className="flex items-center gap-2">
-            <SiVisa className="w-8 h-8" style={{ color: '#1A1F71' }} />
-            <SiMastercard className="w-8 h-8" style={{ color: '#EB001B' }} />
-            <SiGooglepay className="w-8 h-8" style={{ color: '#4285F4' }} />
-            <SiPhonepe className="w-8 h-8" style={{ color: '#5F259F' }} />
-            <SiPaytm className="w-8 h-8" style={{ color: '#00BAF2' }} />
-          </div>
+          <PaymentIcons size="md" />
           <span className="text-white text-sm">Korzi@2025</span>
         </div>
       </div>

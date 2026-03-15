@@ -5,7 +5,7 @@ import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
 import { getCloudinaryUrl } from '../utils/cloudinary';
 import { eventNames, gaEvent } from '../utils/gtm';
-import { SiVisa, SiMastercard, SiGooglepay } from 'react-icons/si';
+import PaymentIcons from './PaymentIcons';
 
 export enum Operation {
   INCREASE = 'INCREASE',
@@ -308,11 +308,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
                     className="flex-1 bg-[#02FF00] text-black py-2 md:py-3 font-bold hover:bg-[#00dd00] transition-colors text-xs md:text-sm flex items-center justify-center gap-2"
                   >
                     <span>CHECKOUT</span>
-                    <div className="flex items-center gap-1">
-                      <SiVisa className="w-4 h-4" style={{ color: '#1A1F71' }} />
-                      <SiMastercard className="w-4 h-4" style={{ color: '#EB001B' }} />
-                      <SiGooglepay className="w-4 h-4" style={{ color: '#4285F4' }} />
-                    </div>
+                    <PaymentIcons size="sm" variant="stacked" />
                   </button>
                 </div>
               </div>
