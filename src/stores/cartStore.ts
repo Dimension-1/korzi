@@ -12,6 +12,7 @@ interface CartItem {
   image: string;
   variant?: string;
   variantId?: string; // Shopify variant ID
+  productId?: string; // Shopify product ID
 }
 
 interface CartStore {
@@ -259,6 +260,7 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
+              productId: edge.node.merchandise.product.id,
               image: edge.node.merchandise.image?.url || '/image.png'
             }));
             
@@ -298,6 +300,7 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
+              productId: edge.node.merchandise.product.id,
               image: edge.node.merchandise.image?.url || '/image.png'
             }));
             
@@ -326,6 +329,7 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
+              productId: edge.node.merchandise.product.id,
               image: edge.node.merchandise.image?.url || '/image.png'
             }));
             

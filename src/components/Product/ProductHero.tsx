@@ -13,6 +13,7 @@ interface ProductHeroProps {
     images: Array<{ url: string; altText?: string }>;
     price: number;
     compareAtPrice?: number;
+    productId: string;
     variantId: string;
     quantityAvailable?: number;
   };
@@ -107,12 +108,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
     }
   };
 
-  const handleBuyNow = async (e: React.MouseEvent) => {
+  const handleBuyNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-
-    
     if (isAddingToCart) return;
     gaEvent(eventNames.purchase, {
       button_name: 'buy_now',
@@ -120,8 +119,21 @@ export default function ProductHero({ product }: ProductHeroProps) {
       product_id:product?.variantId,
       content_type:product.title
     })
-  
 
+    // Use FlexyPe checkout if available
+    if (window.FlexyPeCheckout?.open) {
+      const productIdNum = parseInt((product.productId || '').split('/').pop() || '0');
+      const variantIdNum = parseInt((product.variantId || '').split('/').pop() || '0');
+
+      window.FlexyPeCheckout.open({
+        flow: 'checkout',
+        source: 'buy_now_button',
+        items: [{ product_id: productIdNum, variant_id: variantIdNum, quantity }],
+      });
+      return;
+    }
+
+    // Fallback: Razorpay checkout flow
     setIsAddingToCart(true);
     try {
       await addToCart({
@@ -132,13 +144,12 @@ export default function ProductHero({ product }: ProductHeroProps) {
         image: product.images[0]?.url || '/image.png',
         variantId: product.variantId
       });
-      
+
       await new Promise(resolve => setTimeout(resolve, 300));
-      
       const updatedCartItems = useCartStore.getState().cartItems;
       const totalPrice = useCartStore.getState().getTotalPrice();
       
-      const orderData = {
+      setCurrentOrder({
         items: updatedCartItems.map((item) => ({
           id: item.id,
           title: item.title,
@@ -147,28 +158,16 @@ export default function ProductHero({ product }: ProductHeroProps) {
           image: item.image,
           variantId: item.variantId
         })),
-        customer: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: ''
-        },
-        shippingAddress: {
-          address1: '',
-          address2: '',
-          city: '',
-          province: '',
-          country: 'India',
-          zip: ''
-        },
+        customer: { firstName: '', lastName: '', email: '', phone: '' },
+        shippingAddress: { address1: '', address2: '', city: '', province: '', country: 'India', zip: '' },
         totalAmount: totalPrice,
         currency: 'INR'
-      };
-      
-      setCurrentOrder(orderData);
+      });
       navigate('/checkout');
     } catch (error) {
       console.error('Buy now error:', error);
+    } finally {
+      setTimeout(() => setIsAddingToCart(false), 500);
     }
   };
 

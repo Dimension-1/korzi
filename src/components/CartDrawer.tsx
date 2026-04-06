@@ -69,7 +69,26 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
 
   const handleCheckout = async () => {
     try {
-      // Call optional callback if provided
+      // Use Flexype checkout if available and active
+      if (window.FlexyPeCheckout?.open) {
+        const items = cartItems.map(item => ({
+          product_id: parseInt((item.productId || '').split('/').pop() || '0'),
+          variant_id: parseInt((item.variantId || '').split('/').pop() || '0'),
+          quantity: item.quantity
+        }));
+
+        closeDrawer();
+
+        window.FlexyPeCheckout.open({
+          flow: 'checkout',
+          source: 'cart_checkout_button',
+          items,
+        });
+
+        return;
+      }
+
+      // Fallback: Razorpay checkout flow
       onCheckout?.();
       
       // Prepare order data

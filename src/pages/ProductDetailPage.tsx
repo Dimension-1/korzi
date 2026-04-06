@@ -60,6 +60,7 @@ const ProductDetailPage = () => {
     images,
     price,
     compareAtPrice: compareAtPrice > price ? compareAtPrice : undefined,
+    productId: product.id,
     variantId: firstVariant?.id || '',
     quantityAvailable: firstVariant?.quantityAvailable
   };

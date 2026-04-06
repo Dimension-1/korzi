@@ -85,7 +85,7 @@ body {
   background: var(--background);
 }
 
-/* Custom Scrollbar Styling - Global */
+/* Custom Scrollbar Styling - Global (exclude FlexyPe) */
 ::-webkit-scrollbar {
   width: 12px !important;
   height: 12px !important;
@@ -111,6 +111,20 @@ body {
 * {
   scrollbar-width: thin !important;
   scrollbar-color: #02FF00 #000000 !important;
+}
+
+/* FlexyPe checkout - prevent site styles from breaking the modal */
+.flexy-parent-container {
+  transition: none !important;
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+}
+
+.flexy-parent-container iframe {
+  transition: visibility 0s 0.25s, opacity 0.25s ease, transform 0.25s ease !important;
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+  color-scheme: light !important;
 }
 
 a {
@@ -170,6 +184,10 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+  .flexy-parent-container,
+  .flexy-parent-container iframe {
+    color-scheme: light !important;
   }
 }
 
