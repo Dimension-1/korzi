@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { getCloudinaryUrl } from '../../utils/cloudinary';
+
 
 const S3_BASE = 'https://korzi-website-assets-2026.s3.amazonaws.com/assets/testimonials';
 
