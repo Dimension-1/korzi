@@ -10,6 +10,7 @@ import TestimonialsSection from '../components/Product/TestimonialsSection';
 import ProductFAQ from '../components/Product/ProductFAQ';
 import Footer from '../components/Home/footer';
 import SpecsSection from '../components/Home/SpecsSection';
+import TakeOverSection from '../components/Home/TakeOverSection';
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();
@@ -71,9 +72,10 @@ const ProductDetailPage = () => {
         <ProductHero product={productData} />
         <SpecsSection />
         <ProductTabs />
-        <TestimonialsSection />
-        <BuiltInIndiaSection />
+        <TakeOverSection />
         <ProductFAQ />
+        <BuiltInIndiaSection />
+        <TestimonialsSection />
       </div>
       <Footer />
       <CartDrawer />

@@ -1,22 +1,76 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 
+const S3_BASE = 'https://korzi-website-assets-2026.s3.amazonaws.com/assets/testimonials';
+
+const testimonialVideos = [
+  `${S3_BASE}/Testimonial_1.mp4`,
+  `${S3_BASE}/Testimonial_2.mp4`,
+  `${S3_BASE}/Testimonial_3.mp4`,
+  `${S3_BASE}/Testimonial_4.mp4`,
+  `${S3_BASE}/Testimonial_5.mp4`,
+  `${S3_BASE}/Testimonial_6.mp4`,
+];
+
 
 export default function TakeOverSection() {
-  const videos = Array(9).fill('/assets/homepage/KORZI WEBSITE HERO BNNER VIDEO.mp4');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [playing, setPlaying] = useState<Set<number>>(new Set([0]));
+  const [visible, setVisible] = useState<Set<number>>(new Set([0, 1, 2, 3, 4, 5]));
+
+  // Lazy load videos using IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute('data-index'));
+          if (entry.isIntersecting) {
+            setVisible((prev) => new Set([...prev, index]));
+          }
+        });
+      },
+      { rootMargin: '100px', threshold: 0.1 }
+    );
+
+    cardRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-play first video once it's loaded
+  useEffect(() => {
+    if (visible.has(0)) {
+      videoRefs.current[0]?.play().catch(() => {});
+    }
+  }, [visible]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrollContainerRef.current) return;
-    
     const container = scrollContainerRef.current;
+    if (!container) return;
     const rect = container.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const scrollPercentage = x / rect.width;
+    const percentage = x / rect.width;
     const maxScroll = container.scrollWidth - container.clientWidth;
-    
-    container.scrollLeft = scrollPercentage * maxScroll;
+    container.scrollLeft = percentage * maxScroll;
+  };
+
+  const handleVideoTap = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    const newPlaying = new Set(playing);
+    if (playing.has(index)) {
+      video.pause();
+      newPlaying.delete(index);
+    } else {
+      video.play().catch(() => {});
+      newPlaying.add(index);
+    }
+    setPlaying(newPlaying);
   };
 
   return (
@@ -24,7 +78,7 @@ export default function TakeOverSection() {
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-8">
         {/* Title */}
         <h2 
-          className="text-center uppercase mb-12 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
+          className="text-center uppercase mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
           style={{
             fontFamily: 'Bebas Neue',
             fontSize: '64px',
@@ -34,23 +88,56 @@ export default function TakeOverSection() {
           WATCH KORZI TAKE OVER
         </h2>
 
-        {/* Video Carousel with Hover Scroll */}
+        <p
+          className="text-center mb-12 mx-auto bg-clip-text text-transparent"
+          style={{
+            fontFamily: 'DM Sans',
+            fontSize: '24px',
+            lineHeight: '30px',
+            background: 'linear-gradient(100.06deg, #FFFFFF 1.37%, #999999 57.42%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          Built for driveways, terraces, streets, parks, and dirt tracks.<br />
+          Wherever there's space, the K-01 makes motion happen.
+        </p>
+
+        {/* Video Carousel */}
         <div 
           ref={scrollContainerRef}
           onMouseMove={handleMouseMove}
-          className="flex gap-4 overflow-x-hidden mb-8 pb-4 cursor-pointer scroll-smooth"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          className="flex gap-4 overflow-x-scroll mb-8 pb-4 scrollbar-hide"
         >
-          {videos.map((video, index) => (
-            <div key={index} className="flex-shrink-0 w-[180px] h-[320px] bg-gray-800 relative">
-              <video 
-                src={video}
-                className="w-full h-full object-cover"
-                muted
-                loop
-                autoPlay
-                playsInline
-              />
+          {testimonialVideos.map((src, index) => (
+            <div
+              key={index}
+              ref={(el) => { cardRefs.current[index] = el; }}
+              data-index={index}
+              className="flex-shrink-0 w-[calc((100%-16px)/2)] md:w-[calc((100%-64px)/5)] h-[280px] md:h-[400px] bg-zinc-900 relative rounded-lg overflow-hidden cursor-pointer"
+              onClick={() => handleVideoTap(index)}
+            >
+              {visible.has(index) ? (
+                <video
+                  ref={(el) => { videoRefs.current[index] = el; }}
+                  src={src}
+                  className="w-full h-full object-cover"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              ) : (
+                <div className="w-full h-full bg-zinc-800 animate-pulse" />
+              )}
+              {!playing.has(index) && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <svg className="w-12 h-12 text-white/80" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -64,54 +151,6 @@ export default function TakeOverSection() {
             </span>
             <ArrowUpRight className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
           </button>
-        </div>
-
-        {/* Mission Statement Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Text Content */}
-          <div>
-            <h3 
-              className="uppercase mb-6 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
-              style={{
-                fontFamily: 'Bebas Neue',
-                fontSize: '48px',
-                lineHeight: '48px',
-              }}
-            >
-              WE'RE ALSO FIXING HOW PEOPLE THINK ABOUT TOYS.
-            </h3>
-
-            <p className="text-white mb-6" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '24px' }}>
-              Somewhere along the way, toys became soft, disposable, and forgettable.<br />
-              We grew up, but the machines we loved didn't.<br />
-              Korzi exists to change that.
-            </p>
-
-            <p className="text-white font-bold mb-8" style={{ fontFamily: 'DM Sans', fontSize: '16px', lineHeight: '24px' }}>
-              Because the world doesn't need low quality toys.<br />
-              It needs machines that make you learn and feel alive.
-            </p>
-
-            <button className="bg-[#3A3A3A] text-white px-8 py-3 flex items-center gap-3 border-l-4 border-[#02FF00] group relative overflow-hidden">
-              <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-              <span className="relative z-10 group-hover:text-black transition-colors duration-300" style={{ fontFamily: 'DM Sans', fontSize: '14px', letterSpacing: '0.05em' }}>
-                JOIN US
-              </span>
-              <ArrowUpRight className="relative z-10 w-5 h-5 text-[#02FF00] group-hover:text-black transition-colors duration-300" />
-            </button>
-          </div>
-
-          {/* Right: Circuit Board Image */}
-          <div className="relative">
-             <div className="text-[#02FF00] text-6xl">
-              <img 
-                src={getCloudinaryUrl('/assets/homepage/network.png')} 
-                alt="Network circuit board"
-                className="w-full h-auto max-w-full"
-                style={{ filter: 'brightness(1.2)' }}
-              />
-              </div>
-          </div>
         </div>
       </div>
     </section>
