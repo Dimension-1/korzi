@@ -208,8 +208,16 @@ export default function ProductHero({ product }: ProductHeroProps) {
   };
 
   return (
-    <div className="w-full mx-auto px-4 md:px-8 py-4 md:py-12 min-h-[800px] md:min-h-[900px]">
+    <div className="w-full mx-auto px-4 md:px-8 py-1 md:py-12 min-h-[800px] md:min-h-[900px]">
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16">
+        {/* Title - Mobile only */}
+        <div className="lg:hidden space-y-1">
+          <h2 className="text-[#02FF00] text-2xl uppercase" style={{ fontFamily: 'Bebas Neue', fontWeight: 400, lineHeight: '44px' }}>
+            NOT A TOY RC. FAST. STABLE. CONFIDENT.
+          </h2>
+          <p className="text-white text-s" style={{ fontFamily: 'DM Sans' }}>Built for impact. Tuned for control.</p>
+        </div>
+
         {/* Right: Images - First on mobile */}
         <div className="space-y-2 lg:hidden">
           <div className="relative">
@@ -304,6 +312,38 @@ export default function ProductHero({ product }: ProductHeroProps) {
                 <span className="text-[10px] lg:text-xs text-zinc-500">MRP inclusive of all taxes</span>
               </>
             )}
+          </div>
+
+          {/* Comparison Table - Mobile only */}
+          <div className="lg:hidden w-full border border-zinc-800 bg-black">
+            <div className="grid grid-cols-2">
+              <div className="py-2 px-2 text-center border-b border-r border-zinc-800">
+                <span className="text-sm font-bold text-zinc-400" style={{ fontFamily: 'DM Sans' }}>TOY RC</span>
+              </div>
+              <div className="py-2 px-2 text-center border-b border-zinc-800">
+                <span className="text-sm font-bold text-[#02FF00]" style={{ fontFamily: 'DM Sans' }}>KORZI K-01</span>
+              </div>
+              {[
+                ['Basic 2WD Drive', '4WD All Terrain Traction'],
+                ['Fragile Plastic body', 'Reinforced ABS Chassis'],
+                ['Breaks in weeks', 'Crash – Tested'],
+                ['No Support', 'Indian Warranty'],
+              ].map(([bad, good], idx) => (
+                <>
+                  <div key={`bad-${idx}`} className={`py-2 px-2 flex items-center gap-2 border-r border-zinc-800 ${idx < 3 ? 'border-b border-zinc-800' : ''}`}>
+                    <span className="text-red-500 text-sm flex-shrink-0">✕</span>
+                    <span className="text-white text-xs" style={{ fontFamily: 'DM Sans' }}>{bad}</span>
+                  </div>
+                  <div key={`good-${idx}`} className={`py-2 px-2 flex items-center gap-2 ${idx < 3 ? 'border-b border-zinc-800' : ''}`}>
+                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"/>
+                      <path d="m9 11 3 3L22 4"/>
+                    </svg>
+                    <span className="text-white text-xs" style={{ fontFamily: 'DM Sans' }}>{good}</span>
+                  </div>
+                </>
+              ))}
+            </div>
           </div>
 
           <p 
