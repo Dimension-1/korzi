@@ -10,7 +10,7 @@ export default function MarqueeBar() {
       'Tested for Chaos',
       'Grip, Guts, Glory',
     ];
-  
+  //ok
     return (
       <div className="bg-[#02FF00] py-2 overflow-hidden -mt-24 relative z-0">
         <div className="flex animate-marquee-mobile md:animate-marquee whitespace-nowrap">
