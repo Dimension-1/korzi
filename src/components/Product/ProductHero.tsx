@@ -301,7 +301,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-700 bg-zinc-900">
             <span className="text-white text-xs lg:text-sm" style={{ fontFamily: 'DM Sans' }}>₹5,000–₹7,500</span>
             <span className="text-zinc-500">|</span>
-            <span className="text-white text-xs lg:text-sm" style={{ fontFamily: 'DM Sans' }}>EMI from ₹280/mo</span>
+            <span className="text-[#02FF00] text-xs lg:text-sm font-medium" style={{ fontFamily: 'DM Sans' }}>EMI from ₹280/mo</span>
           </div>
 
           <div className="flex items-center gap-2">
