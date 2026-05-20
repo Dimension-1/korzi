@@ -2,7 +2,7 @@ import { trackEvent } from "../services/metaPixels";
 
  export const eventNames = {
     payment_failed:"payment_failed",
-    purchase:"initiate_checkout",
+    purchase:"purchase",
     add_to_cart:'add_to_cart',
     payment_initiated_failed:'payment_initiated_failed',
     payment_initiated:'payment_initiated',
