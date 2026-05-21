@@ -23,12 +23,14 @@ export const FLEXYPE_EVENTS = {
 export type FlexyPeCheckoutEvent =
   (typeof FLEXYPE_EVENTS)[keyof typeof FLEXYPE_EVENTS];
 
+export type FlexyPeCheckoutEventPayload = unknown;
+
 export interface FlexyPeCheckoutHandlers {
-  onClose?: () => void;
-  onSuccess?: () => void;
-  onFailure?: () => void;
-  onRedirect?: () => void;
-  onCartUpdate?: () => void;
+  onClose?: (payload?: FlexyPeCheckoutEventPayload) => void;
+  onSuccess?: (payload?: FlexyPeCheckoutEventPayload) => void;
+  onFailure?: (payload?: FlexyPeCheckoutEventPayload) => void;
+  onRedirect?: (payload?: FlexyPeCheckoutEventPayload) => void;
+  onCartUpdate?: (payload?: FlexyPeCheckoutEventPayload) => void;
 }
 
 const PAYLOAD_SEPARATOR = '|-|-|';
@@ -121,15 +123,15 @@ export function openFlexyPeCheckout(params: FlexyPeCheckoutOpenParams): void {
 
   if (onSuccess || onFailure || onClose) {
     unsubscribe = subscribeFlexyPeCheckout({
-      onSuccess: (payload) => {
+      onSuccess: (payload?: FlexyPeCheckoutEventPayload) => {
         onSuccess?.(payload);
         finish();
       },
-      onFailure: (payload) => {
+      onFailure: (payload?: FlexyPeCheckoutEventPayload) => {
         onFailure?.(payload);
         finish();
       },
-      onClose: (payload) => {
+      onClose: (payload?: FlexyPeCheckoutEventPayload) => {
         onClose?.(payload);
         finish();
       },
