@@ -4,6 +4,7 @@ import { useCartStore } from '../../stores/cartStore';
 import { useOrderStore } from '../../stores/orderStore';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 import { eventNames, gaEvent } from '../../utils/gtm';
+import { openFlexyPeCheckout } from '../../utils/flexypeCheckout';
 import { Operation } from '../CartDrawer';
 
 interface ProductHeroProps {
@@ -23,7 +24,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { addToCart } = useCartStore();
+  const { addToCart, refreshCartCount, clearCart } = useCartStore();
   const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
   const mobileContainerRef = useRef<HTMLDivElement>(null);
@@ -125,10 +126,26 @@ export default function ProductHero({ product }: ProductHeroProps) {
       const productIdNum = parseInt((product.productId || '').split('/').pop() || '0');
       const variantIdNum = parseInt((product.variantId || '').split('/').pop() || '0');
 
-      window.FlexyPeCheckout.open({
+      setIsAddingToCart(true);
+      openFlexyPeCheckout({
         flow: 'checkout',
         source: 'buy_now_button',
         items: [{ product_id: productIdNum, variant_id: variantIdNum, quantity }],
+        onClose: () => {
+          setIsAddingToCart(false);
+          refreshCartCount();
+        },
+        onSuccess: (payload) => {
+          setIsAddingToCart(false);
+          clearCart().catch(() => {});
+          refreshCartCount();
+          gaEvent(eventNames.payment_verification_successful, {
+            value:quantity * product?.price || 0,
+            product_id:product?.variantId,
+            content_type:product.title
+          })
+        },
+        
       });
       return;
     }
