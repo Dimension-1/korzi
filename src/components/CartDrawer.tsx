@@ -63,12 +63,15 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
         value:price * currentQuantity
       })
     }
-  
     updateQuantity(id, newQuantity);
   };
 
   const handleCheckout = async () => {
     try {
+      gaEvent(eventNames.purchase, {
+        button_name: 'buy_now',
+        quantiry:cartItems?.length
+      })
       // Use Flexype checkout if available and active
       if (window.FlexyPeCheckout?.open) {
         const items = cartItems.map(item => ({
