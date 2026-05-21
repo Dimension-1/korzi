@@ -135,17 +135,19 @@ export default function ProductHero({ product }: ProductHeroProps) {
           setIsAddingToCart(false);
           refreshCartCount();
         },
-        onSuccess: (payload) => {
+        onSuccess: () => {
           setIsAddingToCart(false);
           clearCart().catch(() => {});
           refreshCartCount();
           gaEvent(eventNames.payment_verification_successful, {
-            value:quantity * product?.price || 0,
-            product_id:product?.variantId,
-            content_type:product.title
-          })
+            value: quantity * product?.price || 0,
+            product_id: product?.variantId,
+            content_type: product.title,
+          });
         },
-        
+        onFailure: () => {
+          setIsAddingToCart(false);
+        },
       });
       return;
     }
