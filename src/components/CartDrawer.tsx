@@ -5,6 +5,7 @@ import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
 import { getCloudinaryUrl } from '../utils/cloudinary';
 import { eventNames, gaEvent } from '../utils/gtm';
+import { getOrCreateCheckoutEventId } from '../utils/metaEventId';
 import PaymentIcons from './PaymentIcons';
 
 export enum Operation {
@@ -70,8 +71,9 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     try {
       gaEvent(eventNames.purchase, {
         button_name: 'buy_now',
-        quantiry:cartItems?.length
-      })
+        quantiry: cartItems?.length,
+        event_id: getOrCreateCheckoutEventId(),
+      });
       // Use Flexype checkout if available and active
       if (window.FlexyPeCheckout?.open) {
         const items = cartItems.map(item => ({

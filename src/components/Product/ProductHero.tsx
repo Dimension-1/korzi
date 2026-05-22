@@ -5,6 +5,7 @@ import { useOrderStore } from '../../stores/orderStore';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 import { eventNames, gaEvent } from '../../utils/gtm';
 import { openFlexyPeCheckout } from '../../utils/flexypeCheckout';
+import { createMetaEventId, getOrCreateCheckoutEventId } from '../../utils/metaEventId';
 import { Operation } from '../CartDrawer';
 
 interface ProductHeroProps {
@@ -116,10 +117,11 @@ export default function ProductHero({ product }: ProductHeroProps) {
     if (isAddingToCart) return;
     gaEvent(eventNames.purchase, {
       button_name: 'buy_now',
-      value:quantity * product?.price || 0,
-      product_id:product?.variantId,
-      content_type:product.title
-    })
+      value: quantity * product?.price || 0,
+      product_id: product?.variantId,
+      content_type: product.title,
+      event_id: getOrCreateCheckoutEventId(),
+    });
 
     // Use FlexyPe checkout if available
     if (window.FlexyPeCheckout?.open) {
@@ -143,6 +145,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
             value: quantity * product?.price || 0,
             product_id: product?.variantId,
             content_type: product.title,
+            event_id: createMetaEventId('purchase'),
           });
         },
         onFailure: () => {

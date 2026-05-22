@@ -11,6 +11,7 @@ import { validateDiscountCode } from '../services/shopify';
 import ProcessingOverlay from './ProcessingOverlay';
 import CouponInput from './CouponInput';
 import { eventNames, gaEvent } from '../utils/gtm';
+import { getOrCreateCheckoutEventId, purchaseEventId } from '../utils/metaEventId';
 
 
 const CheckoutPage: React.FC = () => {
@@ -181,10 +182,11 @@ const CheckoutPage: React.FC = () => {
 
       gaEvent(eventNames.payment_initiated, {
         button_name: 'Submit',
-        value:currentOrder.totalAmount,
-        quantiry:currentOrder.items.length,
-        shopify_order_id:shopifyOrderId || ''
-      })
+        value: currentOrder.totalAmount,
+        quantiry: currentOrder.items.length,
+        shopify_order_id: shopifyOrderId || '',
+        event_id: getOrCreateCheckoutEventId(),
+      });
   
 
       // Create Razorpay order with final amount after discount
@@ -246,11 +248,12 @@ const CheckoutPage: React.FC = () => {
             }
             gaEvent(eventNames.payment_verification_successful, {
               button_name: 'Submit',
-              value:currentOrder.totalAmount,
-              quantiry:currentOrder.items.length,
-              shopify_order_id:shopifyOrderId,
-              shopify_order_number:shopifyOrderNumber,
-            })
+              value: currentOrder.totalAmount,
+              quantiry: currentOrder.items.length,
+              shopify_order_id: shopifyOrderId,
+              shopify_order_number: shopifyOrderNumber,
+              event_id: purchaseEventId(shopifyOrderNumber || shopifyOrderId),
+            });
             console.log('Payment verified successfully');
 
             // 2. Complete draft order and send invoice
