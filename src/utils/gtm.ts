@@ -19,8 +19,10 @@ export const gaEvent = (
   name: string,
   params: GAEventParams = {}
 ): void => {
-  if (typeof window === "undefined" || !window.gtag) return;
+  if (typeof window === "undefined") return;
 
-  window.gtag("event", name, params);
-  trackEvent(name, params)
+  if (window.gtag) {
+    window.gtag("event", name, params);
+  }
+  trackEvent(name, params);
 };
