@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
-
 const S3_BASE = 'https://korzi-website-assets-2026.s3.amazonaws.com/assets/testimonials';
 
 const testimonialVideos = [
@@ -13,43 +12,64 @@ const testimonialVideos = [
   `${S3_BASE}/Testimonial_6.mp4`,
 ];
 
-
 export default function TakeOverSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [playing, setPlaying] = useState<Set<number>>(new Set([0]));
-  const [visible, setVisible] = useState<Set<number>>(new Set([0, 1, 2, 3, 4, 5]));
+  
+  // FIX: Track the single currently playing video index (or null if none are playing)
+  const [playingIndex, setPlayingIndex] = useState<number | null>(0);
+  const [visible, setVisible] = useState<Set<number>>(new Set());
 
-  // Lazy load videos using IntersectionObserver
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute('data-index'));
-          if (entry.isIntersecting) {
-            setVisible((prev) => new Set([...prev, index]));
-          }
-        });
-      },
-      { rootMargin: '100px', threshold: 0.1 }
-    );
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
 
-    cardRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
+    if (isDesktop) {
+      const allIndexes = testimonialVideos.map((_, i) => i);
+      setVisible(new Set(allIndexes));
+    } else {
+      setVisible(new Set([0, 1]));
 
-    return () => observer.disconnect();
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const index = Number(entry.target.getAttribute('data-index'));
+            if (entry.isIntersecting) {
+              setVisible((prev) => {
+                const next = new Set(prev);
+                next.add(index);
+                return next;
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '200px', threshold: 0.01 }
+      );
+
+      cardRefs.current.forEach((el, idx) => {
+        if (el && idx > 1) observer.observe(el);
+      });
+
+      return () => observer.disconnect();
+    }
   }, []);
 
-  // Auto-play first video once it's loaded
+  // Handle auto-playing the single default video once it becomes visible
   useEffect(() => {
-    if (visible.has(0)) {
+    if (visible.has(0) && playingIndex === 0) {
       videoRefs.current[0]?.play().catch(() => {});
     }
-  }, [visible]);
+  }, [visible, playingIndex]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      (e.nativeEvent as PointerEvent).pointerType === 'touch' || 
+      window.matchMedia('(pointer: coarse)').matches
+    ) {
+      return;
+    }
+
     const container = scrollContainerRef.current;
     if (!container) return;
     const rect = container.getBoundingClientRect();
@@ -59,18 +79,27 @@ export default function TakeOverSection() {
     container.scrollLeft = percentage * maxScroll;
   };
 
+  // FIX: Single video toggle handler
   const handleVideoTap = (index: number) => {
-    const video = videoRefs.current[index];
-    if (!video) return;
-    const newPlaying = new Set(playing);
-    if (playing.has(index)) {
-      video.pause();
-      newPlaying.delete(index);
+    const targetVideo = videoRefs.current[index];
+    if (!targetVideo) return;
+
+    if (playingIndex === index) {
+      // If clicking the already playing video, pause it
+      targetVideo.pause();
+      setPlayingIndex(null);
     } else {
-      video.play().catch(() => {});
-      newPlaying.add(index);
+      // 1. Pause every single other video first
+      videoRefs.current.forEach((video, idx) => {
+        if (video && idx !== index) {
+          video.pause();
+        }
+      });
+
+      // 2. Play the target video and update state
+      targetVideo.play().catch(() => {});
+      setPlayingIndex(index);
     }
-    setPlaying(newPlaying);
   };
 
   return (
@@ -118,20 +147,23 @@ export default function TakeOverSection() {
               className="flex-shrink-0 w-[calc((100%-16px)/2)] md:w-[calc((100%-64px)/5)] h-[280px] md:h-[400px] bg-zinc-900 relative rounded-lg overflow-hidden cursor-pointer"
               onClick={() => handleVideoTap(index)}
             >
-              {visible.has(index) ? (
-                <video
-                  ref={(el) => { videoRefs.current[index] = el; }}
-                  src={src}
-                  className="w-full h-full object-cover"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              ) : (
-                <div className="w-full h-full bg-zinc-800 animate-pulse" />
+              <video
+                ref={(el) => { videoRefs.current[index] = el; }}
+                src={visible.has(index) ? src : undefined}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${visible.has(index) ? 'opacity-100' : 'opacity-0'}`}
+                muted
+                loop
+                playsInline
+                preload={visible.has(index) ? "auto" : "none"}
+              />
+
+              {/* Show skeleton loader until the video is visible */}
+              {!visible.has(index) && (
+                <div className="absolute inset-0 bg-zinc-800 animate-pulse" />
               )}
-              {!playing.has(index) && (
+
+              {/* FIX: Check playing state using single index matching */}
+              {playingIndex !== index && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                   <svg className="w-12 h-12 text-white/80" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
