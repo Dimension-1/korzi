@@ -52,7 +52,7 @@ export default function FaqSection() {
 
       {/* Background gradient ellipse - Mobile */}
       <div className="absolute -right-10 bottom-40 w-5/6 h-full pointer-events-none z-10 md:hidden">
-        <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-12 relative z-[25]">

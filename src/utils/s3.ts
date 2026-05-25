@@ -9,14 +9,6 @@ if (!AWS_CLOUDFRONT_URL && !AWS_S3_BUCKET) {
 }
 
 export const getS3Url = (localPath: string): string => {
-  // Use local for ellipse_80.png and ellipse_81.png (keep existing logic)
-  if (localPath.includes('Ellipse80.png') || 
-      localPath.includes('Ellipse 81.png') ||
-      localPath.includes('Ellipse80.png') ||
-      localPath.includes('Ellipse 81.png')) {
-    return localPath;
-  }
-  
   const cleanPath = localPath.replace(/^\//, '');
   
   // Use CloudFront if available (faster), otherwise direct S3

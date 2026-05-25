@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Package, Calendar, CreditCard } from 'lucide-react';
 import { useOrderStore } from '../stores/orderStore';
 import { useAuthStore } from '../stores/authStore';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 const OrdersPage: React.FC = () => {
@@ -31,7 +32,7 @@ const OrdersPage: React.FC = () => {
     <div className="min-h-screen bg-black pt-24 pb-8 relative overflow-hidden">
       {/* Decorative Ellipse */}
       <img 
-        src="/assets/homepage/Ellipse 81.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
         alt="" 
         className="absolute -bottom-96 -right-32 md:-right-64 w-[1200px] h-[1200px] pointer-events-none opacity-50"
         style={{ zIndex: 1 }}

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Frown } from 'lucide-react';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 
 export default function ErrorPage() {
@@ -10,7 +11,7 @@ export default function ErrorPage() {
     <div className="bg-black min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
       {/* Decorative Ellipse - Bottom Right */}
       <img 
-        src="/assets/homepage/Ellipse 81.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
         alt="" 
         className="absolute -bottom-96 -right-32 md:-right-64 w-[1200px] h-[1200px] pointer-events-none"
         style={{ zIndex: 1 }}

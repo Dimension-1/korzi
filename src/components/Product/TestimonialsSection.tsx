@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { getReviews, Review } from '../../services/hygraph';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 const ratingBreakdown = [
   { stars: 5, count: 198 },
@@ -83,12 +84,12 @@ export default function TestimonialsSection() {
     <section className="bg-black py-8 md:py-16 relative min-h-[500px] md:min-h-[600px]" style={{ overflow: 'visible' }}>
       {/* Background ellipse - Desktop */}
       <div className="absolute -right-32 -top-96 w-1/2 h-[200%] pointer-events-none z-10 hidden md:block">
-        <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       {/* Background ellipse - Mobile */}
       <div className="absolute -right-10 -top-30 w-46/7 h-full pointer-events-none z-10 md:hidden">
-        <img src="/assets/homepage/Ellipse 81.png" alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
       
       <div className="w-full mx-auto px-4 md:px-8 relative z-10">

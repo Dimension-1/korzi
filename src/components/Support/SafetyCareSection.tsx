@@ -7,7 +7,7 @@ export default function SafetyCareSection() {
     <section className="bg-black text-white relative pt-1 pb-2 lg:pb-20 px-6 lg:px-12 overflow-visible min-h-[800px] md:min-h-[1000px]">
       {/* Decorative Elements - Desktop Only */}
       <img 
-        src="/assets/homepage/Ellipse 81.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
         alt="" 
         className="hidden lg:block absolute w-[1091px] h-[1092px] pointer-events-none opacity-80"
         style={{ right: 0, top: '30px', zIndex: 0, transform: 'translateX(30%)' }}
@@ -47,7 +47,7 @@ export default function SafetyCareSection() {
       
       {/* Decorative Elements - Mobile Only - Care Tips Bottom Right */}
       <img 
-        src="/assets/homepage/Ellipse 81.png" 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
         alt="" 
         className="lg:hidden absolute w-[293px] h-[394px] pointer-events-none opacity-80"
         style={{ right: '-100px', bottom: '-200px', zIndex: 0 }}
