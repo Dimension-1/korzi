@@ -6,13 +6,13 @@ export default function AutoScrollImages() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const images = [
-    '/assets/About/AutoScroll/AutoScroll1.png',
-    '/assets/About/AutoScroll/AutoScroll2.png',
-    '/assets/About/AutoScroll/AutoScroll3.png',
-    '/assets/About/AutoScroll/AutoScroll4.png',
-    '/assets/About/AutoScroll/AutoScroll5.png',
-    '/assets/About/AutoScroll/AutoScroll6.png',
-    '/assets/About/AutoScroll/AutoScroll7.png'
+    '/assets/About/AutoScroll/AutoScroll1.webp',
+    '/assets/About/AutoScroll/AutoScroll2.webp',
+    '/assets/About/AutoScroll/AutoScroll3.webp',
+    '/assets/About/AutoScroll/AutoScroll4.webp',
+    '/assets/About/AutoScroll/AutoScroll5.webp',
+    '/assets/About/AutoScroll/AutoScroll6.webp',
+    '/assets/About/AutoScroll/AutoScroll7.webp'
   ];
 
   useEffect(() => {

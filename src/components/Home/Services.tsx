@@ -10,27 +10,27 @@ export default function ManufacturingSection() {
   const steps = [
     {
       name: 'SERVICING',
-      image1: '/assets/homepage/services1.png',
+      image1: '/assets/homepage/services1.webp',
       image2: '/assets/homepage/services2.png'
     },
     {
       name: 'ASSEMBLY',
       image1: '/assets/homepage/assembly1.png',
-      image2: '/assets/homepage/assembly2.png'
+      image2: '/assets/homepage/assembly2.webp'
     },
     {
       name: 'TESTING',
-      image1: '/assets/homepage/testing1.png',
+      image1: '/assets/homepage/testing1.webp',
       image2: '/assets/homepage/testing2.png'
     },
     {
       name: 'PACKING',
       image1: '/assets/homepage/packaging1.png',
-      image2: '/assets/homepage/packaging2.png'
+      image2: '/assets/homepage/packaging2.webp'
     },
     {
       name: 'MANUFACTURING',
-      image1: '/assets/homepage/manufacturing1.png',
+      image1: '/assets/homepage/manufacturing1.webp',
       image2: '/assets/homepage/manufacturing2.png'
     }
   ];

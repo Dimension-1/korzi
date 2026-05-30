@@ -58,7 +58,7 @@ export default function JoinFamSection() {
         {/* Right Side - Image */}
         <div className="relative w-full lg:order-2">
           <img
-            src={getCloudinaryUrl('/assets/homepage/Korziteam.png')}
+            src={getCloudinaryUrl('/assets/homepage/Korziteam.webp')}
             alt="Korzi Crew"
             className="w-full h-auto object-cover"
           />

@@ -26,7 +26,7 @@ export default function DetailCarousel() {
       description: "4WD control, high-torque motor, and balanced suspension that delivers pure motion → from streets to dirt tracks.",
       buttonText: "SHOP NOW",
       buttonLink: "/shop",
-      image: "/assets/homepage/powermeetsprecision.png"
+      image: "/assets/homepage/powermeetsprecision.webp"
     },
     {
       id: 2,
@@ -34,7 +34,7 @@ export default function DetailCarousel() {
       description: "Made to drift, jump, and survive impact. Korzi machines are built to handle chaos, not sit on shelves. Up to 25 km/h of tight control and instant response. It's not playtime, it's performance time.",
       buttonText: "EXPLORE APEX DRIVE K-01",
       buttonLink: "/shop",
-      image: "/assets/homepage/crashed_test.png"
+      image: "/assets/homepage/crashed_test.webp"
     },
     {
       id: 3,
@@ -50,7 +50,7 @@ export default function DetailCarousel() {
       description: "From kids discovering their first RC to grown-ups reliving the rush. Korzi is where control meets connection. Drive, race, or build. You're part of the Crew.",
       buttonText: "SHOP NOW",
       buttonLink: "/shop",
-      image: "/assets/homepage/Parentkid.png"
+      image: "/assets/homepage/Parentkid.webp"
     }
   ];
 

@@ -10,7 +10,7 @@ export default function WarrantyServiceSection() {
           {/* Top Left - Muddy Car Image */}
           <div className="bg-black w-full lg:max-w-[600px] h-[400px] order-1 lg:order-none">
             <img 
-              src={getCloudinaryUrl('/assets/Support/warranty.png')} 
+              src={getCloudinaryUrl('/assets/Support/warranty.webp')} 
               alt="Muddy RC Car" 
               className="w-full h-full object-cover"
             />
@@ -117,7 +117,7 @@ export default function WarrantyServiceSection() {
           {/* Bottom Right - Repair Image */}
           <div className="bg-black w-full lg:max-w-[600px] h-[400px] order-3 lg:order-none">
             <img 
-              src={getCloudinaryUrl('/assets/Support/repair.png')} 
+              src={getCloudinaryUrl('/assets/Support/repair.webp')} 
               alt="Repair Service" 
               className="w-full h-full object-cover"
             />

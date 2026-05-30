@@ -6,7 +6,7 @@ export default function TroubleshootingSection() {
       {/* Green Bloom Effect */}
       <div className="absolute left-0 bottom-0 w-[800px] h-[800px] pointer-events-none" style={{ zIndex: 0 }}>
         <img 
-          src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
+          src={getCloudinaryUrl('/assets/homepage/Ellipse80.webp')} 
           alt="" 
           className="w-full h-full"
           style={{

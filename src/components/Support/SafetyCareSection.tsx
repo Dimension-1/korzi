@@ -7,7 +7,7 @@ export default function SafetyCareSection() {
     <section className="bg-black text-white relative pt-1 pb-2 lg:pb-20 px-6 lg:px-12 overflow-visible min-h-[800px] md:min-h-[1000px]">
       {/* Decorative Elements - Desktop Only */}
       <img 
-        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.webp')} 
         alt="" 
         className="hidden lg:block absolute w-[1091px] h-[1092px] pointer-events-none opacity-80"
         style={{ right: 0, top: '30px', zIndex: 0, transform: 'translateX(30%)' }}
@@ -19,7 +19,7 @@ export default function SafetyCareSection() {
         style={{ right: '-273.5px', top: '480px', zIndex: 1 }}
       />
       <img 
-        src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse80.webp')} 
         alt="" 
         className="hidden lg:block absolute w-[1391px] h-[1092px] pointer-events-none"
         style={{ left: '-545.5px', top: '370px', zIndex: 0 }}
@@ -33,7 +33,7 @@ export default function SafetyCareSection() {
       
       {/* Decorative Elements - Mobile Only - Safety & Care Left */}
       <img 
-        src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse80.webp')} 
         alt="" 
         className="lg:hidden absolute w-[293px] h-[394px] pointer-events-none"
         style={{ left: '-80px', top: '700px', zIndex: 0 }}
@@ -47,7 +47,7 @@ export default function SafetyCareSection() {
       
       {/* Decorative Elements - Mobile Only - Care Tips Bottom Right */}
       <img 
-        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.webp')} 
         alt="" 
         className="lg:hidden absolute w-[293px] h-[394px] pointer-events-none opacity-80"
         style={{ right: '-100px', bottom: '-200px', zIndex: 0 }}
@@ -162,7 +162,7 @@ export default function SafetyCareSection() {
           {/* Center - Image with BIS Badge */}
           <div className="relative bg-gradient-to-br from-gray-300 to-gray-500 min-h-[200px] flex items-center justify-center overflow-visible order-2 lg:order-none max-w-[320px] lg:max-w-none mx-auto mb-8 lg:mb-0">
             <img 
-              src={getCloudinaryUrl('/assets/Support/safety.png')} 
+              src={getCloudinaryUrl('/assets/Support/safety.webp')} 
               alt="Korzi RC Car" 
               className="w-full h-full object-cover"
             />

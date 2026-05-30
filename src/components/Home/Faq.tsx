@@ -47,12 +47,12 @@ export default function FaqSection() {
     <section className="bg-black py-8 md:py-16 px-4 md:px-8 md:pb-48 relative overflow-x-clip min-h-[600px] md:min-h-[800px]">
       {/* Background gradient ellipse - Desktop */}
       <div className="absolute -left-32 top-3/4 -translate-y-1/2 w-1/3 h-[200%] pointer-events-none z-[5] hidden md:block">
-        <img src={getCloudinaryUrl('/assets/homepage/Ellipse80.png')} alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse80.webp')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       {/* Background gradient ellipse - Mobile */}
       <div className="absolute -right-10 bottom-40 w-5/6 h-full pointer-events-none z-10 md:hidden">
-        <img src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} alt="" className="w-full h-full object-contain opacity-100" />
+        <img src={getCloudinaryUrl('/assets/homepage/Ellipse 81.webp')} alt="" className="w-full h-full object-contain opacity-100" />
       </div>
 
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-12 relative z-[25]">

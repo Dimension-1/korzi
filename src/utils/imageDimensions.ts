@@ -1,36 +1,36 @@
 // Image dimension mapping to preserve exact layouts
 export const imageDimensions: Record<string, { width: number; height: number; aspectRatio: string }> = {
-  "/assets/About/AutoScroll/AutoScroll1.png": {
+  "/assets/About/AutoScroll/AutoScroll1.webp": {
     "width": 1512,
     "height": 2000,
     "aspectRatio": "132.28%"
   },
-  "/assets/About/AutoScroll/AutoScroll2.png": {
+  "/assets/About/AutoScroll/AutoScroll2.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/About/AutoScroll/AutoScroll3.png": {
+  "/assets/About/AutoScroll/AutoScroll3.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/About/AutoScroll/AutoScroll4.png": {
+  "/assets/About/AutoScroll/AutoScroll4.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/About/AutoScroll/AutoScroll5.png": {
+  "/assets/About/AutoScroll/AutoScroll5.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/About/AutoScroll/AutoScroll6.png": {
+  "/assets/About/AutoScroll/AutoScroll6.webp": {
     "width": 1580,
     "height": 2000,
     "aspectRatio": "126.58%"
   },
-  "/assets/About/AutoScroll/AutoScroll7.png": {
+  "/assets/About/AutoScroll/AutoScroll7.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
@@ -40,12 +40,12 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 1143,
     "aspectRatio": "100.00%"
   },
-  "/assets/About/Hero Section/Main.png": {
+  "/assets/About/Hero Section/Main.webp": {
     "width": 4096,
     "height": 1936,
     "aspectRatio": "47.27%"
   },
-  "/assets/About/Hero Section/Main_mobile.png": {
+  "/assets/About/Hero Section/Main_mobile.webp": {
     "width": 1460,
     "height": 2172,
     "aspectRatio": "148.77%"
@@ -95,32 +95,32 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 106,
     "aspectRatio": "63.86%"
   },
-  "/assets/Product/ProductTabs/CoreSpecs.png": {
+  "/assets/Product/ProductTabs/CoreSpecs.webp": {
     "width": 2288,
     "height": 2288,
     "aspectRatio": "100.00%"
   },
-  "/assets/Product/ProductTabs/Desc.png": {
+  "/assets/Product/ProductTabs/Desc.webp": {
     "width": 2288,
     "height": 2288,
     "aspectRatio": "100.00%"
   },
-  "/assets/Product/ProductTabs/builddim.png": {
+  "/assets/Product/ProductTabs/builddim.webp": {
     "width": 2288,
     "height": 2288,
     "aspectRatio": "100.00%"
   },
-  "/assets/Product/ProductTabs/performance.png": {
+  "/assets/Product/ProductTabs/performance.webp": {
     "width": 2288,
     "height": 2288,
     "aspectRatio": "100.00%"
   },
-  "/assets/Product/ProductTabs/warranty.png": {
+  "/assets/Product/ProductTabs/warranty.webp": {
     "width": 2288,
     "height": 2288,
     "aspectRatio": "100.00%"
   },
-  "/assets/Product/ProductTabs/whatinbox.png": {
+  "/assets/Product/ProductTabs/whatinbox.webp": {
     "width": 588,
     "height": 588,
     "aspectRatio": "100.00%"
@@ -150,17 +150,17 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 732,
     "aspectRatio": "100.00%"
   },
-  "/assets/Support/repair.png": {
+  "/assets/Support/repair.webp": {
     "width": 2676,
     "height": 1800,
     "aspectRatio": "67.26%"
   },
-  "/assets/Support/safety.png": {
+  "/assets/Support/safety.webp": {
     "width": 1716,
     "height": 2188,
     "aspectRatio": "127.51%"
   },
-  "/assets/Support/warranty.png": {
+  "/assets/Support/warranty.webp": {
     "width": 2640,
     "height": 1800,
     "aspectRatio": "68.18%"
@@ -205,12 +205,12 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 2016,
     "aspectRatio": "58.54%"
   },
-  "/assets/homepage/Ellipse 81.png": {
+  "/assets/homepage/Ellipse 81.webp": {
     "width": 2892,
     "height": 4416,
     "aspectRatio": "152.70%"
   },
-  "/assets/homepage/Ellipse80.png": {
+  "/assets/homepage/Ellipse80.webp": {
     "width": 2512,
     "height": 4416,
     "aspectRatio": "175.80%"
@@ -250,7 +250,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 256,
     "aspectRatio": "26.56%"
   },
-  "/assets/homepage/Group 48429.png": {
+  "/assets/homepage/Group 48429.webp": {
     "width": 5320,
     "height": 1752,
     "aspectRatio": "32.93%"
@@ -275,12 +275,12 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 582,
     "aspectRatio": "26.64%"
   },
-  "/assets/homepage/IMG_4358 1.png": {
+  "/assets/homepage/IMG_4358 1.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/IMG_4957 1.png": {
+  "/assets/homepage/IMG_4957 1.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
@@ -290,7 +290,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 477,
     "aspectRatio": "20.23%"
   },
-  "/assets/homepage/Korziteam.png": {
+  "/assets/homepage/Korziteam.webp": {
     "width": 2616,
     "height": 1856,
     "aspectRatio": "70.95%"
@@ -320,7 +320,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 139,
     "aspectRatio": "22.06%"
   },
-  "/assets/homepage/Parentkid.png": {
+  "/assets/homepage/Parentkid.webp": {
     "width": 2908,
     "height": 1752,
     "aspectRatio": "60.25%"
@@ -395,7 +395,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/assembly2.png": {
+  "/assets/homepage/assembly2.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
@@ -410,7 +410,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 1053,
     "aspectRatio": "109.92%"
   },
-  "/assets/homepage/crashed_test.png": {
+  "/assets/homepage/crashed_test.webp": {
     "width": 2908,
     "height": 1752,
     "aspectRatio": "60.25%"
@@ -445,7 +445,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 124,
     "aspectRatio": "100.00%"
   },
-  "/assets/homepage/manufacturing1.png": {
+  "/assets/homepage/manufacturing1.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
@@ -455,7 +455,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/network.png": {
+  "/assets/homepage/network.webp": {
     "width": 2624,
     "height": 1600,
     "aspectRatio": "60.98%"
@@ -465,12 +465,12 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/packaging2.png": {
+  "/assets/homepage/packaging2.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/powermeetsprecision.png": {
+  "/assets/homepage/powermeetsprecision.webp": {
     "width": 2908,
     "height": 1752,
     "aspectRatio": "60.25%"
@@ -490,7 +490,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 1083,
     "aspectRatio": "109.17%"
   },
-  "/assets/homepage/services1.png": {
+  "/assets/homepage/services1.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"
@@ -500,7 +500,7 @@ export const imageDimensions: Record<string, { width: number; height: number; as
     "height": 2000,
     "aspectRatio": "125.00%"
   },
-  "/assets/homepage/testing1.png": {
+  "/assets/homepage/testing1.webp": {
     "width": 1600,
     "height": 2000,
     "aspectRatio": "125.00%"

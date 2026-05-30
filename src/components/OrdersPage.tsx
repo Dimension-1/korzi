@@ -32,7 +32,7 @@ const OrdersPage: React.FC = () => {
     <div className="min-h-screen bg-black pt-24 pb-8 relative overflow-hidden">
       {/* Decorative Ellipse */}
       <img 
-        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.png')} 
+        src={getCloudinaryUrl('/assets/homepage/Ellipse 81.webp')} 
         alt="" 
         className="absolute -bottom-96 -right-32 md:-right-64 w-[1200px] h-[1200px] pointer-events-none opacity-50"
         style={{ zIndex: 1 }}

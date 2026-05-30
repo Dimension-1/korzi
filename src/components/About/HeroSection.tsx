@@ -46,12 +46,12 @@ export default function HeroSection() {
           {/* Main Image Container */}
           <div className="relative w-full max-w-[1024px]">
             <img 
-              src={getCloudinaryUrl('/assets/About/Hero Section/Main.png')} 
+              src={getCloudinaryUrl('/assets/About/Hero Section/Main.webp')} 
               alt="Korzi RC Machines" 
               className="hidden md:block w-full h-auto object-cover"
             />
             <img 
-              src={getCloudinaryUrl('/assets/About/Hero Section/Main_mobile.png')} 
+              src={getCloudinaryUrl('/assets/About/Hero Section/Main_mobile.webp')} 
               alt="Korzi RC Machines" 
               className="md:hidden w-full h-auto object-cover"
             />
