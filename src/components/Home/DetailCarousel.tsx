@@ -42,7 +42,7 @@ export default function DetailCarousel() {
       description: "Built strong, engineered safe. Korzi machines meet Indian safety standards and global durability benchmarks.",
       buttonText: "SHOP NOW",
       buttonLink: "/shop",
-      image: "/assets/homepage/BIScar.png"
+      image: "/assets/homepage/BIScar.webp"
     },
     {
       id: 4,

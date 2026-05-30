@@ -59,7 +59,7 @@ export default function HeroSection() {
             {/* DragonFly Badge - Mobile */}
             <div className="absolute md:hidden -right-[5%] -top-[5%] w-[120px] h-[120px]">
               <img 
-                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.png')} 
+                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.webp')} 
                 alt="Korzi DragonFly" 
                 className="w-full h-full object-contain"
               />
@@ -68,7 +68,7 @@ export default function HeroSection() {
             {/* DragonFly Badge - Desktop */}
             <div className="hidden md:block absolute md:-right-[12%] md:-top-[12%] lg:-right-[8%] lg:-top-[10%] md:w-[180px] md:h-[180px] lg:w-[240px] lg:h-[240px]">
               <img 
-                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.png')} 
+                src={getCloudinaryUrl('/assets/About/Hero Section/DragonFly.webp')} 
                 alt="Korzi DragonFly" 
                 className="w-full h-full object-contain"
               />

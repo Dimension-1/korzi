@@ -63,7 +63,7 @@ export default function ThankYouPage() {
         {/* Dragonfly Icon */}
         <div className="mb-6 md:mb-8 flex justify-center">
           <img 
-            src={getCloudinaryUrl('/assets/party.png')} 
+            src={getCloudinaryUrl('/assets/party.webp')} 
             alt="Success" 
             className="w-12 h-12 md:w-16 md:h-16"
           />

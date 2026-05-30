@@ -41,7 +41,7 @@ export default function CarAnimation() {
         <div className="w-full relative h-32 md:h-64">
           {/* Right tire marks - reveal from right to left */}
           <img 
-            src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
+            src={getCloudinaryUrl('/assets/homepage/tyremarks.webp')}
             alt="right tire marks"
             className="absolute h-auto"
             style={{ 
@@ -57,7 +57,7 @@ export default function CarAnimation() {
 
           {/* Left tire marks - reveal from right to left */}
           <img 
-            src={getCloudinaryUrl('/assets/homepage/tyremarks.png')}
+            src={getCloudinaryUrl('/assets/homepage/tyremarks.webp')}
             alt="left tire marks"
             className="absolute h-auto"
             style={{ 
@@ -73,7 +73,7 @@ export default function CarAnimation() {
 
           {/* Car - moves right to left */}
           <img 
-            src={`${getCloudinaryUrl('/assets/homepage/Car_3.png')}`}
+            src={`${getCloudinaryUrl('/assets/homepage/Car_3.webp')}`}
             alt="car"
             className="absolute h-auto"
             style={{ 

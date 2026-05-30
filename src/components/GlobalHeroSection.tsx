@@ -29,7 +29,7 @@ export default function GlobalHeader() {
         {/* Logo - Center */}
         <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
           <img 
-            src={getCloudinaryUrl('/logo-horizontal.png')} 
+            src={getCloudinaryUrl('/logo-horizontal.webp')} 
             alt="KORZI" 
             className="h-8 md:h-10 w-auto"
           />
@@ -67,7 +67,7 @@ export default function GlobalHeader() {
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-800">
           <Link to="/" onClick={() => setMenuOpen(false)}>
-            <img src={getCloudinaryUrl('/logo-horizontal.png')} alt="Korzi" className="h-10 w-auto" />
+            <img src={getCloudinaryUrl('/logo-horizontal.webp')} alt="Korzi" className="h-10 w-auto" />
           </Link>
           <button
             onClick={() => setMenuOpen(false)}

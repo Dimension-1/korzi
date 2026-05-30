@@ -181,7 +181,7 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
               <div className="flex flex-col items-center justify-center h-full p-8 text-center">
                 {/* Large Cart Icon */}
                 <div className="relative mb-6 inline-block">
-                  <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Empty Cart" className="w-24 h-24" />
+                  <img src={getCloudinaryUrl('/assets/homepage/cart.webp')} alt="Empty Cart" className="w-24 h-24" />
                   <div className="absolute -top-1 -right-1 w-10 h-10 bg-[#02FF00] rounded-full flex items-center justify-center">
                     <span className="text-black text-xl font-bold">0</span>
                   </div>
@@ -291,15 +291,15 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
               {/* Features Section */}
               <div className="grid grid-cols-3 border-t border-b border-white/20">
                 <div className="flex flex-col items-center justify-center py-3 md:py-5 border-r border-white/20">
-                  <img src={getCloudinaryUrl('/assets/CartDrawer/shipping.png')} alt="Delivery" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
+                  <img src={getCloudinaryUrl('/assets/CartDrawer/shipping.webp')} alt="Delivery" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
                   <span className="text-white text-[10px] md:text-xs">2-5 Days Delivery</span>
                 </div>
                 <div className="flex flex-col items-center justify-center py-3 md:py-5 border-r border-white/20">
-                  <img src={getCloudinaryUrl('/assets/CartDrawer/exchange.png')} alt="Exchange" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
+                  <img src={getCloudinaryUrl('/assets/CartDrawer/exchange.webp')} alt="Exchange" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
                   <span className="text-white text-[10px] md:text-xs">Easy Support</span>
                 </div>
                 <div className="flex flex-col items-center justify-center py-3 md:py-5">
-                  <img src={getCloudinaryUrl('/assets/CartDrawer/cod.png')} alt="Cash" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
+                  <img src={getCloudinaryUrl('/assets/CartDrawer/cod.webp')} alt="Cash" className="w-7 h-7 md:w-10 md:h-10 mb-1 md:mb-2" />
                   <span className="text-white text-[10px] md:text-xs">Value for money</span>
                 </div>
               </div>

@@ -1,3 +1,5 @@
+import { getS3Url } from '../utils/s3';
+
 interface PaymentIconsProps {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'full' | 'compact' | 'stacked';
@@ -9,10 +11,10 @@ const heights = { sm: 20, md: 28, lg: 32 };
 const compactNames = ['Visa', 'Mastercard', 'Google Pay', 'PhonePe'];
 
 const imgIcons = [
-  { name: 'Visa', src: '/assets/payment/visa.png' },
-  { name: 'Mastercard', src: '/assets/payment/mastercard.png' },
-  { name: 'Google Pay', src: '/assets/payment/gpay.png' },
-  { name: 'Paytm', src: '/assets/payment/paytm.png' },
+  { name: 'Visa', src: '/assets/payment/visa.webp' },
+  { name: 'Mastercard', src: '/assets/payment/mastercard.webp' },
+  { name: 'Google Pay', src: '/assets/payment/gpay.webp' },
+  { name: 'Paytm', src: '/assets/payment/paytm.webp' },
 ];
 
 function PhonePeIcon({ size }: { size: number }) {
@@ -36,7 +38,7 @@ export default function PaymentIcons({ size = 'md', variant = 'full', className 
         {stackIcons.map((icon, i) => (
           <img
             key={icon.name}
-            src={icon.src}
+            src={getS3Url(icon.src)}
             alt={icon.name}
             className="rounded-full border border-white/40 bg-white shadow-sm"
             style={{
@@ -77,7 +79,7 @@ export default function PaymentIcons({ size = 'md', variant = 'full', className 
       {visibleImgIcons.map(icon => (
         <img
           key={icon.name}
-          src={icon.src}
+          src={getS3Url(icon.src)}
           alt={icon.name}
           style={{ height: `${h}px`, width: `${h}px`, objectFit: 'contain' }}
         />

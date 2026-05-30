@@ -11,27 +11,27 @@ export default function ManufacturingSection() {
     {
       name: 'SERVICING',
       image1: '/assets/homepage/services1.webp',
-      image2: '/assets/homepage/services2.png'
+      image2: '/assets/homepage/services2.webp'
     },
     {
       name: 'ASSEMBLY',
-      image1: '/assets/homepage/assembly1.png',
+      image1: '/assets/homepage/assembly1.webp',
       image2: '/assets/homepage/assembly2.webp'
     },
     {
       name: 'TESTING',
       image1: '/assets/homepage/testing1.webp',
-      image2: '/assets/homepage/testing2.png'
+      image2: '/assets/homepage/testing2.webp'
     },
     {
       name: 'PACKING',
-      image1: '/assets/homepage/packaging1.png',
+      image1: '/assets/homepage/packaging1.webp',
       image2: '/assets/homepage/packaging2.webp'
     },
     {
       name: 'MANUFACTURING',
       image1: '/assets/homepage/manufacturing1.webp',
-      image2: '/assets/homepage/manufacturing2.png'
+      image2: '/assets/homepage/manufacturing2.webp'
     }
   ];
 
@@ -198,7 +198,7 @@ export default function ManufacturingSection() {
               {/* Curved Arrow and Text */}
               <div className="absolute left-[55%] md:left-[530px] top-[80px] md:top-[100px] lg:top-[120px] flex items-start gap-1 z-30">
                 <img 
-                  src={getCloudinaryUrl('/assets/homepage/curvedarrow.png')} 
+                  src={getCloudinaryUrl('/assets/homepage/curvedarrow.webp')} 
                   alt="arrow"
                   className="w-8 h-8 md:w-10 md:h-10"
                 />

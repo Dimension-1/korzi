@@ -102,7 +102,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
         price: product.price,
         originalPrice: product.compareAtPrice,
         quantity,
-        image: product.images[0]?.url || '/image.png',
+        image: product.images[0]?.url || '/image.webp',
         variantId: product.variantId
       });
     } finally {
@@ -163,7 +163,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
         price: product.price,
         originalPrice: product.compareAtPrice,
         quantity: quantity || 1,
-        image: product.images[0]?.url || '/image.png',
+        image: product.images[0]?.url || '/image.webp',
         variantId: product.variantId
       });
 
@@ -194,12 +194,12 @@ export default function ProductHero({ product }: ProductHeroProps) {
   };
 
   const features = [
-    { icon: '/assets/Product/4wd.png', title: '4WD All-Terrain Drive' },
-    { icon: '/assets/Product/Power.png', title: 'Rechargeable Power' },
-    { icon: '/assets/Product/crasht_tested.png', title: 'Crash-Tested Build' },
-    { icon: '/assets/Product/throttle.png', title: 'Responsive Throttle' },
-    { icon: '/assets/Product/biscert.png', title: 'BIS Certified Machine' },
-    { icon: '/assets/Product/support.png', title: 'Warranty & Support' }
+    { icon: '/assets/Product/4wd.webp', title: '4WD All-Terrain Drive' },
+    { icon: '/assets/Product/Power.webp', title: 'Rechargeable Power' },
+    { icon: '/assets/Product/crasht_tested.webp', title: 'Crash-Tested Build' },
+    { icon: '/assets/Product/throttle.webp', title: 'Responsive Throttle' },
+    { icon: '/assets/Product/biscert.webp', title: 'BIS Certified Machine' },
+    { icon: '/assets/Product/support.webp', title: 'Warranty & Support' }
   ];
 
   const handleQuantityChange = (operation:Operation) => {

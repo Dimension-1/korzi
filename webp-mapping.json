@@ -1,17 +1,4 @@
 {
-  "assets/Product/ProductTabs/Desc.png": "assets/Product/ProductTabs/Desc.webp",
-  "assets/Product/ProductTabs/CoreSpecs.png": "assets/Product/ProductTabs/CoreSpecs.webp",
-  "assets/Product/ProductTabs/builddim.png": "assets/Product/ProductTabs/builddim.webp",
-  "assets/Product/ProductTabs/performance.png": "assets/Product/ProductTabs/performance.webp",
-  "assets/Product/ProductTabs/warranty.png": "assets/Product/ProductTabs/warranty.webp",
-  "assets/Product/ProductTabs/whatinbox.png": "assets/Product/ProductTabs/whatinbox.webp",
-  "assets/homepage/Group 48429.png": "assets/homepage/Group 48429.webp",
-  "assets/homepage/crashed_test.png": "assets/homepage/crashed_test.webp",
-  "assets/homepage/Korziteam.png": "assets/homepage/Korziteam.webp",
-  "assets/homepage/Parentkid.png": "assets/homepage/Parentkid.webp",
-  "assets/Support/warranty.png": "assets/Support/warranty.webp",
-  "assets/Support/repair.png": "assets/Support/repair.webp",
-  "assets/Support/safety.png": "assets/Support/safety.webp",
   "assets/About/AutoScroll/AutoScroll1.png": "assets/About/AutoScroll/AutoScroll1.webp",
   "assets/About/AutoScroll/AutoScroll2.png": "assets/About/AutoScroll/AutoScroll2.webp",
   "assets/About/AutoScroll/AutoScroll3.png": "assets/About/AutoScroll/AutoScroll3.webp",
@@ -19,17 +6,111 @@
   "assets/About/AutoScroll/AutoScroll5.png": "assets/About/AutoScroll/AutoScroll5.webp",
   "assets/About/AutoScroll/AutoScroll6.png": "assets/About/AutoScroll/AutoScroll6.webp",
   "assets/About/AutoScroll/AutoScroll7.png": "assets/About/AutoScroll/AutoScroll7.webp",
+  "assets/About/Hero Section/DragonFly.png": "assets/About/Hero Section/DragonFly.webp",
   "assets/About/Hero Section/Main.png": "assets/About/Hero Section/Main.webp",
   "assets/About/Hero Section/Main_mobile.png": "assets/About/Hero Section/Main_mobile.webp",
-  "assets/homepage/powermeetsprecision.png": "assets/homepage/powermeetsprecision.webp",
+  "assets/About/PillarAnimation/Black.png": "assets/About/PillarAnimation/Black.webp",
+  "assets/About/PillarAnimation/Green.png": "assets/About/PillarAnimation/Green.webp",
+  "assets/About/PillarAnimation/green_mobile.png": "assets/About/PillarAnimation/green_mobile.webp",
+  "assets/About/Promise.png": "assets/About/Promise.webp",
+  "assets/CartDrawer/cod.png": "assets/CartDrawer/cod.webp",
+  "assets/CartDrawer/exchange.png": "assets/CartDrawer/exchange.webp",
+  "assets/CartDrawer/shipping.png": "assets/CartDrawer/shipping.webp",
+  "assets/Product/4wd.png": "assets/Product/4wd.webp",
+  "assets/Product/Power.png": "assets/Product/Power.webp",
+  "assets/Product/ProductTabs/CoreSpecs.png": "assets/Product/ProductTabs/CoreSpecs.webp",
+  "assets/Product/ProductTabs/Desc.png": "assets/Product/ProductTabs/Desc.webp",
+  "assets/Product/ProductTabs/builddim.png": "assets/Product/ProductTabs/builddim.webp",
+  "assets/Product/ProductTabs/performance.png": "assets/Product/ProductTabs/performance.webp",
+  "assets/Product/ProductTabs/warranty.png": "assets/Product/ProductTabs/warranty.webp",
+  "assets/Product/ProductTabs/whatinbox.png": "assets/Product/ProductTabs/whatinbox.webp",
+  "assets/Product/biscert.png": "assets/Product/biscert.webp",
+  "assets/Product/crasht_tested.png": "assets/Product/crasht_tested.webp",
+  "assets/Product/support.png": "assets/Product/support.webp",
+  "assets/Product/throttle.png": "assets/Product/throttle.webp",
+  "assets/Support/logo.png": "assets/Support/logo.webp",
+  "assets/Support/repair.png": "assets/Support/repair.webp",
+  "assets/Support/safety.png": "assets/Support/safety.webp",
+  "assets/Support/warranty.png": "assets/Support/warranty.webp",
+  "assets/homepage/ASEEMBLY.png": "assets/homepage/ASEEMBLY.webp",
+  "assets/homepage/ApexDrive.png": "assets/homepage/ApexDrive.webp",
+  "assets/homepage/BIS Certified for Every Racer..png": "assets/homepage/BIS Certified for Every Racer..webp",
+  "assets/homepage/BIScar.png": "assets/homepage/BIScar.webp",
+  "assets/homepage/Built strong, engineered safe. Korzi machines meet Indian safety standards and global durability benchmarks. .png": "assets/homepage/Built strong, engineered safe. Korzi machines meet Indian safety standards and global durability benchmarks. .webp",
+  "assets/homepage/Car_1.png": "assets/homepage/Car_1.webp",
+  "assets/homepage/Car_2.png": "assets/homepage/Car_2.webp",
+  "assets/homepage/Car_3.png": "assets/homepage/Car_3.webp",
   "assets/homepage/Ellipse 81.png": "assets/homepage/Ellipse 81.webp",
   "assets/homepage/Ellipse80.png": "assets/homepage/Ellipse80.webp",
-  "assets/homepage/assembly2.png": "assets/homepage/assembly2.webp",
+  "assets/homepage/From kids discovering their first RC to grown-ups reliving the rush. Korzi is where control meets connection. Drive, race, or build. You’re part of the Crew. .png": "assets/homepage/From kids discovering their first RC to grown-ups reliving the rush. Korzi is where control meets connection. Drive, race, or build. You’re part of the Crew. .webp",
+  "assets/homepage/Ghz.png": "assets/homepage/Ghz.webp",
+  "assets/homepage/Group 47677.png": "assets/homepage/Group 47677.webp",
+  "assets/homepage/Group 48405.png": "assets/homepage/Group 48405.webp",
+  "assets/homepage/Group 48406.png": "assets/homepage/Group 48406.webp",
+  "assets/homepage/Group 48427.png": "assets/homepage/Group 48427.webp",
+  "assets/homepage/Group 48428.png": "assets/homepage/Group 48428.webp",
+  "assets/homepage/Group 48429.png": "assets/homepage/Group 48429.webp",
+  "assets/homepage/How durable is it_ Can it handle crashes, jumps, or rough surfaces_ The Apex Drive K-01 is built to take hits. Crash-tested, drop-tested, and stress-tested on real Indian surfaces — tiles, cement, mud, gravel, brick, everything.  If somethi.png": "assets/homepage/How durable is it_ Can it handle crashes, jumps, or rough surfaces_ The Apex Drive K-01 is built to take hits. Crash-tested, drop-tested, and stress-tested on real Indian surfaces — tiles, cement, mud, gravel, brick, everything.  If somethi.webp",
+  "assets/homepage/How long does the battery last and how fast can I get back to racing_ You get 20 –24 minutes of solid run time depending on your driving style.  Recharge, plug in, and you’re back in action within roughly an hour.   No AA batteries, no hi.png": "assets/homepage/How long does the battery last and how fast can I get back to racing_ You get 20 –24 minutes of solid run time depending on your driving style.  Recharge, plug in, and you’re back in action within roughly an hour.   No AA batteries, no hi.webp",
   "assets/homepage/IMG_4358 1.png": "assets/homepage/IMG_4358 1.webp",
   "assets/homepage/IMG_4957 1.png": "assets/homepage/IMG_4957 1.webp",
-  "assets/homepage/services1.png": "assets/homepage/services1.webp",
-  "assets/homepage/packaging2.png": "assets/homepage/packaging2.webp",
-  "assets/homepage/testing1.png": "assets/homepage/testing1.webp",
+  "assets/homepage/Is it safe for kids_ Is Korzi BIS certified_ Absolutely. Every Korzi machine is BIS certified and built with child-safe materials. Strong outside, safe inside — no toxics, no sharp edges, no surprise hazards. It’s a machine kids can enjoy.png": "assets/homepage/Is it safe for kids_ Is Korzi BIS certified_ Absolutely. Every Korzi machine is BIS certified and built with child-safe materials. Strong outside, safe inside — no toxics, no sharp edges, no surprise hazards. It’s a machine kids can enjoy.webp",
+  "assets/homepage/Korziteam.png": "assets/homepage/Korziteam.webp",
+  "assets/homepage/MANUFACTURING-1.png": "assets/homepage/MANUFACTURING-1.webp",
+  "assets/homepage/Machines Made to Bring People Together. .png": "assets/homepage/Machines Made to Bring People Together. .webp",
+  "assets/homepage/Manufacturing.png": "assets/homepage/Manufacturing.webp",
+  "assets/homepage/Mask group.png": "assets/homepage/Mask group.webp",
+  "assets/homepage/Packaging.png": "assets/homepage/Packaging.webp",
+  "assets/homepage/Parentkid.png": "assets/homepage/Parentkid.webp",
+  "assets/homepage/Rectangle 39992.png": "assets/homepage/Rectangle 39992.webp",
+  "assets/homepage/Rectangle 39993.png": "assets/homepage/Rectangle 39993.webp",
+  "assets/homepage/Rectangle 39994.png": "assets/homepage/Rectangle 39994.webp",
+  "assets/homepage/Rectangle 39995.png": "assets/homepage/Rectangle 39995.webp",
+  "assets/homepage/Screenshot 2025-11-14 at 1.08.15 PM 1.png": "assets/homepage/Screenshot 2025-11-14 at 1.08.15 PM 1.webp",
+  "assets/homepage/Screenshot 2025-11-14 at 12.06.16 PM 1.png": "assets/homepage/Screenshot 2025-11-14 at 12.06.16 PM 1.webp",
+  "assets/homepage/Screenshot 2025-11-14 at 12.17.55 PM 1.png": "assets/homepage/Screenshot 2025-11-14 at 12.17.55 PM 1.webp",
+  "assets/homepage/Screenshot 2025-11-14 at 12.44.03 PM 1.png": "assets/homepage/Screenshot 2025-11-14 at 12.44.03 PM 1.webp",
+  "assets/homepage/Screenshot 2025-11-14 at 12.59.12 PM 1.png": "assets/homepage/Screenshot 2025-11-14 at 12.59.12 PM 1.webp",
+  "assets/homepage/Servicing.png": "assets/homepage/Servicing.webp",
+  "assets/homepage/TESTING.png": "assets/homepage/TESTING.webp",
+  "assets/homepage/What makes a Korzi machines different from a regular RC toy_ Most RC toys look fast but aren’t built to handle real play.  A Korzi machine is designed like a mini vehicle → stronger shell, smoother control, better balance, and a rechargeabl.png": "assets/homepage/What makes a Korzi machines different from a regular RC toy_ Most RC toys look fast but aren’t built to handle real play.  A Korzi machine is designed like a mini vehicle → stronger shell, smoother control, better balance, and a rechargeabl.webp",
+  "assets/homepage/Why should I choose an RC machine over screen time for kids_ Because RC machines build real skills → focus, coordination, spatial control, and confidence.  Kids learn to drive, react, adjust, and stay present.   It’s hands-on, fast, and f.png": "assets/homepage/Why should I choose an RC machine over screen time for kids_ Because RC machines build real skills → focus, coordination, spatial control, and confidence.  Kids learn to drive, react, adjust, and stay present.   It’s hands-on, fast, and f.webp",
+  "assets/homepage/assembly1.png": "assets/homepage/assembly1.webp",
+  "assets/homepage/assembly2.png": "assets/homepage/assembly2.webp",
+  "assets/homepage/cart.png": "assets/homepage/cart.webp",
+  "assets/homepage/control.png": "assets/homepage/control.webp",
+  "assets/homepage/crashed_test.png": "assets/homepage/crashed_test.webp",
+  "assets/homepage/curvedarrow.png": "assets/homepage/curvedarrow.webp",
+  "assets/homepage/dragonfly.png": "assets/homepage/dragonfly.webp",
+  "assets/homepage/km.png": "assets/homepage/km.webp",
+  "assets/homepage/kmh.png": "assets/homepage/kmh.webp",
+  "assets/homepage/korziwithouticon.png": "assets/homepage/korziwithouticon.webp",
+  "assets/homepage/linkedin.png": "assets/homepage/linkedin.webp",
+  "assets/homepage/manufacturing1.png": "assets/homepage/manufacturing1.webp",
+  "assets/homepage/manufacturing2.png": "assets/homepage/manufacturing2.webp",
   "assets/homepage/network.png": "assets/homepage/network.webp",
-  "assets/homepage/manufacturing1.png": "assets/homepage/manufacturing1.webp"
+  "assets/homepage/packaging1.png": "assets/homepage/packaging1.webp",
+  "assets/homepage/packaging2.png": "assets/homepage/packaging2.webp",
+  "assets/homepage/powermeetsprecision.png": "assets/homepage/powermeetsprecision.webp",
+  "assets/homepage/profile.png": "assets/homepage/profile.webp",
+  "assets/homepage/range.png": "assets/homepage/range.webp",
+  "assets/homepage/scale.png": "assets/homepage/scale.webp",
+  "assets/homepage/services1.png": "assets/homepage/services1.webp",
+  "assets/homepage/services2.png": "assets/homepage/services2.webp",
+  "assets/homepage/testing1.png": "assets/homepage/testing1.webp",
+  "assets/homepage/testing2.png": "assets/homepage/testing2.webp",
+  "assets/homepage/tyremarks.png": "assets/homepage/tyremarks.webp",
+  "assets/homepage/youtube.png": "assets/homepage/youtube.webp",
+  "assets/party.png": "assets/party.webp",
+  "assets/payment/gpay.png": "assets/payment/gpay.webp",
+  "assets/payment/mastercard.png": "assets/payment/mastercard.webp",
+  "assets/payment/paytm.png": "assets/payment/paytm.webp",
+  "assets/payment/visa.png": "assets/payment/visa.webp",
+  "assets/smiley.png": "assets/smiley.webp",
+  "buttonarrow.png": "buttonarrow.webp",
+  "favicon.png": "favicon.webp",
+  "image.png": "image.webp",
+  "logo-horizontal.png": "logo-horizontal.webp",
+  "logo-mono.png": "logo-mono.webp",
+  "logo-stacked.png": "logo-stacked.webp"
 }

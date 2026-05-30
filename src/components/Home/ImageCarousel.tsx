@@ -24,7 +24,7 @@ export default function ImageCarousel() {
   const carouselData: CarouselSlide[] = [
     {
       id: 1,
-      image: "/image.png",
+      image: "/image.webp",
       title: "In-Vivo Tested Sunscreens",
       features: [
         "Protects from both UV-A & UV-B",
@@ -40,7 +40,7 @@ export default function ImageCarousel() {
     },
     {
       id: 2,
-      image: "/image.png",
+      image: "/image.webp",
       title: "Advanced RC Technology",
       subtitle: "For the Young Innovators",
       features: [
@@ -57,7 +57,7 @@ export default function ImageCarousel() {
     },
     {
       id: 3,
-      image: "/image.png",
+      image: "/image.webp",
       title: "Professional Drone Systems",
       subtitle: "Capture the World",
       features: [

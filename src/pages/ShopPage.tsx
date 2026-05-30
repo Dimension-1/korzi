@@ -13,7 +13,7 @@ import { getCloudinaryUrl } from '../utils/cloudinary';
 
 // Transform Shopify product to ProductCarousel format
 const transformShopifyProduct = (product: ShopifyProduct) => {
-  const firstImage = product.images.edges[0]?.node?.url || '/image.png';
+  const firstImage = product.images.edges[0]?.node?.url || '/image.webp';
   const firstVariant = product.variants.edges[0]?.node;
   const price = parseFloat(firstVariant?.price?.amount || product.priceRange.minVariantPrice.amount);
   
@@ -76,7 +76,7 @@ function ShopPage() {
       {/* Hero Image */}
       <ProductSection/>
       <div className="">
-        <img className="w-full h-[30%] object-fit" src={getCloudinaryUrl('/image.png')} alt="Shop" />
+        <img className="w-full h-[30%] object-fit" src={getCloudinaryUrl('/image.webp')} alt="Shop" />
       </div>
       
       <div className="w-full">

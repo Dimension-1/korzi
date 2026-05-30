@@ -55,7 +55,7 @@ export default function Footer() {
       {/* Desktop Car Image Section */}
       <div className="hidden md:flex relative w-full h-[360px] items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.webp')} 
           alt="Korzi RC Car"
           className="w-[632px] h-[406px] object-contain"
         />
@@ -64,7 +64,7 @@ export default function Footer() {
       {/* Mobile Car Image Section */}
       <div className="md:hidden relative w-full h-[200px] flex items-center justify-center bg-black">
         <img 
-          src={getCloudinaryUrl('/assets/homepage/Car_2.png')} 
+          src={getCloudinaryUrl('/assets/homepage/Car_2.webp')} 
           alt="Korzi RC Car"
           className="w-auto h-full object-contain"
         />
@@ -77,7 +77,7 @@ export default function Footer() {
           {/* Logo & Subscribe Column */}
           <div className="flex flex-col justify-between p-12">
             <img 
-              src={getCloudinaryUrl('/logo-horizontal.png')} 
+              src={getCloudinaryUrl('/logo-horizontal.webp')} 
               alt="KORZI" 
               className="h-12 w-auto max-w-[200px]"
             />
@@ -175,7 +175,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="flex justify-center py-6 border-t border-gray-600">
           <img 
-            src={getCloudinaryUrl('/logo-horizontal.png')} 
+            src={getCloudinaryUrl('/logo-horizontal.webp')} 
             alt="KORZI" 
             className="h-12"
           />

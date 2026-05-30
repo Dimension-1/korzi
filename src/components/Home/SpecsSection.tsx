@@ -6,35 +6,35 @@ export default function SpecsSection() {
     
     const specs = [
       {
-        image: '/assets/homepage/kmh.png',
+        image: '/assets/homepage/kmh.webp',
         width: '227px',
         height: '252px',
         rotation: -3.47,
         left: 0,
       },
       {
-        image: '/assets/homepage/scale.png',
+        image: '/assets/homepage/scale.webp',
         width: '227px',
         height: '252px',
         rotation: 4.96,
         left: 180,
       },
       {
-        image: '/assets/homepage/Ghz.png',
+        image: '/assets/homepage/Ghz.webp',
         width: '227px',
         height: '252px',
         rotation: -3.3,
         left: 360,
       },
       {
-        image: '/assets/homepage/control.png',
+        image: '/assets/homepage/control.webp',
         width: '239.49px',
         height: '263.19px',
         rotation: 3.5,
         left: 540,
       },
       {
-        image: '/assets/homepage/range.png',
+        image: '/assets/homepage/range.webp',
         width: '227px',
         height: '252px',
         rotation: -2.8,

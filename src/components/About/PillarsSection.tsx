@@ -75,7 +75,7 @@ export default function PillarsSection() {
                 >
                   {/* Pillar Image */}
                   <img
-                    src={getCloudinaryUrl(isActive ? '/assets/About/PillarAnimation/Green.png' : '/assets/About/PillarAnimation/Black.png')}
+                    src={getCloudinaryUrl(isActive ? '/assets/About/PillarAnimation/Green.webp' : '/assets/About/PillarAnimation/Black.webp')}
                     alt={pillar.label}
                     className="w-full h-full object-contain transition-all duration-500"
                   />
@@ -139,7 +139,7 @@ export default function PillarsSection() {
               style={{ width: '80px', height: '140px' }}
             >
               <img
-                src={getCloudinaryUrl(activePillar === pillar.id ? '/assets/About/PillarAnimation/green_mobile.png' : '/assets/About/PillarAnimation/Black.png')}
+                src={getCloudinaryUrl(activePillar === pillar.id ? '/assets/About/PillarAnimation/green_mobile.webp' : '/assets/About/PillarAnimation/Black.webp')}
                 alt={pillar.label}
                 className="w-full h-full object-contain"
               />
@@ -166,7 +166,7 @@ export default function PillarsSection() {
         {/* Promise Image */}
         <div className="mt-8 md:mt-16 flex justify-center ">
           <img 
-            src={getCloudinaryUrl('/assets/About/Promise.png')} 
+            src={getCloudinaryUrl('/assets/About/Promise.webp')} 
             alt="Korzi Promise" 
             className="w-[110%] max-w-none md:max-w-[668px] md:w-full h-auto object-contain"
           />

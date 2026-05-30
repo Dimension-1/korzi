@@ -28,7 +28,7 @@ export default function BuiltInIndiaSection() {
           {/* Car Image - Mobile */}
           <div className="relative mt-1 flex justify-center w-full">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/Car_1.png')} 
+              src={getCloudinaryUrl('/assets/homepage/Car_1.webp')} 
               alt="Korzi RC Car" 
               className="w-[120%] max-w-none h-auto"
             />
@@ -83,7 +83,7 @@ export default function BuiltInIndiaSection() {
           {/* Center: Car Image */}
           <div className="flex justify-center mt-12">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/Car_1.png')} 
+              src={getCloudinaryUrl('/assets/homepage/Car_1.webp')} 
               alt="Korzi RC Car" 
               className="w-[120%] max-w-none h-auto"
             />

@@ -62,7 +62,7 @@ export default function ProductFAQ() {
             
             {/* Dragonfly - Mobile only, right side of heading */}
             <img 
-              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.webp')} 
               alt="Dragonfly" 
               className="lg:hidden w-40 h-35 flex mt-2"
             />
@@ -71,7 +71,7 @@ export default function ProductFAQ() {
           {/* Dragonfly - Desktop only, bottom */}
           <div className="hidden lg:block absolute bottom-18 left-8 z-[5]">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.webp')} 
               alt="Dragonfly" 
               className="w-64 lg:w-80 xl:w-96 h-auto"
             />

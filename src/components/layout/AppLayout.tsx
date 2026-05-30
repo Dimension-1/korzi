@@ -74,7 +74,7 @@ export default function AppLayout() {
           {/* Logo - Left on mobile, Center on desktop */}
           <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-3">
             <img 
-              src={getCloudinaryUrl('/logo-horizontal.png')} 
+              src={getCloudinaryUrl('/logo-horizontal.webp')} 
               alt="KORZI" 
               className="h-8 md:h-10 w-auto"
             />
@@ -88,7 +88,7 @@ export default function AppLayout() {
                 className="relative hover:opacity-80 transition-opacity px-4 py-3" 
                 aria-label="Cart"
               >
-                <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Cart" className="w-6 h-6" />
+                <img src={getCloudinaryUrl('/assets/homepage/cart.webp')} alt="Cart" className="w-6 h-6" />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 bg-[#02FF00] text-black text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {totalItems}
@@ -102,7 +102,7 @@ export default function AppLayout() {
               className="md:hidden relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center" 
               aria-label="Cart"
             >
-              <img src={getCloudinaryUrl('/assets/homepage/cart.png')} alt="Cart" className="w-6 h-6" />
+              <img src={getCloudinaryUrl('/assets/homepage/cart.webp')} alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
                 <span className="absolute top-2 right-[calc(50%-20px)] bg-[#02FF00] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}

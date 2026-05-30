@@ -76,7 +76,7 @@ export default function ComingSoonPage() {
               left: 'var(--sidebar-width, 2rem)'
             }}>
               <img 
-                src={getCloudinaryUrl('/logo-horizontal.png')} 
+                src={getCloudinaryUrl('/logo-horizontal.webp')} 
                 alt="KORZI" 
                 className="h-24 3xl:h-[9rem] 4xl:h-[12rem] w-auto"
               />
@@ -145,7 +145,7 @@ export default function ComingSoonPage() {
             {/* Logo Section */}
             <div className="flex justify-center py-4 sm:py-6 mb-4">
               <img 
-                src={getCloudinaryUrl('/logo-horizontal.png')} 
+                src={getCloudinaryUrl('/logo-horizontal.webp')} 
                 alt="KORZI" 
                 className="h-14 sm:h-20 md:h-20 w-auto object-contain"
               />

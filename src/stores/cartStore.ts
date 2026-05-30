@@ -261,7 +261,7 @@ export const useCartStore = create<CartStore>()(
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
               productId: edge.node.merchandise.product.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             console.log('Converted cart items:', cartItems);
@@ -301,7 +301,7 @@ export const useCartStore = create<CartStore>()(
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
               productId: edge.node.merchandise.product.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             set({ cartItems });
@@ -330,7 +330,7 @@ export const useCartStore = create<CartStore>()(
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
               productId: edge.node.merchandise.product.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             set({ cartItems });

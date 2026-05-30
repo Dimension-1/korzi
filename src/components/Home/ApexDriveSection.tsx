@@ -13,7 +13,7 @@ export default function ApexDriveSection() {
           {/* KORZI Logo */}
           <div className="mb-4">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/korziwithouticon.png')} 
+              src={getCloudinaryUrl('/assets/homepage/korziwithouticon.webp')} 
               alt="KORZI" 
               className="h-6"
             />
@@ -22,7 +22,7 @@ export default function ApexDriveSection() {
           {/* APEX DRIVE Title */}
           <div className="mb-0 relative z-0">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/ApexDrive.png')}
+              src={getCloudinaryUrl('/assets/homepage/ApexDrive.webp')}
               alt="APEX DRIVE"
               className="w-auto h-[32px]"
             />
@@ -31,7 +31,7 @@ export default function ApexDriveSection() {
           {/* Car Image */}
           <div className="relative z-10 -mt-5 mb-19 flex justify-center">
             <img
-              src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
+              src={getCloudinaryUrl('/assets/homepage/Car_1.webp')}
               alt="Apex Drive K-01"
               className="w-[110%] max-w-none h-auto object-contain"
             />
@@ -81,7 +81,7 @@ export default function ApexDriveSection() {
           {/* KORZI Logo - Centered at top */}
           <div className="text-center mb-6">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/korziwithouticon.png')} 
+              src={getCloudinaryUrl('/assets/homepage/korziwithouticon.webp')} 
               alt="KORZI" 
               className="h-5 mx-auto"
             />
@@ -90,7 +90,7 @@ export default function ApexDriveSection() {
           {/* APEX DRIVE Title - Slight overlap with car */}
           <div className="flex justify-center relative z-0 mb-2">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/ApexDrive.png')}
+              src={getCloudinaryUrl('/assets/homepage/ApexDrive.webp')}
               alt="APEX DRIVE"
               className="w-auto h-[53px]"
             />
@@ -123,7 +123,7 @@ export default function ApexDriveSection() {
               }}
             >
               <img
-                src={getCloudinaryUrl('/assets/homepage/Car_1.png')}
+                src={getCloudinaryUrl('/assets/homepage/Car_1.webp')}
                 alt="Apex Drive K-01"
                 className="w-full h-auto object-contain"
               />

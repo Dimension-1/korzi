@@ -48,7 +48,7 @@ export default function RealFoodSection() {
             {/* Main Image */}
             <div className="relative overflow-hidden">
               <img
-                src={getCloudinaryUrl('/image.png')} // Replace with actual facility image
+                src={getCloudinaryUrl('/image.webp')} // Replace with actual facility image
                 alt="Barkhana Food Processing Facility"
                 className="w-full h-auto object-cover"
               />

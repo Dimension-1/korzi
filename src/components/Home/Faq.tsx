@@ -72,7 +72,7 @@ export default function FaqSection() {
             
             {/* Dragonfly - Mobile only, right side of heading */}
             <img 
-              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.webp')} 
               alt="Dragonfly" 
               className="lg:hidden w-40 h-35 flex mt-2"
             />
@@ -81,7 +81,7 @@ export default function FaqSection() {
           {/* Dragonfly - Desktop only, bottom */}
           <div className="hidden lg:block absolute bottom-8 left-0 z-[5]">
             <img 
-              src={getCloudinaryUrl('/assets/homepage/dragonfly.png')} 
+              src={getCloudinaryUrl('/assets/homepage/dragonfly.webp')} 
               alt="Dragonfly" 
               className="w-96 h-auto"
             />
