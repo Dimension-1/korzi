@@ -248,11 +248,14 @@ export default function ProductHero({ product }: ProductHeroProps) {
               className="flex overflow-x-hidden bg-zinc-950"
             >
               {product.images.map((image, idx) => (
-                <div key={idx} className="flex-shrink-0 w-full">
+                <div key={idx} className="flex-shrink-0 w-full aspect-square">
                   <img
                     src={image.url}
                     alt={`${product.title} - ${idx + 1}`}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-full object-contain"
+                    width={600}
+                    height={600}
+                    {...(idx === 0 ? { fetchPriority: 'high' as const, loading: 'eager' as const } : { loading: 'lazy' as const })}
                   />
                 </div>
               ))}
@@ -461,11 +464,14 @@ export default function ProductHero({ product }: ProductHeroProps) {
               className="flex overflow-x-hidden bg-zinc-950"
             >
               {product.images.map((image, idx) => (
-                <div key={idx} className="flex-shrink-0 w-full">
+                <div key={idx} className="flex-shrink-0 w-full aspect-square">
                   <img
                     src={image.url}
                     alt={`${product.title} - ${idx + 1}`}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-full object-contain"
+                    width={600}
+                    height={600}
+                    {...(idx === 0 ? { fetchPriority: 'high' as const, loading: 'eager' as const } : { loading: 'lazy' as const })}
                   />
                 </div>
               ))}

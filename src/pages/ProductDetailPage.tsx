@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProductByHandle, ShopifyProduct } from '../services/shopify';
 import CartDrawer from '../components/CartDrawer';
 import ProductHero from '../components/Product/ProductHero';
-import ProductTabs from '../components/Product/ProductTabs';
-import BuiltInIndiaSection from '../components/Product/BuiltInIndiaSection';
-import TestimonialsSection from '../components/Product/TestimonialsSection';
 
-import ProductFAQ from '../components/Product/ProductFAQ';
-import Footer from '../components/Home/footer';
-import SpecsSection from '../components/Home/SpecsSection';
-import TakeOverSection from '../components/Home/TakeOverSection';
+// Lazy load below-fold sections
+const ProductTabs = lazy(() => import('../components/Product/ProductTabs'));
+const BuiltInIndiaSection = lazy(() => import('../components/Product/BuiltInIndiaSection'));
+const TestimonialsSection = lazy(() => import('../components/Product/TestimonialsSection'));
+const ProductFAQ = lazy(() => import('../components/Product/ProductFAQ'));
+const Footer = lazy(() => import('../components/Home/footer'));
+const SpecsSection = lazy(() => import('../components/Home/SpecsSection'));
+const TakeOverSection = lazy(() => import('../components/Home/TakeOverSection'));
+
+const SectionFallback = () => <div className="min-h-[400px] bg-black" />;
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();
@@ -21,9 +24,14 @@ const ProductDetailPage = () => {
     const fetchProduct = async () => {
       const productHandle = 'apex-dr4x16-vortex-green-edition';
       setLoading(true);
-      const data = await getProductByHandle(productHandle);
-      setProduct(data);
-      setLoading(false);
+      try {
+        const data = await getProductByHandle(productHandle);
+        setProduct(data);
+      } catch (err) {
+        console.error('Failed to fetch product:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProduct();
   }, []);
@@ -48,7 +56,6 @@ const ProductDetailPage = () => {
       </div>
     );
   }
-  
 
   const images = product.images.edges.map(e => e.node);
   const firstVariant = product.variants.edges[0]?.node;
@@ -70,14 +77,28 @@ const ProductDetailPage = () => {
     <div className="w-full overflow-x-hidden bg-black text-white pt-24 min-h-screen pb-20 lg:pb-0">
       <div className="space-y-2 lg:space-y-0">
         <ProductHero product={productData} />
-        <SpecsSection />
-        <ProductTabs />
-        <TakeOverSection />
-        <ProductFAQ />
-        <BuiltInIndiaSection />
-        <TestimonialsSection />
+        <Suspense fallback={<SectionFallback />}>
+          <SpecsSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProductTabs />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <TakeOverSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProductFAQ />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <BuiltInIndiaSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <TestimonialsSection />
+        </Suspense>
       </div>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       <CartDrawer />
     </div>
   );
