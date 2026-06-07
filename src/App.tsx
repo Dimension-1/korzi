@@ -26,6 +26,7 @@ const ThankYouPage = lazy(() => import('./pages/ThankYouPage'))
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
 import { initMetaPixel } from './services/metaPixels'
+import ProductDetailPageV2 from './pages/ProductDetailPageV2'
 
 function App() {
   const { initializeCart, refreshCartCount } = useCartStore();
@@ -85,6 +86,7 @@ function App() {
           <Route path="/logs" element={<JournalPage />} />
           <Route path="/logs/:slug" element={<JournalDetailPage />} />
           <Route path="/shop" element={<ProductDetailPage />} />
+          <Route path="/newProductPageTest" element={<ProductDetailPageV2 />} />
           <Route path="/oldshop" element={<ShopPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
