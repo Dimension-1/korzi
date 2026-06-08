@@ -55,14 +55,14 @@ function MobileWhyKorzi() {
   ];
 
   return (
-    <div className="lg:hidden w-full mt-4 space-y-3">
+    <div className="lg:hidden w-full mt-8 space-y-3" style={{marginTop:'24px'}}>
       {/* Heading */}
-      <h3
+      <h1
         className="text-white text-base uppercase"
-        style={{ fontFamily: 'Bebas Neue', letterSpacing: '0.08em' }}
+        style={{ fontFamily: 'Bebas Neue', letterSpacing: '0.08em', fontSize:'28px' }}
       >
         WHY <span className="text-[#02FF00]">KORZI</span>
-      </h3>
+      </h1>
 
       {/* 2×2 Cards */}
       <div className="grid grid-cols-2 gap-2">
@@ -83,7 +83,7 @@ function MobileWhyKorzi() {
                   src={card.icon}
                   alt={card.title}
                   className="w-5 h-5 object-contain opacity-80"
-                />
+                />¡
               </div>
               <span
                 className="text-white text-xs font-semibold"
@@ -357,9 +357,9 @@ function MobileFloatingCTA({
     // translate-y-full slides it off-screen when inline Buy Now is visible
     <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-black transition-transform duration-300 ${hidden ? 'translate-y-full pointer-events-none' : 'translate-y-0'}`}>
       {/* Countdown strip */}
-      <div className="flex items-center justify-center gap-1.5 py-1.5 bg-zinc-950 border-b border-zinc-800">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#02FF00] animate-pulse" />
-        <span className="text-zinc-400 text-[10px]" style={{ fontFamily: 'DM Sans' }}>
+      <div className="flex items-center justify-center gap-1.5 py-1.5 bg- border-b border-zinc-800">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#D8200E] animate-pulse" />
+        <span className="text-[#FFFFFF] text-[14px]" style={{ fontFamily: 'DM Sans' }}>
           Price increases after
         </span>
         {[timeLeft.m, timeLeft.s].map((val, i) => (
@@ -730,7 +730,20 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               {product.title}
             </h1>
 
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-700 bg-zinc-900">
+            <div className="lg:hidden flex flex-wrap items-baseline gap-1.5">
+  <span className="text-xl font-bold">₹{product.price.toFixed(0)}</span>
+  {product.compareAtPrice && product.compareAtPrice > product.price && (
+    <>
+      <span className="text-sm text-zinc-600 line-through">
+        ₹{product.compareAtPrice.toFixed(0)}
+      </span>
+      <span className="text-xs text-zinc-400">({discount}% OFF)</span>
+      <span className="text-xs text-zinc-500">MRP inclusive of all taxes</span>
+    </>
+  )}
+</div>
+
+            <div className="hidden lg:grid inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-700 bg-zinc-900">
               <span className="text-white text-xs lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
                 ₹5,000–₹7,500
               </span>
@@ -740,6 +753,9 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               </span>
             </div>
 
+
+           
+
             <div className="flex items-center gap-2">
               <span className="text-yellow-400 text-xs lg:text-sm">★ ★ ★ ★ ★</span>
               <span className="text-zinc-500 text-xs lg:text-sm font-bold">Rated</span>
@@ -748,6 +764,7 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               {/* FIX: Limited Stock text now correctly red */}
               <span className="text-xs lg:text-sm font-bold text-[#D8200E]">• Limited Stock</span>
             </div>
+
 
             {/* Desktop price — strictly hidden on mobile */}
             <div className="lg:flex hidden flex-wrap items-baseline gap-1.5 lg:gap-3">
@@ -822,8 +839,8 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
             </div>
 
             <p
-              className="text-white max-w-[638px] text-xs lg:text-base"
-              style={{ fontFamily: 'DM Sans', fontWeight: 400 }}
+              className="text-white max-w-[638px] text-xs lg:text-base mb-4"
+              style={{ fontFamily: 'DM Sans', fontWeight: 400, marginBottom:'10px' }}
             >
               {product.description}
             </p>
