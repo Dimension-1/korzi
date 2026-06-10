@@ -107,11 +107,9 @@ export default function TakeOverSection() {
       <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-8">
         {/* Title */}
         <h2 
-          className="text-center uppercase mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent"
+          className="text-center uppercase mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent text-3xl md:text-4xl lg:text-5xl"
           style={{
             fontFamily: 'Bebas Neue',
-            fontSize: '64px',
-            lineHeight: '64px',
           }}
         >
           WATCH KORZI TAKE OVER
