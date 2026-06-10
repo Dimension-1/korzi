@@ -43,7 +43,7 @@ export default function SpecsSection() {
     ];
   
     return (
-      <section className="bg-black py-4 md:py-0 overflow-hidden min-h-[240px] md:min-h-[400px]">
+      <section className="hidden lg:grid bg-black py-4 md:py-0 overflow-hidden min-h-[240px] md:min-h-[400px]">
         <div className="max-w-[95%] 2xl:max-w-[90%] mx-auto px-4">
           {/* Desktop Layout - Unchanged */}
           <div className="hidden md:flex relative h-[400px] justify-center items-center">
