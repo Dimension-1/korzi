@@ -81,20 +81,22 @@ const ProductDetailPage = () => {
           <SpecsSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <ProductTabs />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <TakeOverSection />
         </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <TestimonialsSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProductTabs />
+        </Suspense>
+       
         <Suspense fallback={<SectionFallback />}>
           <ProductFAQ />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <BuiltInIndiaSection />
         </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <TestimonialsSection />
-        </Suspense>
+        
       </div>
       <Suspense fallback={null}>
         <Footer />
