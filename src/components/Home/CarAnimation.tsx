@@ -53,7 +53,8 @@ export default function CarAnimation() {
               clipPath: `inset(0 0 0 ${95 - (scrollProgress * 100)}%)`,
               zIndex: 20
             }}
-          />
+          />s
+
 
           {/* Left tire marks - reveal from right to left */}
           <img 

@@ -7,6 +7,7 @@ import { eventNames, gaEvent } from '../../utils/gtm';
 import { openFlexyPeCheckout } from '../../utils/flexypeCheckout';
 import { createMetaEventId, getOrCreateCheckoutEventId } from '../../utils/metaEventId';
 import { Operation } from '../CartDrawer';
+import DiscountModal from '../DiscountModal';
 
 interface ProductHeroProps {
   product: {
@@ -426,8 +427,12 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+<<<<<<< Updated upstream
   // FIX: track whether inline Buy Now is visible to hide floating CTA
   const [isBuyNowVisible, setIsBuyNowVisible] = useState(false);
+=======
+  const [showDiscountModal, setShowDiscountModal] = useState(false);
+>>>>>>> Stashed changes
   const { addToCart, refreshCartCount, clearCart } = useCartStore();
   const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
@@ -515,11 +520,14 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
     }
   };
 
-  const handleBuyNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (isAddingToCart) return;
+    setShowDiscountModal(true);
+  };
+
+  const proceedWithBuyNow = async () => {
     gaEvent(eventNames.purchase, {
       button_name: 'buy_now',
       value: quantity * product?.price || 0,
@@ -589,6 +597,13 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
     } finally {
       setTimeout(() => setIsAddingToCart(false), 500);
     }
+  };
+
+  const handleDiscountSubmit = (phone: string) => {
+    setShowDiscountModal(false);
+    localStorage.setItem('korzi_phone', phone);
+    localStorage.setItem('korzi_discount_code', 'KORZI650');
+    proceedWithBuyNow();
   };
 
   const features = [
@@ -1002,6 +1017,7 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         </div>
       </div>
 
+<<<<<<< Updated upstream
       {/* ── Mobile Floating CTA — hidden when inline Buy Now is visible ── */}
       <MobileFloatingCTA
         isAddingToCart={isAddingToCart}
@@ -1010,5 +1026,13 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         hidden={isBuyNowVisible}
       />
     </>
+=======
+      <DiscountModal
+        isOpen={showDiscountModal}
+        onClose={() => setShowDiscountModal(false)}
+        onSubmit={handleDiscountSubmit}
+      />
+    </div>
+>>>>>>> Stashed changes
   );
 }

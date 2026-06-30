@@ -373,6 +373,43 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
   }
 });
 
+// ============= PHONE CAPTURE ENDPOINT =============
+app.post('/api/newsletter/phone', async (req, res) => {
+  try {
+    const { phone, source } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Phone number is required' 
+      });
+    }
+
+    // Validate phone format (Indian 10-digit)
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phone)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid phone number format' 
+      });
+    }
+
+    const result = await newsletterService.savePhone(phone, source || 'discount_modal');
+    
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error('Phone capture error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to save phone number. Please try again later.' 
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);

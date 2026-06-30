@@ -75,6 +75,52 @@ class NewsletterService {
       throw error;
     }
   }
+
+  async savePhone(phone, source) {
+    try {
+      const auth = await this.getAuth();
+
+      // Check if phone already exists in Sheet2
+      let existingPhones = [];
+      try {
+        const existingCheck = await this.sheets.spreadsheets.values.get({
+          auth,
+          spreadsheetId: process.env.GOOGLE_SHEET_ID,
+          range: 'Sheet2!A:A',
+        });
+        existingPhones = existingCheck.data.values || [];
+      } catch (e) {
+        // Sheet2 might not exist yet, that's okay
+      }
+
+      const phoneExists = existingPhones.some(row => row[0] === phone);
+
+      if (phoneExists) {
+        return { success: false, message: 'Phone number already saved' };
+      }
+
+      // Add phone number to Sheet2
+      await this.sheets.spreadsheets.values.append({
+        auth,
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        range: 'Sheet2!A:D',
+        valueInputOption: 'USER_ENTERED',
+        requestBody: {
+          values: [[
+            phone,
+            new Date().toISOString(),
+            source || 'discount_modal',
+            'KORZI650'
+          ]],
+        },
+      });
+
+      return { success: true, message: 'Phone number saved successfully!' };
+    } catch (error) {
+      console.error('Error saving phone number:', error);
+      throw error;
+    }
+  }
 }
 
 export default new NewsletterService();
