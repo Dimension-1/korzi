@@ -19,7 +19,7 @@ const OrderConfirmationPage: React.FC = () => {
       console.log('=== ORDER CONFIRMATION DEBUG ===');
       console.log('orderNumber from URL:', orderNumber);
       console.log('location.state:', JSON.stringify(state, null, 2));
-      console.log('Has bigshipShipmentId:', !!state?.bigshipShipmentId);
+      console.log('Has shipmentId:', !!state?.shipmentId);
       console.log('Has awbNumber:', !!state?.awbNumber);
       console.log('Has lrnNumber:', !!state?.lrnNumber);
       console.log('================================');
@@ -28,8 +28,8 @@ const OrderConfirmationPage: React.FC = () => {
       if (state && state.orderNumber) {
         setOrderData(state);
         
-        // If no tracking info, wait and check again (BigShip is processing in background)
-        if (!state.bigshipShipmentId && !state.awbNumber) {
+        // If no tracking info, wait and check again (Shiprocket is processing in background)
+        if (!state.shipmentId && !state.awbNumber) {
         const checkTracking = setInterval(async () => {
           try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/shopify/orders/${state.customer?.email || 'test@test.com'}`);
@@ -258,9 +258,9 @@ const OrderConfirmationPage: React.FC = () => {
 
 
         {/* Shipment Tracking */}
-        {(orderData.bigshipShipmentId || orderData.awbNumber || orderData.lrnNumber) ? (
+        {(orderData.shipmentId || orderData.awbNumber) ? (
           <ShipmentTracking 
-            orderId={orderData.bigshipShipmentId || orderData.lrnNumber || orderData.orderNumber}
+            orderId={orderData.shipmentId || orderData.orderNumber}
             awbNumber={orderData.awbNumber}
           />
         ) : (

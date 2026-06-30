@@ -21,7 +21,7 @@ console.log(`Loaded environment from: ${envFile}`);
 
 
 // THEN import bigship (so it can read env vars)
-const { default: bigshipService } = await import('./bigship.js');
+const { default: shiprocketService } = await import('./shiprocket.js');
 const { default: newsletterService } = await import('./newsletter.js');
 
 
@@ -603,31 +603,29 @@ app.post('/api/shopify/validate-discount', async (req, res) => {
   }
 });
 
-// ============= BIGSHIP ENDPOINTS =============
+// ============= SHIPROCKET ENDPOINTS =============
 
-
-// Create complete shipment (create + manifest + get AWB)
-app.post('/api/bigship/create-shipment', async (req, res) => {
+// Create complete shipment (create + assign AWB + schedule pickup)
+app.post('/api/shiprocket/create-shipment', async (req, res) => {
     try {
       const { orderData } = req.body;
       
-      console.log('Creating BigShip shipment for order:', orderData.orderNumber);
+      console.log('Creating Shiprocket shipment for order:', orderData.orderNumber);
       
-      const result = await bigshipService.createCompleteShipment(orderData);
+      const result = await shiprocketService.createCompleteShipment(orderData);
       
-      console.log('BigShip shipment created successfully:', result);
+      console.log('Shiprocket shipment created successfully:', result);
       
       res.json({ 
         success: true, 
         data: result,
-        shipmentId: result.systemOrderId,
+        shipmentId: result.shipmentId,
         awbNumber: result.awbNumber,
         courierName: result.courierName,
-        lrnNumber: result.lrnNumber
+        orderId: result.orderId
       });
     } catch (error) {
-      console.error('Error creating BigShip shipment:', error);
-      console.error('BigShip error details:', error.response?.data);
+      console.error('Error creating Shiprocket shipment:', error);
       res.status(500).json({ 
         success: false, 
         error: error.message,
@@ -635,19 +633,19 @@ app.post('/api/bigship/create-shipment', async (req, res) => {
       });
     }
   });
-  
-  // Track by LRN (system order ID)
-  app.get('/api/bigship/track-lrn/:lrn', async (req, res) => {
+
+  // Track by Shipment ID
+  app.get('/api/shiprocket/track/:shipmentId', async (req, res) => {
     try {
-      const { lrn } = req.params;
+      const { shipmentId } = req.params;
       
-      console.log('Tracking BigShip by LRN:', lrn);
+      console.log('Tracking Shiprocket shipment:', shipmentId);
       
-      const tracking = await bigshipService.trackByLrn(lrn);
+      const tracking = await shiprocketService.trackByShipmentId(shipmentId);
       
-      res.json({ success: true, tracking: tracking.data });
+      res.json({ success: true, tracking });
     } catch (error) {
-      console.error('Error tracking by LRN:', error);
+      console.error('Error tracking shipment:', error);
       res.status(500).json({ 
         success: false, 
         error: error.message 
@@ -656,15 +654,15 @@ app.post('/api/bigship/create-shipment', async (req, res) => {
   });
   
   // Track by AWB
-  app.get('/api/bigship/track-awb/:awb', async (req, res) => {
+  app.get('/api/shiprocket/track-awb/:awb', async (req, res) => {
     try {
       const { awb } = req.params;
       
-      console.log('Tracking BigShip by AWB:', awb);
+      console.log('Tracking Shiprocket by AWB:', awb);
       
-      const tracking = await bigshipService.trackByAwb(awb);
+      const tracking = await shiprocketService.trackByAwb(awb);
       
-      res.json({ success: true, tracking: tracking.data });
+      res.json({ success: true, tracking });
     } catch (error) {
       console.error('Error tracking by AWB:', error);
       res.status(500).json({ 
@@ -674,27 +672,106 @@ app.post('/api/bigship/create-shipment', async (req, res) => {
     }
   });
 
-// Get warehouse list (add after other imports)
-// Get warehouse list
-// Get warehouse list
-app.get('/api/bigship/warehouses', async (req, res) => {
-    try {
-      const token = await bigshipService.getToken();
-      const response = await axios.get(
-        `${process.env.BIGSHIP_API_URL}api/warehouse/get/list?page_index=1&page_size=10`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+// ============= SHOPIFY ORDER WEBHOOK =============
+// When FlexyPe creates a paid order in Shopify, this webhook fires
+// and automatically creates a Shiprocket shipment
+app.post('/api/webhooks/shopify/order-created', async (req, res) => {
+  try {
+    // Verify Shopify webhook (optional but recommended)
+    const hmac = req.headers['x-shopify-hmac-sha256'];
+    // TODO: Add HMAC verification with SHOPIFY_WEBHOOK_SECRET if needed
+
+    const order = req.body;
+    console.log('Shopify webhook received - Order:', order.name, 'Financial status:', order.financial_status);
+
+    // Only process paid orders
+    if (order.financial_status !== 'paid') {
+      console.log('Skipping unpaid order:', order.name);
+      return res.status(200).json({ success: true, message: 'Skipped - not paid' });
+    }
+
+    // Skip if already has tracking (avoid duplicate shipments)
+    const existingTags = order.tags || '';
+    if (existingTags.includes('awb:') || existingTags.includes('shiprocket:')) {
+      console.log('Skipping order with existing tracking:', order.name);
+      return res.status(200).json({ success: true, message: 'Skipped - already has tracking' });
+    }
+
+    // Extract order data for Shiprocket
+    const shippingAddress = order.shipping_address || order.billing_address || {};
+    const orderData = {
+      orderNumber: order.name || order.order_number?.toString(),
+      customer: {
+        firstName: shippingAddress.first_name || order.customer?.first_name || '',
+        lastName: shippingAddress.last_name || order.customer?.last_name || '',
+        email: order.email || order.customer?.email || '',
+        phone: shippingAddress.phone || order.customer?.phone || ''
+      },
+      shippingAddress: {
+        address1: shippingAddress.address1 || '',
+        address2: shippingAddress.address2 || '',
+        city: shippingAddress.city || '',
+        province: shippingAddress.province || '',
+        country: shippingAddress.country || 'India',
+        zip: shippingAddress.zip || ''
+      },
+      items: (order.line_items || []).map(item => ({
+        title: item.title,
+        variantId: item.variant_id?.toString(),
+        quantity: item.quantity,
+        price: parseFloat(item.price)
+      })),
+      totalAmount: parseFloat(order.total_price)
+    };
+
+    console.log('Creating Shiprocket shipment for webhook order:', orderData.orderNumber);
+
+    // Create Shiprocket shipment
+    const result = await shiprocketService.createCompleteShipment(orderData);
+    console.log('Shiprocket shipment created via webhook:', result);
+
+    // Update Shopify order with tracking tags
+    if (result.awbNumber || result.shipmentId) {
+      const newTags = [
+        result.awbNumber ? `awb:${result.awbNumber}` : '',
+        result.courierName ? `courier:${result.courierName}` : '',
+        result.shipmentId ? `shiprocket:${result.shipmentId}` : ''
+      ].filter(Boolean);
+
+      // Add tags to Shopify order
+      const ADD_TAGS = `
+        mutation addTags($id: ID!, $tags: [String!]!) {
+          tagsAdd(id: $id, tags: $tags) {
+            userErrors { field message }
           }
         }
-      );
-      res.json(response.data);
-    } catch (error) {
-      console.error('Error fetching warehouses:', error);
-      res.status(500).json({ error: error.message });
+      `;
+
+      await fetch(shopifyAdminUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': process.env.VITE_SHOPIFY_ADMIN_TOKEN,
+        },
+        body: JSON.stringify({
+          query: ADD_TAGS,
+          variables: { 
+            id: `gid://shopify/Order/${order.id}`,
+            tags: newTags 
+          }
+        })
+      });
+
+      console.log('Shopify order tagged with:', newTags);
     }
-  });
+
+    res.status(200).json({ success: true, shipment: result });
+  } catch (error) {
+    console.error('Webhook shipment creation error:', error);
+    // Always return 200 to Shopify so it doesn't retry
+    res.status(200).json({ success: false, error: error.message });
+  }
+});
   
   
 
@@ -770,6 +847,7 @@ app.get('/api/shopify/orders/:emailOrOrderNumber', async (req, res) => {
         // Parse tracking info from tags
         const awbTag = tags.find(t => t.startsWith('awb:'));
         const courierTag = tags.find(t => t.startsWith('courier:'));
+        const shiprocketTag = tags.find(t => t.startsWith('shiprocket:'));
         const lrnTag = tags.find(t => t.startsWith('lrn:'));
         const paymentTag = tags.find(t => t.startsWith('payment:'));
         const razorpayTag = tags.find(t => t.startsWith('razorpay:'));
@@ -782,7 +860,7 @@ app.get('/api/shopify/orders/:emailOrOrderNumber', async (req, res) => {
           totalAmount: parseFloat(edge.node.totalPriceSet.shopMoney.amount),
           createdAt: edge.node.createdAt,
           paymentId: paymentTag ? paymentTag.replace('payment:', '') : (razorpayTag ? razorpayTag.replace('razorpay:', '') : undefined),
-          bigshipShipmentId: lrnTag ? lrnTag.replace('lrn:', '') : undefined,
+          shipmentId: shiprocketTag ? shiprocketTag.replace('shiprocket:', '') : (lrnTag ? lrnTag.replace('lrn:', '') : undefined),
           awbNumber: awbTag ? awbTag.replace('awb:', '') : undefined,
           courierName: courierTag ? courierTag.replace('courier:', '') : undefined,
           customer: {

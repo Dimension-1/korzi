@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Package, MapPin, Clock, CheckCircle, Truck, RefreshCw } from 'lucide-react';
-import { trackByLrn, trackByAwb, TrackingData } from '../services/bigship';
+import { trackByShipmentId, trackByAwb, TrackingData } from '../services/shiprocket';
 
 interface ShipmentTrackingProps {
   orderId: string;
@@ -24,7 +24,7 @@ const ShipmentTracking: React.FC<ShipmentTrackingProps> = ({ orderId, awbNumber 
       // Try tracking by AWB if available, otherwise by LRN
       const data = awbNumber 
         ? await trackByAwb(awbNumber)
-        : await trackByLrn(orderId);
+        : await trackByShipmentId(orderId);
         
       setTracking(data);
     } catch (err) {

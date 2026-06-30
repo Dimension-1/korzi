@@ -6,7 +6,7 @@ import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { initiateRazorpayPayment, createRazorpayOrder, RazorpaySuccessResponse } from '../services/razorpay';
 import { createShopifyOrder } from '../services/orders';
-import { createShipment } from '../services/bigship';
+import { createShipment } from '../services/shiprocket';
 import { validateDiscountCode } from '../services/shopify';
 import ProcessingOverlay from './ProcessingOverlay';
 import CouponInput from './CouponInput';
@@ -300,7 +300,7 @@ const CheckoutPage: React.FC = () => {
                 zip: formData.zip
               },
               createdAt: new Date().toISOString(),
-              bigshipShipmentId: undefined,
+              shipmentId: undefined,
               awbNumber: undefined
             };
 
@@ -310,17 +310,16 @@ const CheckoutPage: React.FC = () => {
             // 5. Clear cart
             clearCart();
 
-            // 6. Create BigShip shipment
+            // 6. Create Shiprocket shipment
             try {
-              console.log('Creating BigShip shipment...');
+              console.log('Creating Shiprocket shipment...');
               const shipmentResult = await createShipment(completedOrder);
-              console.log('BigShip shipment created:', shipmentResult);
+              console.log('Shiprocket shipment created:', shipmentResult);
               
               const trackingInfo = {
-                bigshipShipmentId: shipmentResult.shipmentId,
+                shipmentId: shipmentResult.shipmentId,
                 awbNumber: shipmentResult.awbNumber,
-                courierName: shipmentResult.courierName,
-                lrnNumber: shipmentResult.lrnNumber
+                courierName: shipmentResult.courierName
               };
               
               // Update completed order with tracking
@@ -338,12 +337,12 @@ const CheckoutPage: React.FC = () => {
                   orderId: completeData.orderId,
                   awbNumber: shipmentResult.awbNumber,
                   courierName: shipmentResult.courierName,
-                  lrnNumber: shipmentResult.lrnNumber,
+                  shipmentId: shipmentResult.shipmentId,
                   paymentId: response.razorpay_payment_id
                 })
               });
             } catch (error) {
-              console.error('Failed to create BigShip shipment:', error);
+              console.error('Failed to create Shiprocket shipment:', error);
             }
 
             // 7. Navigate to thank you page
