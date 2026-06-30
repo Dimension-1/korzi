@@ -427,12 +427,9 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-<<<<<<< Updated upstream
   // FIX: track whether inline Buy Now is visible to hide floating CTA
   const [isBuyNowVisible, setIsBuyNowVisible] = useState(false);
-=======
   const [showDiscountModal, setShowDiscountModal] = useState(false);
->>>>>>> Stashed changes
   const { addToCart, refreshCartCount, clearCart } = useCartStore();
   const { setCurrentOrder } = useOrderStore();
   const navigate = useNavigate();
@@ -1017,7 +1014,6 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         </div>
       </div>
 
-<<<<<<< Updated upstream
       {/* ── Mobile Floating CTA — hidden when inline Buy Now is visible ── */}
       <MobileFloatingCTA
         isAddingToCart={isAddingToCart}
@@ -1025,14 +1021,12 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         onBuyNow={handleBuyNow}
         hidden={isBuyNowVisible}
       />
-    </>
-=======
+
       <DiscountModal
         isOpen={showDiscountModal}
         onClose={() => setShowDiscountModal(false)}
         onSubmit={handleDiscountSubmit}
       />
-    </div>
->>>>>>> Stashed changes
+    </>
   );
 }
