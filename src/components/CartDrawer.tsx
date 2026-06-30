@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { X, ArrowUpRight } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
 import { useOrderStore } from '../stores/orderStore';
@@ -8,7 +7,6 @@ import { getCloudinaryUrl } from '../utils/cloudinary';
 import { eventNames, gaEvent } from '../utils/gtm';
 import { getOrCreateCheckoutEventId } from '../utils/metaEventId';
 import PaymentIcons from './PaymentIcons';
-import DiscountModal from './DiscountModal';
 
 export enum Operation {
   INCREASE = 'INCREASE',
@@ -21,7 +19,6 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ onCheckout }: CartDrawerProps) {
   const navigate = useNavigate();
-  const [showDiscountModal, setShowDiscountModal] = useState(false);
   const { 
     cartItems, 
     isDrawerOpen, 
@@ -71,10 +68,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
   };
 
   const handleCheckout = async () => {
-    setShowDiscountModal(true);
-  };
-
-  const proceedWithCheckout = async () => {
     try {
       gaEvent(eventNames.purchase, {
         button_name: 'buy_now',
@@ -148,13 +141,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
     } catch (error) {
       console.error('Error preparing checkout:', error);
     }
-  };
-
-  const handleDiscountSubmit = (phone: string) => {
-    setShowDiscountModal(false);
-    localStorage.setItem('korzi_phone', phone);
-    localStorage.setItem('korzi_discount_code', 'KORZI650');
-    proceedWithCheckout();
   };
 
 
@@ -354,12 +340,6 @@ export default function CartDrawer({ onCheckout }: CartDrawerProps) {
           )}
         </div>
       </div>
-
-      <DiscountModal
-        isOpen={showDiscountModal}
-        onClose={() => setShowDiscountModal(false)}
-        onSubmit={handleDiscountSubmit}
-      />
     </>
   );
 }
