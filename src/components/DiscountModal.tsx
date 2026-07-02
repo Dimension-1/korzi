@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { gaEvent } from '../utils/gtm';
 
 interface DiscountModalProps {
   isOpen: boolean;
@@ -50,6 +51,9 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, source: 'discount_modal' }),
       }).catch((err) => console.error('Phone save error:', err));
+
+      // Fire Meta Lead standard event
+      gaEvent('lead', { content_name: 'discount_modal', value: 0, currency: 'INR' });
 
       onSubmit(phone);
     }
