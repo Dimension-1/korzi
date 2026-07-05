@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProductByHandle, ShopifyProduct } from '../services/shopify';
 import CartDrawer from '../components/CartDrawer';
 import ProductHero from '../components/Product/ProductHero';
+import DiscountModal from '../components/DiscountModal';
 
 // Lazy load below-fold sections
 const ProductTabs = lazy(() => import('../components/Product/ProductTabs'));
@@ -19,6 +20,12 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowModal(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -102,6 +109,11 @@ const ProductDetailPage = () => {
         <Footer />
       </Suspense>
       <CartDrawer />
+      <DiscountModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={() => setShowModal(false)}
+      />
     </div>
   );
 };
