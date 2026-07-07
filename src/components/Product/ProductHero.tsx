@@ -438,14 +438,11 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
   // FIX: ref for the inline Buy Now section to observe
   const buyNowRef = useRef<HTMLDivElement>(null);
 
-  // Auto-open discount modal 4 seconds after page load (only once per session)
+  // Auto-open discount modal 3 seconds after page load (every refresh)
   useEffect(() => {
-    const alreadyShown = sessionStorage.getItem('korzi_discount_modal_shown');
-    if (alreadyShown) return;
     const timer = setTimeout(() => {
       setShowDiscountModal(true);
-      sessionStorage.setItem('korzi_discount_modal_shown', 'true');
-    }, 4000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 

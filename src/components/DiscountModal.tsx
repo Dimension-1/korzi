@@ -44,19 +44,20 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
 
   const handleSubmit = () => {
     if (phone.length >= 10) {
-      // Save phone to Google Sheet via API
+      // Save phone to Google Sheet via API (keepalive ensures delivery even if page changes)
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
       fetch(`${backendUrl}/api/newsletter/phone`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, source: 'discount_modal' }),
+        keepalive: true,
       }).catch((err) => console.error('Phone save error:', err));
 
       // Fire Meta Lead standard event
       gaEvent('lead', { content_name: 'discount_modal', value: 0, currency: 'INR' });
-
-      onSubmit(phone);
     }
+
+    onSubmit(phone);
   };
 
   if (!isOpen) return null;
