@@ -376,7 +376,7 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
 // ============= PHONE CAPTURE ENDPOINT =============
 app.post('/api/newsletter/phone', async (req, res) => {
   try {
-    const { phone, source } = req.body;
+    const { phone, source, url } = req.body;
 
     if (!phone) {
       return res.status(400).json({ 
@@ -394,7 +394,7 @@ app.post('/api/newsletter/phone', async (req, res) => {
       });
     }
 
-    const result = await newsletterService.savePhone(phone, source || 'discount_modal');
+    const result = await newsletterService.savePhone(phone, source || 'discount_modal', url || '');
     
     if (!result.success) {
       return res.status(400).json(result);

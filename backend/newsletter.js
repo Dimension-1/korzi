@@ -76,7 +76,7 @@ class NewsletterService {
     }
   }
 
-  async savePhone(phone, source) {
+  async savePhone(phone, source, url) {
     try {
       const auth = await this.getAuth();
 
@@ -103,14 +103,15 @@ class NewsletterService {
       await this.sheets.spreadsheets.values.append({
         auth,
         spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: 'Sheet2!A:D',
+        range: 'Sheet2!A:E',
         valueInputOption: 'USER_ENTERED',
         requestBody: {
           values: [[
             phone,
             new Date().toISOString(),
             source || 'discount_modal',
-            'KORZI650'
+            'KORZI650',
+            url || ''
           ]],
         },
       });
