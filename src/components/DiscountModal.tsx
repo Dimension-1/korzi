@@ -10,12 +10,14 @@ interface DiscountModalProps {
 export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountModalProps) {
   const [phone, setPhone] = useState('');
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       setPhone('');
       setCopied(false);
+      setError('');
     } else {
       document.body.style.overflow = '';
     }
@@ -45,7 +47,19 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
   };
 
   const handleSubmit = async () => {
-    if (phone.length < 10 || !/^[6-9]/.test(phone)) return;
+    if (phone.length === 0) {
+      setError('Please enter your phone number');
+      return;
+    }
+    if (phone.length < 10) {
+      setError('Please enter a valid 10-digit number');
+      return;
+    }
+    if (!/^[6-9]/.test(phone)) {
+      setError('Number must start with 6, 7, 8 or 9');
+      return;
+    }
+    setError('');
 
     // Save phone to Google Sheet via API
     const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
@@ -174,11 +188,14 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
                 type="tel"
                 placeholder="Enter your number"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '').slice(0, 10)); setError(''); }}
                 className="flex-1 h-[52px] bg-transparent border-none outline-none text-white text-[15px] tracking-[1px] px-[14px]"
                 style={{ fontFamily: 'DM Sans' }}
               />
             </div>
+            {error && (
+              <p className="text-red-500 text-[11px] mt-1.5" style={{ fontFamily: 'DM Sans' }}>{error}</p>
+            )}
 
             {/* Code chip */}
             <div
