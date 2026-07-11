@@ -303,7 +303,7 @@ function MobilePricingSection({
           onClick={onBuyNow}
           disabled={isAddingToCart}
           className="w-full h-[56px] bg-[#02FF00] hover:bg-[#00DD00] text-black transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-          style={{ fontFamily: 'Bebas Neue', fontSize: '22px', letterSpacing: '0.08em' }}
+          style={{ fontFamily: 'Bebas Neue', fontSize: '22px', letterSpacing: '0.08em',   borderRadius:'8px' }}
         >
           {isAddingToCart ? 'ADDING...' : `BUY NOW - ₹${price.toLocaleString('en-IN')}`}
         </button>
@@ -315,10 +315,40 @@ function MobilePricingSection({
             fontFamily: 'DM Sans',
             background: '#111',
             border: '1px solid rgba(255,255,255,0.12)',
+            borderRadius:'8px'
           }}
         >
           Or pay ₹{emiAmount}/month &nbsp;·&nbsp; No-cost EMI
         </button>
+
+        {/* Amazon secondary CTA — dark bg, amber border */}
+        {/* TODO: replace with the actual Amazon listing URL for this product */}
+        <a
+          href="https://www.amazon.in/dp/B0GPXHZFS8"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full h-[48px] text-white text-xs font-medium flex items-center justify-center gap-2 transition hover:bg-[#1a1208]"
+          style={{
+            fontFamily: 'DM Sans',
+            background: '#1a1208',
+            border: '1px solid #F5A623',
+            borderRadius:'8px'
+          }}
+        >
+          <svg
+            className="w-4 h-4 flex-shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#F5A623"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <path d="M4 15c3 2.2 13 2.2 16 0" />
+          </svg>
+          <span>
+            Also <span className="text-[#F5A623] font-semibold">available on Amazon</span>
+          </span>
+        </a>
       </div>
     </div>
   );
