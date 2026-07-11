@@ -7,11 +7,33 @@ interface DiscountModalProps {
   onSubmit: (phone: string) => void;
 }
 
+// Timer seed – computed once per page load, same pattern used across the
+// product page's countdowns so every badge on the page stays in sync.
+const TIMER_SEED = { m: 59, s: Math.floor(Math.random() * 60) };
+
 export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountModalProps) {
   const [phone, setPhone] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ m: TIMER_SEED.m, s: TIMER_SEED.s });
+
+  // Ticks continuously from mount (component stays mounted even when the
+  // modal is visually closed, since isOpen just toggles the render output).
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeLeft((prev) => {
+        let { m, s } = prev;
+        s--;
+        if (s < 0) { s = 59; m--; }
+        if (m < 0) { m = 0; s = 0; }
+        return { m, s };
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pad = (n: number) => String(n).padStart(2, '0');
 
   useEffect(() => {
     if (isOpen) {
@@ -22,7 +44,9 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
     } else {
       document.body.style.overflow = '';
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   const handleCopyCode = () => {
@@ -123,10 +147,45 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
               FLAT <span className="text-[#02FF00] block text-[52px] lg:text-[66px]">₹650 OFF</span>
             </h1>
 
-            <div className="inline-flex items-center gap-2 bg-[#02FF00] text-black text-[13px] font-bold tracking-[1px] uppercase px-4 py-[9px] rounded-lg mb-6 shadow-[0_0_22px_rgba(2,255,0,0.35)]">
-              <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
-              OFFER ENDS TONIGHT
+            {/* Countdown badge */}
+            <div
+              className="offer-countdown-pill inline-flex items-stretch mb-6 rounded-full overflow-hidden select-none"
+              style={{ boxShadow: '0 0 22px rgba(2,255,0,0.35)' }}
+            >
+              <span className="flex items-center gap-2 bg-[#02FF00] text-black text-[13px] font-bold tracking-[1px] uppercase px-4 py-[9px]">
+                <span className="offer-dot w-2 h-2 rounded-full bg-black/70 flex-shrink-0" />
+                OFFER ENDS IN
+              </span>
+              <span
+                className="flex items-center justify-center bg-[#00B300] text-black text-[13px] font-bold tracking-[1px] px-4 py-[9px] tabular-nums"
+                style={{ fontVariantNumeric: 'tabular-nums', minWidth: '64px' }}
+              >
+                {pad(timeLeft.m)}:{pad(timeLeft.s)}
+              </span>
             </div>
+
+            <style>{`
+              .offer-countdown-pill {
+                animation: offerPillFade 1.8s ease-in-out infinite;
+              }
+              .offer-dot {
+                animation: offerDotPulse 1.8s ease-in-out infinite;
+              }
+              @keyframes offerPillFade {
+                0%, 100% {
+                  opacity: 1;
+                  box-shadow: 0 0 30px rgba(2,255,0,0.55);
+                }
+                50% {
+                  opacity: 0.55;
+                  box-shadow: 0 0 12px rgba(2,255,0,0.18);
+                }
+              }
+              @keyframes offerDotPulse {
+                0%, 100% { opacity: 1; transform: scale(1.15); }
+                50% { opacity: 0.55; transform: scale(0.85); }
+              }
+            `}</style>
 
             <div className="flex flex-col gap-4">
               <div className="flex items-start gap-[13px]">
