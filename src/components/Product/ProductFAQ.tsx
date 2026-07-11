@@ -1,12 +1,18 @@
 import { useState } from 'react';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, ExternalLink } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
 
+type FaqItem = {
+  id: number;
+  question: string;
+  answer: string;
+  link?: { label: string; href: string };
+};
 
 export default function ProductFAQ() {
   const [openFaq, setOpenFaq] = useState<number | null>(2);
 
-  const faqData = [
+  const faqData: FaqItem[] = [
     {
       id: 1,
       question: "Is it great for beginners?",
@@ -31,7 +37,16 @@ export default function ProductFAQ() {
       id: 5,
       question: "How durable is it?",
       answer: "Crash-tested, stress-tested, and built to handle chaos."
-    }
+    },
+    {
+      id: 6,
+      question: "Can I buy Korzi on Amazon?",
+      answer: "Yes. The Apex Drive K-01 is available on Amazon if you'd rather buy there — same product, same warranty, same local service and spare parts support.",
+      link: {
+        label: 'View on Amazon',
+        href: 'https://www.amazon.in/dp/B0GPXHZFS8',
+      },
+    },
   ];
 
   const toggleFaq = (id: number) => {
@@ -114,6 +129,18 @@ export default function ProductFAQ() {
                   >
                     {faq.answer}
                   </p>
+                  {faq.link && (
+                    <a
+                      href={faq.link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 mt-4 pb-2 text-[#02FF00] text-sm font-semibold border-b border-[#02FF00]/60 hover:border-[#02FF00] transition-colors"
+                      style={{ fontFamily: 'DM Sans' }}
+                    >
+                      {faq.link.label}
+                      <ExternalLink className="w-4 h-4" strokeWidth={2.5} />
+                    </a>
+                  )}
                 </div>
               )}
             </div>
