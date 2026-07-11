@@ -11,6 +11,7 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
   const [phone, setPhone] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -60,6 +61,7 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
       return;
     }
     setError('');
+    setIsSubmitting(true);
 
     // Save phone to Google Sheet via API
     const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
@@ -76,6 +78,7 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
     // Fire Meta Lead standard event
     gaEvent('lead', { content_name: 'discount_modal', value: 0, currency: 'INR' });
 
+    setIsSubmitting(false);
     onSubmit(phone);
   };
 
@@ -222,10 +225,18 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
             {/* CTA */}
             <button
               onClick={handleSubmit}
-              className="w-full py-4 border-none rounded-xl cursor-pointer bg-[#02FF00] text-black flex items-center justify-center gap-2 hover:shadow-[0_0_24px_rgba(2,255,0,0.45)] hover:-translate-y-[1px] transition-all"
+              disabled={isSubmitting}
+              className="w-full py-4 border-none rounded-xl cursor-pointer bg-[#02FF00] text-black flex items-center justify-center gap-2 hover:shadow-[0_0_24px_rgba(2,255,0,0.45)] hover:-translate-y-[1px] transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               style={{ fontFamily: 'Bebas Neue', fontSize: '20px', letterSpacing: '2px' }}
             >
-              SHOP & SAVE ₹650 →
+              {isSubmitting ? (
+                <>
+                  <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                  PROCESSING...
+                </>
+              ) : (
+                'SHOP & SAVE ₹650 →'
+              )}
             </button>
             <p className="text-[10.5px] text-[#555] text-center mt-[13px] leading-[1.4]" style={{ fontFamily: 'DM Sans' }}>
               Code applied automatically at checkout. We only message you about your order.
