@@ -149,7 +149,7 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
 
             {/* Countdown badge */}
             <div
-              className="offer-countdown-pill inline-flex items-stretch mb-6 rounded-full overflow-hidden select-none"
+              className="offer-countdown-pill inline-flex items-stretch mb-6 rounded-[8px] overflow-hidden select-none"
               style={{ boxShadow: '0 0 22px rgba(2,255,0,0.35)' }}
             >
               <span className="flex items-center gap-2 bg-[#02FF00] text-black text-[13px] font-bold tracking-[1px] uppercase px-4 py-[9px]">
