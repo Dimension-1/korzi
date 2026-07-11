@@ -297,9 +297,6 @@ export default function DiscountModal({ isOpen, onClose, onSubmit }: DiscountMod
                 'SHOP & SAVE ₹650 →'
               )}
             </button>
-            <p className="text-[10.5px] text-[#555] text-center mt-[13px] leading-[1.4]" style={{ fontFamily: 'DM Sans' }}>
-              Code applied automatically at checkout. We only message you about your order.
-            </p>
           </div>
         </div>
       </div>
