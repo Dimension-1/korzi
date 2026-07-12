@@ -492,7 +492,7 @@ function TopBar() {
         <span className="text-black text-[13px] lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
           <span className="font-bold">Or pay ₹999 now</span>
           <span className="mx-1.5">·</span>
-          <span className="font-medium">rest on delivery</span>
+          <span className="font-bold">rest on delivery</span>
         </span>
       </div>
     );
