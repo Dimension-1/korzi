@@ -452,6 +452,53 @@ function MobileFloatingCTA({
   );
 }
 
+// ─── Top Bar: Pay-now strip + site header ────────────────────────────────────
+function TopBar() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+
+      // Always show navbar in hero section (first screen)
+      if (currentScrollY < heroHeight) {
+        setIsVisible(true);
+      } else {
+        // Hide when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+  return (
+
+      <div className={`fixed top-[85px] z-40 w-full bg-[#02FF00] flex items-center justify-center gap-2 py-2.5 transition-transform duration-300 ${
+        isVisible ? 'translate-y-0 ' : '-translate-y-[86px]'
+      }`} >
+        <span className="w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="#02FF00">
+            <path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z" />
+          </svg>
+        </span>
+        <span className="text-black text-[13px] lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
+          <span className="font-bold">Or pay ₹999 now</span>
+          <span className="mx-1.5">·</span>
+          <span className="font-medium">rest on delivery</span>
+        </span>
+      </div>
+    );
+
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ProductHeroV2({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -683,9 +730,11 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
 
   return (
     <>
+      <TopBar />
+    <div style={{ height:'35px'}}></div>
       {/* ── Main hero layout ─────────────────────────────────────── */}
       {/* FIX: reduced pb on mobile since inline Buy Now replaces floating CTA at bottom */}
-      <div className="w-full mx-auto px-4 md:px-8 py-1 md:py-12 min-h-[800px] md:min-h-[900px] pb-[80px] lg:pb-0">
+      <div className="w-full mx-auto px-4 md:px-8 py-1 md:py-12 min-h-[800px] md:min-h-[900px] pb-[80px] lg:pb-0" >
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16">
           {/* Title – Mobile only */}
           <div className="lg:hidden space-y-1">
