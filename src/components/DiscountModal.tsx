@@ -442,8 +442,7 @@ export default function DiscountModal({
                 className="text-[12px] text-white leading-[1.45]"
                 style={{ fontFamily: "DM Sans" }}
               >
-                Copy this code — paste it after OTP verification to apply your
-                ₹650 off.
+                Copy the code below and paste it on the next page to unlock ₹650 OFF.
               </p>
             </div>
 
