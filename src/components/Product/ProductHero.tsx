@@ -322,17 +322,20 @@ function MobilePricingSection({
         </button>
 
         {/* Amazon secondary CTA — dark bg, amber border */}
-        {/* TODO: replace with the actual Amazon listing URL for this product */}
-        <a
-          href="https://www.amazon.in/dp/B0GPXHZFS8"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => {
+            gaEvent(eventNames.amazon_cta_clicked, {
+              button_name: 'Amazon',
+            });
+            window.open('https://www.amazon.in/dp/B0GPXHZFS8', '_blank', 'noopener,noreferrer');
+          }}
           className="w-full h-[48px] text-white text-xs font-medium flex items-center justify-center gap-2 transition hover:bg-[#1a1208]"
           style={{
             fontFamily: 'DM Sans',
             background: '#1a1208',
             border: '1px solid #F5A623',
-            borderRadius:'8px'
+            borderRadius: '8px',
           }}
         >
           <svg
@@ -348,7 +351,7 @@ function MobilePricingSection({
           <span>
             Also <span className="text-[#F5A623] font-semibold">available on Amazon</span>
           </span>
-        </a>
+        </button>
       </div>
     </div>
   );

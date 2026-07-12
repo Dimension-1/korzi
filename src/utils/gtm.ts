@@ -10,7 +10,9 @@ import { trackEvent } from "../services/metaPixels";
     payment_verification_failed:'payment_verification_failed',
     payment_verification_successful:'payment_verification_successful',
     remove_from_cart:'remove_from_cart',
-    add_quantity_cart:'add_quantity_cart'
+    add_quantity_cart:'add_quantity_cart',
+    amazon_cta_clicked:'amazon_cta_clicked',
+    amazon_faq_cta_clicked : 'amazon_faq_cta_clicked'
   }
 
 type GAEventParams = Record<string, unknown>;

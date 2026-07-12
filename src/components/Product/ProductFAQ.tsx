@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, ArrowDown, ExternalLink } from 'lucide-react';
 import { getCloudinaryUrl } from '../../utils/cloudinary';
+import { eventNames, gaEvent } from '../../utils/gtm';
 
 type FaqItem = {
   id: number;
@@ -136,6 +137,11 @@ export default function ProductFAQ() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 mt-4 pb-2 text-[#02FF00] text-sm font-semibold border-b border-[#02FF00]/60 hover:border-[#02FF00] transition-colors"
                       style={{ fontFamily: 'DM Sans' }}
+                      onClick={()=>{
+                        gaEvent(eventNames.amazon_faq_cta_clicked, {
+                          button_name: 'Amazon faq',
+                        });
+                      }}
                     >
                       {faq.link.label}
                       <ExternalLink className="w-4 h-4" strokeWidth={2.5} />
