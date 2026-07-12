@@ -219,7 +219,7 @@ function MobilePricingSection({
           </span>
           {compareAtPrice && compareAtPrice > price && (
             <div className="flex flex-col gap-0.5">
-              <span className="text-zinc-500 text-sm line-through" style={{ fontFamily: 'DM Sans' }}>
+              <span className="text-white text-sm line-through" style={{ fontFamily: 'DM Sans' }}>
                 ₹{compareAtPrice.toLocaleString('en-IN')}
               </span>
               <span
@@ -260,7 +260,7 @@ function MobilePricingSection({
         </div>
 
         {/* Footer note */}
-        <p className="text-[#5E5E5E] text-[10px]" style={{ fontFamily: 'DM Sans'  }}>
+        <p className="text-white text-[10px]" style={{ fontFamily: 'DM Sans'  }}>
         Launch Pricing . While Stock last . MRP inclusive all taxes
         </p>
       </div>
@@ -280,7 +280,7 @@ function MobilePricingSection({
           </div>
           <span style={{ fontFamily: 'DM Sans' }}>
             <span className="text-[#02FF00] text-xs font-bold">{unitsLeft}</span>
-            <span className="text-zinc-400 text-[10px]"> / {totalUnits} </span>
+            <span className="text-white text-[10px]"> / {totalUnits} </span>
             <span className="text-white text-[10px] font-semibold tracking-wider">UNITS LEFT</span>
           </span>
         </div>
@@ -291,7 +291,7 @@ function MobilePricingSection({
             style={{ width: `${(unitsLeft / totalUnits) * 100}%` }}
           />
         </div>
-        <p className="text-zinc-500 text-[10px]" style={{ fontFamily: 'DM Sans' }}>
+        <p className="text-white text-[10px]" style={{ fontFamily: 'DM Sans' }}>
           Next batch ships in 3–4 weeks. Order now to avoid waiting.
         </p>
       </div>
@@ -789,11 +789,11 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               <span className="text-xl font-bold">₹{product.price.toFixed(0)}</span>
               {product.compareAtPrice && product.compareAtPrice > product.price && (
                 <>
-                  <span className="text-sm text-zinc-600 line-through">
+                  <span className="text-sm text-white line-through">
                     ₹{product.compareAtPrice.toFixed(0)}
                   </span>
-                  <span className="text-xs text-zinc-400">({discount}% OFF)</span>
-                  <span className="text-xs text-zinc-500">MRP inclusive of all taxes</span>
+                  <span className="text-xs text-white">({discount}% OFF)</span>
+                  <span className="text-xs text-white">MRP inclusive of all taxes</span>
                 </>
               )}
             </div>
@@ -813,9 +813,9 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
 
             <div className="flex items-center gap-2">
               <span className="text-yellow-400 text-xs lg:text-sm">★ ★ ★ ★ ★</span>
-              <span className="text-zinc-500 text-xs lg:text-sm font-bold">Rated</span>
+              <span className="text-white text-xs lg:text-sm font-bold">Rated</span>
               <span className="text-xs lg:text-sm font-bold">4.8/5.0</span>
-              <span className="text-zinc-500 text-xs lg:text-sm font-bold">(248 Reviews)</span>
+              <span className="text-white text-xs lg:text-sm font-bold">(248 Reviews)</span>
               {/* FIX: Limited Stock text now correctly red */}
               <span className="text-xs lg:text-sm font-bold text-[#D8200E]">• Limited Stock</span>
             </div>
@@ -826,11 +826,11 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               <span className="text-xl lg:text-3xl font-bold">₹{product.price.toFixed(0)}</span>
               {product.compareAtPrice && product.compareAtPrice > product.price && (
                 <>
-                  <span className="text-xs lg:text-sm text-zinc-600 line-through">
+                  <span className="text-xs lg:text-sm text-white line-through">
                     ₹{product.compareAtPrice.toFixed(0)}
                   </span>
-                  <span className="text-[10px] lg:text-xs text-zinc-400">({discount}% OFF)</span>
-                  <span className="text-[10px] lg:text-xs text-zinc-500">MRP inclusive of all taxes</span>
+                  <span className="text-[10px] lg:text-xs text-white">({discount}% OFF)</span>
+                  <span className="text-[10px] lg:text-xs text-white">MRP inclusive of all taxes</span>
                 </>
               )}
             </div>
