@@ -177,10 +177,17 @@ export default function DiscountModal({
           </div>
 
           <div
-            className="text-white text-[22px] tracking-[1.5px] mb-2"
+            className="text-white text-[22px] tracking-[1.5px] mb-2 gap-[2px]"
             style={{ fontFamily: 'Bebas Neue, sans-serif' }}
           >
-            💰 Save ₹1,300 Today
+            💰 Save 
+            <span
+                className="text-[#02FF00] text-[22px] flex-shrink-0 font-bold ml-[7px] mr-[7px]"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+              >
+              ₹1,300 
+              </span>
+            Today
           </div>
         
           {/* Savings breakdown card */}
@@ -197,12 +204,12 @@ export default function DiscountModal({
                   <path d="M12 2H4v8l10 10 8-8L12 2z" />
                   <circle cx="8" cy="8" r="1.3" fill="#02FF00" stroke="none" />
                 </svg>
-                <span className="text-white text-[15px] font-medium truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                <span className="text-white text-[15px] font-bold truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                   Apex Drive K-01
                 </span>
               </div>
               <span
-                className="text-[#02FF00] text-[21px] flex-shrink-0"
+                className="text-[#02FF00] text-[21px] flex-shrink-0 font-bold"
                 style={{ fontFamily: 'Bebas Neue, sans-serif' }}
               >
                 ₹600 OFF
@@ -218,7 +225,7 @@ export default function DiscountModal({
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-[9px] min-w-0">
                 <GiftIcon size={19} />
-                <span className="text-white text-[15px] font-medium truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                <span className="text-white text-[15px] font-bold truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                   Free Battery Pack
                 </span>
               </div>
@@ -227,7 +234,7 @@ export default function DiscountModal({
                   Retail value
                 </span>
                 <span
-                  className="text-[#02FF00] text-[18px] ml-[5px] font-bold"
+                  className="text-[#02FF00] text-[20px] ml-[5px] font-bold"
                   style={{ fontFamily: 'Bebas Neue, sans-serif' }}
                 >
                   ₹700
@@ -336,7 +343,7 @@ export default function DiscountModal({
               </div>
 
               <div
-                className="text-white text-[32px] leading-[1.15] mb-3"
+                className="text-white text-[32px] leading-[1.15] mb-3 font-bold"
                 style={{ fontFamily: 'Bebas Neue, sans-serif' }}
               >
                 APEX DRIVE <span className="text-[#02FF00]">K-01</span>
@@ -437,7 +444,7 @@ export default function DiscountModal({
                     <path d="M12 2H4v8l10 10 8-8L12 2z" />
                     <circle cx="8" cy="8" r="1.3" fill="#02FF00" stroke="none" />
                   </svg>
-                  <span className="text-white text-[14px] font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  <span className="text-white text-[14px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                     Apex Drive K-01
                   </span>
                 </div>
@@ -458,16 +465,16 @@ export default function DiscountModal({
               <div className="flex justify-between items-center mb-[15px]">
                 <div className="flex items-center gap-[9px]">
                   <GiftIcon size={17} />
-                  <span className="text-white text-[14px] font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  <span className="text-white text-[14px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                     Free Battery Pack
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-white text-[12px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  <span className="text-white text-[12px]font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                     Retail value
                   </span>
                   <span
-                    className="text-[#02FF00] text-[17px] ml-[5px]"
+                    className="text-[#02FF00] text-[20px] ml-[5px] font-bold"
                     style={{ fontFamily: 'Bebas Neue, sans-serif' }}
                   >
                     ₹700
