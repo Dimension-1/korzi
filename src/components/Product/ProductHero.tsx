@@ -363,13 +363,23 @@ function MobileFloatingCTA({
   onAddToCart,
   onBuyNow,
   hidden,
+  timeLeft,
+  setTimeLeft
 }: {
   isAddingToCart: boolean;
   onAddToCart: () => void;
   onBuyNow: (e: React.MouseEvent<HTMLButtonElement>) => void;
   hidden: boolean;
+  timeLeft: {
+    m: number;
+    s: number;
+};
+setTimeLeft: React.Dispatch<React.SetStateAction<{
+  m: number;
+  s: number;
+}>>
 }) {
-  const [timeLeft, setTimeLeft] = useState({ m: TIMER_SEED.m, s: TIMER_SEED.s });
+  
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -492,7 +502,7 @@ function TopBar() {
             <path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z" />
           </svg>
         </span>
-        <span className="text-black text-[13px] lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
+        <span className="text-black text-[15px] lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
           <span className="font-bold">Prefer COD? Pay 999 now</span>
           <span className="mx-1.5">·</span>
           <span className="font-bold">rest on delivery</span>
@@ -515,6 +525,7 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
   const navigate = useNavigate();
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const desktopContainerRef = useRef<HTMLDivElement>(null);
+  const [timeLeft, setTimeLeft] = useState({ m: TIMER_SEED.m, s: TIMER_SEED.s });
   // FIX: ref for the inline Buy Now section to observe
   const buyNowRef = useRef<HTMLDivElement>(null);
 
@@ -1115,12 +1126,16 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         onAddToCart={handleAddToCart}
         onBuyNow={handleBuyNow}
         hidden={isBuyNowVisible}
+        timeLeft={timeLeft}
+        setTimeLeft={setTimeLeft}
       />
 
       <DiscountModal
         isOpen={showDiscountModal}
         onClose={() => setShowDiscountModal(false)}
         onSubmit={handleDiscountSubmit}
+        timeLeft={timeLeft}
+        setTimeLeft={setTimeLeft}
       />
     </>
   );

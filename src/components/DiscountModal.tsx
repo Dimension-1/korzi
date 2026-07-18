@@ -5,6 +5,14 @@ interface DiscountModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (phone: string) => void;
+  timeLeft: {
+    m: number;
+    s: number;
+};
+setTimeLeft: React.Dispatch<React.SetStateAction<{
+  m: number;
+  s: number;
+}>>
 }
 
 const COUPON_CODE = 'KORZI1300';
@@ -29,19 +37,13 @@ export default function DiscountModal({
   isOpen,
   onClose,
   onSubmit,
+  timeLeft,
 }: DiscountModalProps) {
   const [phone, setPhone] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(getEndOfDayRemaining);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setTimeLeft(getEndOfDayRemaining());
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
+console.log("$$$timeLeft---",timeLeft)
 
   const pad = (n: number) => String(n).padStart(2, '0');
 
@@ -128,10 +130,9 @@ export default function DiscountModal({
   if (!isOpen) return null;
 
   const timerUnits = [
-    { value: timeLeft.d, label: 'DAYS' },
-    { value: timeLeft.h, label: 'HRS' },
-    { value: timeLeft.m, label: 'MIN' },
-    { value: timeLeft.s, label: 'SEC' },
+    { value: 0, label: 'HRS' },
+    { value: timeLeft?.m, label: 'MIN' },
+    { value: timeLeft?.s, label: 'SEC' },
   ];
 
   return (
@@ -184,25 +185,19 @@ export default function DiscountModal({
           </div>
 
           <div
-            className="text-white text-[19px] font-medium mb-2 leading-[1.4]"
+            className="text-white text-[25px] font-medium mb-2 leading-[1.4]"
             style={{ fontFamily: 'DM Sans, sans-serif' }}
           >
             🔥 Offer of the Day
           </div>
 
           <div
-            className="text-white text-[16px] tracking-[1.5px] mb-1"
+            className="text-white text-[22px] tracking-[1.5px] mb-2"
             style={{ fontFamily: 'Bebas Neue, sans-serif' }}
           >
-            💰 TOTAL SAVINGS
+            💰 Save ₹1,300 Today
           </div>
-          <div
-            className="text-[#02FF00] text-[30px] leading-none mb-[14px]"
-            style={{ fontFamily: 'Bebas Neue, sans-serif' }}
-          >
-            ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
-          </div>
-
+        
           {/* Savings breakdown card */}
           <div
             className="rounded-[14px] p-[14px] mb-4 text-left"
@@ -243,11 +238,11 @@ export default function DiscountModal({
                 </span>
               </div>
               <div className="text-right flex-shrink-0">
-                <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                <span className="text-white text-[15px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                   Retail value
                 </span>
                 <span
-                  className="text-[#02FF00] text-[18px] ml-[5px]"
+                  className="text-[#02FF00] text-[18px] ml-[5px] font-bold"
                   style={{ fontFamily: 'Bebas Neue, sans-serif' }}
                 >
                   ₹700
@@ -412,14 +407,9 @@ export default function DiscountModal({
               className="text-white text-[20px] tracking-[1.5px] mb-0.5"
               style={{ fontFamily: 'Bebas Neue, sans-serif' }}
             >
-              💰 TOTAL SAVINGS
+            💰 Save ₹1,300 Today
             </div>
-            <div
-              className="text-[#02FF00] text-[40px] leading-none mb-[14px]"
-              style={{ fontFamily: 'Bebas Neue, sans-serif' }}
-            >
-              ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
-            </div>
+
 
             {/* Timer pill */}
             <div
@@ -443,7 +433,7 @@ export default function DiscountModal({
                 className="text-[#02FF00] text-[20px] tracking-[0.5px] tabular-nums"
                 style={{ fontFamily: 'Bebas Neue, sans-serif' }}
               >
-                {pad(timeLeft.d)}:{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+               {'00'}:{pad(timeLeft?.m)}:{pad(timeLeft?.s)}
               </span>
             </div>
 
