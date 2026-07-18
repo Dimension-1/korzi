@@ -94,7 +94,7 @@ function MobileWhyKorzi() {
               </span>
             </div>
             <p
-              className="text-zinc-400 text-[10px] leading-snug"
+              className="text-white text-[10px] leading-snug"
               style={{ fontFamily: 'DM Sans' }}
             >
               {card.desc}
@@ -113,19 +113,19 @@ function MobileWhyKorzi() {
             4.8
           </span>
           <span className="text-yellow-400 text-xs">★ ★ ★ ★ ★</span>
-          <span className="text-zinc-500 text-[10px] mt-0.5" style={{ fontFamily: 'DM Sans' }}>
+          <span className="text-white text-[10px] mt-0.5" style={{ fontFamily: 'DM Sans' }}>
             248 reviews
           </span>
         </div>
         <div className="border-l border-zinc-800 pl-4">
           <p
-            className="text-[#BAB6B6] text-xs italic leading-snug"
+            className="text-white text-xs italic leading-snug"
             style={{ fontFamily: 'DM Sans' }}
           >
             "Bought it for my daughter but my wife and i ended up playing more. Worth every rupee."
           </p>
           <div className="flex items-center gap-1.5 mt-1.5">
-            <span className="text-[#9E9E9E] text-[10px]" style={{ fontFamily: 'DM Sans' }}>
+            <span className="text-white text-[10px]" style={{ fontFamily: 'DM Sans' }}>
               Siddhant M
             </span>
             <span className="text-[#02FF00] text-[10px]">
@@ -135,7 +135,7 @@ function MobileWhyKorzi() {
                   className="w-[13px] h-[13px] object-contain opacity-80"
                 />
             </span>
-            <span className="text-[#BAB6B6] text-[10px]">Verified Buyer</span>
+            <span className="text-white text-[10px]">Verified Buyer</span>
           </div>
         </div>
       </div>
@@ -155,7 +155,7 @@ function MobileWhyKorzi() {
             >
               {spec.value}
             </span>
-            <span className="text-zinc-500 text-[8px] mt-0.5" style={{ fontFamily: 'DM Sans' }}>
+            <span className="text-white text-[8px] mt-0.5" style={{ fontFamily: 'DM Sans' }}>
               {spec.label}
             </span>
           </div>
@@ -394,7 +394,7 @@ function MobileFloatingCTA({
       <div className="flex items-center justify-center gap-1.5 py-1.5 bg- border-b border-zinc-800">
         <span className="w-1.5 h-1.5 rounded-full bg-[#D8200E] animate-pulse" />
         <span className="text-[#FFFFFF] text-[14px]" style={{ fontFamily: 'DM Sans' }}>
-          Price increases after
+        Offer: Free Battery worth ₹ 700, ends in
         </span>
         {[timeLeft.m, timeLeft.s].map((val, i) => (
           <span key={i} className="flex items-center gap-0.5">
@@ -687,10 +687,10 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
   const handleDiscountSubmit = (phone: string) => {
     setShowDiscountModal(false);
     localStorage.setItem('korzi_phone', phone);
-    localStorage.setItem('korzi_discount_code', 'KORZI650');
+    localStorage.setItem('korzi_discount_code', 'KORZI1300');
     // Copy coupon code to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('KORZI650').catch(() => {});
+      navigator.clipboard.writeText('KORZI1300').catch(() => {});
     }
     // Open FlexyPe checkout
     proceedWithBuyNow();

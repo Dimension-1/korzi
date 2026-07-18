@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { gaEvent } from "../utils/gtm";
+import { useState, useEffect } from 'react';
+import { gaEvent } from '../utils/gtm';
 
 interface DiscountModalProps {
   isOpen: boolean;
@@ -7,79 +7,77 @@ interface DiscountModalProps {
   onSubmit: (phone: string) => void;
 }
 
-// Timer seed – computed once per page load, same pattern used across the
-// product page's countdowns so every badge on the page stays in sync.
-const TIMER_SEED = { m: 59, s: Math.floor(Math.random() * 60) };
+const COUPON_CODE = 'KORZI1300';
+const TOTAL_SAVINGS = 1300;
+
+/** End-of-day countdown seed (syncs across modal open/close within a session). */
+function getEndOfDayRemaining() {
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(9, 59, 59, 999);
+  const diff = Math.max(0, end.getTime() - now.getTime());
+  const totalSec = Math.floor(diff / 1000);
+  return {
+    d: Math.floor(totalSec / 86400),
+    h: Math.floor((totalSec % 86400) / 3600),
+    m: Math.floor((totalSec % 3600) / 60),
+    s: totalSec % 60,
+  };
+}
 
 export default function DiscountModal({
   isOpen,
   onClose,
   onSubmit,
 }: DiscountModalProps) {
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState('');
   const [copied, setCopied] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({
-    m: TIMER_SEED.m,
-    s: TIMER_SEED.s,
-  });
+  const [timeLeft, setTimeLeft] = useState(getEndOfDayRemaining);
 
-  // Ticks continuously from mount (component stays mounted even when the
-  // modal is visually closed, since isOpen just toggles the render output).
   useEffect(() => {
     const id = setInterval(() => {
-      setTimeLeft((prev) => {
-        let { m, s } = prev;
-        s--;
-        if (s < 0) {
-          s = 59;
-          m--;
-        }
-        if (m < 0) {
-          m = 0;
-          s = 0;
-        }
-        return { m, s };
-      });
+      setTimeLeft(getEndOfDayRemaining());
     }, 1000);
     return () => clearInterval(id);
   }, []);
 
-  const pad = (n: number) => String(n).padStart(2, "0");
+  const pad = (n: number) => String(n).padStart(2, '0');
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setPhone("");
+      document.body.style.overflow = 'hidden';
+      setPhone('');
       setCopied(false);
-      setError("");
+      setError('');
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
   const handleCopyCode = () => {
-    const code = "KORZI650";
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(() => {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(COUPON_CODE).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 1600);
       });
     } else {
-      const t = document.createElement("textarea");
-      t.value = code;
-      t.style.position = "fixed";
-      t.style.opacity = "0";
+      const t = document.createElement('textarea');
+      t.value = COUPON_CODE;
+      t.style.position = 'fixed';
+      t.style.opacity = '0';
       document.body.appendChild(t);
       t.focus();
       t.select();
       try {
-        document.execCommand("copy");
-      } catch (e) {}
+        document.execCommand('copy');
+      } catch {
+        /* ignore */
+      }
       document.body.removeChild(t);
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
@@ -88,41 +86,39 @@ export default function DiscountModal({
 
   const handleSubmit = async () => {
     if (phone.length === 0) {
-      setError("Please enter your phone number");
+      setError('Please enter your phone number');
       return;
     }
     if (phone.length < 10) {
-      setError("Please enter a valid 10-digit number");
+      setError('Please enter a valid 10-digit number');
       return;
     }
     if (!/^[6-9]/.test(phone)) {
-      setError("Number must start with 6, 7, 8 or 9");
+      setError('Number must start with 6, 7, 8 or 9');
       return;
     }
-    setError("");
+    setError('');
     setIsSubmitting(true);
 
-    // Save phone to Google Sheet via API
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://korzi.toys";
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://korzi.toys';
     try {
       await fetch(`${backendUrl}/api/newsletter/phone`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone,
-          source: "discount_modal",
+          source: 'discount_modal',
           url: window.location.href,
         }),
       });
     } catch (err) {
-      console.error("Phone save error:", err);
+      console.error('Phone save error:', err);
     }
 
-    // Fire Meta Lead standard event
-    gaEvent("lead", {
-      content_name: "discount_modal",
-      value: 0,
-      currency: "INR",
+    gaEvent('lead', {
+      content_name: 'discount_modal',
+      value: TOTAL_SAVINGS,
+      currency: 'INR',
     });
 
     setIsSubmitting(false);
@@ -131,344 +127,762 @@ export default function DiscountModal({
 
   if (!isOpen) return null;
 
+  const timerUnits = [
+    { value: timeLeft.d, label: 'DAYS' },
+    { value: timeLeft.h, label: 'HRS' },
+    { value: timeLeft.m, label: 'MIN' },
+    { value: timeLeft.s, label: 'SEC' },
+  ];
+
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center px-3 sm:px-4"
       onClick={onClose}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
-      {/* Modal */}
       <div
-        className="relative w-full max-w-[840px] max-h-[90vh] overflow-y-auto rounded-[22px] overflow-x-hidden border border-[#222] shadow-[0_0_80px_rgba(2,255,0,0.07)]"
-        style={{ background: "#101010" }}
+        className="relative w-full max-w-[380px] lg:max-w-[900px] max-h-[92vh] overflow-y-auto rounded-[20px] overflow-x-hidden border border-white/[0.08] shadow-[0_0_80px_rgba(2,255,0,0.08)]"
+        style={{ background: '#000000', fontFamily: 'DM Sans, sans-serif' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Desktop close only — mobile close lives in the header row */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-[18px] right-[18px] w-[30px] h-[30px] rounded-full border border-[#2c2c2c] bg-white/[0.03] text-[#9A9A9A] text-[15px] flex items-center justify-center z-10 hover:border-[#02FF00] hover:text-[#02FF00] transition-colors"
+          className="hidden lg:flex absolute top-4 right-4 w-8 h-8 rounded-full border border-white/30 items-center justify-center z-20"
+          aria-label="Close"
         >
-          ✕
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
-          {/* Left: Offer Panel */}
+        {/* ─── MOBILE LAYOUT (matches offer HTML reference) ───────── */}
+        <div className="lg:hidden px-[22px] pt-6 pb-[26px] text-center">
+          {/* Header: logo + close */}
+          <div className="flex justify-between items-center mb-[22px]">
+            <div className="flex items-center gap-[9px]">
+              <KorziDragonflyIcon />
+              <span
+                className="text-[#02FF00] font-bold text-[20px] tracking-[2px]"
+                style={{ fontFamily: 'DM Sans, sans-serif' }}
+              >
+                KORZI
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-[34px] h-[34px] rounded-full border border-white/30 flex items-center justify-center"
+              aria-label="Close"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
           <div
-            className="p-[30px] lg:p-[34px] relative"
+            className="text-white text-[19px] font-medium mb-2 leading-[1.4]"
+            style={{ fontFamily: 'DM Sans, sans-serif' }}
+          >
+            🔥 Offer of the Day
+          </div>
+
+          <div
+            className="text-white text-[16px] tracking-[1.5px] mb-1"
+            style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+          >
+            💰 TOTAL SAVINGS
+          </div>
+          <div
+            className="text-[#02FF00] text-[30px] leading-none mb-[14px]"
+            style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+          >
+            ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
+          </div>
+
+          {/* Savings breakdown card */}
+          <div
+            className="rounded-[14px] p-[14px] mb-4 text-left"
             style={{
-              background:
-                "radial-gradient(120% 90% at 0% 0%, rgba(2,255,0,0.08) 0%, transparent 55%), #101010",
+              background: 'rgba(2,255,0,0.06)',
+              border: '1px solid rgba(2,255,0,0.3)',
             }}
           >
-            <div
-              className="flex items-center gap-[9px] mb-5 lg:mb-[26px]"
-              style={{
-                fontFamily: "Bebas Neue",
-                fontSize: "24px",
-                letterSpacing: "3px",
-                color: "#fff",
-              }}
-            >
-              <span className="text-[#02FF00] text-[18px]">✦</span>KORZI
+            <div className="flex justify-between items-center mb-[10px]">
+              <div className="flex items-center gap-[9px] min-w-0">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                  <path d="M12 2H4v8l10 10 8-8L12 2z" />
+                  <circle cx="8" cy="8" r="1.3" fill="#02FF00" stroke="none" />
+                </svg>
+                <span className="text-white text-[15px] font-medium truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  Apex Drive K-01
+                </span>
+              </div>
+              <span
+                className="text-[#02FF00] text-[21px] flex-shrink-0"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+              >
+                ₹600 OFF
+              </span>
             </div>
 
-            <p
-              className="font-semibold text-[19px] lg:text-[22px] text-white leading-[1.3] mb-[14px]"
-              style={{ fontFamily: "DM Sans" }}
-            >
-              A reward is waiting for you.
-            </p>
+            <div className="flex justify-center mb-[14px]">
+              <div className="w-6 h-6 rounded-full bg-[#02FF00] flex items-center justify-center">
+                <span className="text-[#0a1f0a] text-[19px] font-bold leading-none">+</span>
+              </div>
+            </div>
 
-            <h1
-              style={{
-                fontFamily: "Bebas Neue",
-                lineHeight: "0.92",
-                letterSpacing: "1px",
-                color: "#fff",
-                fontSize: "34px",
-              }}
-              className="lg:text-[44px] mb-2"
-            >
-              FLAT{" "}
-              <span className="text-[#02FF00] block text-[52px] lg:text-[66px]">
-                ₹650 OFF
-              </span>
-            </h1>
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-[9px] min-w-0">
+                <GiftIcon size={19} />
+                <span className="text-white text-[15px] font-medium truncate" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  Free Battery Pack
+                </span>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  Retail value
+                </span>
+                <span
+                  className="text-[#02FF00] text-[18px] ml-[5px]"
+                  style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+                >
+                  ₹700
+                </span>
+              </div>
+            </div>
 
-            {/* Countdown badge */}
             <div
-              className="offer-countdown-pill inline-flex items-stretch mb-6 rounded-[8px] overflow-hidden select-none"
-              style={{ boxShadow: "0 0 22px rgba(2,255,0,0.35)" }}
+              className="pt-[10px] flex justify-between items-center"
+              style={{ borderTop: '1px solid rgba(2,255,0,0.25)' }}
             >
-              <span className="flex items-center gap-2 bg-[#02FF00] text-black text-[13px] font-bold tracking-[1px] uppercase px-4 py-[9px]">
-                <span className="offer-dot w-2 h-2 rounded-full bg-black/70 flex-shrink-0" />
-                OFFER ENDS IN
+              <span className="text-white text-[15px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                Total Saved
               </span>
               <span
-                className="flex items-center justify-center bg-[#00B300] text-black text-[13px] font-bold tracking-[1px] px-4 py-[9px] tabular-nums"
-                style={{ fontVariantNumeric: "tabular-nums", minWidth: "64px" }}
+                className="text-[#02FF00] text-[22px]"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
               >
-                {pad(timeLeft.m)}:{pad(timeLeft.s)}
+                ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
               </span>
             </div>
+          </div>
 
-            <style>{`
-              .offer-countdown-pill {
-                animation: offerPillFade 1.8s ease-in-out infinite;
-              }
-              .offer-dot {
-                animation: offerDotPulse 1.8s ease-in-out infinite;
-              }
-              @keyframes offerPillFade {
-                0%, 100% {
-                  opacity: 1;
-                  box-shadow: 0 0 30px rgba(2,255,0,0.55);
-                }
-                50% {
-                  opacity: 0.55;
-                  box-shadow: 0 0 12px rgba(2,255,0,0.18);
-                }
-              }
-              @keyframes offerDotPulse {
-                0%, 100% { opacity: 1; transform: scale(1.15); }
-                50% { opacity: 0.55; transform: scale(0.85); }
-              }
-            `}</style>
+          {/* Countdown */}
+          <div className="flex items-center justify-center gap-[9px] mb-[14px]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8080" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg>
+            <span
+              className="text-[#ff8080] text-[15px] font-bold tracking-[0.5px]"
+              style={{ fontFamily: 'DM Sans, sans-serif' }}
+            >
+              OFFER ENDS IN
+            </span>
+          </div>
 
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start gap-[13px]">
-                <div className="w-9 h-9 rounded-full bg-[rgba(2,255,0,0.1)] border border-[rgba(2,255,0,0.3)] flex items-center justify-center flex-shrink-0">
-                  <svg
-                    className="w-[17px] h-[17px]"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#02FF00"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21l2.3-7.1-6-4.5h7.6z" />
-                  </svg>
-                </div>
-                <p
-                  className="text-[12.5px] text-[#cfcfcf] leading-[1.4] pt-[2px]"
-                  style={{ fontFamily: "DM Sans" }}
+          <div className="flex justify-center gap-2 mb-4">
+            {timerUnits.map((u) => (
+              <div
+                key={u.label}
+                className="rounded-[9px] py-2 px-1 w-[62px]"
+                style={{
+                  background: '#0d1a0d',
+                  border: '1px solid rgba(2,255,0,0.4)',
+                }}
+              >
+                <div
+                  className="text-[#02FF00] text-[27px] leading-none tabular-nums"
+                  style={{ fontFamily: 'Bebas Neue, sans-serif' }}
                 >
-                  <b className="text-white font-semibold">
-                    Real machine, not a toy.
-                  </b>{" "}
-                  4WD, proportional control, BIS certified for child safety.
-                </p>
+                  {pad(u.value)}
+                </div>
+                <div
+                  className="text-white text-[11px] tracking-[0.5px] mt-0.5"
+                  style={{ fontFamily: 'DM Sans, sans-serif' }}
+                >
+                  {u.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <PhoneField phone={phone} setPhone={setPhone} setError={setError} error={error} variant="mobile" />
+          <CouponBox copied={copied} onCopy={handleCopyCode} variant="mobile" />
+          <CtaButton isSubmitting={isSubmitting} onClick={handleSubmit} variant="mobile" />
+          <SocialProof variant="mobile" />
+        </div>
+
+        {/* ─── DESKTOP LAYOUT (matches offer HTML reference) ──────── */}
+        <div className="hidden lg:flex">
+          {/* Left: product story — fixed 300px */}
+          <div
+            className="relative flex flex-col justify-center overflow-hidden flex-shrink-0"
+            style={{
+              width: '300px',
+              background: '#0a0a0a',
+              borderRight: '1px solid rgba(255,255,255,0.08)',
+              padding: '36px 28px',
+            }}
+          >
+            <svg
+              width="240"
+              height="330"
+              viewBox="0 0 100 140"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.06] pointer-events-none"
+              aria-hidden
+            >
+              <polygon points="50,20 2,2 22,24" fill="#02FF00" />
+              <polygon points="50,20 98,2 78,24" fill="#02FF00" />
+              <polygon points="50,20 8,34 24,26" fill="#02FF00" />
+              <polygon points="50,20 92,34 76,26" fill="#02FF00" />
+              <polygon points="50,0 44,14 50,20 56,14" fill="#02FF00" />
+              <polygon points="47,22 50,20 53,22 51,60 50,95 49,60" fill="#02FF00" />
+            </svg>
+
+            <div className="relative z-10">
+              <div className="flex items-center gap-[9px] mb-[30px]">
+                <KorziDragonflyIcon />
+                <span
+                  className="text-[#02FF00] font-bold text-[18px] tracking-[2px]"
+                  style={{ fontFamily: 'DM Sans, sans-serif' }}
+                >
+                  KORZI
+                </span>
               </div>
 
-              <div className="flex items-start gap-[13px]">
-                <div className="w-9 h-9 rounded-full bg-[rgba(2,255,0,0.1)] border border-[rgba(2,255,0,0.3)] flex items-center justify-center flex-shrink-0">
-                  <svg
-                    className="w-[17px] h-[17px]"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#02FF00"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 12h4l3-8 4 16 3-8h4" />
-                  </svg>
-                </div>
-                <p
-                  className="text-[12.5px] text-[#cfcfcf] leading-[1.4] pt-[2px]"
-                  style={{ fontFamily: "DM Sans" }}
-                >
-                  <b className="text-white font-semibold">
-                    Imported RC feel, local price.
-                  </b>{" "}
-                  Built for Indian terrain — minus the customs and spare-part
-                  stress.
-                </p>
+              <div
+                className="text-white text-[32px] leading-[1.15] mb-3"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+              >
+                APEX DRIVE <span className="text-[#02FF00]">K-01</span>
               </div>
 
-              <div className="flex items-start gap-[13px]">
-                <div className="w-9 h-9 rounded-full bg-[rgba(2,255,0,0.1)] border border-[rgba(2,255,0,0.3)] flex items-center justify-center flex-shrink-0">
-                  <svg
-                    className="w-[17px] h-[17px]"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#02FF00"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" />
-                    <path d="M9 12l2 2 4-4" />
+              <p
+                className="text-white text-[13.5px] leading-[1.6] mb-[26px]"
+                style={{ fontFamily: 'DM Sans, sans-serif' }}
+              >
+                4WD, proportional control, BIS certified. A real machine, not a toy.
+              </p>
+
+              <div className="flex flex-col gap-[13px]">
+                <div className="flex items-center gap-[9px]">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <circle cx="12" cy="8" r="5" />
+                    <path d="M9 12.5L7 22l5-3 5 3-2-9.5" />
                   </svg>
+                  <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    BIS certified for child safety
+                  </span>
                 </div>
-                <p
-                  className="text-[12.5px] text-[#cfcfcf] leading-[1.4] pt-[2px]"
-                  style={{ fontFamily: "DM Sans" }}
-                >
-                  <b className="text-white font-semibold">
-                    Made in India. Real support.
-                  </b>{" "}
-                  Spare parts and service available after you buy.
-                </p>
+                <div className="flex items-center gap-[9px]">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <path d="M5 3v18M5 4h11l-2 4 2 4H5" />
+                  </svg>
+                  <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    Built in Bangalore, India
+                  </span>
+                </div>
+                <div className="flex items-center gap-[9px]">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="#02FF00" stroke="none" className="flex-shrink-0">
+                    <polygon points="12,2 15,9 22,9.5 16.5,14 18.5,21 12,17 5.5,21 7.5,14 2,9.5 9,9" />
+                  </svg>
+                  <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    4.8/5 · 248+ verified buyers
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right: Form Panel */}
-          <div className="bg-black p-[22px] lg:p-[38px_34px] flex flex-col justify-center">
+          {/* Right: offer + form */}
+          <div className="flex-1 min-w-0 text-center" style={{ padding: '34px 40px' }}>
             <div
-              className="font-semibold text-[11px] tracking-[2px] uppercase text-[#9A9A9A] mb-[5px]"
-              style={{ fontFamily: "DM Sans" }}
+              className="text-white text-[26px] font-medium mb-1"
+              style={{ fontFamily: 'DM Sans, sans-serif' }}
             >
-              Claim your discount
+              🔥 Offer of the Day
             </div>
-            <h2
+
+            <div
+              className="text-white text-[20px] tracking-[1.5px] mb-0.5"
+              style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+            >
+              💰 TOTAL SAVINGS
+            </div>
+            <div
+              className="text-[#02FF00] text-[40px] leading-none mb-[14px]"
+              style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+            >
+              ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
+            </div>
+
+            {/* Timer pill */}
+            <div
+              className="inline-flex items-center gap-3 rounded-[10px] px-[22px] py-2 mb-4"
               style={{
-                fontFamily: "Bebas Neue",
-                fontSize: "30px",
-                letterSpacing: "1px",
-                color: "#fff",
-                lineHeight: 1,
+                background: 'rgba(2,255,0,0.08)',
+                border: '1px solid rgba(2,255,0,0.3)',
               }}
-              className="mb-5"
             >
-              ENTER YOUR <span className="text-[#02FF00]">NUMBER</span>
-            </h2>
-
-            {/* Phone field */}
-            <div className="flex items-center bg-[#0c0c0c] border-[1.5px] border-[#2a2a2a] rounded-xl overflow-hidden focus-within:border-[#02FF00] focus-within:shadow-[0_0_0_3px_rgba(2,255,0,0.12)] transition-all">
-              <div className="flex items-center gap-[7px] px-[14px] h-[52px] border-r border-[#222] text-white text-[14px] font-semibold flex-shrink-0">
-                <span className="w-5 h-[14px] rounded-[2px] overflow-hidden block">
-                  <svg width="20" height="14" viewBox="0 0 20 14">
-                    <rect width="20" height="4.66" y="0" fill="#FF9933" />
-                    <rect width="20" height="4.66" y="4.66" fill="#fff" />
-                    <rect width="20" height="4.66" y="9.33" fill="#138808" />
-                    <circle
-                      cx="10"
-                      cy="7"
-                      r="1.6"
-                      fill="none"
-                      stroke="#000088"
-                      strokeWidth="0.5"
-                    />
-                  </svg>
-                </span>
-                +91
-              </div>
-              <input
-                type="tel"
-                placeholder="Enter your number"
-                value={phone}
-                onChange={(e) => {
-                  setPhone(e.target.value.replace(/\D/g, "").slice(0, 10));
-                  setError("");
-                }}
-                className="flex-1 h-[52px] bg-transparent border-none outline-none text-white text-[15px] tracking-[1px] px-[14px]"
-                style={{ fontFamily: "DM Sans" }}
-              />
-            </div>
-            {error && (
-              <p
-                className="text-red-500 text-[11px] mt-1.5"
-                style={{ fontFamily: "DM Sans" }}
-              >
-                {error}
-              </p>
-            )}
-
-            {/* Code chip */}
-            <div
-              className={`flex items-center justify-between gap-3 border-[1.5px] border-dashed rounded-[10px] p-[10px_10px_10px_16px] my-4 cursor-pointer select-none transition-colors ${
-                copied
-                  ? "border-[rgba(2,255,0,0.7)] bg-[rgba(2,255,0,0.1)]"
-                  : "border-[rgba(2,255,0,0.45)] bg-[rgba(2,255,0,0.05)]"
-              } hover:bg-[rgba(2,255,0,0.1)] hover:border-[rgba(2,255,0,0.7)]`}
-              onClick={handleCopyCode}
-            >
-              <div className="flex flex-col gap-[2px]">
-                <span
-                  className="text-[10px] font-semibold tracking-[1.5px] uppercase text-[#9A9A9A]"
-                  style={{ fontFamily: "DM Sans" }}
-                >
-                  YOUR CODE
-                </span>
-                <span
-                  style={{
-                    fontFamily: "Bebas Neue",
-                    fontSize: "22px",
-                    letterSpacing: "2px",
-                    color: "#02FF00",
-                    lineHeight: 1,
-                  }}
-                >
-                  KORZI650
-                </span>
-              </div>
-              <button
-                className={`flex items-center gap-[6px] flex-shrink-0 border rounded-lg px-3 py-2 text-[11px] font-bold tracking-[1px] transition-colors ${
-                  copied
-                    ? "bg-[#02FF00] text-black border-[rgba(2,255,0,0.4)]"
-                    : "bg-[rgba(2,255,0,0.12)] text-[#02FF00] border-[rgba(2,255,0,0.4)]"
-                } hover:bg-[rgba(2,255,0,0.2)]`}
-                style={{ fontFamily: "DM Sans" }}
-              >
-                <svg
-                  className={`w-[13px] h-[13px] ${copied ? "stroke-black" : "stroke-[#02FF00]"}`}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="9" y="9" width="11" height="11" rx="2" />
-                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-                </svg>
-                <span>{copied ? "COPIED" : "COPY"}</span>
-              </button>
-            </div>
-
-            {/* Copy instructions */}
-            <div className="flex items-start gap-2 mb-4 -mt-2">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff8080" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 3" />
+              </svg>
               <span
-                className="flex-shrink-0 w-[18px] h-[18px] rounded-full border border-[#5a5a5a] text-[#9A9A9A] text-[11px] font-semibold flex items-center justify-center mt-[1px]"
-                style={{ fontFamily: "DM Sans" }}
+                className="text-[#ff8080] text-[18px] font-bold"
+                style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
-                i
+                ENDS IN
               </span>
-              <p
-                className="text-[12px] text-white leading-[1.45]"
-                style={{ fontFamily: "DM Sans" }}
+              <span
+                className="text-[#02FF00] text-[20px] tracking-[0.5px] tabular-nums"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
               >
-                Copy the code below and paste it on the next page to unlock ₹650 OFF.
-              </p>
+                {pad(timeLeft.d)}:{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+              </span>
             </div>
 
-            {/* CTA */}
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="w-full py-4 border-none rounded-xl cursor-pointer bg-[#02FF00] text-black flex items-center justify-center gap-2 hover:shadow-[0_0_24px_rgba(2,255,0,0.45)] hover:-translate-y-[1px] transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            {/* Savings breakdown card */}
+            <div
+              className="rounded-[14px] text-left mb-[18px]"
               style={{
-                fontFamily: "Bebas Neue",
-                fontSize: "20px",
-                letterSpacing: "2px",
+                background: 'rgba(2,255,0,0.06)',
+                border: '1px solid rgba(2,255,0,0.3)',
+                padding: '16px 22px',
               }}
             >
-              {isSubmitting ? (
-                <>
-                  <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  PROCESSING...
-                </>
-              ) : (
-                "SHOP & SAVE ₹650 →"
-              )}
-            </button>
+              <div className="flex justify-between items-center mb-[8px]">
+                <div className="flex items-center gap-[9px]">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2H4v8l10 10 8-8L12 2z" />
+                    <circle cx="8" cy="8" r="1.3" fill="#02FF00" stroke="none" />
+                  </svg>
+                  <span className="text-white text-[14px] font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    Apex Drive K-01
+                  </span>
+                </div>
+                <span
+                  className="text-[#02FF00] text-[20px]"
+                  style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+                >
+                  ₹600 OFF
+                </span>
+              </div>
+
+              <div className="flex justify-center mb-[13px]">
+                <div className="w-7 h-7 rounded-full bg-[#02FF00] flex items-center justify-center">
+                  <span className="text-[#0a1f0a] text-[17px] font-bold leading-none">+</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center mb-[15px]">
+                <div className="flex items-center gap-[9px]">
+                  <GiftIcon size={17} />
+                  <span className="text-white text-[14px] font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    Free Battery Pack
+                  </span>
+                </div>
+                <div className="text-right">
+                  <span className="text-white text-[12px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                    Retail value
+                  </span>
+                  <span
+                    className="text-[#02FF00] text-[17px] ml-[5px]"
+                    style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+                  >
+                    ₹700
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className="pt-[10px] flex justify-between items-center"
+                style={{ borderTop: '1px solid rgba(2,255,0,0.25)' }}
+              >
+                <span className="text-white text-[14px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  💰 Total Saved
+                </span>
+                <span
+                  className="text-[#02FF00] text-[26px]"
+                  style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+                >
+                  ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
+                </span>
+              </div>
+            </div>
+
+            <PhoneField phone={phone} setPhone={setPhone} setError={setError} error={error} variant="desktop" />
+            <CouponBox copied={copied} onCopy={handleCopyCode} variant="desktop" />
+            <CtaButton isSubmitting={isSubmitting} onClick={handleSubmit} variant="desktop" />
+            <SocialProof variant="desktop" />
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+/* ─── Shared subcomponents ─────────────────────────────────────────────────── */
+
+function KorziDragonflyIcon() {
+  return (
+    <svg width="22" height="30" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <polygon points="50,20 2,2 22,24" fill="#02FF00" />
+      <polygon points="50,20 98,2 78,24" fill="#02FF00" />
+      <polygon points="50,20 8,34 24,26" fill="#02FF00" />
+      <polygon points="50,20 92,34 76,26" fill="#02FF00" />
+      <polygon points="50,0 44,14 50,20 56,14" fill="#02FF00" />
+      <polygon points="47,22 50,20 53,22 51,60 50,95 49,60" fill="#02FF00" />
+    </svg>
+  );
+}
+
+function PhoneField({
+  phone,
+  setPhone,
+  setError,
+  error,
+  variant = 'desktop',
+}: {
+  phone: string;
+  setPhone: (v: string) => void;
+  setError: (v: string) => void;
+  error: string;
+  variant?: 'mobile' | 'desktop';
+}) {
+  if (variant === 'mobile') {
+    return (
+      <div className="mb-[18px] text-left">
+        <div className="flex justify-between items-baseline mb-2">
+          <span className="text-white text-[14px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+            PHONE NUMBER <span className="text-[#02FF00]">*</span>
+          </span>
+          {error && (
+            <span className="text-[#ff8080] text-[12px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              Enter a valid 10-digit number
+            </span>
+          )}
+        </div>
+        <div
+          className="flex overflow-hidden rounded-[10px]"
+          style={{
+            border: error ? '1px solid #ff8080' : '1px solid rgba(255,255,255,0.25)',
+          }}
+        >
+          <div
+            className="flex items-center gap-1.5 px-[14px] py-[14px] text-white text-[16px] flex-shrink-0"
+            style={{ borderRight: '1px solid rgba(255,255,255,0.25)', fontFamily: 'DM Sans, sans-serif' }}
+          >
+            🇮🇳 +91
+          </div>
+          <input
+            type="tel"
+            placeholder="Required to continue"
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value.replace(/\D/g, '').slice(0, 10));
+              setError('');
+            }}
+            className="flex-1 bg-transparent border-none outline-none text-white text-[16px] px-[14px] py-[14px] min-w-0 placeholder:text-[#666]"
+            style={{ fontFamily: 'DM Sans, sans-serif' }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-[14px] text-left">
+      <div className="flex justify-between items-baseline mb-1.5">
+        <span className="text-white text-[12.5px] font-bold" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+          PHONE NUMBER <span className="text-[#02FF00]">*</span>
+        </span>
+        {error && (
+          <span className="text-[#ff8080] text-[10.5px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+            Enter a valid number
+          </span>
+        )}
+      </div>
+      <div
+        className="flex overflow-hidden rounded-[10px]"
+        style={{
+          border: error ? '1px solid #ff8080' : '1px solid rgba(255,255,255,0.25)',
+        }}
+      >
+        <div
+          className="flex items-center gap-1.5 px-[14px] py-3 text-white text-[13px] flex-shrink-0"
+          style={{ borderRight: '1px solid rgba(255,255,255,0.25)', fontFamily: 'DM Sans, sans-serif' }}
+        >
+          🇮🇳 +91
+        </div>
+        <input
+          type="tel"
+          placeholder="Required to continue"
+          value={phone}
+          onChange={(e) => {
+            setPhone(e.target.value.replace(/\D/g, '').slice(0, 10));
+            setError('');
+          }}
+          className="flex-1 bg-transparent border-none outline-none text-white text-[13px] px-[14px] py-3 min-w-0 placeholder:text-[#666]"
+          style={{ fontFamily: 'DM Sans, sans-serif' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function CouponBox({
+  copied,
+  onCopy,
+  variant = 'desktop',
+}: {
+  copied: boolean;
+  onCopy: () => void;
+  variant?: 'mobile' | 'desktop';
+}) {
+  if (variant === 'mobile') {
+    return (
+      <div
+        className="flex justify-between items-center rounded-xl px-4 py-[14px] mb-[14px] text-left cursor-pointer select-none"
+        style={{
+          border: '2px dashed #02FF00',
+          background: copied ? 'rgba(2,255,0,0.12)' : 'rgba(2,255,0,0.06)',
+        }}
+        onClick={onCopy}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') onCopy();
+        }}
+      >
+        <div className="min-w-0 pr-2">
+          <div
+            className="text-white text-[13px] tracking-[0.5px] mb-1"
+            style={{ fontFamily: 'DM Sans, sans-serif' }}
+          >
+            YOUR CODE
+          </div>
+          <div
+            className="text-[#02FF00] font-bold text-[21px] tracking-[1px] mb-1"
+            style={{ fontFamily: 'DM Sans, sans-serif' }}
+          >
+            {COUPON_CODE}
+          </div>
+          <div
+            className="text-white text-[13px] font-medium"
+            style={{ fontFamily: 'DM Sans, sans-serif' }}
+          >
+            Paste this code at checkout to apply
+          </div>
+        </div>
+        <button
+          type="button"
+          className="flex items-center gap-1.5 flex-shrink-0 rounded-[9px] px-[14px] py-2.5 text-[13px] font-bold min-h-[44px]"
+          style={{
+            fontFamily: 'DM Sans, sans-serif',
+            background: copied ? '#02FF00' : 'rgba(2,255,0,0.15)',
+            border: '1px solid rgba(2,255,0,0.5)',
+            color: copied ? '#0a1f0a' : '#02FF00',
+          }}
+        >
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={copied ? '#0a1f0a' : '#02FF00'}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="9" y="9" width="11" height="11" rx="2" />
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+          </svg>
+          <span>{copied ? 'COPIED' : 'COPY'}</span>
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="flex justify-between items-center rounded-[10px] px-4 py-3 mb-5 text-left cursor-pointer select-none gap-2.5"
+      style={{
+        border: '1.5px dashed #02FF00',
+        background: copied ? 'rgba(2,255,0,0.12)' : 'rgba(2,255,0,0.06)',
+      }}
+      onClick={onCopy}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onCopy();
+      }}
+    >
+      <div className="min-w-0">
+        <div
+          className="text-white text-[10px] tracking-[0.5px] mb-[3px]"
+          style={{ fontFamily: 'DM Sans, sans-serif' }}
+        >
+          YOUR CODE
+        </div>
+        <div
+          className="text-[#02FF00] font-bold text-[17px] tracking-[0.3px] mb-1"
+          style={{ fontFamily: 'DM Sans, sans-serif' }}
+        >
+          {COUPON_CODE}
+        </div>
+        <div
+          className="text-white text-[12px] font-medium"
+          style={{ fontFamily: 'DM Sans, sans-serif' }}
+        >
+          Paste this code at checkout to apply
+        </div>
+      </div>
+      <button
+        type="button"
+        className="flex items-center gap-[5px] flex-shrink-0 rounded-lg px-[13px] py-[9px] text-[11px] font-bold whitespace-nowrap"
+        style={{
+          fontFamily: 'DM Sans, sans-serif',
+          background: copied ? '#02FF00' : 'rgba(2,255,0,0.15)',
+          border: '1px solid rgba(2,255,0,0.5)',
+          color: copied ? '#0a1f0a' : '#02FF00',
+        }}
+      >
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={copied ? '#0a1f0a' : '#02FF00'}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect x="9" y="9" width="11" height="11" rx="2" />
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+        </svg>
+        <span>{copied ? 'COPIED' : 'COPY'}</span>
+      </button>
+    </div>
+  );
+}
+
+function CtaButton({
+  isSubmitting,
+  onClick,
+  variant = 'desktop',
+}: {
+  isSubmitting: boolean;
+  onClick: () => void;
+  variant?: 'mobile' | 'desktop';
+}) {
+  if (variant === 'mobile') {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={isSubmitting}
+        className="w-full rounded-xl flex items-center justify-center gap-2 cursor-pointer mb-[18px] min-h-[52px] disabled:opacity-70 disabled:cursor-not-allowed"
+        style={{
+          fontFamily: 'DM Sans, sans-serif',
+          background: '#02FF00',
+          color: '#0a1f0a',
+          fontWeight: 900,
+          fontSize: '16px',
+          letterSpacing: '0.3px',
+          padding: '17px',
+          WebkitTextStroke: '0.4px #0a1f0a',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {isSubmitting ? (
+          <>
+            <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+            TAKING YOU TO CHECKOUT
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a1f0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          </>
+        ) : (
+          <>
+            PLACE ORDER & SAVE ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a1f0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </>
+        )}
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={isSubmitting}
+      className="w-full rounded-[11px] flex items-center justify-center gap-[7px] cursor-pointer mb-[14px] disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap"
+      style={{
+        fontFamily: 'DM Sans, sans-serif',
+        background: '#02FF00',
+        color: '#0a1f0a',
+        fontWeight: 900,
+        fontSize: '14px',
+        letterSpacing: '0.3px',
+        padding: '14px',
+        WebkitTextStroke: '0.4px #0a1f0a',
+      }}
+    >
+      {isSubmitting ? (
+        <>
+          TAKING YOU TO CHECKOUT
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0a1f0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        </>
+      ) : (
+        <>
+          PLACE ORDER & SAVE ₹{TOTAL_SAVINGS.toLocaleString('en-IN')}
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a1f0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </>
+      )}
+    </button>
+  );
+}
+
+function SocialProof({ variant = 'desktop' }: { variant?: 'mobile' | 'desktop' }) {
+  if (variant === 'mobile') {
+    return (
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-[#02FF00] text-[15px] tracking-[1px]">★★★★★</span>
+        <span className="text-white text-[13px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+          4.8/5 · Trusted by 248+ verified buyers
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-center gap-1.5">
+      <span className="text-[#02FF00] text-[12px] tracking-[1px]">★★★★★</span>
+      <span className="text-white text-[11px]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+        4.8/5 · Trusted by 248+ verified buyers
+      </span>
+    </div>
+  );
+}
+
+function GiftIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#02FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="8" width="18" height="4" />
+      <path d="M12 8v13M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7M7.5 8a2.5 2.5 0 010-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 010 5" />
+    </svg>
   );
 }
