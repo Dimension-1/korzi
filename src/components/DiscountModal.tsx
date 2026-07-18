@@ -14,7 +14,7 @@ const TOTAL_SAVINGS = 1300;
 function getEndOfDayRemaining() {
   const now = new Date();
   const end = new Date(now);
-  end.setHours(9, 59, 59, 999);
+  end.setHours(23, 59, 59, 999);
   const diff = Math.max(0, end.getTime() - now.getTime());
   const totalSec = Math.floor(diff / 1000);
   return {

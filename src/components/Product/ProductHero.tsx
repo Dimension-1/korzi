@@ -186,7 +186,7 @@ function MobilePricingSection({
   isAddingToCart: boolean;
   buyNowRef: React.RefObject<HTMLDivElement>;
 }) {
-  const emiAmount = 280;
+  const emiAmount = 230;
   const unitsLeft = UNITS_LEFT;
 
   return (
@@ -493,7 +493,7 @@ function TopBar() {
           </svg>
         </span>
         <span className="text-black text-[13px] lg:text-sm" style={{ fontFamily: 'DM Sans' }}>
-          <span className="font-bold">Or pay ₹999 now</span>
+          <span className="font-bold">Prefer COD? Pay 999 now</span>
           <span className="mx-1.5">·</span>
           <span className="font-bold">rest on delivery</span>
         </span>
