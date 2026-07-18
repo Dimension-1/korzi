@@ -396,10 +396,17 @@ export default function DiscountModal({
             </div>
 
             <div
-              className="text-white text-[20px] tracking-[1.5px] mb-0.5"
+              className="text-white text-[22px] tracking-[1.5px] mb-0.5"
               style={{ fontFamily: 'Bebas Neue, sans-serif' }}
             >
-            💰 Save ₹1,300 Today
+            💰 Save 
+            <span
+                className="text-[#02FF00] text-[22px] flex-shrink-0 font-bold ml-[7px] mr-[7px]"
+                style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+              >
+              ₹1,300 
+              </span>
+         Today
             </div>
 
 

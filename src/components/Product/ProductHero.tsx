@@ -186,7 +186,7 @@ function MobilePricingSection({
   isAddingToCart: boolean;
   buyNowRef: React.RefObject<HTMLDivElement>;
 }) {
-  const emiAmount = 230;
+  const emiAmount = 215;
   const unitsLeft = UNITS_LEFT;
 
   return (
