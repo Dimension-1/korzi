@@ -18,20 +18,6 @@ setTimeLeft: React.Dispatch<React.SetStateAction<{
 const COUPON_CODE = 'KORZI1300';
 const TOTAL_SAVINGS = 1300;
 
-/** End-of-day countdown seed (syncs across modal open/close within a session). */
-function getEndOfDayRemaining() {
-  const now = new Date();
-  const end = new Date(now);
-  end.setHours(23, 59, 59, 999);
-  const diff = Math.max(0, end.getTime() - now.getTime());
-  const totalSec = Math.floor(diff / 1000);
-  return {
-    d: Math.floor(totalSec / 86400),
-    h: Math.floor((totalSec % 86400) / 3600),
-    m: Math.floor((totalSec % 3600) / 60),
-    s: totalSec % 60,
-  };
-}
 
 export default function DiscountModal({
   isOpen,
@@ -43,7 +29,6 @@ export default function DiscountModal({
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-console.log("$$$timeLeft---",timeLeft)
 
   const pad = (n: number) => String(n).padStart(2, '0');
 
