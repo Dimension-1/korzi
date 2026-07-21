@@ -699,12 +699,38 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
     setShowDiscountModal(false);
     localStorage.setItem('korzi_phone', phone);
     localStorage.setItem('korzi_discount_code', 'KORZI1300');
-    // Copy coupon code to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText('KORZI1300').catch(() => {});
     }
-    // Open FlexyPe checkout
-    proceedWithBuyNow();
+
+    // Open FlexyPe checkout with main product + lithium battery
+    if (window.FlexyPeCheckout?.open) {
+      const productIdNum = parseInt((product.productId || '').split('/').pop() || '0');
+      const variantIdNum = parseInt((product.variantId || '').split('/').pop() || '0');
+
+      setIsAddingToCart(true);
+      openFlexyPeCheckout({
+        flow: 'checkout',
+        source: 'discount_modal',
+        items: [
+          { product_id: productIdNum, variant_id: variantIdNum, quantity },
+          { product_id: 9567926911203, variant_id: 49421088620771, quantity: 1 },
+        ],
+        onClose: () => { setIsAddingToCart(false); refreshCartCount(); },
+        onSuccess: () => {
+          setIsAddingToCart(false);
+          clearCart().catch(() => {});
+          refreshCartCount();
+          gaEvent(eventNames.payment_verification_successful, {
+            value: quantity * product?.price || 0,
+            product_id: product?.variantId,
+            content_type: product.title,
+            event_id: createMetaEventId('purchase'),
+          });
+        },
+        onFailure: () => { setIsAddingToCart(false); },
+      });
+    }
   };
 
   const features = [
