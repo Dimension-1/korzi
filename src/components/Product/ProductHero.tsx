@@ -248,15 +248,9 @@ function MobilePricingSection({
               ₹{emiAmount}/MO
             </span>
             <span className="text-[#F5F5F5] text-[10px]" style={{ fontFamily: 'DM Sans' }}>
-              No-cost EMI &nbsp;·&nbsp; 0% interest &nbsp;·&nbsp; All major cards
+              All major cards
             </span>
           </div>
-          <span
-            className="text-[#02FF00] text-[10px] font-semibold px-2 py-1"
-            style={{ border: '1px solid rgba(2,255,0,0.35)', fontFamily: 'DM Sans' }}
-          >
-            0% EMI
-          </span>
         </div>
 
         {/* Footer note */}
@@ -318,7 +312,7 @@ function MobilePricingSection({
             borderRadius:'8px'
           }}
         >
-          Or pay ₹{emiAmount}/month &nbsp;·&nbsp; No-cost EMI
+          Or pay ₹{emiAmount}/month &nbsp;·&nbsp;
         </button>
 
         {/* Amazon secondary CTA — dark bg, amber border */}
@@ -404,7 +398,7 @@ setTimeLeft: React.Dispatch<React.SetStateAction<{
       <div className="flex items-center justify-center gap-1.5 py-1.5 bg- border-b border-zinc-800">
         <span className="w-1.5 h-1.5 rounded-full bg-[#D8200E] animate-pulse" />
         <span className="text-[#FFFFFF] text-[14px]" style={{ fontFamily: 'DM Sans' }}>
-        Offer: Free Battery worth ₹ 700, ends in
+        Offer: ₹650 Off, ends in
         </span>
         {[timeLeft.m, timeLeft.s].map((val, i) => (
           <span key={i} className="flex items-center gap-0.5">
@@ -1155,6 +1149,48 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
         timeLeft={timeLeft}
         setTimeLeft={setTimeLeft}
       />
+
+      {/* ── Desktop Floating CTA — hidden when inline Buy Now is visible ── */}
+      <div className={`hidden lg:block fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-black transition-transform duration-300 ${isBuyNowVisible ? 'translate-y-full pointer-events-none' : 'translate-y-0'}`}>
+        <div className="max-w-7xl mx-auto px-8 py-3 flex items-center justify-between gap-6">
+          {/* Left: offer strip */}
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D8200E] animate-pulse" />
+            <span className="text-white text-[14px]" style={{ fontFamily: 'DM Sans' }}>Offer: ₹650 Off, ends in</span>
+            {[timeLeft.m, timeLeft.s].map((val, i) => (
+              <span key={i} className="flex items-center gap-0.5">
+                <span className="bg-[#02FF00] text-black text-[14px] font-bold px-1 py-0.5 font-mono" style={{ minWidth: '20px', textAlign: 'center' }}>
+                  {String(val).padStart(2, '0')}
+                </span>
+                {i < 1 && <span className="text-[#02FF00] text-[10px] font-bold">:</span>}
+              </span>
+            ))}
+          </div>
+          {/* Right: buttons */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
+              data-add-to-cart
+              className="h-[44px] px-6 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ background: '#2E2E2E', fontFamily: 'Bebas Neue', fontSize: '18px', letterSpacing: '0.08em', color: '#fff' }}
+            >
+              <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#02FF00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {isAddingToCart ? 'ADDING...' : 'ADD TO CART'}
+            </button>
+            <button
+              onClick={handleBuyNow}
+              disabled={isAddingToCart}
+              className="h-[44px] px-8 bg-[#02FF00] hover:bg-[#00DD00] text-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontFamily: 'Bebas Neue', fontSize: '18px', letterSpacing: '0.08em' }}
+            >
+              {isAddingToCart ? 'ADDING...' : 'BUY NOW'}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <DiscountModal
         isOpen={showDiscountModal}
