@@ -506,6 +506,52 @@ function TopBar() {
 
 }
 
+// / ─── Viewer Count Badge ───────────────────────────────────────────────────────
+const MIN_VIEWERS = 60;
+const MAX_VIEWERS = 90;
+const VIEWER_STEP = 4;
+ 
+function ViewerCountBadge() {
+  const [count, setCount] = useState(() =>
+    Math.floor(Math.random() * (MAX_VIEWERS - MIN_VIEWERS + 1)) + MIN_VIEWERS
+  );
+ 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount((prev) => {
+        const delta = Math.floor(Math.random() * (VIEWER_STEP * 2 + 1)) - VIEWER_STEP;
+        return Math.min(MAX_VIEWERS, Math.max(MIN_VIEWERS, prev + delta));
+      });
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+ 
+  return (
+    <div
+      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full"
+      style={{
+        border: '1.5px solid #02FF00',
+        background: 'transparent',
+        marginTop:'20px'
+      }}
+    >
+      {/* Pulsing dot */}
+      <span className="relative flex-shrink-0 w-2.5 h-2.5">
+        <span
+          className="absolute inset-0 rounded-full bg-[#02FF00] animate-ping opacity-75"
+          style={{ animationDuration: '1.4s' }}
+        />
+        <span className="relative block w-2.5 h-2.5 rounded-full bg-[#02FF00]" />
+      </span>
+ 
+      <span style={{ fontFamily: 'DM Sans' }} className="text-[15px] lg:text-base text-white">
+        <span className="text-[#02FF00] font-bold">{count}</span>
+        {' '}people are viewing this product right now
+      </span>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ProductHeroV2({ product }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -903,7 +949,8 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
               <span className="text-xs lg:text-sm font-bold text-[#D8200E]">• Limited Stock</span>
             </div>
 
-
+            {/* ── VIEWER COUNT BADGE — above comparison table ── */}
+            <ViewerCountBadge />
             {/* Desktop price — strictly hidden on mobile */}
             <div className="lg:flex hidden flex-wrap items-baseline gap-1.5 lg:gap-3">
               <span className="text-xl lg:text-3xl font-bold">₹{product.price.toFixed(0)}</span>
