@@ -248,7 +248,7 @@ function MobilePricingSection({
               ₹{emiAmount}/MO
             </span>
             <span className="text-[#F5F5F5] text-[10px]" style={{ fontFamily: 'DM Sans' }}>
-              All major cards
+              EMI available on all major cards
             </span>
           </div>
         </div>
