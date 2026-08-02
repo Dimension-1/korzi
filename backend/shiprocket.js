@@ -86,10 +86,10 @@ class ShiprocketService {
         })),
         payment_method: 'Prepaid',
         sub_total: orderData.totalAmount || 0,
-        length: 35,
-        breadth: 24,
-        height: 14,
-        weight: 1.5
+        length: 43,
+        breadth: 25.4,
+        height: 22.86,
+        weight: 4.75
       };
 
       console.log('--- Shiprocket Create Order PAYLOAD ---');
@@ -212,7 +212,7 @@ class ShiprocketService {
   }
 
   // Check courier serviceability for a pincode
-  async checkServiceability(pickupPincode, deliveryPincode, weight = 1.5) {
+  async checkServiceability(pickupPincode, deliveryPincode, weight = 4.75) {
     try {
       const headers = await this.getHeaders();
 
