@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { gaEvent } from '../utils/gtm';
+import { getCloudinaryUrl } from '../utils/cloudinary';
 
 interface DiscountModalProps {
   isOpen: boolean;
@@ -149,13 +150,18 @@ export default function DiscountModal({
           {/* Header: logo + close */}
           <div className="flex justify-between items-center mb-[22px]">
             <div className="flex items-center gap-[9px]" >
-              <KorziDragonflyIcon />
+            <img 
+              src={getCloudinaryUrl('/logo-horizontal.webp')} 
+              alt="KORZI" 
+              className="h-8 md:h-10 w-auto"
+            />
+              {/* <KorziDragonflyIcon />
               <span
                 className="text-[#02FF00] font-bold text-[20px] tracking-[2px]"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
                 KORZI
-              </span>
+              </span> */}
             </div>
             <button
               type="button"
