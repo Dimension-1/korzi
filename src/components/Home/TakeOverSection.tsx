@@ -23,35 +23,14 @@ export default function TakeOverSection() {
 
   useEffect(() => {
     const isDesktop = window.matchMedia('(min-width: 768px)').matches;
-
+    const allIndexes = testimonialVideos.map((_, i) => i);
     if (isDesktop) {
-      const allIndexes = testimonialVideos.map((_, i) => i);
       setVisible(new Set(allIndexes));
     } else {
-      setVisible(new Set([0, 1]));
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const index = Number(entry.target.getAttribute('data-index'));
-            if (entry.isIntersecting) {
-              setVisible((prev) => {
-                const next = new Set(prev);
-                next.add(index);
-                return next;
-              });
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { rootMargin: '200px', threshold: 0.01 }
-      );
-
-      cardRefs.current.forEach((el, idx) => {
-        if (el && idx > 1) observer.observe(el);
-      });
-
-      return () => observer.disconnect();
+      setTimeout(()=>{
+        setVisible(new Set(allIndexes));
+      },300)
+    
     }
   }, []);
 

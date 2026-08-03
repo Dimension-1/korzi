@@ -128,7 +128,7 @@ export default function DiscountModal({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-[380px] lg:max-w-[900px] max-h-[92vh] overflow-y-auto rounded-[20px] overflow-x-hidden border border-white/[0.08] shadow-[0_0_80px_rgba(2,255,0,0.08)]"
+        className="relative w-full max-w-[380px] lg:max-w-[900px] max-h-[88vh] overflow-y-auto rounded-[20px] overflow-x-hidden border border-white/[0.08] shadow-[0_0_80px_rgba(2,255,0,0.08)]"
         style={{ background: '#000000', fontFamily: 'DM Sans, sans-serif' }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -148,7 +148,7 @@ export default function DiscountModal({
         <div className="lg:hidden px-[22px] pt-6 pb-[26px] text-center">
           {/* Header: logo + close */}
           <div className="flex justify-between items-center mb-[22px]">
-            <div className="flex items-center gap-[9px]">
+            <div className="flex items-center gap-[9px]" >
               <KorziDragonflyIcon />
               <span
                 className="text-[#02FF00] font-bold text-[20px] tracking-[2px]"
@@ -520,7 +520,7 @@ export default function DiscountModal({
 
 function KorziDragonflyIcon() {
   return (
-    <svg width="22" height="30" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+    <svg width="22" height="30" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <polygon points="50,20 2,2 22,24" fill="#02FF00" />
       <polygon points="50,20 98,2 78,24" fill="#02FF00" />
       <polygon points="50,20 8,34 24,26" fill="#02FF00" />
