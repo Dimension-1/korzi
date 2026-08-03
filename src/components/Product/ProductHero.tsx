@@ -20,6 +20,7 @@ interface ProductHeroProps {
     variantId: string;
     quantityAvailable?: number;
   };
+  onModalDismissed?: () => void;
 }
 
 // ─── Mobile: Why Korzi Section ────────────────────────────────────────────────
@@ -553,7 +554,7 @@ function ViewerCountBadge() {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function ProductHeroV2({ product }: ProductHeroProps) {
+export default function ProductHeroV2({ product, onModalDismissed }: ProductHeroProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -1241,7 +1242,7 @@ export default function ProductHeroV2({ product }: ProductHeroProps) {
 
       <DiscountModal
         isOpen={showDiscountModal}
-        onClose={() => setShowDiscountModal(false)}
+        onClose={() => { setShowDiscountModal(false); onModalDismissed?.(); }}
         onSubmit={handleDiscountSubmit}
         timeLeft={timeLeft}
         setTimeLeft={setTimeLeft}
