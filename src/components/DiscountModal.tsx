@@ -129,7 +129,7 @@ export default function DiscountModal({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-[380px] lg:max-w-[900px] max-h-[88vh] overflow-y-auto rounded-[20px] overflow-x-hidden border border-white/[0.08] shadow-[0_0_80px_rgba(2,255,0,0.08)]"
+        className="relative w-full max-w-[380px] lg:max-w-[900px] max-h-[92vh] overflow-y-auto rounded-[20px] overflow-x-hidden border border-white/[0.08] shadow-[0_0_80px_rgba(2,255,0,0.08)]"
         style={{ background: '#000000', fontFamily: 'DM Sans, sans-serif' }}
         onClick={(e) => e.stopPropagation()}
       >
