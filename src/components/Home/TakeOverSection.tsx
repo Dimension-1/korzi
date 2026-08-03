@@ -131,7 +131,6 @@ export default function TakeOverSection() {
                 muted
                 loop
                 playsInline
-                preload={visible.has(index) ? "auto" : "none"}
               />
 
               {/* Show skeleton loader until the video is visible */}
