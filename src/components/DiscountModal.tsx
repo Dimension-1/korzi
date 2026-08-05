@@ -322,30 +322,16 @@ export default function DiscountModal({
               padding: '36px 28px',
             }}
           >
-            <svg
-              width="240"
-              height="330"
-              viewBox="0 0 100 140"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.06] pointer-events-none"
+            <img
+              src={getCloudinaryUrl('/logo-mono.png')}
+              alt=""
               aria-hidden
-            >
-              <polygon points="50,20 2,2 22,24" fill="#02FF00" />
-              <polygon points="50,20 98,2 78,24" fill="#02FF00" />
-              <polygon points="50,20 8,34 24,26" fill="#02FF00" />
-              <polygon points="50,20 92,34 76,26" fill="#02FF00" />
-              <polygon points="50,0 44,14 50,20 56,14" fill="#02FF00" />
-              <polygon points="47,22 50,20 53,22 51,60 50,95 49,60" fill="#02FF00" />
-            </svg>
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.06] pointer-events-none w-[312px]"
+            />
 
             <div className="relative z-10">
-              <div className="flex items-center gap-[9px] mb-[30px]">
-                <KorziDragonflyIcon />
-                <span
-                  className="text-[#02FF00] font-bold text-[18px] tracking-[2px]"
-                  style={{ fontFamily: 'DM Sans, sans-serif' }}
-                >
-                  KORZI
-                </span>
+              <div className="flex items-center mb-[30px]">
+                <img src={getCloudinaryUrl('/logo-horizontal.webp')} alt="KORZI" className="h-8 w-auto" />
               </div>
 
               <div
@@ -524,18 +510,6 @@ export default function DiscountModal({
 
 /* ─── Shared subcomponents ─────────────────────────────────────────────────── */
 
-function KorziDragonflyIcon() {
-  return (
-    <svg width="22" height="30" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <polygon points="50,20 2,2 22,24" fill="#02FF00" />
-      <polygon points="50,20 98,2 78,24" fill="#02FF00" />
-      <polygon points="50,20 8,34 24,26" fill="#02FF00" />
-      <polygon points="50,20 92,34 76,26" fill="#02FF00" />
-      <polygon points="50,0 44,14 50,20 56,14" fill="#02FF00" />
-      <polygon points="47,22 50,20 53,22 51,60 50,95 49,60" fill="#02FF00" />
-    </svg>
-  );
-}
 
 function PhoneField({
   phone,

@@ -55,7 +55,7 @@ type Screen = 'home' | 'category' | 'answer';
 
 export default function SupportWidget() {
   const [open, setOpen] = useState(false);
-  const [teaserVisible, setTeaserVisible] = useState(false);
+  const [teaserVisible, setTeaserVisible] = useState(true);
   const [screen, setScreen] = useState<Screen>('home');
   const [activeCatId, setActiveCatId] = useState<string | null>(null);
   const [activeQIdx, setActiveQIdx] = useState<number | null>(null);
@@ -82,10 +82,18 @@ export default function SupportWidget() {
   return (
     <div
       style={{
-        position: 'fixed', bottom: 24, right: 24, zIndex: 999999,
+        position: 'fixed', right: 16, zIndex: 999999,
+        bottom: 'var(--widget-bottom, 104px)',
         fontFamily: "'DM Sans', system-ui, sans-serif",
       }}
     >
+      <style>{`
+        @media (min-width: 1024px) { :root { --widget-bottom: 80px; } }
+        @media (max-width: 1023px) { :root { --widget-bottom: 104px; } }
+        @keyframes k-rise { from { opacity:0; transform:translateY(10px) scale(0.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+        @keyframes k-enter { from { opacity:0; transform:translateX(12px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes k-enter-back { from { opacity:0; transform:translateX(-12px); } to { opacity:1; transform:translateX(0); } }
+      `}</style>
       {/* Teaser bubble */}
       {teaserVisible && !open && (
         <div
@@ -103,11 +111,6 @@ export default function SupportWidget() {
             display: 'flex', alignItems: 'center', gap: 10,
           }}
         >
-          <img
-            src="/assets/sunil.png"
-            alt="Sunil"
-            style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, border: '2px solid #02ff00' }}
-          />
           <div>
             <p style={{ color: '#fff', fontSize: 13.5, fontWeight: 600, lineHeight: 1.3, whiteSpace: 'nowrap' }}>Hi, I'm Sunil 👋</p>
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, lineHeight: 1.3, whiteSpace: 'nowrap' }}>Got questions? I can help.</p>
@@ -141,7 +144,7 @@ export default function SupportWidget() {
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
               <h2 style={{
-                color: '#fff', fontFamily: 'Oswald, sans-serif', fontWeight: 500,
+                color: '#02ff00', fontFamily: 'Oswald, sans-serif', fontWeight: 700,
                 textTransform: 'uppercase', fontSize: 20, letterSpacing: 1.4,
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
               }}>{headerTitle}</h2>
@@ -251,19 +254,17 @@ export default function SupportWidget() {
           ? <div style={{ width: '100%', height: '100%', background: '#0d0d0d', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/></svg>
             </div>
-          : <img
-              src="/assets/sunil.png"
-              alt="Sunil - Korzi Support"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-            />
+          : <div style={{ width: '100%', height: '100%', background: '#ffffff', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden' }}>
+              <img
+                src="/assets/sunil.png"
+                alt="Sunil - Korzi Support"
+                style={{ width: '110%', height: '110%', objectFit: 'cover', objectPosition: 'center 10%' }}
+              />
+            </div>
         }
       </button>
 
-      <style>{`
-        @keyframes k-rise { from { opacity:0; transform:translateY(10px) scale(0.98); } to { opacity:1; transform:translateY(0) scale(1); } }
-        @keyframes k-enter { from { opacity:0; transform:translateX(12px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes k-enter-back { from { opacity:0; transform:translateX(-12px); } to { opacity:1; transform:translateX(0); } }
-      `}</style>
+
     </div>
   );
 }

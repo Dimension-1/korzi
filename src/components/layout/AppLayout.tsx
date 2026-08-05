@@ -127,11 +127,10 @@ export default function AppLayout() {
             </button>
           </div>
         </header>
-      </div>
 
-      {/* === DROPDOWN MENU === */}
-      {menuOpen && (
-        <div className="fixed top-[68px] left-4 right-4 md:w-64 md:right-auto bg-black shadow-xl z-40 border-l border-r border-b border-gray-700">
+        {/* === DROPDOWN MENU === */}
+        {menuOpen && (
+          <div className="absolute top-full left-0 right-0 md:w-64 md:right-auto bg-black shadow-xl border-l border-r border-b border-gray-700">
           {/* Navigation Links */}
           <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
             {location.pathname !== '/' && (
@@ -214,8 +213,9 @@ export default function AppLayout() {
             </Link>
             )} */}
           </nav>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {/* Menu Overlay */}
       {menuOpen && (
