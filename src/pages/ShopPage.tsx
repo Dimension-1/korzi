@@ -8,10 +8,12 @@ import ShopFooter from '../components/Shop/ShopFooter';
 import ProductSection from '../components/Shop/ProductSection';
 import CartDrawer from '../components/CartDrawer';
 import { getProducts, ShopifyProduct } from '../services/shopify';
+import { getCloudinaryUrl } from '../utils/cloudinary';
+
 
 // Transform Shopify product to ProductCarousel format
 const transformShopifyProduct = (product: ShopifyProduct) => {
-  const firstImage = product.images.edges[0]?.node?.url || '/image.png';
+  const firstImage = product.images.edges[0]?.node?.url || '/image.webp';
   const firstVariant = product.variants.edges[0]?.node;
   const price = parseFloat(firstVariant?.price?.amount || product.priceRange.minVariantPrice.amount);
   
@@ -29,6 +31,7 @@ const transformShopifyProduct = (product: ShopifyProduct) => {
     discountedPrice: price,
     discountPercentage,
     variantId: firstVariant?.id,
+    handle: product.handle,
     points: Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 10 : undefined, // Random points for some products
     showWhatsApp: Math.random() > 0.8 // Random WhatsApp button for some products
   };
@@ -73,7 +76,7 @@ function ShopPage() {
       {/* Hero Image */}
       <ProductSection/>
       <div className="">
-        <img className="w-full h-[30%] object-fit" src="/image.png" alt="Shop" />
+        <img className="w-full h-[30%] object-fit" src={getCloudinaryUrl('/image.webp')} alt="Shop" />
       </div>
       
       <div className="w-full">

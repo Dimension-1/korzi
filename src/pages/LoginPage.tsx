@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from 'lucide-react';
 import { recoverPassword, LoginCredentials, RegisterData } from '../services/auth';
 import { useAuthStore } from '../stores/authStore';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,7 +14,8 @@ export default function LoginPage() {
   const [successMessage, setSuccessMessage] = useState('');
   
   const navigate = useNavigate();
-  const { login, register, isAuthenticated } = useAuthStore();
+  const { login, loginWithGoogle, register, isAuthenticated } = useAuthStore();
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -130,9 +132,47 @@ export default function LoginPage() {
     setSuccessMessage('');
   };
 
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setIsLoading(true);
+    setErrors([]);
+    setSuccessMessage('');
+
+    try {
+      const result = await loginWithGoogle(credentialResponse.credential);
+      
+      if (result.success) {
+        setSuccessMessage('Google login successful! Redirecting...');
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+      } else {
+        setErrors(result.errors || ['Google login failed']);
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      setErrors(['An unexpected error occurred with Google login.']);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setErrors(['Google login failed. Please try again.']);
+  };
+
   return (
+    <GoogleOAuthProvider clientId={googleClientId}>
     <div className="h-auto bg-[var(--background)] flex items-center justify-center px-4 sm:px-6 md:px-8 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
       <div className="max-w-md w-full">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors mb-6 font-body"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back
+        </button>
+        
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl text-[var(--foreground)] mb-2 font-heading">
@@ -268,6 +308,26 @@ export default function LoginPage() {
                   {isLoading ? 'Signing In...' : 'Sign In'}
                 </button>
 
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-[var(--border)]"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-[var(--background)] text-[var(--text-secondary)] font-body">Or continue with</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme="outline"
+                    size="large"
+                    text="signin_with"
+                    shape="rectangular"
+                  />
+                </div>
+
                 <div className="text-center">
                   <span className="text-[var(--text-secondary)] font-body">Don't have an account? </span>
                   <button
@@ -361,6 +421,26 @@ export default function LoginPage() {
                   {isLoading ? 'Creating Account...' : 'Create Account'}
                 </button>
 
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-[var(--border)]"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-[var(--background)] text-[var(--text-secondary)] font-body">Or continue with</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme="outline"
+                    size="large"
+                    text="signup_with"
+                    shape="rectangular"
+                  />
+                </div>
+
                 <div className="text-center">
                   <span className="text-[var(--text-secondary)] font-body">Already have an account? </span>
                   <button
@@ -394,5 +474,6 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    </GoogleOAuthProvider>
   );
 }

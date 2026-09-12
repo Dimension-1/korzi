@@ -2,13 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Korzi RC Cars | Durable & High-Performance Remote Control Machines</title>
     <meta name="description" content="Buy durable, high performance RC cars from Korzi. Built for speed, control, and precision, real machines for hobbyists and beginners alike." />
+    <meta name="p:domain_verify" content="c9595691234ffba9d5a65177991c903c"/>
+    <link rel="icon" type="image/svg+xml" href="/logo-mono.webp" />
+
+    <!-- Preconnect to critical origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    <!-- Fonts with display=swap to avoid FOIT -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+    <!-- Flexype SDK - deferred, non-blocking -->
+    <script id="flexype-sdk" src="https://static.flexype.in/scripts/checkout.min.js" data-shop-domain="ujivar-cd.myshopify.com" type="module" defer></script>
+
+    <!-- Analytics - loaded after paint via requestIdleCallback -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.addEventListener('load', function() {
+        (window.requestIdleCallback || setTimeout)(function() {
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-W2VY80127M';
+          s.async = true;
+          document.head.appendChild(s);
+          gtag('js', new Date());
+          gtag('config', 'G-W2VY80127M', { send_page_view: false });
+
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-MX86RVDZ');
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -74,7 +74,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
   ];
 
   return (
-    <div className={`py-16 bg-[var(--background)] ${className}`}>
+    <div className={`py-16 bg-[var(--background)] min-h-[600px] md:min-h-[800px] ${className}`}>
       <div className="flex flex-col md:flex-row w-full gap-4">
         {/* Left Product Details - 50% width */}
         <div className="md:w-1/2 w-full md:h-[90vh] h-auto overflow-y-auto flex-shrink-0 px-6 py-8 bg-[var(--background)]">

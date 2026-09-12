@@ -1,37 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Home/footer";
+import JournalHeroSection from "../components/Journal/JournalHeroSection";
 import { getBlogs } from "../services/hygraph";
 
 export default function JournalPage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleJournalCount, setVisibleJournalCount] = useState(3);
-
-  const categories = [
-    {
-      id: "play",
-      name: "/play",
-      description: "From backyard races to simple science experiments — this is where fun meets discovery. Every test, trick, and challenge turns playtime into an adventure."
-    },
-    {
-      id: "build", 
-      name: "/build",
-      description: "Step-by-step hacks, creative mods, and custom upgrades. Whether it's LEDs, spoilers, or new tricks with everyday materials — here's where you bring your RC to life."
-    },
-    {
-      id: "learn",
-      name: "/learn", 
-      description: "Motors, gears, batteries, and balance — explained simply. Clear insights that make kids curious, parents confident, and hobbyists smarter."
-    },
-    {
-      id: "guides",
-      name: "/guides",
-      description: "Smart choices and easy fixes. From buying tips to safety checks and troubleshooting, this is your trusted corner for RC care."
-    }
-  ];
+  
+  
 
   const [blogs, setBlogs] = useState<any[]>([]);
   const [plays, setPlays] = useState<any[]>([]);
@@ -63,14 +41,6 @@ export default function JournalPage() {
     })();
   }, []);
 
-  const articlesPerPage = 3;
-
-  const handleCategorySelect = (category: typeof categories[0]) => {
-    setSelectedCategory(category.id);
-    setIsDropdownOpen(false);
-  };
-
-  const selectedCategoryData = categories.find(cat => cat.id === selectedCategory);
 
   // Get the featured article based on selected category
   const getFeaturedArticle = () => {
@@ -94,23 +64,6 @@ export default function JournalPage() {
 
   const featuredArticle = getFeaturedArticle();
 
-  // Get carousel articles based on selection (first 3 only)
-  const getCarouselArticles = () => {
-    if (selectedCategory === "") {
-      // Show first 3 from all articles (blogs contains all articles)
-      return blogs.slice(0, 3);
-    }
-    
-    // Show first 3 from selected category
-    switch (selectedCategory) {
-      case "play": return plays.slice(0, 3);
-      case "build": return builds.slice(0, 3);
-      case "learn": return learns.slice(0, 3);
-      case "guides": return guides.slice(0, 3);
-      default: return blogs.slice(0, 3);
-    }
-  };
-
   // Get journal list articles (remaining articles after first 3)
   const getJournalArticles = () => {
     if (selectedCategory === "") {
@@ -128,7 +81,6 @@ export default function JournalPage() {
     }
   };
 
-  const carouselArticles = getCarouselArticles();
   const allJournalArticles = getJournalArticles();
   
   // Filter journal articles based on search query
@@ -140,22 +92,13 @@ export default function JournalPage() {
 
   // Get only the visible journal articles based on pagination
   const journalArticles = filteredJournalArticles.slice(0, visibleJournalCount);
-  
-  // Check if there are more articles to load
-  const hasMoreArticles = filteredJournalArticles.length > visibleJournalCount;
 
-  // Function to load more articles
-  const loadMoreArticles = () => {
-    setVisibleJournalCount(prev => prev + 3);
-  };
 
   // Reset pagination when category or search changes
   useEffect(() => {
     setVisibleJournalCount(3);
   }, [selectedCategory, searchQuery]);
   
-  const totalSlides = Math.ceil(carouselArticles.length / articlesPerPage);
-
   // Format date for display
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
@@ -178,252 +121,63 @@ export default function JournalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] overflow-x-hidden -mt-12">
-         <div className="mx-auto w-80 h-28 mb-4">
-            <img src="/logo-horizontal.png" alt="Journal Page Background" className="w-full h-full object-fit" />
-         </div>
-        <section className="px-4 sm:px-6 lg:px-8">
-          <div className="max-w-[1512px] mx-auto">
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-              <div className="lg:w-[35%] space-y-8">
-                <div className="max-w-2xl space-y-6">
-                  <div>
-                    <h2 className="text-3xl lg:text-5xl font-heading leading-[109px] tracking-[-1px] text-[var(--foreground)] ">
-                      /logs
-                    </h2>
-                    <p className="text-[var(--foreground)] text-base lg:text-[18px] leading-relaxed font-body">
-                      Logs are where curiosity meets creation.{" "}
-                      <span className="hidden md:block"></span>
-                      Cars, drones, robots — whatever we build, break, and
-                      rebuild. <span className="hidden md:block"></span>
-                      We document it here.{" "}
-                      <span className="hidden md:block"></span>
-                      Expect experiments, insights, and the occasional{" "}
-                      <span className="hidden md:block"></span>
-                      aha-moment.
-                    </p>
-                  </div>
-
-                  <div className="mt-16">
-                    <h3 className="text-2xl lg:text-[32px] font-heading text-[var(--foreground)]">
-                      /garage
-                    </h3>
-                  </div>
-
-                  <div className="mt-8 space-y-6">
-                    {/* Custom Dropdown */}
-                    <div className="relative">
-                      <button
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="w-full bg-[#1a1a1a] border border-[var(--border)] rounded-lg px-4 py-3 text-left flex items-center justify-between hover:bg-[#2a2a2a] transition-colors duration-200"
-                      >
-                        <span className="text-[var(--foreground)] text-lg font-body">
-                          {selectedCategoryData ? selectedCategoryData.name : "/all"}
-                        </span>
-                        <svg
-                          className={`ml-2 transition-transform duration-300 ${
-                            isDropdownOpen ? "rotate-180" : ""
-                          }`}
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <polyline points="6,9 12,15 18,9"></polyline>
-                        </svg>
-                      </button>
-
-                      {/* Dropdown Options */}
-                      {isDropdownOpen && (
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-[#1a1a1a] border border-[var(--border)] rounded-lg shadow-lg z-10">
-                          {/* Clear Selection Option */}
-                          <button
-                            onClick={() => {
-                              setSelectedCategory("");
-                              setIsDropdownOpen(false);
-                            }}
-                            className="w-full px-4 py-3 text-left hover:bg-[#2a2a2a] transition-colors duration-200 rounded-t-lg"
-                          >
-                            <span className="text-[var(--text-secondary)] text-lg font-body">
-                              /all
-                            </span>
-                          </button>
-                          
-                          {/* Category Options */}
-                          {categories.map((category) => (
-                            <button
-                              key={category.id}
-                              onClick={() => handleCategorySelect(category)}
-                              className="w-full px-4 py-3 text-left hover:bg-[#2a2a2a] transition-colors duration-200 last:rounded-b-lg"
-                            >
-                              <span className="text-[var(--foreground)] text-lg font-body">
-                                {category.name}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Selected Category Description */}
-                    {selectedCategoryData && (
-                      <div className="mt-4 p-4 bg-[#1a1a1a] rounded-lg">
-                        <p className="text-[var(--foreground)] text-base leading-relaxed font-body">
-                          {selectedCategoryData.description}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+    <div className="min-h-screen bg-[var(--background)] overflow-x-hidden">
+         <JournalHeroSection 
+           onSearch={(query) => setSearchQuery(query)}
+           onCategoryChange={(category) => setSelectedCategory(category.toLowerCase())}
+         />
+        {/* Featured Article */}
+        {featuredArticle && (
+          <section className="px-4 md:px-8 lg:px-24 pb-8 md:pb-16 min-h-[400px] md:min-h-[500px]">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+              {/* Image */}
+              <div className="text-center lg:text-left">
+                <Link to={`/logs/${featuredArticle.id}`} state={{ journal: featuredArticle }} className="block">
+                  <img
+                    src={featuredArticle?.img?.url || fallbackImage}
+                    alt={featuredArticle.title}
+                    className="w-full h-[300px] md:h-[500px] object-cover mx-auto cursor-pointer hover:opacity-90 hover:scale-105 transition-all duration-300 select-none"
+                  />
+                </Link>
               </div>
-
-              {/* Right Content */}
-              <div className="lg:w-[65%]">
-                {featuredArticle && (
-                  <div className="max-w-[700px] space-y-6">
-                    {/* Cover Image above title */}
-                    <img
-                      src={featuredArticle?.img?.url || fallbackImage}
-                      alt={featuredArticle.title}
-                      className="rounded-lg h-[500px] mb-4 object-cover w-full"
-                    />
-                    <h1 className="text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-[45px] tracking-[-1px]">
-                      {featuredArticle.title}
-                    </h1>
-                    <p className="text-[var(--foreground)] text-sm lg:text-base leading-relaxed line-clamp-3 font-body">
-                      {featuredArticle.shortdes}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Bottom Nav */}
-            <div className="mt-4 border-t border-b border-[var(--border)]">
-              <div className="flex items-center py-4">
-                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest font-body">
-                  FIELD NOTES
-                </div>
-                <div className="hidden lg:block w-px h-12 bg-[var(--border)]"></div>
-                <div className="flex-1 text-center text-sm lg:text-[32px] text-[var(--foreground)] font-heading lg:mx-32">
-                  BEHIND THE BUILDS
-                </div>
-                <div className="hidden lg:block w-px h-12 bg-[var(--border)]"></div>
-                <div className="hidden lg:block flex-1 text-center text-sm lg:text-base text-[var(--foreground)] tracking-widest font-body">
-                  FIELD NOTES
-                </div>
-              </div>
-            </div>
-
-            {/* Carousel */}
-            <div className="mt-8 lg:mt-16 relative">
-              {/* Articles */}
-              <div className="overflow-hidden">
-                <div
-                  className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              
+              {/* Content */}
+              <div className="flex flex-col justify-center space-y-3 md:space-y-4 text-center lg:text-left">
+                <h2 
+                  className="text-2xl md:text-4xl lg:text-5xl uppercase"
+                  style={{
+                    fontFamily: 'Bebas Neue',
+                    color: '#02FF00'
+                  }}
                 >
-                  {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                    <div key={slideIndex} className="w-full flex-shrink-0">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                        {carouselArticles
-                          .slice(
-                            slideIndex * articlesPerPage,
-                            (slideIndex + 1) * articlesPerPage
-                          )
-                          .map((article, index) => (
-                            <Link
-                              key={`${article.id}-${slideIndex}-${index}`}
-                              to={`/logs/${article.id}`}
-                              state={{ journal: article }}
-                              className="space-y-4 cursor-pointer hover:opacity-80 transition-opacity"
-                            >
-                              {/* Cover Image with fixed height */}
-                              <div className="h-[250px] rounded-[8px] overflow-hidden">
-                                <img
-                                  src={article?.img?.url || fallbackImage}
-                                  alt={article.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div className="space-y-4 lg:space-y-2 max-w-2xl mb-4 lg:mb-0">
-                                <p className="text-[13px] lg:text-base text-[var(--text-secondary)] font-body">
-                                  {formatDate(article.createdAt)}
-                                </p>
-                                <h3 className="text-base lg:text-xl font-heading text-[var(--primary)] leading-tight">
-                                  {article.title}
-                                </h3>
-                                <p className="text-xs lg:text-sm text-[var(--text-secondary)] leading-relaxed mt-4 line-clamp-2 font-body">
-                                  {article.shortdes}
-                                </p>
-                              </div>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Pagination */}
-              <div className="flex justify-center mt-8 space-x-2">
-                {Array.from({ length: totalSlides }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                      index === currentSlide
-                        ? "bg-[var(--accent)]"
-                        : "bg-[var(--text-secondary)]"
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="mt-16 border-[var(--border)] border-b"></div>
-            </div>
-
-
-            {/* Search Bar */}
-            <div className="mt-8 lg:mt-16 mb-8">
-              <div className="max-w-2xl mx-auto">
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <svg 
-                      className="w-5 h-5 text-[var(--text-secondary)]" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth="2" 
-                        d="m21 21-6-6m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                      />
-                    </svg>
-                  </div>
-                  <input 
-                    type="search" 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="block w-full pl-12 pr-4 py-4 text-sm bg-[#1a1a1a] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-colors duration-200 font-body" 
-                    placeholder="Search articles, topics, categories..." 
-                  />
-                </div>
+                  {featuredArticle.title}
+                </h2>
+                <p 
+                  className="text-gray-400 text-sm md:text-base"
+                  style={{
+                    fontFamily: 'DM Sans',
+                    lineHeight: '1.8'
+                  }}
+                >
+                  {featuredArticle.shortdes}
+                </p>
+                <p 
+                  className="text-gray-500 text-xs md:text-sm"
+                  style={{ fontFamily: 'DM Sans' }}
+                >
+                  {formatDate(featuredArticle.createdAt)}
+                </p>
               </div>
             </div>
+          </section>
+        )}
 
+        <section className="px-4 sm:px-6 lg:px-8 min-h-[600px] md:min-h-[800px]">
+          <div className="max-w-[1512px] mx-auto">
 
             {/* Journal List */}
             <div className="mt-8 lg:mt-16">
-              <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
-                {/* Left Img */}
-                <div className="hidden lg:block border-[var(--border)] border-r"></div>
-
-                {/* Right Articles */}
-                <div className="lg:w-[65%] space-y-6 lg:space-y-8">
+              <div className="space-y-6 lg:space-y-8">
                   {journalArticles.map((article, index) => (
                     <Link
                       key={`journal-${article.id}-${index}`}
@@ -457,18 +211,48 @@ export default function JournalPage() {
                     </Link>
                   ))}
 
-                  {/* Read More Button */}
-                  {hasMoreArticles && (
-                    <div className="flex justify-center mt-8">
-                      <button
-                        onClick={loadMoreArticles}
-                        className="px-8 py-3 bg-[#1a1a1a] border border-[var(--border)] text-[var(--foreground)] rounded-lg hover:bg-[#2a2a2a] transition-all duration-200 font-body"
-                      >
-                        Read More
-                      </button>
+              </div>
+            </div>
+
+            {/* Blog Grid Section - Full Width */}
+            <div className="mt-8 md:mt-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+                {blogs.map((blog) => (
+                  <Link 
+                    key={blog.id} 
+                    to={`/logs/${blog.id}`}
+                    state={{ journal: blog }}
+                    className="border border-gray-700 bg-black overflow-hidden hover:border-[#02FF00] transition-colors group z-30"
+                  >
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img 
+                        src={blog.img?.url || '/placeholder.jpg'} 
+                        alt={blog.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                  )}
-                </div>
+                    <div className="p-6 space-y-3">
+                      <h3 
+                        className="text-[#02FF00] uppercase line-clamp-2"
+                        style={{ fontFamily: 'Bebas Neue', fontSize: '20px', lineHeight: '24px' }}
+                      >
+                        {blog.title}
+                      </h3>
+                      <p 
+                        className="text-gray-400 line-clamp-2"
+                        style={{ fontFamily: 'DM Sans', fontSize: '14px', lineHeight: '20px' }}
+                      >
+                        {blog.shortdes}
+                      </p>
+                      <p 
+                        className="text-gray-500 text-sm"
+                        style={{ fontFamily: 'DM Sans' }}
+                      >
+                        {formatDate(blog.createdAt)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

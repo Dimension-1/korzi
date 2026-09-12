@@ -1,3 +1,4 @@
+@import './styles/s3-images.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +15,32 @@
 
 .animate-scroll {
   animation: scroll 30s linear infinite;
+}
+
+/* Fade in animation for dynamic content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Prevent layout shift during loading */
+.prevent-layout-shift {
+  contain: layout style;
+}
+
+/* Smooth transitions for all components */
+* {
+  transition: opacity 0.2s ease-out;
 }
 
 :root {
@@ -58,28 +85,46 @@ body {
   background: var(--background);
 }
 
-/* Custom Scrollbar Styling */
-body::-webkit-scrollbar {
-  width: 8px;
+/* Custom Scrollbar Styling - Global (exclude FlexyPe) */
+::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
 }
 
-body::-webkit-scrollbar-track {
-  background: var(--background);
+::-webkit-scrollbar-track {
+  background: #000000 !important;
+  border: 1px solid #02FF00 !important;
 }
 
-body::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
+::-webkit-scrollbar-thumb {
+  background: #02FF00 !important;
+  border-radius: 0 !important;
+  border: 1px solid #02FF00 !important;
 }
 
-body::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary);
+::-webkit-scrollbar-thumb:hover {
+  background: #00DD00 !important;
+  border-color: #00DD00 !important;
 }
 
 /* Firefox scrollbar */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) var(--background);
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: #02FF00 #000000 !important;
+}
+
+/* FlexyPe checkout - prevent site styles from breaking the modal */
+.flexy-parent-container {
+  transition: none !important;
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+}
+
+.flexy-parent-container iframe {
+  transition: visibility 0s 0.25s, opacity 0.25s ease, transform 0.25s ease !important;
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+  color-scheme: light !important;
 }
 
 a {
@@ -87,9 +132,98 @@ a {
   text-decoration: none;
 }
 
+/* Responsive container for larger screens */
+.container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container-responsive {
+    max-width: 95%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 2200px) {
+  .container-responsive {
+    max-width: 90%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+  .flexy-parent-container,
+  .flexy-parent-container iframe {
+    color-scheme: light !important;
+  }
 }
 
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Fix Google Sign-In white background leak */
+.S9gUrf-YoZ4jf > div:empty {
+  display: none;
+}
+
+/* Remove borders from Google Sign-In button */
+iframe[src*="accounts.google.com"] {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Target Google One Tap iframe */
+#credential_picker_container iframe {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove borders from all Google OAuth iframes */
+div[id^="container"] iframe,
+div[data-client-id] iframe {
+  border: none !important;
+  outline: none !important;
+}

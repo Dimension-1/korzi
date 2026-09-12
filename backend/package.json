@@ -1,0 +1,26 @@
+{
+    "name": "korzi-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "backend": "node server.js",
+        "dev:all": "concurrently \"npm run dev\" \"npm run backend\"",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "axios": "^1.13.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "ex": "^0.1.4",
+        "express": "^4.18.2",
+        "google-auth-library": "^10.5.0",
+        "googleapis": "^144.0.0",
+        "graphql": "^16.12.0",
+        "graphql-request": "^7.3.1",
+        "passport": "^0.7.0",
+        "passport-google-oauth20": "^2.0.0",
+        "razorpay": "^2.9.6"
+    }
+}

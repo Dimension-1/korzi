@@ -1,3 +1,4 @@
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 export default function RealFoodSection() {
   return (
@@ -47,7 +48,7 @@ export default function RealFoodSection() {
             {/* Main Image */}
             <div className="relative overflow-hidden">
               <img
-                src="/image.png" // Replace with actual facility image
+                src={getCloudinaryUrl('/image.webp')} // Replace with actual facility image
                 alt="Barkhana Food Processing Facility"
                 className="w-full h-auto object-cover"
               />
@@ -87,12 +88,13 @@ export default function RealFoodSection() {
               
               {/* CTA Button */}
               <div className="absolute bottom-6 right-6">
-                <button className="bg-[var(--primary)] hover:bg-[var(--secondary)] text-[var(--background)] px-6 py-3 rounded-lg font-body text-base transition-colors duration-200 flex items-center gap-2" style={{
+                <button className="bg-[var(--primary)] text-[var(--background)] px-6 py-3 rounded-lg font-body text-base flex items-center gap-2 relative overflow-hidden group" style={{
                   fontStyle: 'italic',
                   borderRadius: '8px'
                 }}>
-                  Step into the Barkhana
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="absolute inset-0 bg-[var(--secondary)] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out rounded-lg"></span>
+                  <span className="relative z-10">Step into the Barkhana</span>
+                  <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>

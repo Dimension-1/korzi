@@ -1,7 +1,14 @@
 import { GraphQLClient } from "graphql-request";
 
 const hygraphUrl = import.meta.env.VITE_HYPGRAPH_URL;
-const hygraphClient = new GraphQLClient(hygraphUrl);
+const hygraphToken = import.meta.env.VITE_HYPGRAPH_TOKEN;
+
+const hygraphClient = hygraphUrl ? new GraphQLClient(hygraphUrl, {
+  headers: {
+    Authorization: `Bearer ${hygraphToken || ''}`,
+  },
+}) : null;
+
 
 export interface Blog {
   id: string;
@@ -18,6 +25,17 @@ export interface Blog {
   createdAt?: string;
 }
 
+export interface Review {
+  id: string;
+  name: string;
+  rating: number;
+  title: string;
+  review: string;
+  image?: {
+    url: string;
+  };
+}
+
 export const getBlogs = async (): Promise<{
   blogs: Blog[];
   plays: Blog[];
@@ -26,15 +44,23 @@ export const getBlogs = async (): Promise<{
   guides: Blog[];
 }> => {
   try {
+    if (!hygraphClient) {
+      console.error("Hygraph client is not initialized. Please set VITE_HYGRAPH_URL and VITE_HYGRAPH_TOKEN in your environment variables.");
+      return { blogs: [], plays: [], builds: [], learns: [], guides: [] };
+    }
+
     const data = await hygraphClient.request(`
       query GetBlogs {
-        demos {
+        blogs {
           id
           title
           shortdes
-          content1
-          content2
-          content3
+          richtext {
+            html
+          }
+          richtext2 {
+            html
+          }
           img {
             url
             fileName
@@ -45,7 +71,17 @@ export const getBlogs = async (): Promise<{
       }
     `);
 
-    const blogs: Blog[] = (data as any).demos || [];
+    const blogs: Blog[] = ((data as any).blogs || []).map((blog: any) => ({
+      id: blog.id,
+      title: blog.title,
+      shortdes: blog.shortdes,
+      content1: blog.richtext,
+      content2: blog.richtext2,
+      content3: null,
+      img: blog.img,
+      category: blog.category,
+      createdAt: blog.createdAt
+    }));
 
     // Sort newest → oldest
     blogs.sort(
@@ -61,7 +97,9 @@ export const getBlogs = async (): Promise<{
     const guides: Blog[] = [];
 
     blogs.forEach((b) => {
-      switch (b.category) {
+      const cat = b.category?.toLowerCase().trim();
+      console.log('Blog category:', cat); // Debug
+      switch (cat) {
         case "play":
           plays.push(b);
           break;
@@ -72,14 +110,47 @@ export const getBlogs = async (): Promise<{
           learns.push(b);
           break;
         case "guide":
+        case "guides":
           guides.push(b);
           break;
       }
     });
+    
+    console.log('Category counts:', { plays: plays.length, builds: builds.length, learns: learns.length, guides: guides.length });
+    
 
     return { blogs, plays, builds, learns, guides };
   } catch (error) {
-    console.error('Error fetching blogs:', error);
+    console.error("Error fetching blogs:", error);
     return { blogs: [], plays: [], builds: [], learns: [], guides: [] };
+  }
+};
+
+export const getReviews = async (): Promise<Review[]> => {
+  try {
+    if (!hygraphClient) {
+      console.error("Hygraph client is not initialized.");
+      return [];
+    }
+
+    const data = await hygraphClient.request(`
+      query GetReviews {
+        reviews {
+          id
+          name
+          rating
+          title
+          review
+          image {
+            url
+          }
+        }
+      }
+    `);
+
+    return (data as any).reviews || [];
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
   }
 };

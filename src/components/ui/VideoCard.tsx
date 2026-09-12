@@ -1,6 +1,8 @@
 
 import { Heart, Send,  Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getCloudinaryVideoUrl } from '../../utils/cloudinary';
+
 
 interface VideoCardProps {
   id: number;
@@ -32,7 +34,7 @@ export default function VideoCard({
           loop
           playsInline
         >
-          <source src="/korzi-video.mp4" type="video/mp4" />
+          <source src={getCloudinaryVideoUrl('/korzi-video.mp4')} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         

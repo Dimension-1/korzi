@@ -1,4 +1,5 @@
 import  { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CarouselSlide {
@@ -18,11 +19,12 @@ interface CarouselSlide {
 
 export default function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
   const carouselData: CarouselSlide[] = [
     {
       id: 1,
-      image: "/image.png",
+      image: "/image.webp",
       title: "In-Vivo Tested Sunscreens",
       features: [
         "Protects from both UV-A & UV-B",
@@ -38,7 +40,7 @@ export default function ImageCarousel() {
     },
     {
       id: 2,
-      image: "/image.png",
+      image: "/image.webp",
       title: "Advanced RC Technology",
       subtitle: "For the Young Innovators",
       features: [
@@ -55,7 +57,7 @@ export default function ImageCarousel() {
     },
     {
       id: 3,
-      image: "/image.png",
+      image: "/image.webp",
       title: "Professional Drone Systems",
       subtitle: "Capture the World",
       features: [
@@ -147,8 +149,12 @@ export default function ImageCarousel() {
 
                 {/* CTA Button */}
                 <div className="pt-4">
-                  <button className="bg-white text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300">
-                    {currentSlide.ctaText}
+                  <button 
+                    onClick={() => navigate('/shop')}
+                    className="bg-white text-black px-8 py-4 rounded-lg font-bold text-lg relative overflow-hidden group"
+                  >
+                    <span className="absolute inset-0 bg-[#02FF00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out rounded-lg"></span>
+                    <span className="relative z-10">{currentSlide.ctaText}</span>
                   </button>
                 </div>
 

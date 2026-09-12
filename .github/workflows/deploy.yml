@@ -1,0 +1,65 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches: [ release/prod ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      env:
+        VITE_HYPGRAPH_URL: ${{ vars.VITE_HYPGRAPH_URL }}
+        VITE_HYPGRAPH_TOKEN: ${{ secrets.VITE_HYPGRAPH_TOKEN }}
+        VITE_SHOPIFY_STOREFRONT_URL: ${{ vars.VITE_SHOPIFY_STOREFRONT_URL }}
+        VITE_SHOPIFY_TOKEN: ${{ vars.VITE_SHOPIFY_TOKEN }}
+        VITE_RAZORPAY_KEY_ID: ${{ vars.VITE_RAZORPAY_KEY_ID }}
+        VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+        VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
+        VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+        GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+        VITE_AWS_S3_BUCKET: korzi-website-assets-2026
+        VITE_AWS_CLOUDFRONT_URL: https://d3cak41b2hfe7v.cloudfront.net
+        VITE_AWS_REGION: ap-south-1
+      run: npm run build
+
+    - name: Deploy to VPS
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "dist/*,!**/get-refresh-token*"
+        target: ${{ secrets.VPS_PATH }}
+        strip_components: 1
+        rm: true
+
+    - name: Restart Frontend
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          # Restart frontend only
+          chown -R www-data:www-data ${{ secrets.VPS_PATH }}
+          chmod -R 755 ${{ secrets.VPS_PATH }}
+          systemctl restart nginx
