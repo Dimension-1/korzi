@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProductByHandle, ShopifyProduct } from '../services/shopify';
 import CartDrawer from '../components/CartDrawer';
 import ProductHero from '../components/Product/ProductHero';
-import SupportWidget from '../components/SupportWidget';
+// import SupportWidget from '../components/SupportWidget';
 
 // Lazy load below-fold sections
 const ProductTabs = lazy(() => import('../components/Product/ProductTabs'));
@@ -20,11 +20,11 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showWidget, setShowWidget] = useState(false);
+  // const [showWidget, setShowWidget] = useState(false);
 
-  const handleModalDismissed = () => {
-    setTimeout(() => setShowWidget(true), 5000);
-  };
+  // const handleModalDismissed = () => {
+  //   setTimeout(() => setShowWidget(true), 5000);
+  // };
 
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const ProductDetailPage = () => {
   return (
     <div className="w-full overflow-x-hidden bg-black text-white pt-24 min-h-screen pb-20 lg:pb-0">
       <div className="space-y-2 lg:space-y-0">
-        <ProductHero product={productData} onModalDismissed={handleModalDismissed} />
+        <ProductHero product={productData} />
         <Suspense fallback={<SectionFallback />}>
           <SpecsSection />
         </Suspense>
@@ -109,7 +109,7 @@ const ProductDetailPage = () => {
         <Footer />
       </Suspense>
       <CartDrawer />
-      {showWidget && <SupportWidget />}
+      {/* showWidget && <SupportWidget /> */}
     </div>
   );
 };
