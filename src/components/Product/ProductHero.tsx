@@ -738,6 +738,7 @@ export default function ProductHeroV2({ product, onModalDismissed }: ProductHero
 
   const handleDiscountSubmit = (phone: string) => {
     setShowDiscountModal(false);
+    onModalDismissed?.();
     localStorage.setItem('korzi_phone', phone);
     localStorage.setItem('korzi_discount_code', 'KORZI1300');
     if (navigator.clipboard && navigator.clipboard.writeText) {
