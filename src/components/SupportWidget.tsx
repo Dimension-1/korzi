@@ -73,6 +73,11 @@ const WIDGET_CSS = `
     z-index: 999999;
   }
   @media (min-width: 1024px) { #korzi-widget-root { right: 24px; bottom: 80px; } }
+  /* Mobile: the sticky Buy Now bar is ~130px tall, so sit above it */
+  @media (max-width: 767px) {
+    #korzi-widget-root { bottom: 146px; }
+    #korzi-widget-root #korzi-panel { max-height: 62vh; }
+  }
 
   /* Launcher */
   #korzi-launcher {
