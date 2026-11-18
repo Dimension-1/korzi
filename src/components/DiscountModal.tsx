@@ -144,33 +144,33 @@ export default function DiscountModal({
       {/* ─── MOBILE / TABLET: "Festive gift" design (390px card) ─────────── */}
       <div
         className="flex flex-col lg:hidden relative w-full max-w-[390px] max-h-[94vh] overflow-y-auto overflow-x-hidden"
-        style={{ ...CARD, padding: '14px 18px 16px', gap: 9 }}
+        style={{ ...CARD, padding: '16px 18px 18px', gap: 9 }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center">
-          <img src={LOGO} alt="Korzi" style={{ width: 130, height: 26, display: 'block' }} />
+          <img src={LOGO} alt="Korzi" style={{ width: 140, height: 28, display: 'block' }} />
           <CloseButton onClick={onClose} />
         </div>
 
         <div className="flex flex-col items-center text-center" style={{ gap: 8 }}>
           <div style={BADGE}>GRAND FESTIVE OFFER</div>
-          <h2 style={{ ...BEBAS, margin: 0, fontWeight: 400, fontSize: 38, lineHeight: 0.95 }}>
-            💰 Save <span style={{ color: GREEN }}>₹1,300</span> Today
+          <h2 style={{ ...BEBAS, margin: 0, fontWeight: 400, fontSize: 'min(48px, 12.5vw)', lineHeight: 0.95, whiteSpace: 'nowrap' }}>
+            💰 SAVE <span style={{ color: GREEN }}>₹1,300</span> TODAY
           </h2>
         </div>
 
-        <Countdown ended={ended} left={left} size={22} />
+        <Countdown ended={ended} left={left} size={24} />
 
         <div
           className="flex items-center justify-center"
           style={{
-            height: 92,
-            gap: 10,
+            height: 122,
+            gap: 8,
             background: 'radial-gradient(closest-side, #1f3a1f 0%, #101010 100%)',
             borderRadius: 16,
           }}
         >
-          <ProductCombo carWidth={150} batteryWidth={70} plusSize={28} />
+          <ProductCombo carWidth={170} batteryWidth={80} plusSize={28} captionSize={12} />
         </div>
 
         <Benefits iconSize={26} />
@@ -199,13 +199,13 @@ export default function DiscountModal({
           <div className="flex flex-col items-center text-center" style={{ gap: 12 }}>
             <img src={LOGO} alt="Korzi" style={{ width: 150, height: 30, display: 'block' }} />
             <div style={BADGE}>GRAND FESTIVE OFFER</div>
-            <h2 style={{ ...BEBAS, margin: 0, fontWeight: 400, fontSize: 52, lineHeight: 0.95 }}>
+            <h2 style={{ ...BEBAS, margin: 0, fontWeight: 400, fontSize: 56, lineHeight: 0.95, whiteSpace: 'nowrap' }}>
               💰 SAVE <span style={{ color: GREEN }}>₹1,300</span> TODAY
             </h2>
-            <Countdown ended={ended} left={left} size={24} />
+            <Countdown ended={ended} left={left} size={24} timerSize={24} />
           </div>
           <div className="flex items-center justify-center flex-grow" style={{ gap: 12 }}>
-            <ProductCombo carWidth={240} batteryWidth={96} plusSize={30} />
+            <ProductCombo carWidth={236} batteryWidth={96} plusSize={30} captionSize={13} />
           </div>
         </div>
 
@@ -242,11 +242,11 @@ const CARD: React.CSSProperties = {
 };
 const BADGE: React.CSSProperties = {
   ...BEBAS,
-  fontSize: 24,
-  letterSpacing: 3,
+  fontSize: 18,
+  letterSpacing: 2.5,
   color: DARK,
   background: GREEN,
-  padding: '4px 14px 2px',
+  padding: '3px 12px 1px',
   borderRadius: 4,
 };
 
@@ -288,7 +288,7 @@ function CloseButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-function Countdown({ ended, left, size }: { ended: boolean; left: string; size: number }) {
+function Countdown({ ended, left, size, timerSize }: { ended: boolean; left: string; size: number; timerSize?: number }) {
   return (
     <div className="flex justify-center items-center" style={{ gap: 8, color: '#FF8A80' }} aria-live="off">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -300,7 +300,7 @@ function Countdown({ ended, left, size }: { ended: boolean; left: string; size: 
       ) : (
         <>
           <span style={{ ...BEBAS, fontSize: size }}>OFFER ENDS IN ·</span>
-          <span style={{ ...BEBAS, fontSize: size + 2, color: '#FFFFFF', letterSpacing: 1 }} className="tabular-nums">
+          <span style={{ ...BEBAS, fontSize: timerSize ?? size + 2, color: '#FFFFFF', letterSpacing: 1 }} className="tabular-nums">
             {left}
           </span>
           <span style={{ ...BEBAS, fontSize: size }}>LEFT</span>
@@ -310,14 +310,31 @@ function Countdown({ ended, left, size }: { ended: boolean; left: string; size: 
   );
 }
 
-function ProductCombo({ carWidth, batteryWidth, plusSize }: { carWidth: number; batteryWidth: number; plusSize: number }) {
+function ProductCombo({
+  carWidth,
+  batteryWidth,
+  plusSize,
+  captionSize,
+}: {
+  carWidth: number;
+  batteryWidth: number;
+  plusSize: number;
+  captionSize: number;
+}) {
+  const caption: React.CSSProperties = { fontSize: captionSize, fontWeight: 700, letterSpacing: 0.5, whiteSpace: 'nowrap' };
+  const strike: React.CSSProperties = { color: '#8a8a8a', fontWeight: 400 };
   return (
     <>
-      <img
-        src="/assets/offer/apex-k01.webp"
-        alt="Apex Drive K-01 RC buggy"
-        style={{ width: carWidth, height: 'auto', display: 'block', minWidth: 0 }}
-      />
+      <div className="flex flex-col items-center min-w-0" style={{ gap: 4 }}>
+        <img
+          src="/assets/offer/apex-k01.webp"
+          alt="Apex Drive K-01 RC buggy"
+          style={{ width: carWidth, maxWidth: '100%', height: 'auto', display: 'block' }}
+        />
+        <div style={caption}>
+          K-01 NOW <span style={{ color: GREEN }}>₹5,520</span> <s style={strike}>₹6,120</s>
+        </div>
+      </div>
       <div
         className="flex items-center justify-center flex-shrink-0"
         style={{ width: plusSize, height: plusSize, borderRadius: plusSize / 2, background: GREEN, color: DARK }}
@@ -332,7 +349,9 @@ function ProductCombo({ carWidth, batteryWidth, plusSize }: { carWidth: number; 
           alt="Spare battery pack"
           style={{ width: batteryWidth, height: 'auto', display: 'block' }}
         />
-        <div style={{ fontSize: 12, fontWeight: 700, color: GREEN, letterSpacing: 0.5 }}>FREE BATTERY</div>
+        <div style={{ ...caption, color: GREEN }}>
+          FREE <s style={strike}>₹700</s>
+        </div>
       </div>
     </>
   );
@@ -354,12 +373,6 @@ function Benefits({ iconSize }: { iconSize: number }) {
       className="flex flex-col"
       style={{ gap: 8, border: `1.5px solid ${GREEN}`, borderRadius: 16, background: '#121812', padding: '12px 14px' }}
     >
-      <div className="flex items-center" style={{ gap: 12 }}>
-        <Check />
-        <div style={{ fontSize: 15 }}>
-          <b>₹600 off</b> – now <b>₹5,520</b> <s style={{ color: '#8a8a8a' }}>₹6,120</s>
-        </div>
-      </div>
       <div className="flex items-center" style={{ gap: 12 }}>
         <Check />
         <div style={{ fontSize: 15 }}>
@@ -396,7 +409,7 @@ function CodeBox({ copied, onCopy, variant }: SharedProps & { variant: 'mobile' 
           {COUPON_CODE}
         </div>
         <div style={{ fontSize: mobile ? 12 : 13, lineHeight: 1.35 }}>
-          {mobile ? 'Copy & paste on the next page' : 'Copy & paste on the next page to save ₹1,300'}
+          Copy &amp; paste on the next page
         </div>
       </div>
       <button
