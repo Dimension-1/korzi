@@ -29,7 +29,7 @@ const CertificationsScroll: React.FC = () => {
   ];
 
   return (
-    <div className="py-12 bg-[var(--background)] overflow-hidden">
+    <div className="py-12 bg-[var(--background)] overflow-hidden min-h-[300px] md:min-h-[400px]">
       {/* Auto-scrolling certifications */}
       <div className="relative">
         <div className="flex animate-scroll space-x-8">

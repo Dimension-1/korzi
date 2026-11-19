@@ -12,6 +12,7 @@ interface CartItem {
   image: string;
   variant?: string;
   variantId?: string; // Shopify variant ID
+  productId?: string; // Shopify product ID
 }
 
 interface CartStore {
@@ -52,14 +53,9 @@ export const useCartStore = create<CartStore>()(
 
       // Add to cart with Shopify sync and race condition prevention
       addToCart: async (item) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping...');
-          return;
-        }
-
         const id = `${item.title}-${item.variant || 'default'}`;
         
+        // Update local state immediately
         set((state) => {
           const existingItem = state.cartItems.find(cartItem => cartItem.id === id);
           
@@ -78,23 +74,16 @@ export const useCartStore = create<CartStore>()(
           }
         });
 
-        // Sync with Shopify immediately when item is added
+        // Sync with Shopify in background
         if (item.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             const newQuantity = get().cartItems.find(cartItem => cartItem.id === id)?.quantity || item.quantity;
             const updatedCart = await addOrUpdateCart(item.variantId, newQuantity);
             
             if (updatedCart) {
               console.log('Cart synced with Shopify successfully');
               console.log('Shopify cart:', updatedCart);
-              
-              // Verify sync by fetching latest cart state
-              await new Promise(resolve => setTimeout(resolve, 200));
-              const latestCart = await getCart();
-              if (latestCart) {
-                console.log('Verified cart sync:', latestCart);
-              }
             }
           } catch (error) {
             console.error('Failed to sync with Shopify:', error);
@@ -103,21 +92,15 @@ export const useCartStore = create<CartStore>()(
               cartItems: state.cartItems.filter(cartItem => cartItem.id !== id)
             }));
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         } else {
           console.warn('No variantId provided, item not synced with Shopify');
         }
       },
 
-      // Update quantity with Shopify sync and race condition prevention
+      // Update quantity with Shopify sync
       updateQuantity: async (id: string, quantity: number) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping quantity update...');
-          return;
-        }
-
         if (quantity <= 0) {
           get().removeFromCart(id);
           return;
@@ -133,18 +116,11 @@ export const useCartStore = create<CartStore>()(
         const item = get().cartItems.find(item => item.id === id);
         if (item?.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             const updatedCart = await addOrUpdateCart(item.variantId, quantity);
             
             if (updatedCart) {
               console.log('Cart quantity updated in Shopify');
-              
-              // Verify sync by fetching latest cart state
-              await new Promise(resolve => setTimeout(resolve, 200));
-              const latestCart = await getCart();
-              if (latestCart) {
-                console.log('Verified quantity update:', latestCart);
-              }
             }
           } catch (error) {
             console.error('Failed to sync with Shopify:', error);
@@ -158,19 +134,13 @@ export const useCartStore = create<CartStore>()(
               }));
             }
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         }
       },
 
-      // Remove from cart with Shopify sync and race condition prevention
+      // Remove from cart with Shopify sync
       removeFromCart: async (id: string) => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping removal...');
-          return;
-        }
-
         const item = get().cartItems.find(item => item.id === id);
         
         // Update React state first
@@ -181,7 +151,7 @@ export const useCartStore = create<CartStore>()(
         // Sync with Shopify
         if (item?.variantId) {
           try {
-            set({ isLoading: true, operationInProgress: true });
+            set({ isLoading: true });
             
             // Get current Shopify cart to find the line ID
             const shopifyCart = await getCart();
@@ -195,13 +165,6 @@ export const useCartStore = create<CartStore>()(
                 
                 if (updatedCart) {
                   console.log('Item removed from Shopify cart successfully');
-                  
-                  // Verify sync by fetching latest cart state
-                  await new Promise(resolve => setTimeout(resolve, 200));
-                  const latestCart = await getCart();
-                  if (latestCart) {
-                    console.log('Verified removal:', latestCart);
-                  }
                 }
               }
             }
@@ -212,86 +175,36 @@ export const useCartStore = create<CartStore>()(
               cartItems: [...state.cartItems, item!]
             }));
           } finally {
-            set({ isLoading: false, operationInProgress: false });
+            set({ isLoading: false });
           }
         }
       },
 
-      // Clear cart with Shopify sync and race condition prevention
+      // Clear cart with Shopify sync
       clearCart: async () => {
-        // Prevent race conditions
-        if (get().operationInProgress) {
-          console.log('Cart operation in progress, skipping clear...');
-          return;
-        }
-
         // Update React state first
         set({ cartItems: [] });
 
         // Sync with Shopify
         try {
-          set({ isLoading: true, operationInProgress: true });
+          set({ isLoading: true });
           const clearedCart = await clearCart();
           
           if (clearedCart) {
             console.log('Cart cleared in Shopify successfully');
-            
-            // Verify sync by fetching latest cart state
-            await new Promise(resolve => setTimeout(resolve, 200));
-            const latestCart = await getCart();
-            if (latestCart) {
-              console.log('Verified cart clear:', latestCart);
-            }
           }
         } catch (error) {
           console.error('Failed to clear Shopify cart:', error);
         } finally {
-          set({ isLoading: false, operationInProgress: false });
+          set({ isLoading: false });
         }
       },
 
       // Drawer controls
       openDrawer: async () => {
         console.log('Opening cart drawer...');
-        set({ isDrawerOpen: true, isLoading: true });
+        set({ isDrawerOpen: true });
         document.body.classList.add('overflow-hidden');
-        
-        // Fetch latest cart data from Shopify when drawer opens
-        try {
-          console.log('Fetching latest cart data for drawer...');
-          const shopifyCart = await syncCartWithShopify();
-          
-          if (shopifyCart && shopifyCart.lines.edges.length > 0) {
-            console.log('Found cart items in Shopify:', shopifyCart.lines.edges.length);
-            
-            // Debug each edge to see the actual data
-            shopifyCart.lines.edges.forEach((edge, index) => {
-              console.log(`Drawer Edge ${index}:`, edge);
-              console.log(`Drawer Edge ${index} quantity:`, edge.node.quantity);
-            });
-            
-            // Convert Shopify cart to React cart format
-            const cartItems: CartItem[] = shopifyCart.lines.edges.map(edge => ({
-              id: `${edge.node.merchandise.product.title}-${edge.node.merchandise.title}`,
-              title: edge.node.merchandise.product.title,
-              price: parseFloat(edge.node.merchandise.price.amount),
-              quantity: edge.node.quantity,
-              variant: edge.node.merchandise.title,
-              variantId: edge.node.merchandise.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
-            }));
-            
-            set({ cartItems });
-            console.log('Cart drawer updated with', cartItems.length, 'items:', cartItems);
-          } else {
-            console.log('No cart items found in Shopify');
-            set({ cartItems: [] });
-          }
-        } catch (error) {
-          console.error('Failed to fetch cart data for drawer:', error);
-        } finally {
-          set({ isLoading: false });
-        }
       },
 
       closeDrawer: () => {
@@ -347,7 +260,8 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              productId: edge.node.merchandise.product.id,
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             console.log('Converted cart items:', cartItems);
@@ -386,7 +300,8 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              productId: edge.node.merchandise.product.id,
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             set({ cartItems });
@@ -414,7 +329,8 @@ export const useCartStore = create<CartStore>()(
               quantity: edge.node.quantity,
               variant: edge.node.merchandise.title,
               variantId: edge.node.merchandise.id,
-              image: edge.node.merchandise.image?.url || '/image.png'
+              productId: edge.node.merchandise.product.id,
+              image: edge.node.merchandise.image?.url || '/image.webp'
             }));
             
             set({ cartItems });
@@ -447,11 +363,10 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'cart-storage', // localStorage key
-      partialize: () => ({ 
-        // Don't persist isInitialized - always fetch cart on app startup
-        // Cart items should be fetched from Shopify on app load
-      }), // No persistence - always fetch fresh data from Shopify
+      name: 'cart-storage',
+      partialize: () => ({
+        isDrawerOpen: false, // Always start closed
+      }),
     }
   )
 );

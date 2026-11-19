@@ -18,7 +18,7 @@ export default function FoodJournalismSection() {
       id: 1,
       title: "Truth Be Told",
       description: "India's top health newsletter. Read by 50,000+.",
-      backgroundImage: "/image.png", // You can replace with actual images
+      backgroundImage: "/image.webp", // You can replace with actual images
       overlayText: "Truth Be Told",
       cardType: 'newsletter'
     },
@@ -26,7 +26,7 @@ export default function FoodJournalismSection() {
       id: 2,
       title: "The Whole Truth Academy",
       description: "The food & nutrition course we should've been taught in school.",
-      backgroundImage: "/image.png",
+      backgroundImage: "/image.webp",
       overlayText: "Is bread good for your health?",
       cardType: 'academy'
     },
@@ -34,7 +34,7 @@ export default function FoodJournalismSection() {
       id: 3,
       title: "ChemX",
       description: "Found an ingredient you can't pronounce? Allow us to help.",
-      backgroundImage: "/image.png",
+      backgroundImage: "/image.webp",
       overlayText: "Chemical x Dictionary",
       cardType: 'dictionary'
     }

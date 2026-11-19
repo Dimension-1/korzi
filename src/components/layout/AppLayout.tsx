@@ -1,242 +1,236 @@
-'use client';
-
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { X, Search, Home, FileText, User, MoreVertical, ShoppingBagIcon, Handbag } from 'lucide-react';
-import AnnouncementBar from '../AnnouncementBar';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import CartDrawer from '../CartDrawer';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
-import { Outlet } from 'react-router-dom';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 
 export default function AppLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
   const { openDrawer, getTotalItems, cartItems } = useCartStore();
   const { customer, isAuthenticated, logout } = useAuthStore();
 
-  // Debug cart count
   const totalItems = getTotalItems();
-  console.log('AppLayout - Cart items:', cartItems);
-  console.log('AppLayout - Total items:', totalItems);
 
-  // Monitor cart changes
   useEffect(() => {
     console.log('AppLayout - Cart items changed:', cartItems);
-    console.log('AppLayout - Total items updated:', getTotalItems());
   }, [cartItems]);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
 
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
+      // Always show navbar in hero section (first screen)
+      if (currentScrollY < heroHeight) {
+        setIsVisible(true);
+      } else {
+        // Hide when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
 
-  // Helper function to determine if a link is active
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return location.pathname === '/';
-    }
-    return location.pathname.startsWith(href);
-  };
-
-  // Helper function to get link classes
-  const getLinkClasses = (href: string) => {
-    const baseClasses = "flex items-center gap-3 py-2 transition-colors duration-200 font-body no-underline";
-    const activeClasses = "text-[var(--primary)]";
-    const inactiveClasses = "text-[var(--foreground)] hover:text-[var(--primary)]";
-    
-    return `${baseClasses} ${isActive(href) ? activeClasses : inactiveClasses}`;
-  };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] relative overflow-hidden">
-      {/* Announcement Bar - Hidden when sidebar is open */}
-      {!isSidebarOpen && (
-        <div className="fixed top-0 z-50 bg-[var(--primary)] text-[var(--background)] py-1 sm:py-2 overflow-hidden transition-all duration-300 ease-in-out left-0 right-0">
-          <AnnouncementBar />
-        </div>
-      )}
+    <div className="min-h-screen text-[var(--foreground)]">
       
-      {/* Header - Hidden when sidebar is open */}
-      {!isSidebarOpen && (
-        <header className="fixed top-7 sm:top-9 z-40 bg-[var(--background)] border-b border-gray-600 transition-all duration-300 ease-in-out left-0 right-0">
-        <div className="flex items-center justify-between px-4 md:px-6 lg:px-8 py-3 md:py-4">
-          {/* Left: KORZI wordmark as sidebar toggle */}
-          <div className="flex items-center">
+      {/* === GLOBAL HEADER === */}
+      <div className={`fixed top-4 left-4 right-4 z-50 transition-transform duration-300 ${
+        isVisible ? 'translate-y-0' : '-translate-y-24'
+      }`}>
+        <header className="bg-black flex items-stretch md:items-center md:justify-between shadow-xl border border-gray-700 md:px-0 md:py-0">
+          {/* Hamburger - Desktop only (left side) */}
+          <div className="hidden md:flex items-center border-r border-gray-700">
             <button
-              onClick={toggleSidebar}
-              className="text-[var(--primary)] text-2xl font-heading hover:text-[var(--secondary)] transition-colors duration-200 no-underline"
-              aria-label="Toggle navigation menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-white p-4 hover:text-[#02FF00] transition-colors"
+              aria-label="Menu"
             >
-              KORZI
+              {menuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
           </div>
 
-          {/* Right: Search */}
-          <div className="flex items-center gap-1  md:gap-2">
-            <button
-              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
-              aria-label="User"
-            >
-              <User className="w-5 h-5" />
-            </button>
-            <button
+          {/* Logo - Left on mobile, Center on desktop */}
+          <Link to="/" className="flex items-center justify-center border-r border-gray-700 py-4 w-[60%] md:w-auto md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:border-0 md:py-3">
+            <img 
+              src={getCloudinaryUrl('/logo-horizontal.webp')} 
+              alt="KORZI" 
+              className="h-8 md:h-10 w-auto"
+            />
+          </Link>
+
+          {/* Right Icons */}
+          <div className="flex items-stretch md:items-center flex-1 md:flex-none">
+            <div className="hidden md:flex items-center border-l border-gray-700">
+              <button 
+                onClick={openDrawer}
+                className="relative hover:opacity-80 transition-opacity px-4 py-3" 
+                aria-label="Cart"
+              >
+                <img src={getCloudinaryUrl('/assets/homepage/cart.webp')} alt="Cart" className="w-6 h-6" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#02FF00] text-black text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
+            {/* Mobile buttons */}
+            <button 
               onClick={openDrawer}
-              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2 relative"
+              className="md:hidden relative hover:opacity-80 transition-opacity py-4 border-r border-gray-700 flex-1 flex items-center justify-center" 
               aria-label="Cart"
             >
-              <Handbag className="w-5 h-5" />
+              <img src={getCloudinaryUrl('/assets/homepage/cart.webp')} alt="Cart" className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-black text-xs font-heading rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-2 right-[calc(50%-20px)] bg-[#02FF00] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <div className="flex items-center">
+            {/* Hamburger - Mobile only (right side) */}
             <button
-              className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-2"
-              aria-label="Search"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden text-white py-4 hover:text-[#02FF00] transition-colors flex-1 flex items-center justify-center"
+              aria-label="Menu"
             >
-              <Search className="w-5 h-5" />
+              {menuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
-            </div>
           </div>
-        </div>
-      </header>
-      )}
+        </header>
 
-      {/* Sidebar Overlay - Only show on mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 md:hidden"
-          onClick={closeSidebar}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 h-full bg-[var(--background)] z-50 transform transition-all duration-300 ease-in-out ${
-          isSidebarOpen 
-            ? 'translate-x-0 w-80 md:w-[15vw]' 
-            : '-translate-x-full w-80 md:w-[15vw]'
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="no-underline" onClick={closeSidebar}>
-              <img
-                src="/logo-horizontal.png"
-                alt="Korzi Logo"
-                className="h-16 w-auto"
-              />
+        {/* === DROPDOWN MENU === */}
+        {menuOpen && (
+          <div className="absolute top-full left-0 right-0 md:w-64 md:right-auto bg-black shadow-xl border-l border-r border-b border-gray-700">
+          {/* Navigation Links */}
+          <nav className="flex flex-col px-6 md:px-8 py-6 md:py-8 text-white font-heading uppercase">
+            {location.pathname !== '/' && (
+              <Link to="/" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                <span className="group-hover:scale-110 transition-transform duration-300">Home</span>
+              </Link>
+            )}
+            {location.pathname !== '/shop' && (
+            <Link to="/shop" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Shop</span>
             </Link>
-          </div>
-          <button
-            onClick={closeSidebar}
-            className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 p-1"
-            aria-label="Close navigation menu"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Navigation Menu */}
-        <nav className="p-6 space-y-6">
-          <div className="space-y-4">
-            <Link
-              to="/"
-              className={getLinkClasses('/')}
-              onClick={closeSidebar}
-            >
-              <Home className="w-5 h-5" />
-              <span>HOME</span>
+            )}
+            {location.pathname !== '/about' && (
+            <Link to="/about" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">About</span>
             </Link>
-            <Link
-              to="/logs"
-              className={getLinkClasses('/logs')}
-              onClick={closeSidebar}
-            >
-              <FileText className="w-5 h-5" />
-              <span>LOGS</span>
+            )}
+            {/* {location.pathname !== '/events' && (
+            <Link to="/events" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Events</span>
             </Link>
-            <Link
-              to="/shop"
-              className={getLinkClasses('/shop')}
-              onClick={closeSidebar}
-            >
-              <ShoppingBagIcon className="w-5 h-5" />
-              <span>Shop</span>
+            )} */}
+            {/* {location.pathname !== '/partner' && (
+            <Link to="/partner" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Partner with Korzi</span>
             </Link>
-            <Link
-              to="/more"
-              className={getLinkClasses('/comming-soon')}
-              onClick={closeSidebar}
-            >
-              <MoreVertical className="w-5 h-5" />
-              <span>More</span>
+            )} */}
+            {location.pathname !== '/logs' && (
+            <Link to="/logs" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Logs</span>
             </Link>
-          </div>
-
-          <div className="pt-6 space-y-4">
+            )}
+            {/* {location.pathname !== '/crew' && (
+            <Link to="/crew" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Korzi Crew</span>
+            </Link>
+            )} */}
+            {location.pathname !== '/support' && (
+            <Link to="/support" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-b border-gray-700" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Support</span>
+            </Link>
+            )}
+            {/* Profile Section */}
             {isAuthenticated ? (
-              // Logged in user - show account info and logout
               <>
-                <div className="px-4 py-2 bg-[var(--primary)]/10 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[var(--primary)] rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-[var(--background)]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-[var(--foreground)] truncate font-body">
-                        {customer?.displayName || customer?.email || 'User'}
-                      </p>
-                      <p className="text-xs text-[var(--text-secondary)] truncate font-body">
-                        {customer?.email}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <Link to="/orders" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-t border-b border-gray-700 pt-6" onClick={() => setMenuOpen(false)}>
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">My Orders</span>
+                </Link>
                 <button
                   onClick={() => {
                     logout();
-                    closeSidebar();
+                    setMenuOpen(false);
                   }}
-                  className="flex items-center gap-3 py-2 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors duration-200 w-full text-left font-body"
+                  className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 text-left w-full"
                 >
-                  <User className="w-5 h-5" />
-                  <span>SIGN OUT</span>
+                  <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  <span className="group-hover:scale-110 transition-transform duration-300">Sign Out</span>
                 </button>
+                <p className="text-sm text-gray-400 mt-4 normal-case">{customer?.displayName || customer?.email}</p>
               </>
             ) : (
-              // Not logged in - show sign in link
-              <Link
-                to="/signin"
-                className={getLinkClasses('/signin')}
-                onClick={closeSidebar}
-              >
-                <User className="w-5 h-5" />
-                <span>SIGN IN</span>
+              <Link to="/signin" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3 border-t border-gray-700 pt-6" onClick={() => setMenuOpen(false)}>
+                <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                <span className="group-hover:scale-110 transition-transform duration-300">Sign In</span>
               </Link>
             )}
+            {/* {location.pathname !== '/careers' && (
+            <Link to="/careers" className="text-lg hover:text-white transition-all duration-300 flex items-center group py-3" onClick={() => setMenuOpen(false)}>
+              <span className="w-0 group-hover:w-2 h-2 bg-[#02FF00] mr-0 group-hover:mr-3 transition-all duration-300"></span>
+              <span className="group-hover:scale-110 transition-transform duration-300">Careers</span>
+            </Link>
+            )} */}
+          </nav>
           </div>
-        </nav>
-      </aside>
+        )}
+      </div>
 
-      {/* Main Content */}
-      <main className={`transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? 'md:ml-[15vw]' : ''
-      }`}>
-        <div className={`${isSidebarOpen ? 'pt-0' : 'pt-14 sm:pt-16 md:pt-20 lg:pt-24'}`}>
-          <Outlet/>
-        </div>
+      {/* Menu Overlay */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+
+      {/* === MAIN CONTENT === */}
+      <main>
+        <Outlet />
       </main>
 
-      {/* Cart Drawer */}
+      {/* === CART DRAWER === */}
       <CartDrawer />
     </div>
   );

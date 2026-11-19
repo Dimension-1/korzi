@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useCartStore } from '../../stores/cartStore';
@@ -14,6 +15,7 @@ interface ProductCardProps {
   discountedPrice: number;
   discountPercentage: number;
   variantId?: string;
+  handle?: string;
   points?: number;
   showWhatsApp?: boolean;
 }
@@ -27,10 +29,12 @@ export default function ProductCard({
   discountedPrice,
   discountPercentage,
   variantId,
+  handle,
 }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false);
   const { addToCart } = useCartStore();
   const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     if (!variantId) return;
@@ -99,7 +103,10 @@ export default function ProductCard({
   return (
     <div className="bg-[var(--background)] border border-[var(--primary)] rounded-lg p-4 relative group hover:shadow-lg transition-shadow duration-300">
       {/* Product Image */}
-      <div className="relative mb-4">
+      <div 
+        className="relative mb-4 cursor-pointer"
+        onClick={() => handle && navigate(`/product/${handle}`)}
+      >
         <img
           src={image}
           alt={title}
@@ -116,7 +123,10 @@ export default function ProductCard({
       </div>
 
       {/* Product Title */}
-      <h3 className="text-lg font-bold text-[var(--foreground)] mb-3 uppercase leading-tight">
+      <h3 
+        className="text-lg font-bold text-[var(--foreground)] mb-3 uppercase leading-tight cursor-pointer hover:text-[var(--primary)] transition-colors"
+        onClick={() => handle && navigate(`/product/${handle}`)}
+      >
         {title}
       </h3>
 

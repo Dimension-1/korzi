@@ -1,0 +1,73 @@
+import { useEffect, useRef, useState } from 'react';
+import { getCloudinaryUrl } from '../../utils/cloudinary';
+
+export default function AutoScrollImages() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const images = [
+    '/assets/About/AutoScroll/AutoScroll1.webp',
+    '/assets/About/AutoScroll/AutoScroll2.webp',
+    '/assets/About/AutoScroll/AutoScroll3.webp',
+    '/assets/About/AutoScroll/AutoScroll4.webp',
+    '/assets/About/AutoScroll/AutoScroll5.webp',
+    '/assets/About/AutoScroll/AutoScroll6.webp',
+    '/assets/About/AutoScroll/AutoScroll7.webp'
+  ];
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const interval = setInterval(() => {
+      const nextIndex = (activeIndex + 1) % images.length;
+      const scrollAmount = nextIndex * (container.offsetWidth / 3);
+      container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+      setActiveIndex(nextIndex);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex, images.length]);
+
+  return (
+    <section className="bg-black py-8 md:py-16 px-4 md:px-8 min-h-[400px] md:min-h-[500px]">
+      <div className="w-full mx-auto">
+        {/* Scrolling Images */}
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-2 md:gap-4 overflow-x-hidden scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {images.map((image, idx) => (
+            <div key={idx} className="flex-shrink-0 w-[70%] md:w-[calc(33.333%-11px)]">
+              <img 
+                src={getCloudinaryUrl(image)} 
+                alt={`Korzi ${idx + 1}`}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Indicators */}
+        <div className="flex gap-2 justify-center mt-4 md:mt-8">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                if (scrollContainerRef.current) {
+                  const scrollAmount = idx * (scrollContainerRef.current.offsetWidth / 3);
+                  scrollContainerRef.current.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                  setActiveIndex(idx);
+                }
+              }}
+              className={`h-1.5 transition-all ${
+                idx === activeIndex ? 'w-8 md:w-10 bg-[#02FF00]' : 'w-8 md:w-10 bg-transparent border border-[#02FF00]'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

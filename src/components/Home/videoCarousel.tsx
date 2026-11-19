@@ -23,7 +23,7 @@ export default function VideoCarousel() {
   const carouselData = [
     {
       id: 1,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "hyrox",
       title: "RC Car Racing Championship",
       originalPrice: "INR 2999",
@@ -33,7 +33,7 @@ export default function VideoCarousel() {
     },
     {
       id: 2,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "THAT MEANS A LOT TO ME!",
       title: "Drone Aerial Photography",
       originalPrice: "INR 3999",
@@ -43,7 +43,7 @@ export default function VideoCarousel() {
     },
     {
       id: 3,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "SOMETHING HEALTHY!",
       title: "Robotics Building Kit",
       originalPrice: "INR 4999",
@@ -53,7 +53,7 @@ export default function VideoCarousel() {
     },
     {
       id: 4,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "",
       title: "KORZI PRO Package",
       originalPrice: "INR 6999",
@@ -63,7 +63,7 @@ export default function VideoCarousel() {
     },
     {
       id: 5,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "COMPLETE TECH PROFILE",
       title: "Complete RC Starter Kit",
       originalPrice: "INR 8999",
@@ -73,7 +73,7 @@ export default function VideoCarousel() {
     },
     {
       id: 6,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "A FEW CLICKS",
       title: "Remote Control Accessories",
       originalPrice: "INR 1999",
@@ -83,7 +83,7 @@ export default function VideoCarousel() {
     },
     {
       id: 7,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "WHICH YOU WOULD",
       title: "Drone Racing Simulator",
       originalPrice: "INR 2999",
@@ -93,7 +93,7 @@ export default function VideoCarousel() {
     },
     {
       id: 8,
-      image: "/image.png",
+      image: "/image.webp",
       overlayText: "THAT KORZI HAS",
       title: "Advanced Robotics Kit",
       originalPrice: "INR 5999",
@@ -117,7 +117,7 @@ export default function VideoCarousel() {
   };
 
   return (
-    <div className="py-16 px-8 bg-[var(--background)] w-full">
+    <div className="py-16 px-8 bg-[var(--background)] w-full min-h-[500px] md:min-h-[600px]">
       <div className="w-full">
         {/* Header with Title */}
         <div className="text-center mb-12 px-6 lg:px-8">

@@ -20,6 +20,21 @@ export default {
       height: {
         '120': '30rem', // 480px
       },
+      animation: {
+        marquee: 'marquee 10s linear infinite',
+        'marquee-mobile': 'marquee 3s linear infinite',
+        fadeIn: 'fadeIn 0.5s ease-in',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateX(-20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+      },
     },
   },
   plugins: [],

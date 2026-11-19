@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Customer, loginCustomer, registerCustomer, logoutCustomer, checkAuthStatus, activateCustomer } from '../services/auth';
+import { loginWithGoogle } from '../services/googleAuth';
 
 interface AuthStore {
   // State
@@ -14,6 +15,7 @@ interface AuthStore {
   
   // Actions
   login: (email: string, password: string) => Promise<{ success: boolean; errors?: string[] }>;
+  loginWithGoogle: (credential: string) => Promise<{ success: boolean; errors?: string[] }>;
   register: (data: { firstName: string; lastName: string; email: string; password: string; acceptsMarketing?: boolean }) => Promise<{ success: boolean; errors?: string[] }>;
   activate: (activationUrl: string, password: string) => Promise<{ success: boolean; errors?: string[] }>;
   logout: () => Promise<void>;
@@ -32,6 +34,38 @@ export const useAuthStore = create<AuthStore>()(
       isLoading: false,
       customerId: null,
       customerEmail: null,
+
+      // Login with Google
+      loginWithGoogle: async (credential: string) => {
+        set({ isLoading: true });
+        
+        try {
+          const response = await loginWithGoogle(credential);
+          
+          if (response.success && response.customer) {
+            set({
+              customer: response.customer,
+              isAuthenticated: true,
+              isLoading: false,
+              customerId: response.customer.id,
+              customerEmail: response.customer.email
+            });
+            return { success: true };
+          } else {
+            set({ isLoading: false });
+            return { 
+              success: false, 
+              errors: response.errors || ['Google login failed'] 
+            };
+          }
+        } catch (error) {
+          set({ isLoading: false });
+          return { 
+            success: false, 
+            errors: ['An unexpected error occurred'] 
+          };
+        }
+      },
 
       // Login
       login: async (email: string, password: string) => {
